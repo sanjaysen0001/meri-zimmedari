@@ -95,7 +95,7 @@ const Register = () => {
      
      </legend>
     
-   <input style={{border:"none",outline: "none",width:"100%" ,paddingLeft:'15px'}} max={6}  type="tel" id="mobile" name="mobile" pattern="[0-9]{10}"  required />
+   <input style={{border:"none",fontSize:'17px',paddingRight:'10px',outline: "none",width:"100%" ,paddingLeft:'15px'}} max={6}  type="text"  pattern="[0-9]{10}"  required />
 
          </fieldset>
          <fieldset  className="mt-4" style={{color:'rgb(82, 114, 161)', fontSize:'20px',fontFamily:'Calibri', border: "1px solid rgb(114, 158, 216)",borderRadius:'10px',height:'4rem',width:'100%'}}>
@@ -103,7 +103,7 @@ const Register = () => {
          
          </legend>
         
-       <input style={{border:"none",outline: "none",width:"100%" ,paddingLeft:'15px'}} max={6}  type="email" id="mobile" name="mobile" pattern="[0-9]{10}"  required />
+       <input style={{border:"none",fontSize:'17px',paddingRight:'10px',outline: "none",width:"100%" ,paddingLeft:'15px'}} max={6}  type="email" id="mobile" name="mobile" pattern="[0-9]{10}"  required />
     
              </fieldset>
  
@@ -119,7 +119,7 @@ const Register = () => {
                 
   </div>
   <div className="mt-2">
-  <span className="nav-link-inner--text" style={{color:"black"}}> Already Have Account 
+  <span className="nav-link-inner--text" style={{color:"black"}}> Already have account?
   <Link to={'/'} style={{textDecoration:'none'}}>
   <span style={{color:"rgb(57, 103, 204)"}} className='ml-1'>Sign in</span>
   </Link>
