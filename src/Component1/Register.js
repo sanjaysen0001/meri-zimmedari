@@ -42,11 +42,9 @@ const Register = () => {
                        <a class="nav-link" href="https://merizimmedari.com/contact.html">Contact Us</a>
                     </li>
                     <li class="nav-item">
-                       <a class="nav-link" href="https://user.merizimmedari.com/#/" target="_blank">Log in</a>
+                       <a class="nav-link" href="https://user.merizimmedari.com/#/" target="_blank">Sign in</a>
                     </li>
-                    <li class="nav-item">
-                       <a class="nav-link" href="https://user.merizimmedari.com/#/registration" target="_blank">Sign up</a>
-                    </li>
+                  
                  </ul>
               </div>
            </nav>
@@ -76,18 +74,7 @@ const Register = () => {
   
   <div className="mt-4" >
   <form>
-  <fieldset  style={{color:'rgb(82, 114, 161)', fontSize:'20px',fontFamily:'Calibri', border: "1px solid rgb(114, 158, 216)",borderRadius:'10px',height:'4rem',width:'100%'}}>
-     <legend style={{color:'rgb(82, 114, 161)',marginBottom:'-5px', fontSize:'16px',paddingLeft:'5px',fontFamily:'Calibri',marginLeft:'15px',width:'8rem'}} for="exampleInputPassword1" class="form-label">Mobile Number 
-     
-     </legend>
-     <button id="country" name="country" style={{border:"none",backgroundColor:'white'}}>
-     <option value="+91" style={{background:'transparent',fontSize:'16px'}}>IND (+91)</option>
-   
-    
-   </button>
-   <input className='shgdfjhasgdfas' style={{border:"none",outline: "none",width:"60%",fontSize:'17px',paddingTop:'8px' }} type="tel" id="mobile" name="mobile" pattern="[0-9]{10}"  required />
-
-         </fieldset>
+  
 
 
   <fieldset className="mt-4"  style={{color:'rgb(82, 114, 161)', fontSize:'20px',fontFamily:'Calibri', border: "1px solid rgb(114, 158, 216)",borderRadius:'10px',height:'4rem',width:'100%'}}>
@@ -95,7 +82,7 @@ const Register = () => {
      
      </legend>
     
-   <input style={{border:"none",fontSize:'17px',paddingRight:'10px',outline: "none",width:"100%" ,paddingLeft:'15px'}} max={6}  type="text"  pattern="[0-9]{10}"  required />
+   <input style={{border:"none",fontSize:'17px',marginTop:'6px',paddingRight:'10px',outline: "none",width:"100%" ,paddingLeft:'15px'}} max={6}  type="text"  pattern="[0-9]{10}"  required />
 
          </fieldset>
          <fieldset  className="mt-4" style={{color:'rgb(82, 114, 161)', fontSize:'20px',fontFamily:'Calibri', border: "1px solid rgb(114, 158, 216)",borderRadius:'10px',height:'4rem',width:'100%'}}>
@@ -103,7 +90,7 @@ const Register = () => {
          
          </legend>
         
-       <input style={{border:"none",fontSize:'17px',paddingRight:'10px',outline: "none",width:"100%" ,paddingLeft:'15px'}} max={6}  type="email" id="mobile" name="mobile" pattern="[0-9]{10}"  required />
+       <input style={{border:"none",fontSize:'16px',marginTop:'5px',paddingRight:'10px',outline: "none",width:"100%" ,paddingLeft:'15px'}} max={6}  type="email" id="mobile" name="mobile" pattern="[0-9]{10}"  required />
     
              </fieldset>
  

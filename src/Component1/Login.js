@@ -92,11 +92,9 @@ const Login = () => {
                               <a class="nav-link" href="https://merizimmedari.com/contact.html">Contact Us</a>
                            </li>
                            <li class="nav-item">
-                              <a class="nav-link" href="https://user.merizimmedari.com/#/" target="_blank">Log in</a>
+                              <a class="nav-link" href="https://user.merizimmedari.com/#/" target="_blank">Sign in</a>
                            </li>
-                           <li class="nav-item">
-                              <a class="nav-link" href="https://user.merizimmedari.com/#/registration" target="_blank">Sign up</a>
-                           </li>
+                         
                         </ul>
                      </div>
                   </nav>
