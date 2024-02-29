@@ -64,7 +64,7 @@ const Register = () => {
   
   <div  style={{backgroundColor:"rgb(194, 215, 233)",width:'100%',borderTopLeftRadius:'20px',borderTopRightRadius:'20px',paddingLeft:'2rem'}}>
   <div style={{fontSize:"20px",fontWeight:'600',}}>
-  Sign-up to Meri Zimmedari
+  Sign-in to Meri Zimmedari
   </div>
  
    
