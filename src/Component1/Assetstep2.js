@@ -6,16 +6,20 @@ import { Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Mynavbar from "./Mynavbar";
 
+
+
 const Assetstep2 = () => {
   const [nomineeName, setNomineeName] = useState("");
   const [relationNominee, setRelationNominee] = useState("");
   const [percentageOfShare, setPercentageOfShare] = useState("");
   const [nomineePhone, setNomineePhone] = useState("");
   const [email, setEmail] = useState("");
+ 
   return (
     <>
-      <Mynavbar />
+      <Mynavbar /> 
       <div>
+      
         <div style={{ backgroundColor: "rgb(182, 205, 236)" }}>
           <div className="container-fluid">
             <div className="row">
