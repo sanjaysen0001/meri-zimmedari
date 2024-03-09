@@ -4,18 +4,24 @@ import Mynavbar from "./Mynavbar";
 import axiosConfig from "./../axiosConfig";
 const Icons = () => {
   const [result, setResult] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
   
+  const filterNames = ({ Asset_Type }) => {
+    console.log(Asset_Type)
+    return Asset_Type.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1;
+  };
   useEffect(() => {
-    axiosConfig
+    axiosConfig 
       .get("/admin/get-list")
       .then(response => {
+        console.log(response.data.Field)
         setResult(response.data.Field);
-        // console.log(response.data.Field);
+       
       })
       .catch(error => {
         console.error(error);
       });
-    console.log("object");
+ 
   }, []);
   return (
     <>
@@ -44,8 +50,12 @@ const Icons = () => {
           }}
         >
           <form class="example" style={{ width: "85%", borderRadius: "20px" }}>
-            <input type="text" placeholder="Search.." name="search" />
-            <button type="submit">
+            <input type="text" placeholder="Search.." name="search" 
+            // onSearch={setSearchValue} 
+            value={searchValue} 
+            onChange={(e)=>{setSearchValue(e.target.value)}}
+            />
+            <button type="submit" >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 color="#5578B0"
@@ -104,7 +114,7 @@ const Icons = () => {
             <tbody>
            
               {result &&
-                result?.map(ele => {
+                result?.filter(filterNames)?.map(ele => {
                   return (
                     <tr >
                       <th

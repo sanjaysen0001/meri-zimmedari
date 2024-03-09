@@ -237,7 +237,7 @@ const Assetpolicy = () => {
                             paddingLeft: "5px",
                             fontFamily: "Calibri",
                             marginLeft: "15px",
-                            width: "10.5rem",
+                            width: "auto",
                           }}
                           for="exampleInputPassword1"
                           class="form-label"
