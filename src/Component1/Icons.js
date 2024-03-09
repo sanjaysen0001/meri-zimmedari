@@ -1,28 +1,40 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Mynavbar from "./Mynavbar";
 import axiosConfig from "./../axiosConfig";
 const Icons = () => {
+  const navigate = useNavigate();
   const [result, setResult] = useState([]);
-  const [searchValue, setSearchValue] = useState("");
+ const [searchValue, setSearchValue] = useState("");
   
   const filterNames = ({ Asset_Type }) => {
     console.log(Asset_Type)
     return Asset_Type.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1;
   };
+
+
+
   useEffect(() => {
     axiosConfig 
       .get("/admin/get-list")
       .then(response => {
+
         console.log(response.data.Field)
         setResult(response.data.Field);
        
+
+        console.log(response.data.Field[0]);
+        setResult(response.data.Field);
+
       })
       .catch(error => {
         console.error(error);
       });
- 
   }, []);
+  const handlePlus = selectedData => {
+    localStorage.setItem("ViewOne", JSON.stringify(selectedData));
+    navigate("/add-asset/policy", { state: selectedData });
+  };
   return (
     <>
       <Mynavbar />
@@ -70,7 +82,7 @@ const Icons = () => {
             </button>
           </form>
         </div>
-        <div style={{overflow:"scroll",height:'25rem'}}>
+        <div style={{ overflow: "scroll", height: "25rem" }}>
           <table className="table">
             <thead>
               <tr style={{ backgroundColor: "rgb(182, 204, 230)" }}>
@@ -110,13 +122,12 @@ const Icons = () => {
               </tr>
             </thead>
             {/* console.log(ele.Asset_Type) */}
-           
+
             <tbody>
-           
               {result &&
                 result?.filter(filterNames)?.map(ele => {
                   return (
-                    <tr >
+                    <tr>
                       <th
                         scope="row"
                         style={{
@@ -190,45 +201,46 @@ const Icons = () => {
                             </svg>
                           </span>
                           <span style={{ marginLeft: "5px" }}>
-                            <Link to={"/add-asset/policy"}>
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="30"
-                                height="30"
-                                viewBox="0,0,256,256"
+                            {/* <Link to={"/add-asset/policy"}> */}
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="30"
+                              height="30"
+                              viewBox="0,0,256,256"
+                              onClick={() => handlePlus(ele)}
+                            >
+                              <g
+                                fill="none"
+                                fill-rule="nonzero"
+                                stroke="none"
+                                stroke-width="1"
+                                stroke-linecap="butt"
+                                stroke-linejoin="miter"
+                                stroke-miterlimit="10"
+                                stroke-dasharray=""
+                                stroke-dashoffset="0"
+                                font-family="none"
+                                font-weight="none"
+                                font-size="none"
+                                text-anchor="none"
                               >
-                                <g
-                                  fill="none"
-                                  fill-rule="nonzero"
-                                  stroke="none"
-                                  stroke-width="1"
-                                  stroke-linecap="butt"
-                                  stroke-linejoin="miter"
-                                  stroke-miterlimit="10"
-                                  stroke-dasharray=""
-                                  stroke-dashoffset="0"
-                                  font-family="none"
-                                  font-weight="none"
-                                  font-size="none"
-                                  text-anchor="none"
-                                >
-                                  <g transform="scale(5.33333,5.33333)">
-                                    <path
-                                      d="M44,24c0,11.045 -8.955,20 -20,20c-11.045,0 -20,-8.955 -20,-20c0,-11.045 8.955,-20 20,-20c11.045,0 20,8.955 20,20z"
-                                      fill="#5578b0"
-                                    ></path>
-                                    <path
-                                      d="M21,14h6v20h-6z"
-                                      fill="#ffffff"
-                                    ></path>
-                                    <path
-                                      d="M14,21h20v6h-20z"
-                                      fill="#ffffff"
-                                    ></path>
-                                  </g>
+                                <g transform="scale(5.33333,5.33333)">
+                                  <path
+                                    d="M44,24c0,11.045 -8.955,20 -20,20c-11.045,0 -20,-8.955 -20,-20c0,-11.045 8.955,-20 20,-20c11.045,0 20,8.955 20,20z"
+                                    fill="#5578b0"
+                                  ></path>
+                                  <path
+                                    d="M21,14h6v20h-6z"
+                                    fill="#ffffff"
+                                  ></path>
+                                  <path
+                                    d="M14,21h20v6h-20z"
+                                    fill="#ffffff"
+                                  ></path>
                                 </g>
-                              </svg>
-                            </Link>
+                              </g>
+                            </svg>
+                            {/* </Link> */}
                           </span>
                         </div>
                       </td>
@@ -573,10 +585,7 @@ const Icons = () => {
                   </div>
                 </td>
               </tr> */}
-           
-
             </tbody>
-          
           </table>
         </div>
       </div>
