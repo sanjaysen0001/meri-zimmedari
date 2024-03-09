@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import "../css/style.css";
 import React, { useState, useRef, useEffect } from "react";
 import axiosConfig from "./../axiosConfig";
@@ -6,9 +6,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Mynavbar from "./Mynavbar";
 const Assetpolicy = () => {
   const fileInputRef = useRef(null);
+  let location = useLocation();
   const navigate = useNavigate();
   const [uploadedFileName, setUploadedFileName] = useState(null);
   const [uploadedFile, setUploadedFile] = useState(null);
+  const [dynamicFields, setdynamicFields] = useState("");
   // const [result, setResult] = useState([]);
 
   // useEffect(() => {
@@ -23,6 +25,14 @@ const Assetpolicy = () => {
   //     });
   //   console.log("object");
   // }, []);
+  useEffect(() => {
+    let viewData = JSON.parse(localStorage.getItem("ViewOne"));
+    if (location?.state) {
+      setdynamicFields(location?.state);
+    } else {
+      setdynamicFields(viewData);
+    }
+  }, []);
   const handleIconClick = () => {
     fileInputRef.current.click();
   };
@@ -175,7 +185,7 @@ const Assetpolicy = () => {
                     fontFamily: "Calibri",
                   }}
                 >
-                  Upload Policy (Optional)
+                  {dynamicFields?.Field_1}
                 </span>
                 <span className="ml-1">
                   <svg
@@ -237,13 +247,15 @@ const Assetpolicy = () => {
                             paddingLeft: "5px",
                             fontFamily: "Calibri",
                             marginLeft: "15px",
-                            width: "10.5rem",
+                            width: "auto",
                           }}
                           for="exampleInputPassword1"
                           class="form-label"
                         >
-                          Policy Issuer's Name{" "}
-                          <span style={{ color: "red" }}>*</span>
+                          {dynamicFields?.Field_2}
+                          {/* <span
+                            style={{ color: "red" }}>*
+                          </span> */}
                         </legend>
                         <input
                           type="text"
@@ -283,12 +295,13 @@ const Assetpolicy = () => {
                         paddingLeft: "5px",
                         fontFamily: "Calibri",
                         marginLeft: "15px",
-                        width: "8rem",
+                        width: "auto",
                       }}
                       for="exampleInputPassword1"
                       class="form-label"
                     >
-                      Policy Number <span style={{ color: "red" }}>*</span>
+                      {dynamicFields?.Field_3}
+                      <span style={{ color: "red" }}>*</span>
                     </legend>
                     <input
                       type="text"
@@ -328,12 +341,12 @@ const Assetpolicy = () => {
                           paddingLeft: "5px",
                           fontFamily: "Calibri",
                           marginLeft: "15px",
-                          width: "11.5rem",
+                          width: "auto",
                         }}
                         for="exampleInputPassword1"
                         class="form-label"
                       >
-                        Re-Enter Policy Number
+                        {dynamicFields?.Field_4}
                         <span style={{ color: "red" }}>*</span>
                       </legend>
                       <input
