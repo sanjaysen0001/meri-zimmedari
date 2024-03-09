@@ -1,35 +1,28 @@
 import React, { useEffect, useState, useRef } from "react";
 import Webcam from "react-webcam";
-
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
-import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import * as tf from "@tensorflow/tfjs";
 import { Button, Col, Form, Input, Label, Row } from "reactstrap";
-// import axiosConfig from "./../axiosConfig";
-// import axiosConfigOne from "./../axiosCofigOne";
-// import { Login, Pan_Verify, SaveData } from "../EndPoint/EndPoint";
-// import logo from ".././assets/images/logo.png";
 import { RiLogoutCircleRLine } from "react-icons/ri";
 import swal from "sweetalert";
-import { FaCheck } from "react-icons/fa";
-import { MdOutlineCancel } from "react-icons/md";
 
 const faceLandmarksDetection = require("@tensorflow-models/face-landmarks-detection");
 
 const Loginform = args => {
   const navigate = useNavigate();
-  const [modal, setModal] = useState(false);
+  const webcamRef = useRef(null);
 
-  const toggle = () => setModal(!modal);
   const [formData, setFormData] = useState({
-    mobile: "",
+    name: "",
+    email: "",
+    // mobile: "",
     image: null,
   });
-  const webcamRef = useRef(null);
   const [showWebcam, setShowWebcam] = useState(false);
-
   const [isOpen, setIsOpen] = useState(false);
-  const [PanVerify, setPanVerify] = useState(false);
+  // const [PanVerify, setPanVerify] = useState(false);
   const [text, setText] = useState("modal loading...");
   const [count, setCount] = useState(0);
   const [model, setModel] = useState(null);
@@ -45,22 +38,16 @@ const Loginform = args => {
   useEffect(() => {
     tf.setBackend("webgl");
     loadModel();
-    // let userData = JSON.parse(localStorage.getItem("userData"));
-    // if (!!userData) {
-    //   // navigate("/home");
-    //   setLoginScreen(false);
-    // }
   }, []);
 
   const loadModel = async () => {
-    console.log("loading modal...");
+    console.log("loading modal...112223!");
     // Load the MediaPipe Facemesh package.
     faceLandmarksDetection
       .load(faceLandmarksDetection.SupportedPackages.mediapipeFacemesh, {
         maxFaces: 1,
       })
       .then(model => {
-        console.log(model);
         setModel(model);
         setText("ready for capture");
       })
@@ -80,7 +67,6 @@ const Loginform = args => {
     if (isOpen) {
       setTimeout(() => {
         setText("detecting...");
-        console.log("detecting...");
         detectPoints();
       }, 2000);
     }
@@ -120,7 +106,7 @@ const Loginform = args => {
         setMaxRight(0);
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
     if (!isOpen) {
       // stop detection
@@ -184,7 +170,7 @@ const Loginform = args => {
     if (eyeLeft < baseCloseEye && eyeRight < baseCloseEye) {
       result = true;
       setIsOpen(false);
-      console.log("isopen", isOpen);
+      console.log("isopen11", isOpen);
     }
     console.log("isopen", isOpen);
     //    }
@@ -198,11 +184,11 @@ const Loginform = args => {
     return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
   };
 
-  const videoConstraints = {
-    width: 720,
-    height: 480,
-    facingMode: "user",
-  };
+  // const videoConstraints = {
+  //   width: 720,
+  //   height: 480,
+  //   facingMode: "user",
+  // };
   const handleChange = e => {
     setFormData({
       ...formData,
@@ -223,18 +209,21 @@ const Loginform = args => {
     }
   };
   const capture = () => {
+    // alert("Capture");
     setShowWebcam(true);
     handleClick();
   };
 
   const handleCapture = () => {
+    alert("Image Capture");
     const imageSrc = webcamRef.current.getScreenshot();
     setFormData({
       ...formData,
       image: imageSrc,
     });
+    console.log(imageSrc);
     setShowWebcam(false);
-    toggle();
+    // toggle();
   };
 
   function dataURItoBlob(dataURI) {
@@ -264,9 +253,6 @@ const Loginform = args => {
       //   .then(res => {
       //     console.log(res);
       //   });
-    
-
-      // console.log("Response", response);
       setRegistered(true);
       navigate("/home");
 
@@ -281,48 +267,37 @@ const Loginform = args => {
   };
   const HandleSubmitData = async e => {
     e.preventDefault();
-
     setLoginButton("Submitting...");
 
     // console.log(LoginData);
     // console.log(formData);
     let formdata = new FormData();
     formdata.append("image", dataURItoBlob(formData.image));
-    formdata.append("panNo", LoginData?.panNo);
+    // formdata.append("panNo", LoginData?.panNo);
     formdata.append("name", LoginData?.name);
+    formdata.append("email", LoginData?.email);
 
-    if (PanVerify) {
-      // await axiosConfigOne
-      //   .post("/register", formdata)
-      //   .then(res => {
-      //     swal("Sucess", "Data Saved Sucessfully");
-        
-      //     setLoginButton("Submit");
-      //     toggle();
-      //     setPanVerify(false);
-
-      //   })
-      //   .catch(err => {
-      //     setLoginButton("Submit");
-      //     console.log(err.response);
-      //     if (!!err.response?.data?.message) {
-      //       swal("Error", err.response?.data?.message);
-      //     }
-      //   });
-    } else {
-      swal("Error", "Verify Pan Number First");
-    }
+    // if (PanVerify) {
+    // await axiosConfigOne
+    //   .post("/register", formdata)
+    //   .then(res => {
+    //     swal("Sucess", "Data Saved Sucessfully");
+    //     setLoginButton("Submit");
+    //     toggle();
+    //     setPanVerify(false);
+    //   })
+    //   .catch(err => {
+    //     setLoginButton("Submit");
+    //     console.log(err.response);
+    //     if (!!err.response?.data?.message) {
+    //       swal("Error", err.response?.data?.message);
+    //     }
+    //   });
+    // } else {
+    //   swal("Error", "Verify Pan Number First");
+    // }
   };
 
-  const handleCheck = () => {
-    if (isOpen) {
-      setTimeout(() => {
-        setText("detecting...");
-        console.log("detecting...");
-        detectPoints();
-      }, 1500);
-    }
-  };
   const handleLoginSubmit = async e => {
     e.preventDefault();
     setLoginButton("Loading...");
@@ -330,13 +305,12 @@ const Loginform = args => {
     //   .post(Login, LoginData)
     //   .then(res => {
     //     setLoginButton("Submit");
-       
 
     //     if (res?.data?.status) {
     //       capture();
     //       localStorage.setItem("userData", JSON.stringify(res?.data.user));
     //       setLoginScreen(false);
-          
+
     //     }
 
     //     console.log(res);
@@ -351,113 +325,8 @@ const Loginform = args => {
     //   });
   };
 
-  const handleVerifyPancard = async () => {
-    if (LoginData?.panNo) {
-      debugger;
-      let payload = {
-        panNo: LoginData?.panNo,
-      };
-      // await axiosConfig
-      //   .post(Pan_Verify, payload)
-      //   .then(res => {
-      //     let fullname = `${res?.data?.User?.firstName} ${res?.data?.User?.lastName}`;
-      //     setLogin({
-      //       ...LoginData,
-      //       ["name"]: fullname,
-      //     });
-      //     console.log(res);
-
-      //     setPanVerify(true);
-      //   })
-      //   .catch(err => {
-      //     setPanVerify(false);
-
-      //     console.log(err.response);
-      //     if (!!err.response?.data?.message) {
-      //       swal("Error", err.response?.data?.message);
-      //     }
-      //   });
-    }
-  };
   return (
     <>
-      <>
-        {/* {model == null ? (
-          <>
-            <h5>Wait while model loading...</h5>
-          </>
-        ) : (
-          <>
-            <div className="max-w-md mx-auto mt-10 p-4 border rounded-md shadow-lg">
-              <h2 className="text-2xl font-bold mb-4">Login</h2>
-              <form onSubmit={handleSubmit}>
-                <div className="mb-4">
-                  <label className="block mb-1" htmlFor="mobileNumber">
-                    Mobile Number:
-                  </label>
-                  <input
-                    type="text"
-                    id="mobileNumber"
-                    name="mobile"
-                    value={formData.mobile}
-                    onChange={handleChange}
-                    className="border rounded-md px-2 py-1 w-full"
-                    required
-                  />
-                </div>
-
-                <div className="mb-4">
-                  <button
-                    type="button"
-                    onClick={capture}
-                    className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
-                  >
-                    Capture Image
-                  </button>
-                  <p>{text}</p>
-                </div>
-                {showWebcam && (
-                  <div className="mb-4">
-                    <Webcam
-                      audio={false}
-                      ref={webcamRef}
-                      screenshotFormat="image/jpeg"
-                      className="mb-2"
-                    />
-                    <button
-                      type="button"
-                      onClick={handleCapture}
-                      className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
-                    >
-                      Take Picture
-                    </button>
-                  </div>
-                )}
-                {formData.image && (
-                  <div className="mb-4">
-                    <img src={formData.image} alt="Captured" className="mb-2" />
-                  </div>
-                )}
-                <button
-                  type="submit"
-                  className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
-                >
-                  login
-                </button>
-                {backloading && <p>Wait for a minute.</p>}
-                {registered && <p>Registered.</p>}
-              </form>
-              <div>
-                <p>
-                  Not a user?{" "}
-                  <span onClick={() => navigate("/signup")}>Register</span>
-                </p>
-              </div>
-            </div>
-          </>
-        )} */}
-      </>
-
       <div className="max-w-md mx-auto mt-10 p-4 border rounded-md shadow-lg">
         {!LoginScreen && !LoginScreen && (
           <div className="d-flex justify-content-end">
@@ -474,7 +343,7 @@ const Loginform = args => {
           </div>
         )}
         <div className="d-flex justify-content-center">
-          <img height={250} width={250} src="" alt="image" />
+          {/* <img height={250} width={250} src="" alt="image" /> */}
         </div>
         <div className="d-flex justify-content-center mb-2">
           {LoginScreen && LoginScreen && (
@@ -483,8 +352,13 @@ const Loginform = args => {
         </div>
         {model == null ? (
           <>
-            <div className="d-flex justify-content-center">
+            {/* <div className="d-flex justify-content-center">
               <span style={{ color: "red" }}>Wait while Loading...</span>
+            </div> */}
+            <div className="d-flex justify-content-center">
+              <Box sx={{ display: "flex" }}>
+                <CircularProgress />
+              </Box>
             </div>
           </>
         ) : null}
@@ -493,7 +367,7 @@ const Loginform = args => {
             <Form onSubmit={handleLoginSubmit}>
               <Row>
                 <Col lg="12" sm="12" md="12">
-                  <Label>Email id</Label>
+                  <Label>Email Id</Label>
                   <Input
                     required
                     name="email"
@@ -552,13 +426,13 @@ const Loginform = args => {
                               screenshotFormat="image/jpeg"
                               className="mb-2"
                             />
-                            <button
+                            {/* <button
                               type="button"
                               onClick={handleCapture}
-                              className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+                              className="bg-blue-500 btn btn-info text-white px-4 py-2 rounded-md hover:bg-blue-600"
                             >
                               Take Picture
-                            </button>
+                            </button> */}
                           </div>
                         )}
                         {formData.image && (
@@ -570,13 +444,6 @@ const Loginform = args => {
                             />
                           </div>
                         )}
-                        {/* <button
-                         type="submit"
-                          className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
-                        >
-                          Register new User
-                        </button> */}
-                        {/* {backloading && <p>Wait for a minute.</p>} */}
                         {registered && <p>Registered.</p>}
                       </form>
                       <Row>
@@ -603,362 +470,15 @@ const Loginform = args => {
                             </>
                           )}
                         </Col>
-                    {/*
-                        <Col lg="7" md="7" sm="12">
-                          <div>
-                            <p style={{ fontSize: "12px" }}>
-                              user?{" "}
-                              <span
-                                style={{ cursor: "pointer" }}
-                                onClick={() => {
-                                  // capture();
-                                  navigate("/Home");
-                                }}
-                              >
-                                <span style={{ color: "green" }}>
-                                  Mark Attendance
-                                </span>
-                              </span>
-                            </p>
-                          </div>
-                              </Col> */}
                       </Row>
                     </div>
                   </>
                 )}
               </Col>
             </Row>
-            {/* <form onSubmit={handleSubmit}>
-              <div className="mb-4">
-                <label className="block mb-1" htmlFor="mobileNumber">
-                  Mobile Number:
-                </label>
-                <input
-                  type="text"
-                  id="mobileNumber"
-                  name="mobile"
-                  value={formData.mobile}
-                  onChange={handleChange}
-                  className="border rounded-md px-2 py-1 w-full"
-                  required
-                />
-              </div>
-
-              <div className="mb-4">
-                <button
-                  type="button"
-                  onClick={capture}
-                  className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
-                >
-                  Capture Image
-                </button>
-                <p>{text}</p>
-              </div>
-              {showWebcam && (
-                <div className="mb-4">
-                  <Webcam
-                    audio={false}
-                    ref={webcamRef}
-                    screenshotFormat="image/jpeg"
-                    className="mb-2"
-                  />
-                  <button
-                    type="button"
-                    onClick={handleCapture}
-                    className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
-                  >
-                    Take Picture
-                  </button>
-                </div>
-              )}
-              {formData.image && (
-                <div className="mb-4">
-                  <img src={formData.image} alt="Captured" className="mb-2" />
-                </div>
-              )}
-              <button
-                type="submit"
-                className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
-              >
-                login
-              </button>
-              {backloading && <p>Wait for a minute.</p>}
-              {registered && <p>Registered.</p>}
-            </form>
-            <div>
-              <p>
-                Not a user?{" "}
-                <span onClick={() => navigate("/signup")}>Register</span>
-              </p>
-            </div> */}
           </>
         )}
       </div>
-      {/* {model == null ? (
-        <>
-          <h4>Wait while model loading...</h4>
-        </>
-      ) : (
-        <>
-          <div className="max-w-md mx-auto mt-10 p-4 border rounded-md shadow-lg">
-            <h2 className="text-2xl font-bold mb-4">Login</h2>
-            {LoginScreen && LoginScreen ? (
-              <>
-                <Form onSubmit={handleLoginSubmit}>
-                  <Row>
-                    <Col lg="12" sm="12" md="12">
-                      <Label>Email id</Label>
-                      <Input
-                        required
-                        name="email"
-                        onChange={handleInputChange}
-                        value={LoginData?.email}
-                        type="email"
-                        placeholder="Enter Email to Login"
-                      />
-                    </Col>
-                    <Col lg="12" sm="12" md="12">
-                      <Label className="mt-1">Password</Label>
-                      <Input
-                        required
-                        name="password"
-                        onChange={handleInputChange}
-                        value={LoginData?.password}
-                        type="password"
-                        placeholder="Enter Password to Login"
-                      />
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col lg="12" sm="12" md="12">
-                      <div className="d-flex justify-content-center pt-2 mt-2">
-                        <Button type="submit" color="primary">
-                          Submit
-                        </Button>
-                      </div>
-                    </Col>
-                  </Row>
-                </Form>
-              </>
-            ) : (
-              <>
-                <form onSubmit={handleSubmit}>
-                  <div className="mb-4">
-                    <label className="block mb-1" htmlFor="mobileNumber">
-                      Mobile Number:
-                    </label>
-                    <input
-                      type="text"
-                      id="mobileNumber"
-                      name="mobile"
-                      value={formData.mobile}
-                      onChange={handleChange}
-                      className="border rounded-md px-2 py-1 w-full"
-                      required
-                    />
-                  </div>
-
-                  <div className="mb-4">
-                    <button
-                      type="button"
-                      onClick={capture}
-                      className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
-                    >
-                      Capture Image
-                    </button>
-                    <p>{text}</p>
-                  </div>
-                  {showWebcam && (
-                    <div className="mb-4">
-                      <Webcam
-                        audio={false}
-                        ref={webcamRef}
-                        screenshotFormat="image/jpeg"
-                        className="mb-2"
-                      />
-                      <button
-                        type="button"
-                        onClick={handleCapture}
-                        className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
-                      >
-                        Take Picture
-                      </button>
-                    </div>
-                  )}
-                  {formData.image && (
-                    <div className="mb-4">
-                      <img
-                        src={formData.image}
-                        alt="Captured"
-                        className="mb-2"
-                      />
-                    </div>
-                  )}
-                  <button
-                    type="submit"
-                    className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
-                  >
-                    login
-                  </button>
-                  {backloading && <p>Wait for a minute.</p>}
-                  {registered && <p>Registered.</p>}
-                </form>
-                <div>
-                  <p>
-                    Not a user?{" "}
-                    <span onClick={() => navigate("/signup")}>Register</span>
-                  </p>
-                </div>
-              </>
-            )}
-          </div>
-        </>
-      )} */}
-      <Modal isOpen={modal} toggle={toggle} {...args}>
-        <ModalHeader toggle={toggle}>Submit Details here</ModalHeader>
-        <div className="p-3">
-          <Form onSubmit={HandleSubmitData}>
-            <Row>
-              <Col className="p-2" lg="8" sm="8" md="8">
-                <Label>Pan Number *</Label>
-                <Input
-                  required
-                  name="panNo"
-                  onChange={handleInputChange}
-                  value={LoginData?.panNo}
-                  type="text"
-                  placeholder="Enter Pan Number..."
-                />
-                {LoginData?.panNo?.length == 10 && !PanVerify && (
-                  <span
-                    onClick={handleVerifyPancard}
-                    style={{
-                      color: "green",
-                      cursor: "pointer",
-                      fontSize: "10px",
-                    }}
-                  >
-                    Click to Verify Pancard
-                  </span>
-                )}
-                {PanVerify && PanVerify ? (
-                  <>
-                    <span
-                      style={{
-                        color: "green",
-                        cursor: "pointer",
-                        fontSize: "10px",
-                      }}
-                    >
-                      Verified
-                    </span>
-                  </>
-                ) : (
-                  <>
-                    <span
-                      style={{
-                        color: "red",
-                        cursor: "pointer",
-                        fontSize: "10px",
-                      }}
-                    >
-                      {/* UnVerified */}
-                    </span>
-                  </>
-                )}
-              </Col>
-              <Col className="p-2" lg="8" sm="8" md="8">
-                <Label className="mt-1">Name *</Label>
-                <Input
-                  required
-                  disabled
-                  name="name"
-                  onChange={handleInputChange}
-                  value={LoginData?.name}
-                  type="text"
-                  placeholder="Name"
-                />
-              </Col>
-              <Col lg="12" sm="12" md="12">
-                {model == null ? (
-                  <>
-                    <h1>Wait while model loading...</h1>
-                  </>
-                ) : (
-                  <>
-                    <div className="max-w-md mx-auto  p-4 border rounded-md shadow-lg">
-                      <form onSubmit={handleSubmit}>
-                        {/* <div className="mb-4">
-                            <button
-                              type="button"
-                              onClick={capture}
-                              className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
-                            >
-                              Capture Image
-                            </button>
-                            <p>{text}</p>
-                          </div> */}
-                        {showWebcam && (
-                          <div className="mb-4">
-                            <Webcam
-                              audio={false}
-                              ref={webcamRef}
-                              screenshotFormat="image/jpeg"
-                              className="mb-2"
-                            />
-                            {/* <button
-                                type="button"
-                                onClick={handleCapture}
-                                className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
-                              >
-                                Take Picture
-                              </button> */}
-                          </div>
-                        )}
-                        {formData.image && (
-                          <div className="mb-2 d-flex justify-content-center">
-                            <img
-                              style={{ borderRadius: "12px" }}
-                              src={formData.image}
-                              alt="Captured"
-                              className="mb-1"
-                            />
-                          </div>
-                        )}
-                        {/* <button
-                            type="submit"
-                            className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
-                          >
-                            login
-                          </button>
-                          {backloading && <p>Wait for a minute.</p>}
-                          {registered && <p>Registered.</p>} */}
-                      </form>
-                      {/* <div>
-                          <p>
-                            Not a user?{" "}
-                            <span onClick={() => navigate("/signup")}>
-                              Register
-                            </span>
-                          </p>
-                        </div> */}
-                    </div>
-                  </>
-                )}
-              </Col>
-            </Row>
-            <Row>
-              <Col lg="12" sm="12" md="12">
-                <div className="d-flex justify-content-center pt-2 mt-2">
-                  <Button type="submit" color="primary">
-                    {LoginButton && LoginButton}
-                  </Button>
-                </div>
-              </Col>
-            </Row>
-          </Form>
-        </div>
-      </Modal>
     </>
   );
 };

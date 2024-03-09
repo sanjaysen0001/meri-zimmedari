@@ -14,7 +14,6 @@ import swal from "sweetalert";
 import { ToastContainer, toast } from "react-toastify";
 import { RiArrowGoBackFill, RiLogoutCircleRLine } from "react-icons/ri";
 
-
 const faceLandmarksDetection = require("@tensorflow-models/face-landmarks-detection");
 
 const Loginform = args => {
@@ -229,7 +228,7 @@ const Loginform = args => {
       images: imageSrc,
     });
     setShowWebcam(false);
-    debugger;
+    // debugger;
     if (Registration) {
       toggle();
     } else {
@@ -280,10 +279,6 @@ const Loginform = args => {
     //     console.log(err.response);
     //   });
 
-
-
-
-
     // try {
     //   console.log("Response", response);
     //   setRegistered(true);
@@ -310,7 +305,6 @@ const Loginform = args => {
     formdata.append("panNo", LoginData?.panNo);
     formdata.append("name", LoginData?.name);
     // let url = https://face-auth.merizimmedari.com/register
-
 
     // await axiosConfigOne
     //   .post("/register", formdata)
@@ -562,6 +556,7 @@ const Loginform = args => {
                           />
                         </div>
                       )}
+
                       <form onSubmit={handleSubmit}>
                         {/* <div className="mb-4">
                             <button
