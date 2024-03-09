@@ -4,6 +4,7 @@ import Mynavbar from "./Mynavbar";
 import axiosConfig from "./../axiosConfig";
 const Icons = () => {
   const [result, setResult] = useState([]);
+  
   useEffect(() => {
     axiosConfig
       .get("/admin/get-list")
@@ -59,7 +60,7 @@ const Icons = () => {
             </button>
           </form>
         </div>
-        <div style={{ overflowX: "auto" }}>
+        <div style={{overflow:"scroll",height:'25rem'}}>
           <table className="table">
             <thead>
               <tr style={{ backgroundColor: "rgb(182, 204, 230)" }}>
@@ -99,11 +100,13 @@ const Icons = () => {
               </tr>
             </thead>
             {/* console.log(ele.Asset_Type) */}
+           
             <tbody>
+           
               {result &&
                 result?.map(ele => {
                   return (
-                    <tr>
+                    <tr >
                       <th
                         scope="row"
                         style={{
@@ -560,7 +563,10 @@ const Icons = () => {
                   </div>
                 </td>
               </tr> */}
+           
+
             </tbody>
+          
           </table>
         </div>
       </div>
