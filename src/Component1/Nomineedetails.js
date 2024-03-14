@@ -86,7 +86,7 @@ const Nomineedetails = () => {
 </div>
 <div className='container mt-5' >
 <div style={{float:'left'}}>
-<Link to={'/'}>
+<Link to={'/dashboard'} style={{textDecoration:'none'}}>
 <p style={{color:'rgb(82, 114, 161)', fontSize:'20px', fontWeight:'500'}}>
 <span>
 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
@@ -101,11 +101,12 @@ BACK
 </div>
 <div style={{float:'right', bottom:'0px'}}>
 <LinkContainer to={'/nomineedetailsedit'}>
-<span className='btn'>
-<svg xmlns="http://www.w3.org/2000/svg" color='rgb(43, 77, 129)' width="50" height="50" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+<span className='btn icon-container'>
+<svg xmlns="http://www.w3.org/2000/svg" color='rgb(43, 77, 129)' width="50" height="50" fill="currentColor" class="bi bi-pencil-square hoverable-image" viewBox="0 0 16 16">
   <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
   <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
 </svg>
+<span className="icon-name" style={{marginLeft:'2%'}}>Edit</span>
 </span>
 </LinkContainer>
 </div>

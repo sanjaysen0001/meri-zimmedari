@@ -1,11 +1,54 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../css/style.css";
 import { Table } from "reactstrap";
 import { Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Mynavbar from "./Mynavbar";
+import Modal from 'react-bootstrap/Modal';
+import OtpInput from 'react-otp-input';
+function MyVerticallyCenteredModal(props) {
+  const [otp, setOtp] = useState('');
 
+  return (
+   <>
+   <div style={{justifyContent:'center',display:'flex'}}>
+   <Modal
+   {...props}
+   size="lg"
+   aria-labelledby="contained-modal-title-vcenter"
+   centered
+  
+ >
+   
+ <div className='cssfornomineeformobileview' style={{overflow:'auto'}}>
+ <div >
+ <p style={{color:'rgb(82, 114, 161)',textAlign:'center',fontSize:'18px'}}>Please enter the One Time Password sent on 
+ </p>
+ <p style={{color:'rgb(82, 114, 161)',textAlign:'center',fontSize:'22px'}}>
+ <span>Phone number 96XX450XX0   </span>
+ <span><Link onClick={props.onHide} to={''} style={{textDecoration:'none',color:'rgb(82, 114, 161)'}}><span style={{borderBottom:'1px solid rgb(82, 114, 161)'}}>Change</span></Link> </span>
+ </p>
+ <div>
+ <OtpInput
+     
+      value={otp}
+      onChange={setOtp}
+      numInputs={4}
+      renderSeparator={<span></span>}
+      renderInput={(props) => <input type="tel" {...props} />}
+    />
+ </div>
+
+ </div>
+ </div>
+   
+ </Modal>
+   </div>
+   </>
+  );
+}
+ 
 
 
 const Assetstep2 = () => {
@@ -14,10 +57,15 @@ const Assetstep2 = () => {
   const [percentageOfShare, setPercentageOfShare] = useState("");
   const [nomineePhone, setNomineePhone] = useState("");
   const [email, setEmail] = useState("");
+  const [modalShow, setModalShow] = useState(false);
  
   return (
     <>
       <Mynavbar /> 
+      <MyVerticallyCenteredModal
+      show={modalShow}
+      onHide={() => setModalShow(false)}
+    />
       <div>
       
         <div style={{ backgroundColor: "rgb(182, 205, 236)" }}>
@@ -516,6 +564,7 @@ const Assetstep2 = () => {
                           </div>
                           <div className="col-md-8 col-sm-8 col-lg-8 col-xl-8 col-6">
                             <input
+                            maxLength={10}
                               type="tel"
                               placeholder="965XX50XX0"
                               style={{
@@ -537,8 +586,9 @@ const Assetstep2 = () => {
                             className="col-md-2 col-sm-2 col-lg-2 col-xl-2 col-3"
                             style={{ marginLeft: "-10px" }}
                           >
-                            <span>
-                              <button
+                            <span >
+                              <a
+                              onClick={() => setModalShow(true)}
                                 className="btn"
                                 style={{
                                   fontSize: "13px",
@@ -550,10 +600,12 @@ const Assetstep2 = () => {
                                   lineHeight: "15px",
                                   height: "3rem",
                                   marginTop: "-10px",
+                                 
                                 }}
+                               
                               >
                                 SEND OTP
-                              </button>
+                              </a>
                             </span>
                           </div>
                         </div>

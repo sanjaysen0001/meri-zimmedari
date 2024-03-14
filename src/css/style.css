@@ -894,6 +894,7 @@
 }
 
 @media (min-width: 576px) and (max-width: 767px) {
+    
     .header {
         padding: 31px 15px;
         box-shadow: 0 0 10px #2374ee;
@@ -1130,7 +1131,46 @@
 }
 @media screen and (min-width: 1024px) {
   .chgdfagdjagdagfagsf{
-    margin-left: 80px;
+    margin-left: 88px;
   }
+  .cssfordesktopviewforicon{
+     margin-left: 15px;
+  }
+  .cssforboxwidthsetinmobileanddesktopveiw{
+     width: 83%;
+  }
+  .classformargininmyprofilepage{
+     margin-top: 35px;
+ }
+
 }
+
+.icon-container:hover .icon-name {
+     display: block;
+     cursor: pointer;
+ }
+ .icon-name {
+     display: none;
+     position: absolute;
+     
+     transform: translateX(-50%);
+     background-color: rgba(0, 0, 0, 0.7);
+     color: white;
+    padding-left: 10px;
+    padding-right: 10px;
+     border-radius: 3px;
+     cursor: pointer;
+ }
+ @media only screen and (max-width: 767px) {
+     .cssforboxwidthsetinmobileanddesktopveiw{
+          width: 100%;
+       }
+       .cssforborderradiusmobileveiw{
+          border-bottom-left-radius: 20px;
+       }
+       .sdasdfadfdfsdffsdfsdf{
+          margin-top:8px
+       }
+ }
+ 
 

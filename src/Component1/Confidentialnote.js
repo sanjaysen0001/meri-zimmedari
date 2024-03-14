@@ -175,7 +175,7 @@ const Confidentialnote = () => {
 </div>
 <div className='container mt-2' >
 <div style={{float:'left'}}>
-<Link to={'/confidentialnoteeditor'}>
+<Link to={'/confidentialnoteeditor'} style={{textDecoration:'none'}}>
 <p style={{color:'rgb(82, 114, 161)', fontSize:'20px', fontWeight:'500'}}>
 <span>
 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
@@ -190,11 +190,12 @@ BACK
 </div>
 <div style={{float:'right', bottom:'0px'}}>
 <Link to={'/confidentialnote'}>
-<span className='btn'>
-<svg xmlns="http://www.w3.org/2000/svg" color='rgb(43, 77, 129)' width="50" height="50" fill="currentColor" class="bi bi-file-earmark-text" viewBox="0 0 16 16">
+<span className='btn icon-container'>
+<svg xmlns="http://www.w3.org/2000/svg" color='rgb(43, 77, 129)' width="50" height="50" fill="currentColor" class="bi bi-file-earmark-text hoverable-image" viewBox="0 0 16 16">
   <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5"/>
   <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z"/>
 </svg>
+<span className="icon-name" style={{marginLeft:'1.8%',marginTop:'3px'}}>Save</span>
 </span>
       </Link>
 </div>

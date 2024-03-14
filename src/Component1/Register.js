@@ -317,7 +317,7 @@ const Register = () => {
                           href="https://user.merizimmedari.com/#/"
                           target="_blank"
                         >
-                          Sign in
+                        sign-in<span style={{fontSize:'22px'}}>/</span>Sign-up
                         </a>
                       </li>
                     </ul>
@@ -352,7 +352,7 @@ const Register = () => {
                 }}
               >
                 <div style={{ fontSize: "20px", fontWeight: "600" }}>
-                  Sign-in to Meri Zimmedari
+                Sign-in<span style={{fontSize:'20px'}}>/</span>Sign-up to Meri Zimmedari
                 </div>
               </div>
 
@@ -472,12 +472,13 @@ const Register = () => {
                       </button>
                     </div>
                     {showWebcam && (
-                      <div className="mb-4">
+                      <div className="mb-4 mt-4">
                         <Webcam
                           audio={false}
                           ref={webcamRef}
                           screenshotFormat="image/jpeg"
                           className="mb-2"
+                          style={{width:'100%'}}
                         />
                         {/* <button
                               type="button"
@@ -504,7 +505,7 @@ const Register = () => {
                       <Link to="/termsConditions">
                         <label className="pl-2" for="terms">
                           <a href="#" className="conditions">
-                            Terms and Conditions
+                            <span style={{marginRight:'5px'}}>Terms and Conditions</span><span>|</span><span style={{marginLeft:'5px'}}>Privacy Policy</span>
                           </a>
                         </label>
                       </Link>

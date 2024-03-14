@@ -91,7 +91,7 @@ const Manageaccount = () => {
    
     <div className='container mt-2' >
     <div style={{float:'left'}}>
-    <Link to={'/'}>
+    <Link to={'/dashboard'} style={{textDecoration:'none'}}>
     <p style={{color:'rgb(82, 114, 161)', fontSize:'20px', fontWeight:'500'}}>
     <span>
     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">

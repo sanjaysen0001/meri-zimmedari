@@ -367,7 +367,7 @@ const Login = () => {
                           href="https://user.merizimmedari.com/#/"
                           target="_blank"
                         >
-                          Sign in
+                        sign-in<span style={{fontSize:'22px'}}>/</span>Sign-up
                         </a>
                       </li>
                     </ul>
@@ -403,7 +403,7 @@ const Login = () => {
                 }}
               >
                 <div style={{ fontSize: "20px", fontWeight: "600" }}>
-                  Sign-in to Meri Zimmedari
+                Sign-in<span style={{fontSize:'20px'}}>/</span>Sign-up to Meri Zimmedari
                 </div>
               </div>
               {showWebcam && (
@@ -461,6 +461,8 @@ const Login = () => {
                         </option>
                       </button>
                       <input
+                      required
+                      maxLength={10}
                         className=""
                         style={{
                           border: "none",
@@ -468,10 +470,11 @@ const Login = () => {
                           width: "60%",
                           fontSize: "17px",
                           paddingTop: "8px",
+                         
                         }}
                         type="tel"
                         id="mobile"
-                        required
+                       
                         name="mobile"
                         pattern="[0-9]{10}"
                         error={isError}
@@ -480,13 +483,13 @@ const Login = () => {
                       />
 
                       {isError && (
-                        <p style={{ color: "red", padding: "5px" }}>
+                        <p style={{ color: "red", padding: "5px" ,fontSize:'16px',marginTop:'13px'}}>
                           Phone number must be 10 digits
                         </p>
                       )}
                     </fieldset>
 
-                    <div className="mt-4">
+                    <div className="mt-5">
                       {/* <Link to={"/login/otp"}> */}
                       <button
                         type="button"

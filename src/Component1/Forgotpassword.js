@@ -39,7 +39,7 @@ const Forgotpassword = () => {
                          <a class="nav-link" href="https://user.merizimmedari.com/#/" target="_blank">Log in</a>
                       </li>
                       <li class="nav-item">
-                         <a class="nav-link" href="https://user.merizimmedari.com/#/registration" target="_blank">Sign up</a>
+                         <a class="nav-link" href="https://user.merizimmedari.com/#/registration" target="_blank"> sign-in<span style={{fontSize:'22px'}}>/</span>Sign-up</a>
                       </li>
                    </ul>
                 </div>
