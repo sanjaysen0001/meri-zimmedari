@@ -26,12 +26,12 @@ const Index = () => {
             <div className="row">
             <div className="col-md-4 col-xl-4 col-lg-4">
             <div className="m-2" style={{justifyContent:'center',display:'flex'}}>
-            <div style={{border:'1px solid rgb(43, 77, 129)',width:'83%',height:'8rem',borderBottomLeftRadius:'20px',borderBottomRightRadius:'20px'}}>
+            <div className="cssforboxwidthsetinmobileanddesktopveiw" style={{border:'1px solid rgb(43, 77, 129)',height:'8rem',borderBottomLeftRadius:'20px',borderBottomRightRadius:'20px'}}>
             <div style={{fontSize:'16px',fontWeight:'700',color:'rgb(43, 77, 129)',padding:'10px',backgroundImage: "linear-gradient(to right, rgb(194, 215, 233) , #e2d7cc)"}}>
             ASSET ADDED
             </div>
             <p style={{textAlign:'center'}}>
-           <span style={{fontSize:'44px',color:'rgb(43, 77, 129)'}}>29</span><span style={{fontSize:'16px',color:'rgb(43, 77, 129)'}}>ASSET</span>
+           <span style={{fontSize:'44px',color:'rgb(43, 77, 129)'}}>29</span><span style={{fontSize:'16px',color:'rgb(43, 77, 129)',marginLeft:'5px'}}>ASSET</span>
             </p>
             </div>
             </div>
@@ -44,10 +44,11 @@ const Index = () => {
 
             </div>
             <p className="m-3">
-           <span style={{fontSize:'18px',color:'rgb(43, 77, 129)',float:'left'}}>LAST SUBMITTED ON   </span><span style={{marginLeft:'10px',fontSize:'18px',color:'rgb(43, 77, 129)'}}>: 15-JAN-24</span>
-          
+            <span style={{fontSize:'18px',color:'rgb(43, 77, 129)',float:'left'}}>NEXT DUE DATE              </span><span style={{marginLeft:'53px',fontSize:'18px',color:'rgb(43, 77, 129)'}}>: 15-FEB-24</span>
+           
            <br></br>
-           <span style={{fontSize:'18px',color:'rgb(43, 77, 129)',float:'left'}}>NEXT DUE DATE              </span><span style={{marginLeft:'53px',fontSize:'18px',color:'rgb(43, 77, 129)'}}>: 15-FEB-24</span>
+           
+           <span style={{fontSize:'18px',color:'rgb(43, 77, 129)',float:'left'}}>LAST SUBMITTED ON   </span><span style={{marginLeft:'10px',fontSize:'18px',color:'rgb(43, 77, 129)'}}>: 15-JAN-24</span>
           
            </p>
             </div>
@@ -55,7 +56,7 @@ const Index = () => {
             </div>
             <div className="col-md-4 col-xl-4 col-lg-4">
             <div className="m-2" style={{justifyContent:'center',display:'flex'}}>
-            <div style={{border:'1px solid rgb(43, 77, 129)',width:'83%',height:'8rem',borderBottomLeftRadius:'20px',borderBottomRightRadius:'20px'}}>
+            <div className="cssforboxwidthsetinmobileanddesktopveiw" style={{border:'1px solid rgb(43, 77, 129)',height:'8rem',borderBottomLeftRadius:'20px',borderBottomRightRadius:'20px'}}>
             <div style={{fontSize:'16px',fontWeight:'700',color:'rgb(43, 77, 129)',padding:'10px',backgroundImage: "linear-gradient(to right, rgb(194, 215, 233) , #e2d7cc)"}}>
             SUBSCRIPTION STATUS
 
@@ -107,7 +108,7 @@ const Index = () => {
             Validate Nominee Phone Number
 
             </div>
-            <div style={{fontSize:'18px',fontWeight:'400',color:'rgb(43, 77, 129)',height:'3rem',padding:'10px',backgroundImage: "linear-gradient(to right, rgb(194, 215, 233) , #e2d7cc)"}}>
+            <div className="cssforborderradiusmobileveiw" style={{fontSize:'18px',fontWeight:'400',color:'rgb(43, 77, 129)',height:'3rem',padding:'10px',backgroundImage: "linear-gradient(to right, rgb(194, 215, 233) , #e2d7cc)"}}>
             Validate Nominee e-mail ID
 
   
@@ -120,7 +121,7 @@ const Index = () => {
           </div>
           <div className="col-md-5 col-xl-5 col-lg-5">
           <div className="m-2">
-          <div className="row" style={{border:'1px solid rgb(43, 77, 129)',backgroundImage: "linear-gradient(to right, rgb(194, 215, 233) , #e4f1f0)",borderBottomRightRadius:'20px',borderTopRightRadius:'20px',}}>
+          <div className="row m-1" style={{border:'1px solid rgb(43, 77, 129)',backgroundImage: "linear-gradient(to right, rgb(194, 215, 233) , #e4f1f0)",borderBottomRightRadius:'20px',borderTopRightRadius:'20px',}}>
           <div className="col-md-7 col-xl-7 col-lg-7" style={{height:'9rem'}}>
           <p className="mt-5" style={{fontSize:'20px',color:'rgb(43, 77, 129)',fontWeight:'700',justifyContent:'center',display:'flex'}}>
           USER PROFILE <br></br>COMPLETION STATUS

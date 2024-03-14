@@ -103,7 +103,7 @@ const Otpveri = () => {
                           href="https://user.merizimmedari.com/#/"
                           target="_blank"
                         >
-                          Sign in
+                        sign-in<span style={{fontSize:'22px'}}>/</span>Sign-up
                         </a>
                       </li>
                     </ul>
@@ -138,7 +138,7 @@ const Otpveri = () => {
                 }}
               >
                 <div style={{ fontSize: "20px", fontWeight: "600" }}>
-                  Verify OTP-Sign-in
+                  Verify OTP Sign-in/Sign-up
                 </div>
               </div>
 
@@ -190,6 +190,7 @@ const Otpveri = () => {
                       </legend>
 
                       <input
+                      maxLength={6}
                         style={{
                           border: "none",
                           outline: "none",

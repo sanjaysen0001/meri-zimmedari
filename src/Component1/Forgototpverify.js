@@ -36,7 +36,7 @@ const Forgototpverify = () => {
                               <a class="nav-link" href="https://merizimmedari.com/contact.html">Contact Us</a>
                            </li>
                            <li class="nav-item">
-                              <a class="nav-link" href="https://user.merizimmedari.com/#/" target="_blank">Sign in</a>
+                              <a class="nav-link" href="https://user.merizimmedari.com/#/" target="_blank"> sign-in<span style={{fontSize:'22px'}}>/</span>Sign-up</a>
                            </li>
                           
                         </ul>

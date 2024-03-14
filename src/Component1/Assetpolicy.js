@@ -254,7 +254,7 @@ const Assetpolicy = () => {
                         >
                           {dynamicFields?.Field_2}
                           {/* <span
-                            style={{ color: "red" }}>*
+                            // style={{ color: "red" }}>*
                           </span> */}
                         </legend>
                         <input

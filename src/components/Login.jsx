@@ -288,6 +288,7 @@ function Login() {
               height: "360px",
               borderRadius: "10px",
               display: "block",
+              width:'100%'
             }}
           />
           <h1>hey</h1>

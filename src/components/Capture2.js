@@ -156,7 +156,7 @@ const Capture2 = () => {
           height={480}
           ref={webcamRef}
           screenshotFormat="image/jpeg"
-          width={720}
+          width={100}
           videoConstraints={videoConstraints}
         />
         : null

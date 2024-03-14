@@ -5,12 +5,7 @@ import axiosConfig from "./../axiosConfig";
 const Icons = () => {
   const navigate = useNavigate();
   const [result, setResult] = useState([]);
- const [searchValue, setSearchValue] = useState("");
-  
-  const filterNames = ({ Asset_Type }) => {
-    console.log(Asset_Type)
-    return Asset_Type.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1;
-  };
+ 
 
 
 
@@ -64,21 +59,21 @@ const Icons = () => {
           <form class="example" style={{ width: "85%", borderRadius: "20px" }}>
             <input type="text" placeholder="Search.." name="search" 
             // onSearch={setSearchValue} 
-            value={searchValue} 
-            onChange={(e)=>{setSearchValue(e.target.value)}}
+          
             />
-            <button type="submit" >
+            <button type="submit" className="icon-container">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 color="#5578B0"
                 width="22"
                 height="22"
                 fill="currentColor"
-                class="bi bi-search"
+                class="bi bi-search hoverable-image"
                 viewBox="0 0 16 16"
-              >
+              > 
                 <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
               </svg>
+              <span className="icon-name" style={{marginLeft:'5%',marginTop:'5px'}}>Search</span>
             </button>
           </form>
         </div>
@@ -125,7 +120,7 @@ const Icons = () => {
 
             <tbody>
               {result &&
-                result?.filter(filterNames)?.map(ele => {
+                result?.map(ele => {
                   return (
                     <tr>
                       <th
@@ -185,22 +180,26 @@ const Icons = () => {
                             border: "1px solid  rgb(114, 158, 216)",
                             marginTop: "-5px",
                           }}
-                        >
-                          <span>
+                        > 
+                        
+                          <span className="icon-container">
                             <svg
+                              
                               xmlns="http://www.w3.org/2000/svg"
                               color="#5578B0"
                               width="30"
                               height="30"
                               fill="currentColor"
-                              class="bi bi-eye"
+                              className="bi bi-eye hoverable-image"
                               viewBox="0 0 16 16"
+                              type="button"
                             >
                               <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z" />
                               <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0" />
                             </svg>
+                            <span className="icon-name" style={{marginLeft:'3.5%'}}>View</span>
                           </span>
-                          <span style={{ marginLeft: "5px" }}>
+                          <span  className="icon-container cssfordesktopviewforicon">
                             {/* <Link to={"/add-asset/policy"}> */}
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -208,6 +207,8 @@ const Icons = () => {
                               height="30"
                               viewBox="0,0,256,256"
                               onClick={() => handlePlus(ele)}
+                              className="hoverable-image"
+                             type="button"
                             >
                               <g
                                 fill="none"
@@ -240,6 +241,7 @@ const Icons = () => {
                                 </g>
                               </g>
                             </svg>
+                            <span className="icon-name" style={{marginLeft:'7%'}}>Add</span>
                             {/* </Link> */}
                           </span>
                         </div>
