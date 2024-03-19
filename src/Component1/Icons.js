@@ -57,9 +57,9 @@ const Icons = () => {
           }}
         >
           <form class="example" style={{ width: "85%", borderRadius: "20px" }}>
-            <input type="text" placeholder="Search.." name="search" 
+            <input className="borderradiuscssforsearch" type="text" placeholder="Search.." name="search" 
             // onSearch={setSearchValue} 
-          
+         
             />
             <button type="submit" className="icon-container">
               <svg

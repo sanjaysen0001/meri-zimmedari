@@ -55,6 +55,7 @@ const Index = () => {
             </div>
             </div>
             <div className="col-md-4 col-xl-4 col-lg-4">
+            <Link style={{textDecoration:'none'}} to={'/payment'}>
             <div className="m-2" style={{justifyContent:'center',display:'flex'}}>
             <div className="cssforboxwidthsetinmobileanddesktopveiw" style={{border:'1px solid rgb(43, 77, 129)',height:'8rem',borderBottomLeftRadius:'20px',borderBottomRightRadius:'20px'}}>
             <div style={{fontSize:'16px',fontWeight:'700',color:'rgb(43, 77, 129)',padding:'10px',backgroundImage: "linear-gradient(to right, rgb(194, 215, 233) , #e2d7cc)"}}>
@@ -69,6 +70,7 @@ const Index = () => {
             </p>
             </div>
             </div>
+            </Link>
             </div>
             </div>
           
