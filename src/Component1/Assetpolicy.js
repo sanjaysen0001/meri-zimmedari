@@ -265,6 +265,7 @@ const Assetpolicy = () => {
                             paddingLeft: "15px",
                             paddingBottom: "10px",
                             marginBottom: "5px",
+                            outline:'none'
                           }}
                           id="pname"
                           onChange={e => console.log(e.target.value)}
@@ -312,6 +313,7 @@ const Assetpolicy = () => {
                         paddingBottom: "10px",
                         marginBottom: "5px",
                         width: "100%",
+                        outline:'none'
                       }}
                       id="pnumber"
                       name="pnumber"
@@ -357,6 +359,7 @@ const Assetpolicy = () => {
                           paddingBottom: "10px",
                           marginBottom: "5px",
                           width: "100%",
+                          outline:'none'
                         }}
                         placeholder="1234567890101023"
                         id="dob"

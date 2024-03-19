@@ -71,7 +71,7 @@
     align-items: center;
   }
   
-  input[type="text"] {
+  .borderradiuscssforsearch[type="text"] {
     
     border: 1px solid #ccc;
     border-radius: 20px 0 0 20px;
@@ -1130,6 +1130,14 @@
     }
 }
 @media screen and (min-width: 1024px) {
+     .cssforborderadjustforalldevice{
+          height: 100%;
+          border-left: 2px solid orange;
+     }
+     .cssforborderadjustforalldevice1{
+          justify-content: center;
+          display: flex;
+     }
   .chgdfagdjagdagfagsf{
     margin-left: 88px;
   }
@@ -1172,5 +1180,34 @@
           margin-top:8px
        }
  }
+ .cssforboxdesigninotpcenter{
+     justify-content: center;
+     display: flex;
+ }
  
-
+.cssforboxdesigninotp{
+   
+     
+}
+.cssforboxdesigninotp[type="tel"] {
+    
+     border: 1px solid #ccc;
+     width: 30px;
+     outline: none;
+   }
+   .cssforhandleotpcounttext{
+     font-size: 20px;
+     color: rgb(82, 114, 161);
+   }
+.cssforhandlesvgiconofpayment{
+     margin-top: -18px;
+     margin-right: -15px;
+     background-color: white;
+     border-radius: 20px;
+}
+.cssforcheckboxstylepayment[type="checkbox"]{
+     border: 1px solid rgb(6, 43, 165);
+     height: 20px;
+     width: 20px;
+     
+}

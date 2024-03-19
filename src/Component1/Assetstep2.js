@@ -7,8 +7,36 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Mynavbar from "./Mynavbar";
 import Modal from 'react-bootstrap/Modal';
 import OtpInput from 'react-otp-input';
+import OTPInput, { ResendOTP } from "otp-input-react";
+
+
+
 function MyVerticallyCenteredModal(props) {
-  const [otp, setOtp] = useState('');
+  const [OTP, setOTP] = useState("");  
+  const [count, setCount] = useState(0);
+  const [isCountingComplete, setIsCountingComplete] = useState(false);
+  
+  useEffect(() => {
+    if (count < 59) {
+      const timer = setTimeout(() => {
+        setCount(count + 1);
+      }, 1000);
+      return () => clearTimeout(timer);
+    } else {
+      setIsCountingComplete(true);
+    }
+  }, [count]);
+
+  const handleReset = () => {
+    setCount(0);
+    setIsCountingComplete(false);
+  };
+  const handlechange=(e)=>{
+ 
+    const data=e.target.value;
+    console.log(data)
+  }
+
 
   return (
    <>
@@ -21,23 +49,36 @@ function MyVerticallyCenteredModal(props) {
   
  >
    
- <div className='cssfornomineeformobileview' style={{overflow:'auto'}}>
- <div >
+ <div className='cssfornomineeformobileview' style={{overflow:'auto',}}>
+ <div style={{paddingTop:'20px'}}>
  <p style={{color:'rgb(82, 114, 161)',textAlign:'center',fontSize:'18px'}}>Please enter the One Time Password sent on 
  </p>
  <p style={{color:'rgb(82, 114, 161)',textAlign:'center',fontSize:'22px'}}>
  <span>Phone number 96XX450XX0   </span>
  <span><Link onClick={props.onHide} to={''} style={{textDecoration:'none',color:'rgb(82, 114, 161)'}}><span style={{borderBottom:'1px solid rgb(82, 114, 161)'}}>Change</span></Link> </span>
  </p>
- <div>
- <OtpInput
-     
-      value={otp}
-      onChange={setOtp}
-      numInputs={4}
-      renderSeparator={<span></span>}
-      renderInput={(props) => <input type="tel" {...props} />}
-    />
+ <div className="cssforboxdesigninotpcenter" style={{marginTop:'40px',marginBottom:'30px'}}>
+ <OTPInput 
+ value={OTP}  
+ onChange={(otp) => {
+  console.log( otp);
+  setOTP(otp);
+}} 
+autoFocus 
+OTPLength={4} 
+className="cssforboxdesigninotp"
+otpType="number" 
+disabled={false}  />
+ 
+ </div>
+ <div style={{justifyContent:'center',display:'flex',marginTop:'15px',paddingBottom:'40px'}}>
+ <span>  <button className="cssforhandleotpcounttext" onClick={handleReset} style={{border:'none',borderBottom:'none',marginRight:'5px',}} disabled={!isCountingComplete}>
+ <span style={{borderBottom:'1px solid rgb(82, 114, 161)'}}>Reset</span>
+</button></span> 
+<span className="cssforhandleotpcounttext"> One Time Password in {count} Seconds</span>
+
+ 
+
  </div>
 
  </div>
@@ -45,6 +86,83 @@ function MyVerticallyCenteredModal(props) {
    
  </Modal>
    </div>
+   
+   </>
+  );
+}
+ 
+function MyModalEmail(props) {
+  const [OTPE, setOTPE] = useState("");  
+  const [counte, setCounte] = useState(0);
+  const [isCountingCompletee, setIsCountingCompletee] = useState(false);
+  
+  useEffect(() => {
+    if (counte < 59) {
+      const timer = setTimeout(() => {
+        setCounte(counte + 1);
+      }, 1000);
+      return () => clearTimeout(timer);
+    } else {
+      setIsCountingCompletee(true);
+    }
+  }, [counte]);
+
+  const handleResete = () => {
+    setCounte(0);
+    setIsCountingCompletee(false);
+  };
+ 
+
+
+  return (
+   <>
+   <div style={{justifyContent:'center',display:'flex'}}>
+   <Modal
+   {...props}
+   size="lg"
+   aria-labelledby="contained-modal-title-vcenter"
+   centered
+  
+ >
+   
+ <div className='cssfornomineeformobileview' style={{overflow:'auto',}}>
+ <div style={{paddingTop:'20px'}}>
+ <p style={{color:'rgb(82, 114, 161)',textAlign:'center',fontSize:'18px'}}>Please enter the One Time Password sent on 
+ </p>
+ <p style={{color:'rgb(82, 114, 161)',textAlign:'center',fontSize:'22px'}}>
+ <span>Email Id kauxxxxxxxxxxxnghxxx@gmail.com</span>
+ <span><Link onClick={props.onHide} to={''} style={{textDecoration:'none',color:'rgb(82, 114, 161)'}}><span style={{borderBottom:'1px solid rgb(82, 114, 161)'}}>Change</span></Link> </span>
+ </p>
+ <div className="cssforboxdesigninotpcenter" style={{marginTop:'40px',marginBottom:'30px'}}>
+ <OTPInput 
+ value={OTPE}  
+ onChange={(otp) => {
+  console.log( otp);
+  setOTPE(otp);
+}} 
+autoFocus 
+OTPLength={4} 
+className="cssforboxdesigninotp"
+otpType="number" 
+disabled={false}  />
+ 
+ </div>
+ <div style={{justifyContent:'center',display:'flex',marginTop:'15px',paddingBottom:'40px'}}>
+ <span>  <button className="cssforhandleotpcounttext" onClick={handleResete} style={{border:'none',borderBottom:'none',marginRight:'5px',}} disabled={!isCountingCompletee}>
+ <span style={{borderBottom:'1px solid rgb(82, 114, 161)'}}>Reset</span>
+</button></span> 
+<span className="cssforhandleotpcounttext"> One Time Password in {counte} Seconds</span>
+
+ 
+
+ </div>
+
+ </div>
+ </div>
+   
+ </Modal>
+   </div>
+   
    </>
   );
 }
@@ -58,7 +176,24 @@ const Assetstep2 = () => {
   const [nomineePhone, setNomineePhone] = useState("");
   const [email, setEmail] = useState("");
   const [modalShow, setModalShow] = useState(false);
- 
+  const [numForms, setNumForms] = useState(1);
+  const [modalShowe, setModalShowe] = useState(false);
+  const [showDeleteButton, setShowDeleteButton] = useState(false);
+const [phone,setPhone]=useState('');
+console.log(phone)
+  const handleAddMore = () => {
+    setNumForms(prevNumForms => prevNumForms + 1);
+    if (numForms === 1) {
+      setShowDeleteButton(true);
+    }
+  };
+
+  const handleDelete = () => {
+    setNumForms(prevNumForms => prevNumForms - 1);
+    if (numForms === 2) {
+      setShowDeleteButton(false);
+    }
+  };
   return (
     <>
       <Mynavbar /> 
@@ -66,6 +201,10 @@ const Assetstep2 = () => {
       show={modalShow}
       onHide={() => setModalShow(false)}
     />
+    <MyModalEmail
+    show={modalShowe}
+    onHide={() => setModalShowe(false)}
+  />
       <div>
       
         <div style={{ backgroundColor: "rgb(182, 205, 236)" }}>
@@ -361,7 +500,11 @@ const Assetstep2 = () => {
             <div className="col-md-4 col-lg-4 col-xl-4 col-sm-4"></div>
           </div>
         </div>
+        
         <div className="container-fluid">
+        {[...Array(numForms)].map((_, index) => (
+          <div className="row" key={index} style={{ margin: "1rem" }}>
+          <div className="container-fluid">
           <div className="row" style={{ margin: "1rem" }}>
             <div className="col-md-4 col-sm-4 col-lg-4 col-xl-4">
               <div>
@@ -564,6 +707,7 @@ const Assetstep2 = () => {
                           </div>
                           <div className="col-md-8 col-sm-8 col-lg-8 col-xl-8 col-6">
                             <input
+                            
                             maxLength={10}
                               type="tel"
                               placeholder="965XX50XX0"
@@ -578,7 +722,7 @@ const Assetstep2 = () => {
                               id="dob"
                               name="dob"
                               onChange={e => {
-                                console.log(e.target.value);
+                                setPhone(e.target.value);
                               }}
                             />
                           </div>
@@ -647,6 +791,7 @@ const Assetstep2 = () => {
                           <div className="col-md-10 col-sm-10 col-lg-10 col-xl-10 col-9">
                             <input
                               type="email"
+                              
                               placeholder="kauxxxxxxxxxxxnghxxx@gmail.com"
                               style={{
                                 width: "90%",
@@ -665,7 +810,8 @@ const Assetstep2 = () => {
                             style={{ marginLeft: "-10px" }}
                           >
                             <span>
-                              <button
+                              <a
+                              onClick={() => setModalShowe(true)}
                                 className="btn "
                                 style={{
                                   fontSize: "13px",
@@ -680,7 +826,7 @@ const Assetstep2 = () => {
                                 }}
                               >
                                 SEND OTP
-                              </button>
+                              </a>
                             </span>
                           </div>
                         </div>
@@ -693,9 +839,28 @@ const Assetstep2 = () => {
             <div className="col-md-2 col-sm-2 col-lg-2 col-xl-2"></div>
           </div>
         </div>
+       <div className="container-fluid">
+       <div class="row">
+       <div class="col-md-10 col-sm-10 col-lg-10 col-xl-10 col-9"></div>
+       <div class="col-md-2 col-sm-2 col-lg-2 col-xl-2 col-3">
+       <div style={{justifyContent:'center' , display:'right'}}>
+       <button
+       className="btn btn-danger"
+       onClick={handleDelete}
+     >
+       Delete
+     </button>
+       </div>
+       </div>
+       </div>
+       </div>
+          </div>
+        ))}
+        
+      </div>
         <div className="container mt-5" style={{ paddingBottom: "60px" }}>
           <div style={{ float: "left" }}>
-            <Link to={"/add-asset/policy"}>
+            <Link to={"/add-asset/policy"} style={{textDecoration:'none'}}>
               <p
                 style={{
                   color: "rgb(82, 114, 161)",
@@ -724,6 +889,7 @@ const Assetstep2 = () => {
           </div>
           <div style={{ float: "right" }}>
             <button
+            onClick={handleAddMore}
               className="ml-2 btn"
               style={{
                 border: "none",
