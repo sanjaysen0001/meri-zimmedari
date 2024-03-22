@@ -8,8 +8,18 @@ import imagelogo from "../image/logo.png";
 import swal from "sweetalert";
 
 import axiosConfig from "../axiosConfig";
+import {
+  Modal,
+  ModalHeader,
+  Button,
+  Col,
+  Form,
+  Input,
+  Label,
+  Row,
+} from "reactstrap";
 const faceLandmarksDetection = require("@tensorflow-models/face-landmarks-detection");
-const Register = () => {
+const Register = args => {
   const webcamRef = useRef(null);
   const navigate = useNavigate();
 
@@ -18,6 +28,7 @@ const Register = () => {
   const [count, setCount] = useState(0);
   const [maxLeft, setMaxLeft] = useState(0);
   const [maxRight, setMaxRight] = useState(0);
+  const [LoginData, setLogin] = useState({});
   const [model, setModel] = useState(null);
   const [text, setText] = useState("modal loading...");
   const [Registration, setRegistration] = useState(false);
@@ -30,26 +41,30 @@ const Register = () => {
     email: "",
     image: null,
   });
+  const [modal, setModal] = useState(false);
+  const toggle = () => {
+    setModal(!modal);
+    handlePicture();
+  };
+  const [LoginButton, setLoginButton] = useState("Submit");
   const [loading, setLoading] = React.useState(false);
 
   useEffect(() => {
     tf.setBackend("webgl");
     loadModel();
+    console.log(text);
   }, []);
 
   useEffect(() => {
     if (isOpen) {
-      console.log("Calling after 2 Seconds");
       setTimeout(() => {
         setText("detecting...");
         detectPoints();
-      }, 2000);
+      }, 1000);
     }
   }, [isOpen]);
 
   const loadModel = async () => {
-    console.log("loading modal...112223!");
-    // Load the MediaPipe Facemesh package.
     faceLandmarksDetection
       .load(faceLandmarksDetection.SupportedPackages.mediapipeFacemesh, {
         maxFaces: 1,
@@ -64,6 +79,7 @@ const Register = () => {
   };
   const handleClick = () => {
     const newIsOpen = !isOpen;
+    console.log(newIsOpen);
     const newCount = isOpen ? count : 0;
     setIsOpen(newIsOpen);
     setCount(newCount);
@@ -80,16 +96,12 @@ const Register = () => {
   const handleCapture = () => {
     alert("Image captured");
     const imageSrc = webcamRef.current.getScreenshot();
-    console.log(formData.name, formData.email);
     setFormData({
       ...formData,
       image: imageSrc,
-      // name: formData.name,
-      // email: formData.email,
     });
-    // console.log("Image Captured", imageSrc);
     setShowWebcam(false);
-    // toggle();
+    toggle();
   };
   const detectPoints = async () => {
     if (isOpen == false) return;
@@ -137,6 +149,7 @@ const Register = () => {
   const calculateDistance = (x1, y1, x2, y2) => {
     return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
   };
+
   const detectarBlink = keypoints => {
     const leftEye_left = 263;
     const leftEye_right = 362;
@@ -208,29 +221,46 @@ const Register = () => {
     }
     return new Blob([ab], { type: mimeString });
   }
+
+  const HandleSubmitData = async e => {
+    e.preventDefault();
+
+    setLoginButton("Submitting...");
+
+    let formdata = new FormData();
+    formdata.append("image", dataURItoBlob(formData.image));
+    formdata.append("firstName", LoginData?.name);
+  };
   const handleSubmit = async e => {
     e.preventDefault();
+    debugger;
     setIsTrue(true);
-    // setLoading(!loading);
+    let MobileNUM = JSON.parse(localStorage.getItem("MobileNUM"));
     try {
       const formDataToSend = new FormData();
-      formDataToSend.append("name", formData.name);
+      formDataToSend.append("mobileNo", MobileNUM);
+      formDataToSend.append("firstName", formData.name);
       formDataToSend.append("email", formData.email);
       formDataToSend.append("image", dataURItoBlob(formData.image));
       setBackloading(true);
       axiosConfig
         .post("/register", formDataToSend)
         .then(response => {
-          // setLoading(!loading);
           setIsTrue(false);
-          swal("success", response.data.message);
-          navigate("/home");
+          localStorage.removeItem("MobileNUM");
+          console.log(response.data);
+          if (response.data.message) {
+            swal("success", response.data.message);
+            // setTimeout(() => {
+            //   navigate("/home");
+            // }, 3000);
+          }
         })
         .catch(error => {
+          setIsTrue(true);
           console.log(error);
         });
       setRegistered(true);
-      // Reset form after successful submission
       setFormData({
         email: "",
         name: "",
@@ -317,7 +347,8 @@ const Register = () => {
                           href="https://user.merizimmedari.com/#/"
                           target="_blank"
                         >
-                        sign-in<span style={{fontSize:'22px'}}>/</span>Sign-up
+                          sign-in<span style={{ fontSize: "22px" }}>/</span>
+                          Sign-up
                         </a>
                       </li>
                     </ul>
@@ -352,7 +383,8 @@ const Register = () => {
                 }}
               >
                 <div style={{ fontSize: "20px", fontWeight: "600" }}>
-                Sign-in<span style={{fontSize:'20px'}}>/</span>Sign-up to Meri Zimmedari
+                  Sign-in<span style={{ fontSize: "20px" }}>/</span>Sign-up to
+                  Meri Zimmedari
                 </div>
               </div>
 
@@ -457,6 +489,10 @@ const Register = () => {
                     </fieldset>
 
                     <div className="mt-4">
+                      <span className="font-weight-bold">
+                        When Click on Upload Live Pic Button that time you need
+                        to capture your image so blink your eyes.
+                      </span>
                       <button
                         type="button"
                         class="btn"
@@ -466,29 +502,11 @@ const Register = () => {
                           color: "white",
                           height: "2.8rem",
                         }}
-                        onClick={handlePicture}
+                        onClick={toggle}
                       >
                         Upload Live Pic
                       </button>
                     </div>
-                    {showWebcam && (
-                      <div className="mb-4 mt-4">
-                        <Webcam
-                          audio={false}
-                          ref={webcamRef}
-                          screenshotFormat="image/jpeg"
-                          className="mb-2"
-                          style={{width:'100%'}}
-                        />
-                        {/* <button
-                              type="button"
-                              onClick={handleCapture}
-                              className="bg-blue-500 btn btn-info text-white px-4 py-2 rounded-md hover:bg-blue-600"
-                            >
-                              Take Picture
-                            </button> */}
-                      </div>
-                    )}
 
                     <div className="termsconditions pt-2">
                       <input
@@ -505,7 +523,13 @@ const Register = () => {
                       <Link to="/termsConditions">
                         <label className="pl-2" for="terms">
                           <a href="#" className="conditions">
-                            <span style={{marginRight:'5px'}}>Terms and Conditions</span><span>|</span><span style={{marginLeft:'5px'}}>Privacy Policy</span>
+                            <span style={{ marginRight: "5px" }}>
+                              Terms and Conditions
+                            </span>
+                            <span>|</span>
+                            <span style={{ marginLeft: "5px" }}>
+                              Privacy Policy
+                            </span>
                           </a>
                         </label>
                       </Link>
@@ -526,28 +550,6 @@ const Register = () => {
                       >
                         {isTrue ? "Waiting For Registration" : "Submit"}
                       </button>
-                      {/* <Box sx={{ "& > button": { m: 1 } }}>
-                        <LoadingButton
-                          fullWidth
-                          class="btn "
-                          disabled={isCheck ? false : true}
-                          // disabled
-                          style={{
-                            width: "100%",
-                            height: "2.8rem",
-                            backgroundColor: "#4478c7",
-                            color: "white",
-                            marginLeft: "1px",
-                          }}
-                          onClick={handleSubmit}
-                          loading={loading}
-                          loadingPosition="start"
-                          startIcon={<SaveIcon />}
-                          variant="contained"
-                        >
-                          <span>Submit</span>
-                        </LoadingButton>
-                      </Box> */}
                     </div>
                     <div className="mt-2">
                       <span
@@ -572,7 +574,82 @@ const Register = () => {
           </div>
         </div>
       </div>
-
+      <Modal isOpen={modal} toggle={toggle} {...args}>
+        <ModalHeader toggle={toggle}>Image Capture Modal</ModalHeader>
+        <div className="p-3">
+          <Form onSubmit={HandleSubmitData}>
+            <Row>
+              <Col lg="12" sm="12" md="12">
+                {model == null ? (
+                  <>
+                    <h4>Wait while model loading...</h4>
+                  </>
+                ) : (
+                  <>
+                    <div className="max-w-md mx-auto  p-4 border rounded-md shadow-lg">
+                      <form onSubmit={handleSubmit}>
+                        {showWebcam && (
+                          <div className="mb-4 mt-4">
+                            <Webcam
+                              audio={false}
+                              ref={webcamRef}
+                              screenshotFormat="image/jpeg"
+                              className="mb-2"
+                              style={{ width: "100%" }}
+                            />
+                            {/* <button
+                              type="button"
+                              onClick={handleCapture}
+                              className="bg-blue-500 btn btn-info text-white px-4 py-2 rounded-md hover:bg-blue-600"
+                            >
+                              Take Picture
+                            </button> */}
+                          </div>
+                        )}
+                        {formData.image && (
+                          <div className="mb-2 d-flex justify-content-center">
+                            <img
+                              style={{ borderRadius: "12px" }}
+                              src={formData.image}
+                              alt="Captured"
+                              className="mb-1"
+                            />
+                          </div>
+                        )}
+                        {/* <button
+                            type="submit"
+                            className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
+                          >
+                            login
+                          </button>
+                          {backloading && <p>Wait for a minute.</p>}
+                          {registered && <p>Registered.</p>} */}
+                      </form>
+                      {/* <div>
+                          <p>
+                            Not a user?{" "}
+                            <span onClick={() => navigate("/signup")}>
+                              Register
+                            </span>
+                          </p>
+                        </div> */}
+                    </div>
+                  </>
+                )}
+              </Col>
+            </Row>
+            {/* <Row>
+              <Col lg="12" sm="12" md="12">
+                <div className="d-flex justify-content-center pt-2 mt-2">
+                  <Button type="submit" color="primary">
+                    {LoginButton && LoginButton}
+                  </Button>
+                </div>
+              </Col>
+            </Row> */}
+          </Form>
+        </div>
+      </Modal>
       {/* //   iske uper edit */}
     </>
   );

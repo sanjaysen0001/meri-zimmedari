@@ -15,9 +15,10 @@ import Nomineedetails from "../Component1/Nomineedetails";
 import AssetDetails from "../Component1/AssetDetails";
 import Myprofileedit1 from "../Component1/Myprofileedit1";
 import Register from "../Component1/Register";
+import MobileNumber from "../Component1/MobileNumber";
 import Loginwithpassword from "../Component1/Loginwithpassword";
 import Otpveri from "../Component1/Otpveri";
-import PhoneAuth from "../Component1/PhoneAuth";
+// import PhoneAuth from "../Component1/PhoneAuth";
 import Login from "../Component1/Login";
 import MyProfile from "../Component1/MyProfile";
 import LifeDeclaration from "../Component1/LifeDeclaration";
@@ -40,7 +41,8 @@ import Capture2 from "../components/Capture2";
 import Splashscreen from "../components/Splashscreen";
 import Forgotpassword from "../Component1/Forgotpassword";
 import Forgototpverify from "../Component1/Forgototpverify";
-import Payment from '../Component1/Payment'
+import Payment from "../Component1/Payment";
+
 const Routerfile = () => {
   const [loading, setLoading] = useState(false);
 
@@ -58,7 +60,7 @@ const Routerfile = () => {
             <Route path="/face" element={<Splashscreen />} />
           ) : (
             <>
-              <Route path="/payment" element={<Payment/>}/>
+              <Route path="/payment" element={<Payment />} />
               <Route path="/face" element={<Loginform />} />
               <Route path="/loginform" element={<Loginform />} />
               <Route path="/signup" element={<SignUpForm />} />
@@ -97,10 +99,11 @@ const Routerfile = () => {
           <Route path="/assetdetails" element={<AssetDetails />} />
           <Route path="/myprofile/edit" element={<Myprofileedit1 />} />
           <Route path="/registration" element={<Register />} />
+          <Route path="/mobileNumber" element={<MobileNumber />} />
           <Route path="/login/password" element={<Loginwithpassword />} />
           <Route path="/forgot/password" element={<Forgotpassword />} />
           <Route path="/login/otp" element={<Otpveri />} />
-          <Route path="/PhoneAuth" element={<PhoneAuth />} />
+          {/* <Route path="/PhoneAuth" element={<PhoneAuth />} /> */}
           <Route path="/" element={<Login />} />
           <Route path="/Forgot/password/otp" element={<Forgototpverify />} />
           <Route path="/myprofile" element={<MyProfile />} />
