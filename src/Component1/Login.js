@@ -7,6 +7,7 @@ import axiosConfig from "../axiosConfig";
 import { Link, useNavigate } from "react-router-dom";
 
 import "./Otpveri";
+import swal from "sweetalert";
 const faceLandmarksDetection = require("@tensorflow-models/face-landmarks-detection");
 
 const Login = () => {
@@ -20,18 +21,13 @@ const Login = () => {
   const [model, setModel] = useState(null);
   const [text, setText] = useState("modal loading...");
   const [Registration, setRegistration] = useState(false);
-  const [backloading, setBackloading] = useState(false);
-  const [registered, setRegistered] = useState(false);
   const [formData, setFormData] = useState({
     image: null,
   });
-  // for face close
 
-  // const [modal, setModal] = useState(false);
   const [phone, setPhone] = useState("");
   const [isError, setIsError] = useState(false);
   const navigate = useNavigate();
-  // const toggle = () => setModal(!modal);
 
   useEffect(() => {
     tf.setBackend("webgl");
@@ -47,44 +43,14 @@ const Login = () => {
     }
   }, [isOpen]);
 
-  // const handlewithFace = e => {
-  //   e.preventDefault();
-  //   console.log("Login");
-  //   try {
-  //     const formDataToSend = new FormData();
-  //     // console.log(formData);
-  //     formDataToSend.append("image", dataURItoBlob(formData.image));
-  //     setBackloading(true);
-  //     axiosConfig
-  //       .post("/signin", formDataToSend)
-  //       .then(response => {
-  //         console.log("test Api for Login", response);
-  //       })
-  //       .catch(error => {
-  //         console.log(error);
-  //       });
-
-  //     setRegistered(true);
-  //     navigate("/home");
-
-  //     // Reset form after successful submission
-  //     setFormData({
-  //       image: null,
-  //     });
-  //   } catch (error) {
-  //     console.error("Error registering:", error);
-  //   }
-  // };
   const loadModel = async () => {
-    console.log("loading modal...Loginn!");
-    // Load the MediaPipe Facemesh package.
     faceLandmarksDetection
       .load(faceLandmarksDetection.SupportedPackages.mediapipeFacemesh, {
         maxFaces: 1,
       })
       .then(model => {
         setModel(model);
-        console.log(model);
+
         setText("ready for capture");
       })
       .catch(err => {
@@ -92,7 +58,6 @@ const Login = () => {
       });
   };
   const handleClick = () => {
-    console.log("Handle Click");
     const newIsOpen = !isOpen;
     const newCount = isOpen ? count : 0;
     setIsOpen(newIsOpen);
@@ -109,14 +74,11 @@ const Login = () => {
   const handleCapture = () => {
     alert("Image captured");
     const imageSrc = webcamRef.current.getScreenshot();
-    // console.log(formData.name, formData.email);
     setFormData({
       ...formData,
       image: imageSrc,
     });
-    // console.log("Image Captured", imageSrc);
     setShowWebcam(false);
-    // toggle();
   };
   const detectPoints = async () => {
     if (isOpen == false) return;
@@ -210,59 +172,16 @@ const Login = () => {
     if (maxRight < eyeRight) {
       setMaxRight(eyeRight);
     }
-    // console.log("isopen:::::", isOpen);
     let result = false;
     //    if ((maxLeft > limitOpenEye) && (maxRight > limitOpenEye)) {
     if (eyeLeft < baseCloseEye && eyeRight < baseCloseEye) {
       result = true;
       setIsOpen(false);
-      // console.log("isopen11", isOpen);
     }
-    // console.log("isopen", isOpen);
-    //    }
-
-    // console.log(result);
 
     return result;
   };
-  function dataURItoBlob(dataURI) {
-    const byteString = atob(dataURI.split(",")[1]);
-    const mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
-    const ab = new ArrayBuffer(byteString.length);
-    const ia = new Uint8Array(ab);
-    for (let i = 0; i < byteString.length; i++) {
-      ia[i] = byteString.charCodeAt(i);
-    }
-    return new Blob([ab], { type: mimeString });
-  }
-  const handleSubmit = async e => {
-    e.preventDefault();
-    // setLoading(!loading);
-    try {
-      const formDataToSend = new FormData();
-      formDataToSend.append("name", formData.name);
-      formDataToSend.append("email", formData.email);
-      formDataToSend.append("image", dataURItoBlob(formData.image));
-      setBackloading(true);
-      axiosConfig
-        .post("/signin", formDataToSend)
-        .then(response => {
-          // setLoading(!loading);
-          // swal("success", response.data.message);
-          navigate("/home");
-        })
-        .catch(error => {
-          console.log(error);
-        });
-      setRegistered(true);
-      // Reset form after successful submission
-      setFormData({
-        image: null,
-      });
-    } catch (error) {
-      console.error("Error registering:", error);
-    }
-  };
+
   const handleMobile = () => {
     let payload = {
       mobileNo: phone,
@@ -271,10 +190,10 @@ const Login = () => {
       axiosConfig
         .post("/save-mobile", payload)
         .then(response => {
-          console.log(response.data.message);
+          localStorage.setItem("MobileNUM", JSON.stringify(phone));
         })
         .catch(error => {
-          console.log("Mobile Number Not Registered");
+          swal("Something Went Wrong");
           console.log(error.message);
         });
       navigate("/login/otp", { state: phone });
@@ -285,11 +204,11 @@ const Login = () => {
   const handleChange = e => {
     const value = e.target.value;
     setPhone(value);
-    if (value.length === 10) {
-      setIsError(false);
-    } else {
-      setIsError(true);
-    }
+    // if (value.length === 10) {
+    //   setIsError(false);
+    // } else {
+    //   setIsError(true);
+    // }
   };
   return (
     <>
@@ -367,7 +286,8 @@ const Login = () => {
                           href="https://user.merizimmedari.com/#/"
                           target="_blank"
                         >
-                        sign-in<span style={{fontSize:'22px'}}>/</span>Sign-up
+                          sign-in<span style={{ fontSize: "22px" }}>/</span>
+                          Sign-up
                         </a>
                       </li>
                     </ul>
@@ -403,7 +323,8 @@ const Login = () => {
                 }}
               >
                 <div style={{ fontSize: "20px", fontWeight: "600" }}>
-                Sign-in<span style={{fontSize:'20px'}}>/</span>Sign-up to Meri Zimmedari
+                  Sign-in<span style={{ fontSize: "20px" }}>/</span>Sign-up to
+                  Meri Zimmedari
                 </div>
               </div>
               {showWebcam && (
@@ -461,8 +382,8 @@ const Login = () => {
                         </option>
                       </button>
                       <input
-                      required
-                      maxLength={10}
+                        required
+                        maxLength={10}
                         className=""
                         style={{
                           border: "none",
@@ -470,11 +391,9 @@ const Login = () => {
                           width: "60%",
                           fontSize: "17px",
                           paddingTop: "8px",
-                         
                         }}
                         type="tel"
                         id="mobile"
-                       
                         name="mobile"
                         pattern="[0-9]{10}"
                         error={isError}
@@ -483,14 +402,20 @@ const Login = () => {
                       />
 
                       {isError && (
-                        <p style={{ color: "red", padding: "5px" ,fontSize:'16px',marginTop:'13px'}}>
-                          Phone number must be 10 digits
+                        <p
+                          style={{
+                            color: "red",
+                            padding: "5px",
+                            fontSize: "16px",
+                            marginTop: "13px",
+                          }}
+                        >
+                          Enter valid 10-digit mobile number
                         </p>
                       )}
                     </fieldset>
 
                     <div className="mt-5">
-                      {/* <Link to={"/login/otp"}> */}
                       <button
                         type="button"
                         class="btn "
@@ -502,9 +427,8 @@ const Login = () => {
                         }}
                         onClick={handleMobile}
                       >
-                        Sign in with OTP
+                        Sign-in/Sign-up with OTP
                       </button>
-                      {/* </Link> */}
                       <Link to={"/login/password"}>
                         <button
                           type="button"

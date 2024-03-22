@@ -1,30 +1,33 @@
 import React, { useState } from "react";
-// import imagelogo from '../../../../assets/img/logoformeri.png'
 import { useNavigate, useLocation } from "react-router-dom";
 import axiosConfig from "../axiosConfig";
-import imageuser from "../image/logouserimage.png";
 import { Link } from "react-router-dom";
 import imagelogo from "../image/logo.png";
+import swal from "sweetalert";
 const Otpveri = () => {
   const [otp, setOtp] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
   const phoneNumber = location.state;
+
   const handleOtpVerify = () => {
+    // let MobileNUM = JSON.parse(localStorage.getItem("MobileNUM"));
+
     let payload = {
       otp: otp,
+      mobileNo: phoneNumber,
     };
     axiosConfig
       .post("/otp-verify", payload)
       .then(response => {
-        // console.log(response.data.message);
-        if (response.data.message) {
+        if (response.data.success == "ok") {
           navigate("/dashboard", { replace: true });
+        } else {
+          navigate("/registration", { replace: true });
         }
       })
       .catch(error => {
-        navigate("/registration", { replace: true });
-        console.log(error);
+        swal("Something went wrong");
       });
   };
   return (
@@ -103,7 +106,8 @@ const Otpveri = () => {
                           href="https://user.merizimmedari.com/#/"
                           target="_blank"
                         >
-                        sign-in<span style={{fontSize:'22px'}}>/</span>Sign-up
+                          sign-in<span style={{ fontSize: "22px" }}>/</span>
+                          Sign-up
                         </a>
                       </li>
                     </ul>
@@ -190,7 +194,7 @@ const Otpveri = () => {
                       </legend>
 
                       <input
-                      maxLength={6}
+                        maxLength={6}
                         style={{
                           border: "none",
                           outline: "none",

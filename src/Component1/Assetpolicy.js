@@ -8,9 +8,14 @@ const Assetpolicy = () => {
   const fileInputRef = useRef(null);
   let location = useLocation();
   const navigate = useNavigate();
+  const [dynamicFields, setdynamicFields] = useState(""); // for fields
+
   const [uploadedFileName, setUploadedFileName] = useState(null);
   const [uploadedFile, setUploadedFile] = useState(null);
-  const [dynamicFields, setdynamicFields] = useState("");
+  const [policyName, setPolicyName] = useState("");
+  const [policyNumber, setPolicyNumber] = useState("");
+  const [reEnterPolicyNumber, setReEnterPolicyNumber] = useState("");
+
   // const [result, setResult] = useState([]);
 
   // useEffect(() => {
@@ -38,6 +43,7 @@ const Assetpolicy = () => {
   };
 
   const handleFileChange = event => {
+    console.log("img");
     const file = event.target.files[0];
     setUploadedFileName(file.name);
     setUploadedFile(file);
@@ -45,15 +51,18 @@ const Assetpolicy = () => {
   const handleNext = () => {
     const formData = new FormData();
     formData.append("file", uploadedFile);
+    formData.append("policynumber", policyNumber);
+    formData.append("policyIssuersName", policyName);
+    formData.append("ReEnterPolicyNumber", reEnterPolicyNumber);
     axiosConfig
-      .post("/admin/import-data", formData)
+      .post("/asset/save-asset", formData)
       .then(response => {
-        console.log(response.data.message);
+        navigate("/add-asset/step2");
+        console.log(response);
       })
       .catch(error => {
         console.error(error);
       });
-    navigate("/add-asset/step2");
   };
   return (
     <>
@@ -190,7 +199,6 @@ const Assetpolicy = () => {
                 <span className="ml-1">
                   <svg
                     type="button"
-                    // style={{ cursor: "pointer" }}
                     xmlns="http://www.w3.org/2000/svg"
                     color="grey"
                     width="50"
@@ -210,19 +218,12 @@ const Assetpolicy = () => {
                     type="file"
                     ref={fileInputRef}
                     style={{ display: "none" }}
+                    name="uploadedFileName"
                     onChange={handleFileChange} // Add change event listener to the file input
                   />
                   {uploadedFileName && <p>Uploaded file: {uploadedFileName}</p>}
                 </span>
-                {/* File dialog */}
-                {/* {isFileDialogOpen && (
-                  <input
-                    type="file"
-                    onChange={handleFileChange}
-                    style={{ display: "none" }}
-                    ref={fileInput => fileInput && fileInput.click()} // Automatically open file dialog
-                  />
-                )} */}
+
                 {/* Hidden file input */}
               </div>
             </div>
@@ -265,11 +266,11 @@ const Assetpolicy = () => {
                             paddingLeft: "15px",
                             paddingBottom: "10px",
                             marginBottom: "5px",
-                            outline:'none'
+                            outline: "none",
                           }}
-                          id="pname"
-                          onChange={e => console.log(e.target.value)}
-                          name="pname"
+                          id="policyName"
+                          onChange={e => setPolicyName(e.target.value)}
+                          name="policyName"
                         />
                       </fieldset>
                     </form>
@@ -313,11 +314,11 @@ const Assetpolicy = () => {
                         paddingBottom: "10px",
                         marginBottom: "5px",
                         width: "100%",
-                        outline:'none'
+                        outline: "none",
                       }}
-                      id="pnumber"
-                      name="pnumber"
-                      onChange={e => console.log(e.target.value)}
+                      id="policyNumber"
+                      name="policyNumber"
+                      onChange={e => setPolicyNumber(e.target.value)}
                     />
                   </fieldset>
                 </form>
@@ -359,12 +360,12 @@ const Assetpolicy = () => {
                           paddingBottom: "10px",
                           marginBottom: "5px",
                           width: "100%",
-                          outline:'none'
+                          outline: "none",
                         }}
                         placeholder="1234567890101023"
-                        id="dob"
-                        onChange={e => console.log(e.target.value)}
-                        name="rpnumber"
+                        id="reEnterPolicyNumber"
+                        onChange={e => setReEnterPolicyNumber(e.target.value)}
+                        name="reEnterPolicyNumber"
                       />
                     </fieldset>
                   </div>

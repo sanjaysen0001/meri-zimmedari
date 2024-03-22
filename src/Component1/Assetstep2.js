@@ -1,21 +1,20 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../css/style.css";
-import { Table } from "reactstrap";
-import { Form } from "react-bootstrap";
+import { Input, Table } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Mynavbar from "./Mynavbar";
-import Modal from 'react-bootstrap/Modal';
-import OtpInput from 'react-otp-input';
+import Modal from "react-bootstrap/Modal";
+import OtpInput from "react-otp-input";
 import OTPInput, { ResendOTP } from "otp-input-react";
+import { useNavigate } from "react-router-dom";
 
-
-
+import axiosConfig from "./../axiosConfig";
 function MyVerticallyCenteredModal(props) {
-  const [OTP, setOTP] = useState("");  
+  const [OTP, setOTP] = useState("");
   const [count, setCount] = useState(0);
   const [isCountingComplete, setIsCountingComplete] = useState(false);
-  
+
   useEffect(() => {
     if (count < 59) {
       const timer = setTimeout(() => {
@@ -31,71 +30,116 @@ function MyVerticallyCenteredModal(props) {
     setCount(0);
     setIsCountingComplete(false);
   };
-  const handlechange=(e)=>{
- 
-    const data=e.target.value;
-    console.log(data)
-  }
-
 
   return (
-   <>
-   <div style={{justifyContent:'center',display:'flex'}}>
-   <Modal
-   {...props}
-   size="lg"
-   aria-labelledby="contained-modal-title-vcenter"
-   centered
-  
- >
-   
- <div className='cssfornomineeformobileview' style={{overflow:'auto',}}>
- <div style={{paddingTop:'20px'}}>
- <p style={{color:'rgb(82, 114, 161)',textAlign:'center',fontSize:'18px'}}>Please enter the One Time Password sent on 
- </p>
- <p style={{color:'rgb(82, 114, 161)',textAlign:'center',fontSize:'22px'}}>
- <span>Phone number 96XX450XX0   </span>
- <span><Link onClick={props.onHide} to={''} style={{textDecoration:'none',color:'rgb(82, 114, 161)'}}><span style={{borderBottom:'1px solid rgb(82, 114, 161)'}}>Change</span></Link> </span>
- </p>
- <div className="cssforboxdesigninotpcenter" style={{marginTop:'40px',marginBottom:'30px'}}>
- <OTPInput 
- value={OTP}  
- onChange={(otp) => {
-  console.log( otp);
-  setOTP(otp);
-}} 
-autoFocus 
-OTPLength={4} 
-className="cssforboxdesigninotp"
-otpType="number" 
-disabled={false}  />
- 
- </div>
- <div style={{justifyContent:'center',display:'flex',marginTop:'15px',paddingBottom:'40px'}}>
- <span>  <button className="cssforhandleotpcounttext" onClick={handleReset} style={{border:'none',borderBottom:'none',marginRight:'5px',}} disabled={!isCountingComplete}>
- <span style={{borderBottom:'1px solid rgb(82, 114, 161)'}}>Reset</span>
-</button></span> 
-<span className="cssforhandleotpcounttext"> One Time Password in {count} Seconds</span>
-
- 
-
- </div>
-
- </div>
- </div>
-   
- </Modal>
-   </div>
-   
-   </>
+    <>
+      <div style={{ justifyContent: "center", display: "flex" }}>
+        <Modal
+          {...props}
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <div
+            className="cssfornomineeformobileview"
+            style={{ overflow: "auto" }}
+          >
+            <div style={{ paddingTop: "20px" }}>
+              <p
+                style={{
+                  color: "rgb(82, 114, 161)",
+                  textAlign: "center",
+                  fontSize: "18px",
+                }}
+              >
+                Please enter the One Time Password sent on
+              </p>
+              <p
+                style={{
+                  color: "rgb(82, 114, 161)",
+                  textAlign: "center",
+                  fontSize: "22px",
+                }}
+              >
+                <span>Phone number 96XX450XX0 </span>
+                <span>
+                  <Link
+                    onClick={props.onHide}
+                    to={""}
+                    style={{
+                      textDecoration: "none",
+                      color: "rgb(82, 114, 161)",
+                    }}
+                  >
+                    <span
+                      style={{ borderBottom: "1px solid rgb(82, 114, 161)" }}
+                    >
+                      Change
+                    </span>
+                  </Link>{" "}
+                </span>
+              </p>
+              <div
+                className="cssforboxdesigninotpcenter"
+                style={{ marginTop: "40px", marginBottom: "30px" }}
+              >
+                <OTPInput
+                  value={OTP}
+                  onChange={otp => {
+                    console.log(otp);
+                    setOTP(otp);
+                  }}
+                  autoFocus
+                  OTPLength={4}
+                  className="cssforboxdesigninotp"
+                  otpType="number"
+                  disabled={false}
+                />
+              </div>
+              <div
+                style={{
+                  justifyContent: "center",
+                  display: "flex",
+                  marginTop: "15px",
+                  paddingBottom: "40px",
+                }}
+              >
+                <span>
+                  <button
+                    className="cssforhandleotpcounttext"
+                    onClick={handleReset}
+                    style={{
+                      border: "none",
+                      borderBottom: "none",
+                      marginRight: "5px",
+                    }}
+                    disabled={!isCountingComplete}
+                  >
+                    <span
+                      style={{ borderBottom: "1px solid rgb(82, 114, 161)" }}
+                    >
+                      Reset
+                    </span>
+                  </button>
+                </span>
+                <span className="cssforhandleotpcounttext">
+                  {" "}
+                  One Time Password in {count} Seconds
+                </span>
+              </div>
+            </div>
+          </div>
+        </Modal>
+      </div>
+    </>
   );
 }
- 
+
 function MyModalEmail(props) {
-  const [OTPE, setOTPE] = useState("");  
+  const [OTPE, setOTPE] = useState("");
   const [counte, setCounte] = useState(0);
   const [isCountingCompletee, setIsCountingCompletee] = useState(false);
-  
+
   useEffect(() => {
     if (counte < 59) {
       const timer = setTimeout(() => {
@@ -111,102 +155,186 @@ function MyModalEmail(props) {
     setCounte(0);
     setIsCountingCompletee(false);
   };
- 
 
-
-  return (
-   <>
-   <div style={{justifyContent:'center',display:'flex'}}>
-   <Modal
-   {...props}
-   size="lg"
-   aria-labelledby="contained-modal-title-vcenter"
-   centered
-  
- >
-   
- <div className='cssfornomineeformobileview' style={{overflow:'auto',}}>
- <div style={{paddingTop:'20px'}}>
- <p style={{color:'rgb(82, 114, 161)',textAlign:'center',fontSize:'18px'}}>Please enter the One Time Password sent on 
- </p>
- <p style={{color:'rgb(82, 114, 161)',textAlign:'center',fontSize:'22px'}}>
- <span>Email Id kauxxxxxxxxxxxnghxxx@gmail.com</span>
- <span><Link onClick={props.onHide} to={''} style={{textDecoration:'none',color:'rgb(82, 114, 161)'}}><span style={{borderBottom:'1px solid rgb(82, 114, 161)'}}>Change</span></Link> </span>
- </p>
- <div className="cssforboxdesigninotpcenter" style={{marginTop:'40px',marginBottom:'30px'}}>
- <OTPInput 
- value={OTPE}  
- onChange={(otp) => {
-  console.log( otp);
-  setOTPE(otp);
-}} 
-autoFocus 
-OTPLength={4} 
-className="cssforboxdesigninotp"
-otpType="number" 
-disabled={false}  />
- 
- </div>
- <div style={{justifyContent:'center',display:'flex',marginTop:'15px',paddingBottom:'40px'}}>
- <span>  <button className="cssforhandleotpcounttext" onClick={handleResete} style={{border:'none',borderBottom:'none',marginRight:'5px',}} disabled={!isCountingCompletee}>
- <span style={{borderBottom:'1px solid rgb(82, 114, 161)'}}>Reset</span>
-</button></span> 
-<span className="cssforhandleotpcounttext"> One Time Password in {counte} Seconds</span>
-
- 
-
- </div>
-
- </div>
- </div>
-   
- </Modal>
-   </div>
-   
-   </>
-  );
-}
- 
-
-
-const Assetstep2 = () => {
-  const [nomineeName, setNomineeName] = useState("");
-  const [relationNominee, setRelationNominee] = useState("");
-  const [percentageOfShare, setPercentageOfShare] = useState("");
-  const [nomineePhone, setNomineePhone] = useState("");
-  const [email, setEmail] = useState("");
-  const [modalShow, setModalShow] = useState(false);
-  const [numForms, setNumForms] = useState(1);
-  const [modalShowe, setModalShowe] = useState(false);
-  const [showDeleteButton, setShowDeleteButton] = useState(false);
-const [phone,setPhone]=useState('');
-console.log(phone)
-  const handleAddMore = () => {
-    setNumForms(prevNumForms => prevNumForms + 1);
-    if (numForms === 1) {
-      setShowDeleteButton(true);
-    }
-  };
-
-  const handleDelete = () => {
-    setNumForms(prevNumForms => prevNumForms - 1);
-    if (numForms === 2) {
-      setShowDeleteButton(false);
-    }
-  };
   return (
     <>
-      <Mynavbar /> 
+      <div style={{ justifyContent: "center", display: "flex" }}>
+        <Modal
+          {...props}
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <div
+            className="cssfornomineeformobileview"
+            style={{ overflow: "auto" }}
+          >
+            <div style={{ paddingTop: "20px" }}>
+              <p
+                style={{
+                  color: "rgb(82, 114, 161)",
+                  textAlign: "center",
+                  fontSize: "18px",
+                }}
+              >
+                Please enter the One Time Password sent on
+              </p>
+              <p
+                style={{
+                  color: "rgb(82, 114, 161)",
+                  textAlign: "center",
+                  fontSize: "22px",
+                }}
+              >
+                <span>Email Id kauxxxxxxxxxxxnghxxx@gmail.com</span>
+                <span>
+                  <Link
+                    onClick={props.onHide}
+                    to={""}
+                    style={{
+                      textDecoration: "none",
+                      color: "rgb(82, 114, 161)",
+                    }}
+                  >
+                    <span
+                      style={{ borderBottom: "1px solid rgb(82, 114, 161)" }}
+                    >
+                      Change
+                    </span>
+                  </Link>{" "}
+                </span>
+              </p>
+              <div
+                className="cssforboxdesigninotpcenter"
+                style={{ marginTop: "40px", marginBottom: "30px" }}
+              >
+                <OTPInput
+                  value={OTPE}
+                  onChange={otp => {
+                    console.log(otp);
+                    setOTPE(otp);
+                  }}
+                  autoFocus
+                  OTPLength={4}
+                  className="cssforboxdesigninotp"
+                  otpType="number"
+                  disabled={false}
+                />
+              </div>
+              <div
+                style={{
+                  justifyContent: "center",
+                  display: "flex",
+                  marginTop: "15px",
+                  paddingBottom: "40px",
+                }}
+              >
+                <span>
+                  {" "}
+                  <button
+                    className="cssforhandleotpcounttext"
+                    onClick={handleResete}
+                    style={{
+                      border: "none",
+                      borderBottom: "none",
+                      marginRight: "5px",
+                    }}
+                    disabled={!isCountingCompletee}
+                  >
+                    <span
+                      style={{ borderBottom: "1px solid rgb(82, 114, 161)" }}
+                    >
+                      Reset
+                    </span>
+                  </button>
+                </span>
+                <span className="cssforhandleotpcounttext">
+                  {" "}
+                  One Time Password in {counte} Seconds
+                </span>
+              </div>
+            </div>
+          </div>
+        </Modal>
+      </div>
+    </>
+  );
+}
+
+const Assetstep2 = () => {
+  const [formValues, setFormValues] = useState([
+    {
+      nomineeName: "",
+      nomineeEmailId: "",
+      percentageofShar: null,
+      NomineePhoneNumber: null,
+      relationWithNominee: "",
+    },
+  ]);
+
+  const [modalShowe, setModalShowe] = useState(false);
+  const [modalShow, setModalShow] = useState(false);
+
+  const navigate = useNavigate();
+
+  let addFormFields = () => {
+    setFormValues([
+      ...formValues,
+      {
+        nomineeName: "",
+        nomineeEmailId: "",
+        percentageofShar: null,
+        NomineePhoneNumber: null,
+        relationWithNominee: "",
+      },
+    ]);
+  };
+  let removeFormFields = i => {
+    let newFormValues = [...formValues];
+    newFormValues.splice(i, 1);
+    setFormValues(newFormValues);
+  };
+  let handleChange = (i, e) => {
+    let newFormValues = [...formValues];
+    newFormValues[i][e.target.name] = e.target.value;
+    setFormValues(newFormValues);
+  };
+  const handleNext = () => {
+    const newArr = [];
+    formValues.filter(el => newArr.push(Number(el.percentageofShar)));
+    const sum = newArr.reduce(
+      (previousValue, currentValue) => previousValue + currentValue
+    );
+    console.log(formValues);
+    const payload = {
+      // userId: "",
+      nominee: formValues,
+    };
+
+    if (sum == 100) {
+      axiosConfig
+        .post("/nominee/save-nominee", payload)
+        .then(response => {
+          console.log(response.data.data.message);
+          navigate("/add-asset/step3");
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    } else {
+      alert("please enter correct share percentage 100% only aaceptable");
+    }
+  };
+
+  return (
+    <>
+      <Mynavbar />
       <MyVerticallyCenteredModal
-      show={modalShow}
-      onHide={() => setModalShow(false)}
-    />
-    <MyModalEmail
-    show={modalShowe}
-    onHide={() => setModalShowe(false)}
-  />
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+      />
+      <MyModalEmail show={modalShowe} onHide={() => setModalShowe(false)} />
       <div>
-      
         <div style={{ backgroundColor: "rgb(182, 205, 236)" }}>
           <div className="container-fluid">
             <div className="row">
@@ -334,131 +462,6 @@ console.log(phone)
             </div>
           </div>
         </div>
-        {/*   <div className='container mt-3'>
-  <div className='row'>
-  <div >
-  <span style={{color:'rgb(82, 114, 161)', fontSize:'18px'}}>Hey, don’t worry, Just need to add once only…!!!
-  </span><br></br>
-  <span style={{color:'rgb(82, 114, 161)', fontSize:'18px'}}>Enter the details of nominee as mentioned in original documents of asset (XXXXXXXXXXXXXXXXX) 
-
-  </span>
-  </div>
-  </div>
-  </div>
-  */}
-        {/*
-  <div className='container mt-5'>
-  <div >
-  
-</div>
-
-  <div >
-  
- 
-
-
-      <Table responsive>
-      <thead>
-        <tr style={{backgroundColor:"rgb(182, 204, 230)"}}>
-          <th className='text-center'  style={{ textTransform: "capitalize",color:'rgb(47, 80, 119)',fontSize:'18px',fontFamily: "Calibri",borderRight:'2px solid white'}}>
-         
-          Nominee Name <span style={{color:'red'}}>*</span>
-         
-          </th>
-          <th className='text-center' style={{textTransform: "capitalize",color:'rgb(47, 80, 119)',fontSize:'18px',fontFamily: "Calibri",lineHeight:'20px',borderRight:'2px solid white'}}>
-          <div className='d-flex justify-content-center'>
-          Relation with Nominee<span style={{color:'red'}}>*</span>
-          </div>
-         </th>
-          <th className='text-center'  style={{textTransform: "capitalize",color:'rgb(47, 80, 119)',fontSize:'18px',fontFamily: "Calibri",lineHeight:'20px',borderRight:'2px solid white'}}>Percentage <br></br> of share  <span style={{color:'red'}}>*</span></th>
-          
-          <th className='text-center'  style={{textTransform: "capitalize",color:'rgb(47, 80, 119)',fontSize:'18px',fontFamily: "Calibri",borderRight:'2px solid white'}}>Nominee Phone No.   <span style={{color:'red'}}>*</span></th>
-          <th className='text-center'  style={{textTransform: "capitalize",color:'rgb(47, 80, 119)',fontSize:'18px',fontFamily: "Calibri",borderRight:'2px solid white'}}>Nominee e-mail ID </th>
-          <th className='text-center'  style={{textTransform: "capitalize",color:'rgb(47, 80, 119)',fontSize:'18px',fontFamily: "Calibri"}}>Action
-          </th>
-         
-        </tr>
-      </thead>
-      
-
-      <tbody>
-        
-        <tr>
-        <th scope="row" style={{color:'rgb(47, 80, 119)',fontSize:'18px',fontFamily: "Times New Roman"}}> <div>
-        <input type='text' style={{width:'100%',height:'2.5rem',borderRadius:'5px', border:'1px solid rgb(114, 158, 216)'}} />
-        
-        </div></th>
-        <td className="text-center" style={{color:'rgb(47, 80, 119)',fontSize:'18px',fontFamily: "Times New Roman"}}>
-        <div>
-        <Form.Select aria-label="Default select example" style={{width:'100%',height:'2.5rem',borderRadius:'5px', border:'1px solid rgb(114, 158, 216)'}}>
-        <option></option>
-        <option value="1">Father</option>
-        <option value="2">Mother</option>
-        <option value="3">Wife</option>
-        <option value="4">Brother</option>
-        <option value="5">Son</option>
-      </Form.Select>
-        </div>
-        </td>
-        <th scope="row" style={{color:'rgb(47, 80, 119)',fontSize:'18px',fontFamily: "Times New Roman"}}>
-        <div style={{height:'2.5rem',borderRadius:'5px', border:'1px solid rgb(114, 158, 216)',padding:'5px'}}>
-        <span><input type='text' placeholder='XXXXX' style={{border:'none',width:"70%"}} />
-        </span>
-        <span>%</span>
-        </div>
-        </th>
-        <td className="text-center" style={{color:'rgb(47, 80, 119)',fontSize:'18px',fontFamily: "Times New Roman"}}>
-       <div >
-       <span >
-       <Form.Select aria-label="Default select example" style={{width:'25%',height:'2.5rem',borderRadius:'5px', border:'1px solid rgb(114, 158, 216)'}}>
-       <option>+91</option>
-       <option value="1">+21</option>
-       <option value="2">+1</option>
-       <option value="3">+93</option>
-     </Form.Select>
-       </span>
-       <span>
-       <input type='text' placeholder='XXXXX' style={{width:'75%',height:'2.5rem',borderRadius:'5px', border:'1px solid rgb(114, 158, 216)',padding:'5px'}} />
-       </span><br></br>
-       <span style={{}}>
-       <button className='btn btn-primary'  style={{fontSize:'12px',width:'100%',height:'2.5rem',borderRadius:'5px', border:'1px solid rgb(201, 198, 198)',marginTop:'-5px'}}>
-       SEND OTP
-       </button>
-       </span>
-       </div>
-        </td>
-        <th scope="row" style={{color:'rgb(47, 80, 119)',fontSize:'18px',fontFamily: "Times New Roman"}}>
-        <div>
-        <span >
-        <input type='text' placeholder='XXX@ymail.com' style={{width:'100%',height:'2.5rem',borderRadius:'5px', border:'1px solid rgb(114, 158, 216)',padding:'5px'}} />
-        </span><br></br>
-        <span className='mt-2'>
-        <button className='btn btn-primary'  style={{fontSize:'12px',width:'100%',height:'2.5rem',borderRadius:'5px', border:'1px solid rgb(201, 198, 198)',marginTop:'-5px'}}>
-        SEND OTP
-        </button>
-        </span>
-        </div>
-        </th>
-        
-        <td className="text-center" style={{color:'rgb(47, 80, 119)',fontSize:'18px',fontFamily: "Times New Roman",width:"15%"}}>
-        <div style={{border:'1px solid rgb(114, 158, 216)',padding:'5px',borderRadius:'10px'}}>
-        <span style={{marginLeft:'5px'}}>
-        <Link to={'/add-asset/policy'}>
-        <svg xmlns="http://www.w3.org/2000/svg" color='black' width="30" height="30" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
-  <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
-</svg>
-</Link>
-        </span>
-        </div>
-        </td>
-      </tr>
-      </tbody>
-
-
-    </Table>
-    </div>
-  </div>
- */}
         <div className="container-fluid">
           <div className="row">
             <div className="col-md-4 col-lg-4 col-xl-4 col-sm-4"></div>
@@ -500,367 +503,379 @@ console.log(phone)
             <div className="col-md-4 col-lg-4 col-xl-4 col-sm-4"></div>
           </div>
         </div>
-        
+
         <div className="container-fluid">
-        {[...Array(numForms)].map((_, index) => (
-          <div className="row" key={index} style={{ margin: "1rem" }}>
-          <div className="container-fluid">
-          <div className="row" style={{ margin: "1rem" }}>
-            <div className="col-md-4 col-sm-4 col-lg-4 col-xl-4">
-              <div>
-                <div className="mt-4">
-                  <div className="mb-3">
-                    <form action="#" method="post">
-                      <fieldset
-                        style={{
-                          color: "rgb(82, 114, 161)",
-                          fontSize: "20px",
-                          fontFamily: "Calibri",
-                          border: "1px solid rgb(114, 158, 216)",
-                          borderRadius: "10px",
-                        }}
-                      >
-                        <legend
-                          style={{
-                            color: "rgb(82, 114, 161)",
-                            fontSize: "20px",
-                            fontFamily: "Calibri",
-                            marginLeft: "15px",
-                            width: "11rem",
-                          }}
-                          for="exampleInputPassword1"
-                          class="form-label"
-                        >
-                          Nominee Name <span style={{ color: "red" }}>*</span>
-                        </legend>
-                        <input
-                          type="text"
-                          placeholder="XXXXXXXXXXXX"
-                          style={{
-                            width: "100%",
-                            border: "none",
-                            paddingLeft: "15px",
-                            paddingBottom: "10px",
-                            marginBottom: "5px",
-                          }}
-                          id="dob"
-                          name="dob"
-                        />
-                      </fieldset>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-4 col-sm-4 col-lg-4 col-xl-4">
-              <div>
-                <div className="mt-4">
-                  <div className="mb-3">
-                    <form action="#" method="post">
-                      <fieldset
-                        style={{
-                          color: "rgb(82, 114, 161)",
-                          fontSize: "20px",
-                          fontFamily: "Calibri",
-                          border: "1px solid rgb(114, 158, 216)",
-                          borderRadius: "10px",
-                          height: "5.3rem",
-                        }}
-                      >
-                        <legend
-                          style={{
-                            color: "rgb(82, 114, 161)",
-                            fontSize: "20px",
-                            fontFamily: "Calibri",
-                            marginLeft: "15px",
-                            width: "14rem",
-                          }}
-                          for="exampleInputPassword1"
-                          class="form-label"
-                        >
-                          Relation with Nominee{" "}
-                          <span style={{ color: "red" }}>*</span>
-                        </legend>
-                        <select
-                          class="form-select"
-                          aria-label="Default select example"
-                          style={{
-                            outline: "none",
-                            width: "100%",
-                            float: "right",
-                            border: "none",
-                            paddingLeft: "15px",
-                            paddingBottom: "10px",
-                            marginBottom: "5px",
-                          }}
-                        >
-                          <option
-                            selected
-                            style={{ float: "left", border: "none" }}
-                          ></option>
-                          <option value="1">Father</option>
-                          <option value="2">Wife</option>
-                          <option value="3">Son</option>
-                        </select>
-                      </fieldset>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-4 col-sm-4 col-lg-4 col-xl-4">
-              <div>
-                <div className="mt-4">
-                  <div className="mb-3">
-                    <form action="#" method="post">
-                      <fieldset
-                        style={{
-                          color: "rgb(82, 114, 161)",
-                          fontSize: "20px",
-                          fontFamily: "Calibri",
-                          border: "1px solid rgb(114, 158, 216)",
-                          borderRadius: "10px",
-                        }}
-                      >
-                        <legend
-                          style={{
-                            color: "rgb(82, 114, 161)",
-                            fontSize: "20px",
-                            fontFamily: "Calibri",
-                            marginLeft: "15px",
-                            width: "13rem",
-                          }}
-                          for="exampleInputPassword1"
-                          class="form-label"
-                        >
-                          Percentage of Share{" "}
-                          <span style={{ color: "red" }}>*</span>
-                        </legend>
-                        <input
-                          type="text"
-                          placeholder="XXXXXXXXXXXX"
-                          style={{
-                            width: "100%",
-                            border: "none",
-                            paddingLeft: "15px",
-                            paddingBottom: "10px",
-                            marginBottom: "5px",
-                          }}
-                          id="dob"
-                          name="dob"
-                        />
-                      </fieldset>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-2 col-sm-2 col-lg-2 col-xl-2"></div>
-            <div className="col-md-4 col-sm-4 col-lg-4 col-xl-4">
-              <div>
-                <div className="mt-4">
-                  <div className="mb-3">
-                    <form action="#" method="post">
-                      <fieldset
-                        style={{
-                          color: "rgb(82, 114, 161)",
-                          fontSize: "20px",
-                          fontFamily: "Calibri",
-                          border: "1px solid rgb(114, 158, 216)",
-                          borderRadius: "10px",
-                          height: "5.3rem",
-                        }}
-                      >
-                        <legend
-                          style={{
-                            color: "rgb(82, 114, 161)",
-                            fontSize: "20px",
-                            fontFamily: "Calibri",
-                            marginLeft: "15px",
-                            width: "15rem",
-                          }}
-                          for="exampleInputPassword1"
-                          class="form-label"
-                        >
-                          Nominee Phone Number
-                          <span style={{ color: "red" }}>*</span>
-                        </legend>
-                        <div className="row">
-                          <div className="col-md-2 col-sm-2 col-lg-2 col-xl-2 col-3">
-                            <span>
-                              <button
+          {formValues &&
+            formValues?.map((ele, index) => (
+              <div className="row" key={index} style={{ margin: "1rem" }}>
+                <div className="container-fluid">
+                  <div className="row" style={{ margin: "1rem" }}>
+                    <div className="col-md-4 col-sm-4 col-lg-4 col-xl-4">
+                      <div>
+                        <div className="mt-4">
+                          <div className="mb-3">
+                            <form action="#" method="post">
+                              <fieldset
                                 style={{
-                                  outline: "none",
-                                  marginLeft: "2px",
-                                  width: "115%",
+                                  color: "rgb(82, 114, 161)",
+                                  fontSize: "20px",
+                                  fontFamily: "Calibri",
                                   border: "1px solid rgb(114, 158, 216)",
-                                  textAlign: "center",
-                                  height: "3rem",
-                                  marginTop: "-10px",
                                   borderRadius: "10px",
-                                  fontSize: "18px",
                                 }}
                               >
-                                +91
-                              </button>
-                            </span>
-                          </div>
-                          <div className="col-md-8 col-sm-8 col-lg-8 col-xl-8 col-6">
-                            <input
-                            
-                            maxLength={10}
-                              type="tel"
-                              placeholder="965XX50XX0"
-                              style={{
-                                width: "90%",
-                                outline: "none",
-                                border: "none",
-                                paddingLeft: "15px",
-                                paddingBottom: "10px",
-                                marginBottom: "5px",
-                              }}
-                              id="dob"
-                              name="dob"
-                              onChange={e => {
-                                setPhone(e.target.value);
-                              }}
-                            />
-                          </div>
-                          <div
-                            className="col-md-2 col-sm-2 col-lg-2 col-xl-2 col-3"
-                            style={{ marginLeft: "-10px" }}
-                          >
-                            <span >
-                              <a
-                              onClick={() => setModalShow(true)}
-                                className="btn"
-                                style={{
-                                  fontSize: "13px",
-                                  width: "115%",
-                                  borderRadius: "10px",
-                                  backgroundColor: "rgb(32, 119, 190)",
-                                  color: "white",
-                                  border: "1px solid rgb(114, 158, 216)",
-                                  lineHeight: "15px",
-                                  height: "3rem",
-                                  marginTop: "-10px",
-                                 
-                                }}
-                               
-                              >
-                                SEND OTP
-                              </a>
-                            </span>
+                                <legend
+                                  style={{
+                                    color: "rgb(82, 114, 161)",
+                                    fontSize: "20px",
+                                    fontFamily: "Calibri",
+                                    marginLeft: "15px",
+                                    width: "11rem",
+                                  }}
+                                  for="exampleInputPassword1"
+                                  class="form-label"
+                                >
+                                  Nominee Name
+                                  <span style={{ color: "red" }}>*</span>
+                                </legend>
+
+                                <input
+                                  type="text"
+                                  placeholder="XXXXXXXXXXXX"
+                                  name="nomineeName"
+                                  value={ele.nomineeName || ""}
+                                  id="nomineeName"
+                                  onChange={e => handleChange(index, e)}
+                                  style={{
+                                    width: "100%",
+                                    border: "none",
+                                    paddingLeft: "15px",
+                                    paddingBottom: "10px",
+                                    marginBottom: "5px",
+                                  }}
+                                />
+                              </fieldset>
+                            </form>
                           </div>
                         </div>
-                      </fieldset>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-4 col-sm-4 col-lg-4 col-xl-4">
-              <div>
-                <div className="mt-4">
-                  <div className="mb-3">
-                    <form action="#" method="post">
-                      <fieldset
-                        style={{
-                          color: "rgb(82, 114, 161)",
-                          fontSize: "20px",
-                          fontFamily: "Calibri",
-                          border: "1px solid rgb(114, 158, 216)",
-                          borderRadius: "10px",
-                          height: "5.3rem",
-                        }}
-                      >
-                        <legend
-                          style={{
-                            color: "rgb(82, 114, 161)",
-                            fontSize: "20px",
-                            fontFamily: "Calibri",
-                            marginLeft: "15px",
-                            width: "12rem",
-                          }}
-                          for="exampleInputPassword1"
-                          class="form-label"
-                        >
-                          Nominee Email ID
-                        </legend>
-                        <div className="row">
-                          <div className="col-md-10 col-sm-10 col-lg-10 col-xl-10 col-9">
-                            <input
-                              type="email"
-                              
-                              placeholder="kauxxxxxxxxxxxnghxxx@gmail.com"
-                              style={{
-                                width: "90%",
-                                outline: "none",
-                                border: "none",
-                                paddingLeft: "15px",
-                                paddingBottom: "10px",
-                                marginBottom: "5px",
-                              }}
-                              id="email"
-                              name="email"
-                            />
-                          </div>
-                          <div
-                            className="col-md-2 col-sm-2 col-lg-2 col-xl-2 col-3"
-                            style={{ marginLeft: "-10px" }}
-                          >
-                            <span>
-                              <a
-                              onClick={() => setModalShowe(true)}
-                                className="btn "
+                      </div>
+                    </div>
+                    <div className="col-md-4 col-sm-4 col-lg-4 col-xl-4">
+                      <div>
+                        <div className="mt-4">
+                          <div className="mb-3">
+                            <form action="#" method="post">
+                              <fieldset
                                 style={{
-                                  fontSize: "13px",
-                                  backgroundColor: "rgb(32, 119, 190)",
-                                  color: "white",
-                                  width: "115%",
-                                  borderRadius: "10px",
+                                  color: "rgb(82, 114, 161)",
+                                  fontSize: "20px",
+                                  fontFamily: "Calibri",
                                   border: "1px solid rgb(114, 158, 216)",
-                                  lineHeight: "15px",
-                                  height: "3rem",
-                                  marginTop: "-10px",
+                                  borderRadius: "10px",
+                                  height: "5.3rem",
                                 }}
                               >
-                                SEND OTP
-                              </a>
-                            </span>
+                                <legend
+                                  style={{
+                                    color: "rgb(82, 114, 161)",
+                                    fontSize: "20px",
+                                    fontFamily: "Calibri",
+                                    marginLeft: "15px",
+                                    width: "14rem",
+                                  }}
+                                  for="exampleInputPassword1"
+                                  class="form-label"
+                                >
+                                  Relation with Nominee
+                                  <span style={{ color: "red" }}>*</span>
+                                </legend>
+
+                                <select
+                                  class="form-select"
+                                  value={ele.relationWithNominee || ""}
+                                  onChange={e => handleChange(index, e)}
+                                  name="relationWithNominee"
+                                  aria-label="Default select example"
+                                  style={{
+                                    outline: "none",
+                                    width: "100%",
+                                    float: "right",
+                                    border: "none",
+                                    paddingLeft: "15px",
+                                    paddingBottom: "10px",
+                                    marginBottom: "5px",
+                                  }}
+                                >
+                                  <option
+                                    selected
+                                    Nominee
+                                    style={{ float: "left", border: "none" }}
+                                  ></option>
+                                  <option value="Father">Father</option>
+                                  <option value="Wife">Wife</option>
+                                  <option value="Son">Son</option>
+                                </select>
+                              </fieldset>
+                            </form>
                           </div>
                         </div>
-                      </fieldset>
-                    </form>
+                      </div>
+                    </div>
+                    <div className="col-md-4 col-sm-4 col-lg-4 col-xl-4">
+                      <div>
+                        <div className="mt-4">
+                          <div className="mb-3">
+                            <form>
+                              <fieldset
+                                style={{
+                                  color: "rgb(82, 114, 161)",
+                                  fontSize: "20px",
+                                  fontFamily: "Calibri",
+                                  border: "1px solid rgb(114, 158, 216)",
+                                  borderRadius: "10px",
+                                }}
+                              >
+                                <legend
+                                  style={{
+                                    color: "rgb(82, 114, 161)",
+                                    fontSize: "20px",
+                                    fontFamily: "Calibri",
+                                    marginLeft: "15px",
+                                    width: "13rem",
+                                  }}
+                                  for="exampleInputPassword1"
+                                  class="form-label"
+                                >
+                                  Percentage of Share
+                                  <span style={{ color: "red" }}>*</span>
+                                </legend>
+
+                                <Input
+                                  type="number"
+                                  placeholder="XXXXXXXXXXXX"
+                                  id="percentageofShar"
+                                  name="percentageofShar"
+                                  value={ele.percentageofShar || ""}
+                                  onChange={e => handleChange(index, e)}
+                                  style={{
+                                    width: "100%",
+                                    border: "none",
+                                    paddingLeft: "15px",
+                                    paddingBottom: "10px",
+                                    marginBottom: "5px",
+                                  }}
+                                />
+                              </fieldset>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-md-2 col-sm-2 col-lg-2 col-xl-2"></div>
+                    <div className="col-md-4 col-sm-4 col-lg-4 col-xl-4">
+                      <div>
+                        <div className="mt-4">
+                          <div className="mb-3">
+                            <form>
+                              <fieldset
+                                style={{
+                                  color: "rgb(82, 114, 161)",
+                                  fontSize: "20px",
+                                  fontFamily: "Calibri",
+                                  border: "1px solid rgb(114, 158, 216)",
+                                  borderRadius: "10px",
+                                  height: "5.3rem",
+                                }}
+                              >
+                                <legend
+                                  style={{
+                                    color: "rgb(82, 114, 161)",
+                                    fontSize: "20px",
+                                    fontFamily: "Calibri",
+                                    marginLeft: "15px",
+                                    width: "15rem",
+                                  }}
+                                  for="exampleInputPassword1"
+                                  class="form-label"
+                                >
+                                  Nominee Phone Number
+                                  <span style={{ color: "red" }}>*</span>
+                                </legend>
+
+                                <div className="row">
+                                  <div className="col-md-2 col-sm-2 col-lg-2 col-xl-2 col-3">
+                                    <span>
+                                      <button
+                                        style={{
+                                          outline: "none",
+                                          marginLeft: "2px",
+                                          width: "115%",
+                                          border:
+                                            "1px solid rgb(114, 158, 216)",
+                                          textAlign: "center",
+                                          height: "3rem",
+                                          marginTop: "-10px",
+                                          borderRadius: "10px",
+                                          fontSize: "18px",
+                                        }}
+                                      >
+                                        +91
+                                      </button>
+                                    </span>
+                                  </div>
+                                  <div className="col-md-8 col-sm-8 col-lg-8 col-xl-8 col-6">
+                                    <input
+                                      maxLength={10}
+                                      type="tel"
+                                      id="NomineePhoneNumber"
+                                      name="NomineePhoneNumber"
+                                      value={ele.NomineePhoneNumber || ""}
+                                      onChange={e => handleChange(index, e)}
+                                      placeholder="965XX50XX0"
+                                      style={{
+                                        width: "90%",
+                                        outline: "none",
+                                        border: "none",
+                                        paddingLeft: "15px",
+                                        paddingBottom: "10px",
+                                        marginBottom: "5px",
+                                      }}
+                                    />
+                                  </div>
+                                  <div
+                                    className="col-md-2 col-sm-2 col-lg-2 col-xl-2 col-3"
+                                    style={{ marginLeft: "-10px" }}
+                                  >
+                                    <span>
+                                      <a
+                                        onClick={() => setModalShow(true)}
+                                        className="btn"
+                                        style={{
+                                          fontSize: "13px",
+                                          width: "115%",
+                                          borderRadius: "10px",
+                                          backgroundColor: "rgb(32, 119, 190)",
+                                          color: "white",
+                                          border:
+                                            "1px solid rgb(114, 158, 216)",
+                                          lineHeight: "15px",
+                                          height: "3rem",
+                                          marginTop: "-10px",
+                                        }}
+                                      >
+                                        SEND OTP
+                                      </a>
+                                    </span>
+                                  </div>
+                                </div>
+                              </fieldset>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-md-4 col-sm-4 col-lg-4 col-xl-4">
+                      <div>
+                        <div className="mt-4">
+                          <div className="mb-3">
+                            <fieldset
+                              style={{
+                                color: "rgb(82, 114, 161)",
+                                fontSize: "20px",
+                                fontFamily: "Calibri",
+                                border: "1px solid rgb(114, 158, 216)",
+                                borderRadius: "10px",
+                                height: "5.3rem",
+                              }}
+                            >
+                              <legend
+                                style={{
+                                  color: "rgb(82, 114, 161)",
+                                  fontSize: "20px",
+                                  fontFamily: "Calibri",
+                                  marginLeft: "15px",
+                                  width: "12rem",
+                                }}
+                                for="exampleInputPassword1"
+                                class="form-label"
+                              >
+                                Nominee Email ID
+                              </legend>
+                              <div className="row">
+                                <div className="col-md-10 col-sm-10 col-lg-10 col-xl-10 col-9">
+                                  <input
+                                    type="email"
+                                    id="nomineeEmailId"
+                                    name="nomineeEmailId"
+                                    value={ele.nomineeEmailId || ""}
+                                    onChange={e => handleChange(index, e)}
+                                    placeholder="kauxxxxxxxxxxxnghxxx@gmail.com"
+                                    style={{
+                                      width: "90%",
+                                      outline: "none",
+                                      border: "none",
+                                      paddingLeft: "15px",
+                                      paddingBottom: "10px",
+                                      marginBottom: "5px",
+                                    }}
+                                  />
+                                </div>
+                                <div
+                                  className="col-md-2 col-sm-2 col-lg-2 col-xl-2 col-3"
+                                  style={{ marginLeft: "-10px" }}
+                                >
+                                  <span>
+                                    <a
+                                      onClick={() => setModalShowe(true)}
+                                      className="btn "
+                                      style={{
+                                        fontSize: "13px",
+                                        backgroundColor: "rgb(32, 119, 190)",
+                                        color: "white",
+                                        width: "115%",
+                                        borderRadius: "10px",
+                                        border: "1px solid rgb(114, 158, 216)",
+                                        lineHeight: "15px",
+                                        height: "3rem",
+                                        marginTop: "-10px",
+                                      }}
+                                    >
+                                      SEND OTP
+                                    </a>
+                                  </span>
+                                </div>
+                              </div>
+                            </fieldset>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-md-2 col-sm-2 col-lg-2 col-xl-2"></div>
+                  </div>
+                </div>
+                <div className="container-fluid">
+                  <div class="row">
+                    <div class="col-md-10 col-sm-10 col-lg-10 col-xl-10 col-9"></div>
+                    <div class="col-md-2 col-sm-2 col-lg-2 col-xl-2 col-3">
+                      <div
+                        style={{ justifyContent: "center", display: "right" }}
+                      >
+                        <button
+                          className="btn btn-danger"
+                          onClick={() => removeFormFields(index)}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="col-md-2 col-sm-2 col-lg-2 col-xl-2"></div>
-          </div>
+            ))}
         </div>
-       <div className="container-fluid">
-       <div class="row">
-       <div class="col-md-10 col-sm-10 col-lg-10 col-xl-10 col-9"></div>
-       <div class="col-md-2 col-sm-2 col-lg-2 col-xl-2 col-3">
-       <div style={{justifyContent:'center' , display:'right'}}>
-       <button
-       className="btn btn-danger"
-       onClick={handleDelete}
-     >
-       Delete
-     </button>
-       </div>
-       </div>
-       </div>
-       </div>
-          </div>
-        ))}
-        
-      </div>
         <div className="container mt-5" style={{ paddingBottom: "60px" }}>
           <div style={{ float: "left" }}>
-            <Link to={"/add-asset/policy"} style={{textDecoration:'none'}}>
+            <Link to={"/add-asset/policy"} style={{ textDecoration: "none" }}>
               <p
                 style={{
                   color: "rgb(82, 114, 161)",
@@ -889,7 +904,7 @@ console.log(phone)
           </div>
           <div style={{ float: "right" }}>
             <button
-            onClick={handleAddMore}
+              onClick={addFormFields}
               className="ml-2 btn"
               style={{
                 border: "none",
@@ -901,20 +916,20 @@ console.log(phone)
             >
               Add More Nominee
             </button>
-            <Link to={"/add-asset/step3"}>
-              <button
-                className="ml-2"
-                style={{
-                  border: "none",
-                  backgroundColor: "rgb(182, 205, 236)",
-                  padding: "8px",
-                  width: "7rem",
-                  borderRadius: "5px",
-                }}
-              >
-                Next
-              </button>
-            </Link>
+
+            <button
+              className="ml-2"
+              onClick={handleNext}
+              style={{
+                border: "none",
+                backgroundColor: "rgb(182, 205, 236)",
+                padding: "8px",
+                width: "7rem",
+                borderRadius: "5px",
+              }}
+            >
+              Next
+            </button>
           </div>
         </div>
       </div>
