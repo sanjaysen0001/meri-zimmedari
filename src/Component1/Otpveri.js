@@ -11,23 +11,26 @@ const Otpveri = () => {
   const phoneNumber = location.state;
 
   const handleOtpVerify = () => {
-    // let MobileNUM = JSON.parse(localStorage.getItem("MobileNUM"));
-
     let payload = {
-      otp: otp,
-      mobileNo: phoneNumber,
+      otp: Number(otp),
+      mobileNo: Number(phoneNumber),
     };
     axiosConfig
       .post("/otp-verify", payload)
       .then(response => {
+        //
         if (response.data.success == "ok") {
+          localStorage.setItem(
+            "UserZimmedari",
+            JSON.stringify(response.data.User)
+          );
           navigate("/dashboard", { replace: true });
         } else {
           navigate("/registration", { replace: true });
         }
       })
       .catch(error => {
-        swal("Something went wrong");
+        swal(error.message);
       });
   };
   return (
@@ -142,7 +145,7 @@ const Otpveri = () => {
                 }}
               >
                 <div style={{ fontSize: "20px", fontWeight: "600" }}>
-                  Verify OTP Sign-in/Sign-up
+                  Verify OTP
                 </div>
               </div>
 

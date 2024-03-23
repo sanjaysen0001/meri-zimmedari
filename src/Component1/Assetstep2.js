@@ -271,7 +271,13 @@ const Assetstep2 = () => {
       relationWithNominee: "",
     },
   ]);
-
+  const [formError, setFormError] = useState({
+    IsnomineeName: false,
+    IsnomineeEmailId: false,
+    IspercentageofShar: false,
+    IsNomineePhoneNumber: false,
+    IsrelationWithNominee: false,
+  });
   const [modalShowe, setModalShowe] = useState(false);
   const [modalShow, setModalShow] = useState(false);
 
@@ -305,17 +311,58 @@ const Assetstep2 = () => {
     const sum = newArr.reduce(
       (previousValue, currentValue) => previousValue + currentValue
     );
+    let userId = JSON.parse(localStorage.getItem("UserZimmedari"))._id;
+    console.log(userId);
     console.log(formValues);
     const payload = {
-      // userId: "",
+      userId: userId,
       nominee: formValues,
     };
+    formValues.map((value, key) => {
+      value.nomineeName == ""
+        ? setFormError(prevData => ({ ...prevData, IsnomineeName: true }))
+        : setFormError(prevData => ({ ...prevData, IsnomineeName: false }));
+
+      value.nomineeEmailId == ""
+        ? setFormError(prevData => ({ ...prevData, IsnomineeEmailId: true }))
+        : setFormError(prevData => ({ ...prevData, IsnomineeEmailId: false }));
+
+      value.relationWithNominee == ""
+        ? setFormError(prevData => ({
+            ...prevData,
+            IsrelationWithNominee: true,
+          }))
+        : setFormError(prevData => ({
+            ...prevData,
+            IsrelationWithNominee: false,
+          }));
+      !isNaN(value.percentageofShar)
+        ? setFormError(prevData => ({
+            ...prevData,
+            IspercentageofShar: true,
+          }))
+        : setFormError(prevData => ({
+            ...prevData,
+            IspercentageofShar: false,
+          }));
+
+      value.NomineePhoneNumber == null || undefined
+        ? setFormError(prevData => ({
+            ...prevData,
+            IsNomineePhoneNumber: true,
+          }))
+        : setFormError(prevData => ({
+            ...prevData,
+            IsNomineePhoneNumber: false,
+          }));
+    });
 
     if (sum == 100) {
+      navigate("/add-asset/step3");
       axiosConfig
         .post("/nominee/save-nominee", payload)
         .then(response => {
-          console.log(response.data.data.message);
+          // console.log(response.data);
           navigate("/add-asset/step3");
         })
         .catch(error => {
@@ -482,7 +529,7 @@ const Assetstep2 = () => {
                   }}
                 >
                   Auto-fill from pre-saved nominees
-                </span>{" "}
+                </span>
                 <br></br>
                 <span>
                   <svg
@@ -555,6 +602,18 @@ const Assetstep2 = () => {
                                   }}
                                 />
                               </fieldset>
+                              {formError.IsnomineeName && (
+                                <p
+                                  style={{
+                                    color: "red",
+                                    padding: "5px",
+                                    fontSize: "16px",
+                                    marginTop: "13px",
+                                  }}
+                                >
+                                  Enter Nominee Name is required!
+                                </p>
+                              )}
                             </form>
                           </div>
                         </div>
@@ -616,6 +675,18 @@ const Assetstep2 = () => {
                                   <option value="Son">Son</option>
                                 </select>
                               </fieldset>
+                              {formError.IsrelationWithNominee && (
+                                <p
+                                  style={{
+                                    color: "red",
+                                    padding: "5px",
+                                    fontSize: "16px",
+                                    marginTop: "13px",
+                                  }}
+                                >
+                                  Enter Nominee Name is required!
+                                </p>
+                              )}
                             </form>
                           </div>
                         </div>
@@ -666,6 +737,18 @@ const Assetstep2 = () => {
                                   }}
                                 />
                               </fieldset>
+                              {formError.IspercentageofShar && (
+                                <p
+                                  style={{
+                                    color: "red",
+                                    padding: "5px",
+                                    fontSize: "16px",
+                                    marginTop: "13px",
+                                  }}
+                                >
+                                  Enter Percentage of Share is required!
+                                </p>
+                              )}
                             </form>
                           </div>
                         </div>
@@ -742,6 +825,18 @@ const Assetstep2 = () => {
                                       }}
                                     />
                                   </div>
+                                  {formError.IsNomineePhoneNumber && (
+                                    <p
+                                      style={{
+                                        color: "red",
+                                        padding: "5px",
+                                        fontSize: "16px",
+                                        marginTop: "13px",
+                                      }}
+                                    >
+                                      Enter Nominee PhoneNumber is required!
+                                    </p>
+                                  )}
                                   <div
                                     className="col-md-2 col-sm-2 col-lg-2 col-xl-2 col-3"
                                     style={{ marginLeft: "-10px" }}
@@ -820,6 +915,18 @@ const Assetstep2 = () => {
                                     }}
                                   />
                                 </div>
+                                {formError.IsnomineeEmailId && (
+                                  <p
+                                    style={{
+                                      color: "red",
+                                      padding: "5px",
+                                      fontSize: "16px",
+                                      marginTop: "13px",
+                                    }}
+                                  >
+                                    Enter Nominee NomineeEmailId is required!
+                                  </p>
+                                )}
                                 <div
                                   className="col-md-2 col-sm-2 col-lg-2 col-xl-2 col-3"
                                   style={{ marginLeft: "-10px" }}

@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
+import { useParams } from "react-router-dom";
 import imagelogo from "../image/logo.png";
 import Webcam from "react-webcam";
 import * as tf from "@tensorflow/tfjs";
-// import imageuser from "../image/logouserimage.png";
 import axiosConfig from "../axiosConfig";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -10,7 +10,8 @@ import "./Otpveri";
 const faceLandmarksDetection = require("@tensorflow-models/face-landmarks-detection");
 
 const MobileNumber = () => {
-  // for face open
+  let userId = useParams();
+
   const webcamRef = useRef(null);
   const [showWebcam, setShowWebcam] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -30,9 +31,20 @@ const MobileNumber = () => {
   // const [modal, setModal] = useState(false);
   const [phone, setPhone] = useState("");
   const [isError, setIsError] = useState(false);
-  const navigate = useNavigate();
-  // const toggle = () => setModal(!modal);
+  const [IsID, setIsID] = useState(false);
+  // const navigate = useNavigate();
 
+  useEffect(() => {
+    let userData = JSON.parse(localStorage.getItem("UserZimmedari"));
+    let myArray = window.location.href.split("/");
+    console.log(myArray);
+    let id = myArray[myArray.length - 1];
+    console.log(id);
+    if (id == userData._id) {
+      setIsID(true);
+    }
+    console.log("Login IDs", userData._id);
+  }, []);
   useEffect(() => {
     tf.setBackend("webgl");
     loadModel();
@@ -47,37 +59,8 @@ const MobileNumber = () => {
     }
   }, [isOpen]);
 
-  // const handlewithFace = e => {
-  //   e.preventDefault();
-  //   console.log("Login");
-  //   try {
-  //     const formDataToSend = new FormData();
-  //     // console.log(formData);
-  //     formDataToSend.append("image", dataURItoBlob(formData.image));
-  //     setBackloading(true);
-  //     axiosConfig
-  //       .post("/signin", formDataToSend)
-  //       .then(response => {
-  //         console.log("test Api for Login", response);
-  //       })
-  //       .catch(error => {
-  //         console.log(error);
-  //       });
-
-  //     setRegistered(true);
-  //     navigate("/home");
-
-  //     // Reset form after successful submission
-  //     setFormData({
-  //       image: null,
-  //     });
-  //   } catch (error) {
-  //     console.error("Error registering:", error);
-  //   }
-  // };
   const loadModel = async () => {
     console.log("loading modal...Loginn!");
-    // Load the MediaPipe Facemesh package.
     faceLandmarksDetection
       .load(faceLandmarksDetection.SupportedPackages.mediapipeFacemesh, {
         maxFaces: 1,
@@ -109,14 +92,12 @@ const MobileNumber = () => {
   const handleCapture = () => {
     alert("Image captured");
     const imageSrc = webcamRef.current.getScreenshot();
-    // console.log(formData.name, formData.email);
     setFormData({
       ...formData,
       image: imageSrc,
     });
     // console.log("Image Captured", imageSrc);
     setShowWebcam(false);
-    // toggle();
   };
   const detectPoints = async () => {
     if (isOpen == false) return;
@@ -225,16 +206,6 @@ const MobileNumber = () => {
 
     return result;
   };
-  function dataURItoBlob(dataURI) {
-    const byteString = atob(dataURI.split(",")[1]);
-    const mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
-    const ab = new ArrayBuffer(byteString.length);
-    const ia = new Uint8Array(ab);
-    for (let i = 0; i < byteString.length; i++) {
-      ia[i] = byteString.charCodeAt(i);
-    }
-    return new Blob([ab], { type: mimeString });
-  }
 
   const handleMobile = () => {
     let payload = {
@@ -389,98 +360,104 @@ const MobileNumber = () => {
 
               <div style={{ margin: "2rem" }}>
                 <div className="mt-3">
-                  <form>
-                    <fieldset
-                      style={{
-                        color: "rgb(82, 114, 161)",
-                        fontSize: "20px",
-                        fontFamily: "Calibri",
-                        border: "1px solid rgb(114, 158, 216)",
-                        borderRadius: "10px",
-                        height: "4rem",
-                        width: "100%",
-                      }}
-                    >
-                      <legend
-                        style={{
-                          color: "rgb(82, 114, 161)",
-                          marginBottom: "-5px",
-                          fontSize: "16px",
-                          paddingLeft: "5px",
-                          fontFamily: "Calibri",
-                          marginLeft: "15px",
-                          width: "8rem",
-                        }}
-                        for="exampleInputPassword1"
-                        class="form-label"
-                      >
-                        Mobile Number
-                      </legend>
-                      <button
-                        id="country"
-                        name="country"
-                        style={{ border: "none", backgroundColor: "white" }}
-                      >
-                        <option
-                          value="+91"
+                  {IsID ? (
+                    <>
+                      <form>
+                        <fieldset
                           style={{
-                            background: "transparent",
-                            fontSize: "16px",
+                            color: "rgb(82, 114, 161)",
+                            fontSize: "20px",
+                            fontFamily: "Calibri",
+                            border: "1px solid rgb(114, 158, 216)",
+                            borderRadius: "10px",
+                            height: "4rem",
+                            width: "100%",
                           }}
                         >
-                          IND (+91)
-                        </option>
-                      </button>
-                      <input
-                        required
-                        maxLength={10}
-                        className=""
-                        style={{
-                          border: "none",
-                          outline: "none",
-                          width: "60%",
-                          fontSize: "17px",
-                          paddingTop: "8px",
-                        }}
-                        type="tel"
-                        id="mobile"
-                        name="mobile"
-                        pattern="[0-9]{10}"
-                        error={isError}
-                        value={phone}
-                        onChange={handleChange}
-                      />
+                          <legend
+                            style={{
+                              color: "rgb(82, 114, 161)",
+                              marginBottom: "-5px",
+                              fontSize: "16px",
+                              paddingLeft: "5px",
+                              fontFamily: "Calibri",
+                              marginLeft: "15px",
+                              width: "8rem",
+                            }}
+                            for="exampleInputPassword1"
+                            class="form-label"
+                          >
+                            Mobile Number
+                          </legend>
+                          <button
+                            id="country"
+                            name="country"
+                            style={{ border: "none", backgroundColor: "white" }}
+                          >
+                            <option
+                              value="+91"
+                              style={{
+                                background: "transparent",
+                                fontSize: "16px",
+                              }}
+                            >
+                              IND (+91)
+                            </option>
+                          </button>
+                          <input
+                            required
+                            maxLength={10}
+                            className=""
+                            style={{
+                              border: "none",
+                              outline: "none",
+                              width: "60%",
+                              fontSize: "17px",
+                              paddingTop: "8px",
+                            }}
+                            type="tel"
+                            id="mobile"
+                            name="mobile"
+                            pattern="[0-9]{10}"
+                            error={isError}
+                            value={phone}
+                            onChange={handleChange}
+                          />
 
-                      {isError && (
-                        <p
-                          style={{
-                            color: "red",
-                            padding: "5px",
-                            fontSize: "16px",
-                            marginTop: "13px",
-                          }}
-                        >
-                          Phone number must be 10 digits
-                        </p>
-                      )}
-                    </fieldset>
+                          {isError && (
+                            <p
+                              style={{
+                                color: "red",
+                                padding: "5px",
+                                fontSize: "16px",
+                                marginTop: "13px",
+                              }}
+                            >
+                              Enter valid 10-digit mobile number
+                            </p>
+                          )}
+                        </fieldset>
 
-                    <div className="mt-5">
-                      <button
-                        type="button"
-                        class="btn "
-                        style={{
-                          width: "100%",
-                          backgroundColor: "#4478c7",
-                          color: "white",
-                          height: "2.8rem",
-                        }}
-                        onClick={handleMobile}
-                      >
-                        Submit
-                      </button>
-                    </div>
-                  </form>
+                        <div className="mt-5">
+                          <button
+                            type="button"
+                            class="btn "
+                            style={{
+                              width: "100%",
+                              backgroundColor: "#4478c7",
+                              color: "white",
+                              height: "2.8rem",
+                            }}
+                            onClick={handleMobile}
+                          >
+                            Submit
+                          </button>
+                        </div>
+                      </form>
+                    </>
+                  ) : (
+                    <h3>This is second conditions </h3>
+                  )}
                 </div>
               </div>
             </div>

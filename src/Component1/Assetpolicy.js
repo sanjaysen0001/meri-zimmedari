@@ -15,21 +15,12 @@ const Assetpolicy = () => {
   const [policyName, setPolicyName] = useState("");
   const [policyNumber, setPolicyNumber] = useState("");
   const [reEnterPolicyNumber, setReEnterPolicyNumber] = useState("");
+  const [formError, setFormError] = useState({
+    IspolicyName: false,
+    IspolicyNumber: false,
+    IsreEnterPolicyNumber: false,
+  });
 
-  // const [result, setResult] = useState([]);
-
-  // useEffect(() => {
-  //   axiosConfig
-  //     .get("/admin/get-list")
-  //     .then(response => {
-  //       setResult(response.data.Field);
-  //       // console.log(response.data.Field);
-  //     })
-  //     .catch(error => {
-  //       console.error(error);
-  //     });
-  //   console.log("object");
-  // }, []);
   useEffect(() => {
     let viewData = JSON.parse(localStorage.getItem("ViewOne"));
     if (location?.state) {
@@ -38,6 +29,51 @@ const Assetpolicy = () => {
       setdynamicFields(viewData);
     }
   }, []);
+
+  const handleNext = () => {
+    let userData = JSON.parse(localStorage.getItem("UserZimmedari"));
+    console.log(userData._id);
+    if (policyName === "") {
+      setFormError(prevData => ({ ...prevData, IspolicyName: true }));
+    } else {
+      setFormError(prevData => ({ ...prevData, IspolicyName: false }));
+    }
+
+    if (policyNumber === "") {
+      setFormError(prevData => ({ ...prevData, IspolicyNumber: true }));
+    } else {
+      setFormError(prevData => ({ ...prevData, IspolicyNumber: false }));
+    }
+    if (reEnterPolicyNumber === "") {
+      setFormError(prevData => ({ ...prevData, IsreEnterPolicyNumber: true }));
+    } else {
+      setFormError(prevData => ({
+        ...prevData,
+        IsreEnterPolicyNumber: false,
+      }));
+    }
+    let userId = JSON.parse(localStorage.getItem("UserZimmedari"))._id;
+    const formData = new FormData();
+    formData.append("userId", userId);
+    formData.append("file", uploadedFile);
+    formData.append("policynumber", policyNumber);
+    formData.append("policyIssuersName", policyName);
+    formData.append("ReEnterPolicyNumber", reEnterPolicyNumber);
+    if (
+      !formError.IspolicyName &&
+      !formError.IspolicyNumber &&
+      !formError.IsreEnterPolicyNumber
+    ) {
+      axiosConfig
+        .post("/asset/save-asset", formData)
+        .then(response => {
+          navigate("/add-asset/step2");
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+  };
   const handleIconClick = () => {
     fileInputRef.current.click();
   };
@@ -47,22 +83,6 @@ const Assetpolicy = () => {
     const file = event.target.files[0];
     setUploadedFileName(file.name);
     setUploadedFile(file);
-  };
-  const handleNext = () => {
-    const formData = new FormData();
-    formData.append("file", uploadedFile);
-    formData.append("policynumber", policyNumber);
-    formData.append("policyIssuersName", policyName);
-    formData.append("ReEnterPolicyNumber", reEnterPolicyNumber);
-    axiosConfig
-      .post("/asset/save-asset", formData)
-      .then(response => {
-        navigate("/add-asset/step2");
-        console.log(response);
-      })
-      .catch(error => {
-        console.error(error);
-      });
   };
   return (
     <>
@@ -219,6 +239,7 @@ const Assetpolicy = () => {
                     ref={fileInputRef}
                     style={{ display: "none" }}
                     name="uploadedFileName"
+                    required
                     onChange={handleFileChange} // Add change event listener to the file input
                   />
                   {uploadedFileName && <p>Uploaded file: {uploadedFileName}</p>}
@@ -254,11 +275,10 @@ const Assetpolicy = () => {
                           class="form-label"
                         >
                           {dynamicFields?.Field_2}
-                          {/* <span
-                            // style={{ color: "red" }}>*
-                          </span> */}
+                          <span style={{ color: "red" }}>*</span>
                         </legend>
                         <input
+                          required
                           type="text"
                           style={{
                             border: "none",
@@ -273,6 +293,18 @@ const Assetpolicy = () => {
                           name="policyName"
                         />
                       </fieldset>
+                      {formError.IspolicyName && (
+                        <p
+                          style={{
+                            color: "red",
+                            padding: "5px",
+                            fontSize: "16px",
+                            marginTop: "13px",
+                          }}
+                        >
+                          Enter {dynamicFields?.Field_2} is required!
+                        </p>
+                      )}
                     </form>
                   </div>
                 </form>
@@ -321,6 +353,18 @@ const Assetpolicy = () => {
                       onChange={e => setPolicyNumber(e.target.value)}
                     />
                   </fieldset>
+                  {formError.IspolicyNumber && (
+                    <p
+                      style={{
+                        color: "red",
+                        padding: "5px",
+                        fontSize: "16px",
+                        marginTop: "13px",
+                      }}
+                    >
+                      Enter {dynamicFields?.Field_3} is required!
+                    </p>
+                  )}
                 </form>
               </div>
             </div>
@@ -368,6 +412,18 @@ const Assetpolicy = () => {
                         name="reEnterPolicyNumber"
                       />
                     </fieldset>
+                    {formError.IsreEnterPolicyNumber && (
+                      <p
+                        style={{
+                          color: "red",
+                          padding: "5px",
+                          fontSize: "16px",
+                          marginTop: "13px",
+                        }}
+                      >
+                        Enter {dynamicFields?.Field_4} is required!
+                      </p>
+                    )}
                   </div>
                 </form>
               </div>

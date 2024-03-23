@@ -4,7 +4,7 @@ import Webcam from "react-webcam";
 import * as tf from "@tensorflow/tfjs";
 // import imageuser from "../image/logouserimage.png";
 import axiosConfig from "../axiosConfig";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation, useParams } from "react-router-dom";
 
 import "./Otpveri";
 import swal from "sweetalert";
@@ -25,9 +25,13 @@ const Login = () => {
     image: null,
   });
 
-  const [phone, setPhone] = useState("");
+  const [phone, setPhone] = useState(null);
   const [isError, setIsError] = useState(false);
   const navigate = useNavigate();
+  const locations = useLocation();
+  const searchParams = new URLSearchParams(window.location.href);
+  console.log(locations.pathname);
+  console.log("_idddd", searchParams);
 
   useEffect(() => {
     tf.setBackend("webgl");
@@ -184,19 +188,21 @@ const Login = () => {
 
   const handleMobile = () => {
     let payload = {
-      mobileNo: phone,
+      mobileNo: Number(phone),
     };
-    if (phone.length === 10) {
+    console.log(phone);
+    if (phone.length == 10) {
+      setIsError(false);
       axiosConfig
         .post("/save-mobile", payload)
         .then(response => {
-          localStorage.setItem("MobileNUM", JSON.stringify(phone));
+          localStorage.setItem("MobileNUM", JSON.stringify(Number(phone)));
+          navigate("/login/otp", { state: phone });
         })
         .catch(error => {
           swal("Something Went Wrong");
           console.log(error.message);
         });
-      navigate("/login/otp", { state: phone });
     } else {
       setIsError(true);
     }
