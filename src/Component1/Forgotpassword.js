@@ -1,9 +1,44 @@
-import React from 'react'
+import React, { useState } from 'react'
 import imagelogo from '../image/logo.png'
 import { Link } from 'react-router-dom'
+import Modal from 'react-bootstrap/Modal';
+
+function Passwordsucced(props) {
+
+  return (
+    <Modal
+      {...props}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header style={{justifyContent:'right',display:'flex', padding:'0.1rem 0.1rem',border:'none'}}>
+      
+       
+      </Modal.Header>
+      <Modal.Body style={{textAlign:'center'}}>
+      Password updated successfully. Click to 
+      <span style={{marginLeft:'5px'}}>
+      <Link to={'/'}>
+      Login.
+      </Link>
+      </span>
+      </Modal.Body>
+      
+    </Modal>
+  );
+}
+
+
 const Forgotpassword = () => {
+   const [modalShow, setModalShow] = useState(false);
   return (
     <>
+ 
+    <Passwordsucced
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+      />
     <div className='container-fluid ' style={{display: "inline-block"}}>
     <div class="header" style={{marginLeft:'-15px',boxShadow: "0 0 10px  #2374ee"}}>
     <div class="container-fluid">
@@ -79,7 +114,7 @@ const Forgotpassword = () => {
         
         
              <fieldset className="mt-2"  style={{color:'rgb(82, 114, 161)', fontSize:'20px',fontFamily:'Calibri', border: "1px solid rgb(114, 158, 216)",borderRadius:'10px',height:'4.5rem',width:'100%'}}>
-             <legend style={{color:'rgb(82, 114, 161)',marginBottom:'-5px', fontSize:'16px',paddingLeft:'5px',fontFamily:'Calibri',marginLeft:'15px',width:'8rem'}} for="exampleInputPassword1" class="form-label">New Password 
+             <legend style={{color:'rgb(82, 114, 161)',marginBottom:'-5px', fontSize:'16px',paddingLeft:'5px',fontFamily:'Calibri',marginLeft:'15px',width:'8rem'}} for="exampleInputPassword1" class="form-label">New Password <span style={{color:'red'}}>*</span> 
              
              </legend>
             
@@ -94,9 +129,14 @@ const Forgotpassword = () => {
                <input style={{border:"none",paddingTop:'6px',outline: "none",width:"100%" ,paddingLeft:'15px'}} max={6}  type="tel" id="mobile" name="mobile" pattern="[0-9]{10}"  required />
             
                      </fieldset>
+                     <div className='mt-1'>
+                    <span style={{fontSize:'13px'}}>
+                    Password required must be minimum 8 word, capital case, small case, special character, number
+                    </span>
+                     </div>
   <div className="mt-3">
    
-  <button  type="button" class="btn mt-2" style={{width:"100%", backgroundColor:"#4478c7" , color:"white",height:'2.8rem'}}> Confirm Password </button>
+  <button    onClick={() => setModalShow(true)}  type="button" class="btn mt-2" style={{width:"100%", backgroundColor:"#4478c7" , color:"white",height:'2.8rem'}} > Submit</button>
  
  
   </div>
