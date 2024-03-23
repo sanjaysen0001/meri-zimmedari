@@ -233,12 +233,11 @@ const Register = args => {
   };
   const handleSubmit = async e => {
     e.preventDefault();
-    debugger;
     setIsTrue(true);
     let MobileNUM = JSON.parse(localStorage.getItem("MobileNUM"));
     try {
       const formDataToSend = new FormData();
-      formDataToSend.append("mobileNo", MobileNUM);
+      formDataToSend.append("mobileNo", Number(MobileNUM));
       formDataToSend.append("firstName", formData.name);
       formDataToSend.append("email", formData.email);
       formDataToSend.append("image", dataURItoBlob(formData.image));
@@ -268,8 +267,7 @@ const Register = args => {
       });
     } catch (error) {
       console.error("Error registering:", error);
-    }
-  };
+    } };
 
   return (
     <>
