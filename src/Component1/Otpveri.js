@@ -32,21 +32,27 @@ const Otpveri = () => {
     // let MobileNUM = JSON.parse(localStorage.getItem("MobileNUM"));
 
     let payload = {
-      otp: otp,
-      mobileNo: phoneNumber,
+      otp: Number(otp),
+      mobileNo: Number(phoneNumber),
     };
     axiosConfig
-      .post("/otp-verify", payload)
-      .then(response => {
-        if (response.data.success == "ok") {
-          navigate("/dashboard", { replace: true });
-        } else {
-          navigate("/registration", { replace: true });
-        }
-      })
-      .catch(error => {
-        swal("Something went wrong");
-      });
+    .post("/otp-verify", payload)
+    .then(response => {
+    
+      //
+      if (response.data.success == "ok") {
+        localStorage.setItem(
+          "UserZimmedari",
+          JSON.stringify(response.data.User)
+        );
+        navigate("/dashboard", { replace: true });
+      } else {
+        navigate("/registration", { replace: true });
+      }
+    })
+    .catch(error => {
+      swal(error.message);
+    });
   };
   return (
     <>
