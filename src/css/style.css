@@ -135,6 +135,9 @@
       padding: 0.5rem 1rem;
      
     }
+    .cssforfontsizeinheading{
+     font-size: 20px;
+    }
 }
 
 
@@ -894,7 +897,9 @@
 }
 
 @media (min-width: 576px) and (max-width: 767px) {
-    
+    .cssforfontsizeinheading{
+     font-size: 17px;
+    }
     .header {
         padding: 31px 15px;
         box-shadow: 0 0 10px #2374ee;
@@ -1205,9 +1210,18 @@
      background-color: white;
      border-radius: 20px;
 }
+.cssforhandlesvgiconofpayment1{
+     margin-top: -18px;
+    
+     background-color: white;
+     border-radius: 20px;
+}
 .cssforcheckboxstylepayment[type="checkbox"]{
      border: 1px solid rgb(6, 43, 165);
      height: 20px;
      width: 20px;
      
 }
+
+
+

@@ -1,7 +1,26 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import imagelogo from '../image/logo.png'
 const Forgototpverify = () => {
+   const [count, setCount] = useState(0);
+  const [isCountingComplete, setIsCountingComplete] = useState(false);
+
+  useEffect(() => {
+    if (count < 59) {
+      const timer = setTimeout(() => {
+        setCount(count + 1);
+      }, 1000);
+      return () => clearTimeout(timer);
+    } else {
+      setIsCountingComplete(true);
+    }
+  }, [count]);
+
+  const handleReset = () => {
+    setCount(0);
+    setIsCountingComplete(false);
+  };
+
   return (
    <>
    <div className='container-fluid ' style={{display: "inline-block"}}>
@@ -86,9 +105,9 @@ const Forgototpverify = () => {
           </fieldset>
    
           <div className='mt-2'>
-          <span style={{fontSize:'13px',color:"gray"}}>Didn't receive the OTP?</span>
+          <span style={{fontSize:'13px',color:"gray"}}>Didn't receive the OTP? Resend after {count} Seconds</span>
           <span className='ml-1'>
-          <Link to={''} style={{textDecoration:'none'}}>Resend</Link>
+          <Link to={''} style={{textDecoration:'none'}} disabled={!isCountingComplete}>Resend</Link>
           </span>
           </div>
    <div className="mt-3">

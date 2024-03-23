@@ -322,8 +322,8 @@ const Login = () => {
                   paddingLeft: "2rem",
                 }}
               >
-                <div style={{ fontSize: "20px", fontWeight: "600" }}>
-                  Sign-in<span style={{ fontSize: "20px" }}>/</span>Sign-up to
+                <div className="cssforfontsizeinheading" style={{  fontWeight: "600" }}>
+                  Sign-in<span className="cssforfontsizeinheading" style={{  }}>/</span>Sign-up to
                   Meri Zimmedari
                 </div>
               </div>
@@ -410,7 +410,7 @@ const Login = () => {
                             marginTop: "13px",
                           }}
                         >
-                          Enter valid 10-digit mobile number
+                        Enter valid 10-digit mobile number
                         </p>
                       )}
                     </fieldset>
@@ -439,7 +439,7 @@ const Login = () => {
                             height: "2.8rem",
                           }}
                         >
-                          Sign in with Password
+                        Sign-in with Password
                         </button>
                       </Link>
                     </div>
@@ -482,7 +482,7 @@ const Login = () => {
                           height: "2.8rem",
                         }}
                       >
-                        Sign in with face recognition
+                      Sign-in with face recognition
                       </button>
                     </div>
                   </form>

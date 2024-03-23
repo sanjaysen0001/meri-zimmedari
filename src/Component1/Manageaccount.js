@@ -1,11 +1,63 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Mynavbar from './Mynavbar'
+import Modal from 'react-bootstrap/Modal';
+
+function Createpassword(props) {
+
+  return (
+    <Modal
+      {...props}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header style={{justifyContent:'right',display:'flex', padding:'0.1rem 0.1rem',border:'none'}}>
+      
+       
+      </Modal.Header>
+      <Modal.Body style={{textAlign:'center'}}>
+      New password sent to anc.gmail.com
+      </Modal.Body>
+      
+    </Modal>
+  );
+}
+function Savepassword(props) {
+
+  return (
+    <Modal
+      {...props}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header style={{justifyContent:'right',display:'flex', padding:'0.1rem 0.1rem',border:'none'}}>
+      
+       
+      </Modal.Header>
+      <Modal.Body style={{textAlign:'center'}}>
+      Password Reset Successfully
+      </Modal.Body>
+      
+    </Modal>
+  );
+}
 
 const Manageaccount = () => {
+  const [modalShow, setModalShow] = useState(false);
+  const [modalShow1, setModalShow1] = useState(false);
   return (
     <>
     <Mynavbar/>
+    <Savepassword    
+    show={modalShow1}
+    onHide={() => setModalShow1(false)}
+    />
+    <Createpassword
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+      />
     <div > 
     <p  style={{fontSize:'22px',color:'rgb(43, 77, 129)' ,fontWeight:'400', backgroundImage: "linear-gradient(to right, rgb(194, 215, 233) , rgb(229, 234, 238))"}}>
     <span className='ml-3'>My Account </span>
@@ -54,11 +106,17 @@ const Manageaccount = () => {
        <div className='row mt-4 ' style={{marginLeft:'1rem',marginRight:'1rem'}}>
        <div className='col-md-4 col-xl-4 col-lg-4'></div>
        <div className='col-md-4 col-xl-4 col-lg-4' style={{justifyContent:'center',display:'flex'}}>
-       <button style={{width:'80%',fontSize:'24px',color:'white',backgroundColor:'rgb(82, 114, 161)',border:'1px solid rgb(82, 114, 161)',height:'3rem',borderTopLeftRadius:'80px',borderTopRightRadius:'80px'}}>
+       <button onClick={() => setModalShow1(true)} style={{width:'80%',fontSize:'24px',color:'white',backgroundColor:'rgb(82, 114, 161)',border:'1px solid rgb(82, 114, 161)',height:'3rem',borderTopLeftRadius:'80px',borderTopRightRadius:'80px'}}>
        Save Password
        </button>
        </div>
-       <div className='col-md-4 col-xl-4 col-lg-4'></div>
+       <div className='col-md-4 col-xl-4 col-lg-4'>
+       <div style={{textAlign:'center'}}>
+       <Link to={''} onClick={() => setModalShow(true)} style={{color:'rgb(82, 114, 161)',fontSize:'22px',textDecoration:'none'}}>
+       Generate Random Password
+       </Link>
+       </div>
+       </div>
        </div>
         </fieldset>
     </div>

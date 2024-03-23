@@ -49,7 +49,7 @@ const Mynavbar = () => {
           <NavDropdown.Item >Confidential Note
           </NavDropdown.Item>
           </LinkContainer>
-          <LinkContainer to={''}>
+          <LinkContainer to={'/Preview'}>
           <NavDropdown.Item >Preview
           </NavDropdown.Item>
           </LinkContainer>

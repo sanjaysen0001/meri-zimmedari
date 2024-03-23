@@ -42,6 +42,7 @@ import Splashscreen from "../components/Splashscreen";
 import Forgotpassword from "../Component1/Forgotpassword";
 import Forgototpverify from "../Component1/Forgototpverify";
 import Payment from "../Component1/Payment";
+import Preview from "../Component1/Preview";
 
 const Routerfile = () => {
   const [loading, setLoading] = useState(false);
@@ -60,6 +61,7 @@ const Routerfile = () => {
             <Route path="/face" element={<Splashscreen />} />
           ) : (
             <>
+              <Route path="/Preview" element={<Preview/>}/>
               <Route path="/payment" element={<Payment />} />
               <Route path="/face" element={<Loginform />} />
               <Route path="/loginform" element={<Loginform />} />
