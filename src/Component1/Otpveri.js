@@ -6,6 +6,7 @@ import imagelogo from "../image/logo.png";
 import swal from "sweetalert";
 const Otpveri = () => {
   const [otp, setOtp] = useState(null);
+  const [bool, setBool] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
   const phoneNumber = location.state;
@@ -48,7 +49,7 @@ const Otpveri = () => {
         }
       })
       .catch(error => {
-        swal(error.message);
+        swal("Invalid OTP");
       });
   };
   return (
@@ -228,8 +229,10 @@ const Otpveri = () => {
                         id="mobile"
                         name="mobile"
                         value={otp}
-                        // pattern="[0-9]{10}"
-                        onChange={e => setOtp(e.target.value)}
+                        onChange={e => {
+                          setOtp(e.target.value);
+                          setBool(true);
+                        }}
                         required
                       />
                     </fieldset>
@@ -252,6 +255,7 @@ const Otpveri = () => {
                       <button
                         type="button"
                         class="btn "
+                        disabled={bool ? false : true}
                         style={{
                           width: "100%",
                           backgroundColor: "#4478c7",

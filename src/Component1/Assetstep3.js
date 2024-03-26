@@ -224,8 +224,8 @@ const Assetstep3 = () => {
                     className="text-center"
                     style={{ border: "2px solid rgb(201, 198, 198)" }}
                   >
-                    {/* {AssetData.} */}
-                    Term Insurance Policy
+                    {AssetData.assetType}
+                    {/* Term Insurance Policy */}
                   </td>
                 </tr>
 
@@ -280,7 +280,13 @@ const Assetstep3 = () => {
                     className="text-center"
                     style={{ border: "2px solid rgb(201, 198, 198)" }}
                   >
-                    Policy212414242
+                    {/* Policy212414242 */}
+                    <embed
+                      src={AssetData.uploadPolicy}
+                      type="application/pdf"
+                      width="50%"
+                      height="100px"
+                    />
                   </td>
                 </tr>
               </tbody>

@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import axiosConfig from "./../axiosConfig";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Mynavbar from "./Mynavbar";
+
 const Assetpolicy = () => {
   const fileInputRef = useRef(null);
   let location = useLocation();
@@ -12,21 +13,22 @@ const Assetpolicy = () => {
 
   const [uploadedFileName, setUploadedFileName] = useState(null);
   const [assetType, setAssetType] = useState("");
+  const [error, setError] = useState(null);
   const [uploadedFile, setUploadedFile] = useState(null);
   const [policyName, setPolicyName] = useState("");
   const [policyNumber, setPolicyNumber] = useState("");
   const [reEnterPolicyNumber, setReEnterPolicyNumber] = useState("");
   const [formError, setFormError] = useState({
+    IspolicyFile: false,
     IspolicyName: false,
     IspolicyNumber: false,
     IsreEnterPolicyNumber: false,
+    IsBothMatch: false,
   });
 
   useEffect(() => {
     let viewData = JSON.parse(localStorage.getItem("ViewOne"));
     if (location?.state) {
-      console.log(location.state.Asset_Type);
-      // setAssetType(location.state.Asset_Type);
       setdynamicFields(location?.state);
     } else {
       setdynamicFields(viewData);
@@ -34,24 +36,28 @@ const Assetpolicy = () => {
   }, []);
 
   const handleNext = () => {
-    // let userData = JSON.parse(localStorage.getItem("UserZimmedari"));
-    if (policyName === "") {
-      setFormError(prevData => ({ ...prevData, IspolicyName: true }));
+    if (uploadedFile) {
+      setFormError(prevData => ({ ...prevData, IspolicyFile: false }));
     } else {
+      setFormError(prevData => ({ ...prevData, IspolicyFile: true }));
+    }
+    if (policyName) {
       setFormError(prevData => ({ ...prevData, IspolicyName: false }));
+    } else {
+      setFormError(prevData => ({ ...prevData, IspolicyName: true }));
     }
 
-    if (policyNumber === "") {
-      setFormError(prevData => ({ ...prevData, IspolicyNumber: true }));
-    } else {
+    if (policyNumber) {
       setFormError(prevData => ({ ...prevData, IspolicyNumber: false }));
+    } else {
+      setFormError(prevData => ({ ...prevData, IspolicyNumber: true }));
     }
-    if (reEnterPolicyNumber === "") {
-      setFormError(prevData => ({ ...prevData, IsreEnterPolicyNumber: true }));
+    if (reEnterPolicyNumber) {
+      setFormError(prevData => ({ ...prevData, IsreEnterPolicyNumber: false }));
     } else {
       setFormError(prevData => ({
         ...prevData,
-        IsreEnterPolicyNumber: false,
+        IsreEnterPolicyNumber: true,
       }));
     }
     let userId = JSON.parse(localStorage.getItem("UserZimmedari"))._id;
@@ -59,23 +65,30 @@ const Assetpolicy = () => {
     formData.append("userId", userId);
     formData.append("file", uploadedFile);
     formData.append("assetType", dynamicFields.Asset_Type);
-    formData.append("policynumber", policyNumber);
     formData.append("policyIssuersName", policyName);
+    formData.append("policynumber", policyNumber);
     formData.append("ReEnterPolicyNumber", reEnterPolicyNumber);
-    console.log(uploadedFile);
     if (
       formError.IspolicyName &&
       formError.IspolicyNumber &&
       formError.IsreEnterPolicyNumber
     ) {
-      axiosConfig
-        .post("/asset/save-asset", formData)
-        .then(response => {
-          navigate("/add-asset/step2");
-        })
-        .catch(error => {
-          console.error(error);
-        });
+      if (policyNumber === reEnterPolicyNumber) {
+        axiosConfig
+          .post("/asset/save-asset", formData)
+          .then(response => {
+            // console.log(response);
+            navigate("/add-asset/step2");
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      } else {
+        setFormError(prevData => ({
+          ...prevData,
+          IsBothMatch: true,
+        }));
+      }
     }
   };
   const handleIconClick = () => {
@@ -85,8 +98,16 @@ const Assetpolicy = () => {
   const handleFileChange = event => {
     const file = event.target.files[0];
     setUploadedFileName(file.name);
-    console.log(file);
     setUploadedFile(file);
+
+    const selectedFile = event.target.files[0];
+    if (selectedFile && selectedFile.size > 500 * 1024) {
+      setError("File size exceeds the permissible limit of 500 KB.");
+      setUploadedFile(null);
+    } else {
+      setError(null);
+      setUploadedFile(selectedFile);
+    }
   };
   return (
     <>
@@ -240,15 +261,44 @@ const Assetpolicy = () => {
                   </svg>
                   <input
                     type="file"
+                    id="poster"
                     ref={fileInputRef}
                     style={{ display: "none" }}
                     name="uploadedFileName"
                     required
+                    accept="application/pdf, image/png, image/jpeg,image/jpg,image/jpe"
                     onChange={handleFileChange}
                   />
+                  <span style={{ color: "red" }}>*</span>
                   {uploadedFileName && <p>Uploaded file: {uploadedFileName}</p>}
                 </span>
               </div>
+
+              {formError.IspolicyFile && (
+                <p
+                  style={{
+                    color: "red",
+                    padding: "5px",
+                    fontSize: "16px",
+                    marginTop: "13px",
+                  }}
+                >
+                  {dynamicFields?.Field_1} is required!
+                </p>
+              )}
+              {error && (
+                <p
+                  style={{
+                    color: "red",
+                    padding: "5px",
+                    fontSize: "16px",
+                    marginTop: "13px",
+                  }}
+                >
+                  {error}
+                </p>
+              )}
+              {/* {uploadedFile && <p>File selected: {uploadedFileName}</p>} */}
             </div>
             <div className="col-md-6 col-sm-6 col-lg-6 col-xl-6">
               <div className="mt-4">
@@ -364,6 +414,18 @@ const Assetpolicy = () => {
                     Enter {dynamicFields?.Field_3} is required!
                   </p>
                 )}
+                {formError.IsBothMatch && (
+                  <p
+                    style={{
+                      color: "red",
+                      padding: "5px",
+                      fontSize: "16px",
+                      marginTop: "13px",
+                    }}
+                  >
+                    Value Mismatch
+                  </p>
+                )}
               </div>
             </div>
             <div className="col-md-6 col-sm-6 col-lg-6 col-xl-6">
@@ -420,6 +482,18 @@ const Assetpolicy = () => {
                       }}
                     >
                       Enter {dynamicFields?.Field_4} is required!
+                    </p>
+                  )}
+                  {formError.IsBothMatch && (
+                    <p
+                      style={{
+                        color: "red",
+                        padding: "5px",
+                        fontSize: "16px",
+                        marginTop: "13px",
+                      }}
+                    >
+                      Value Mismatch
                     </p>
                   )}
                 </div>
