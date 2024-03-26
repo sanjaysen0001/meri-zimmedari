@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axiosConfig from "../axiosConfig";
 import { Link } from "react-router-dom";
@@ -9,6 +9,24 @@ const Otpveri = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const phoneNumber = location.state;
+  const [count, setCount] = useState(0);
+  const [isCountingComplete, setIsCountingComplete] = useState(false);
+
+  useEffect(() => {
+    if (count < 59) {
+      const timer = setTimeout(() => {
+        setCount(count + 1);
+      }, 1000);
+      return () => clearTimeout(timer);
+    } else {
+      setIsCountingComplete(true);
+    }
+  }, [count]);
+
+  const handleReset = () => {
+    setCount(0);
+    setIsCountingComplete(false);
+  };
 
   const handleOtpVerify = () => {
     let payload = {
@@ -218,10 +236,14 @@ const Otpveri = () => {
 
                     <div className="mt-2">
                       <span style={{ fontSize: "13px", color: "gray" }}>
-                        Didn't receive the OTP?
+                        Didn't receive the OTP? Resend after {count} Seconds
                       </span>
                       <span className="ml-1">
-                        <Link to={""} style={{ textDecoration: "none" }}>
+                        <Link
+                          to={""}
+                          style={{ textDecoration: "none" }}
+                          disabled={!isCountingComplete}
+                        >
                           Resend
                         </Link>
                       </span>
@@ -238,7 +260,7 @@ const Otpveri = () => {
                         }}
                         onClick={handleOtpVerify}
                       >
-                        Sign-in
+                        Submit
                       </button>
                     </div>
                   </form>

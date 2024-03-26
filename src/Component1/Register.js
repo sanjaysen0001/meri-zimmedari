@@ -267,8 +267,7 @@ const Register = args => {
       });
     } catch (error) {
       console.error("Error registering:", error);
-    }
-  };
+    } };
 
   return (
     <>
@@ -382,7 +381,7 @@ const Register = args => {
                 }}
               >
                 <div style={{ fontSize: "20px", fontWeight: "600" }}>
-                  Sign-in<span style={{ fontSize: "20px" }}>/</span>Sign-up to
+                 Sign-up to
                   Meri Zimmedari
                 </div>
               </div>
@@ -416,6 +415,7 @@ const Register = args => {
                         class="form-label"
                       >
                         Enter Name
+                        <span style={{marginLeft:'2px', color:'red'}}>*</span>
                       </legend>
 
                       <input
@@ -458,12 +458,13 @@ const Register = args => {
                           paddingLeft: "5px",
                           fontFamily: "Calibri",
                           marginLeft: "15px",
-                          width: "6.8rem",
+                          width: "7.5rem",
                         }}
                         for="exampleInputPassword1"
                         class="form-label"
                       >
-                        Enter Email ID
+                      Enter E-Mail ID
+                        <span style={{marginLeft:'2px', color:'red'}}>*</span>
                       </legend>
 
                       <input
@@ -503,11 +504,12 @@ const Register = args => {
                         }}
                         onClick={toggle}
                       >
-                        Upload Live Pic
+                      Upload Live Selfie
+                        <span style={{marginLeft:'2px', color:'red'}}>*</span>
                       </button>
                     </div>
 
-                    <div className="termsconditions pt-2">
+                    <div className="termsconditions pt-2" style={{width:'100%'}}>
                       <input
                         type="checkbox"
                         className="terms"
@@ -518,20 +520,29 @@ const Register = args => {
                           console.log(e.target.checked);
                           setIsCheck(e.target.checked);
                         }}
+                        style={{width:'5%',float:'left',marginTop:'5px'}}
                       />
-                      <Link to="/termsConditions">
-                        <label className="pl-2" for="terms">
-                          <a href="#" className="conditions">
-                            <span style={{ marginRight: "5px" }}>
-                              Terms and Conditions
-                            </span>
-                            <span>|</span>
-                            <span style={{ marginLeft: "5px" }}>
-                              Privacy Policy
-                            </span>
-                          </a>
-                        </label>
-                      </Link>
+                      
+                      <label className="pl-2" for="terms" style={{width:'95%',fontSize:'15px'}}>
+                      <span style={{color:'black'}}> 
+                      I agree to the
+                      </span> 
+                          <span style={{marginLeft:'3px'}}>
+                         <Link to={'/termsConditions'} >
+                         Terms & conditions
+                         </Link>
+                          </span>
+                          <span style={{marginLeft:'3px',color:'black'}}>
+                          and
+                          </span>
+                         
+                          <span style={{marginLeft:'3px'}}>
+                          <Link to={''} >
+                          Privacy Policy
+                          </Link>
+                         
+                          </span>
+                         </label>
                     </div>
 
                     <div className="">
@@ -555,13 +566,13 @@ const Register = args => {
                         className="nav-link-inner--text"
                         style={{ color: "black" }}
                       >
-                        Already have account?
+                        Already have account? 
                         <Link to={"/"} style={{ textDecoration: "none" }}>
                           <span
                             style={{ color: "rgb(57, 103, 204)" }}
                             className="ml-1"
                           >
-                            Sign in
+                          Sign-in
                           </span>
                         </Link>
                       </span>

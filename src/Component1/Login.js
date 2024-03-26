@@ -11,6 +11,11 @@ import swal from "sweetalert";
 const faceLandmarksDetection = require("@tensorflow-models/face-landmarks-detection");
 
 const Login = () => {
+  const [phone, setPhone] = useState(null);
+  const locations = useLocation();
+  const searchParams = new URLSearchParams(window.location.href);
+  console.log(locations.pathname);
+  console.log("_idddd", searchParams);
   // for face open
   const webcamRef = useRef(null);
   const [showWebcam, setShowWebcam] = useState(false);
@@ -25,13 +30,8 @@ const Login = () => {
     image: null,
   });
 
-  const [phone, setPhone] = useState(null);
   const [isError, setIsError] = useState(false);
   const navigate = useNavigate();
-  const locations = useLocation();
-  const searchParams = new URLSearchParams(window.location.href);
-  console.log(locations.pathname);
-  console.log("_idddd", searchParams);
 
   useEffect(() => {
     tf.setBackend("webgl");
@@ -328,9 +328,15 @@ const Login = () => {
                   paddingLeft: "2rem",
                 }}
               >
-                <div style={{ fontSize: "20px", fontWeight: "600" }}>
-                  Sign-in<span style={{ fontSize: "20px" }}>/</span>Sign-up to
-                  Meri Zimmedari
+                <div
+                  className="cssforfontsizeinheading"
+                  style={{ fontWeight: "600" }}
+                >
+                  Sign-in
+                  <span className="cssforfontsizeinheading" style={{}}>
+                    /
+                  </span>
+                  Sign-up to Meri Zimmedari
                 </div>
               </div>
               {showWebcam && (
@@ -445,7 +451,7 @@ const Login = () => {
                             height: "2.8rem",
                           }}
                         >
-                          Sign in with Password
+                          Sign-in with Password
                         </button>
                       </Link>
                     </div>
@@ -488,7 +494,7 @@ const Login = () => {
                           height: "2.8rem",
                         }}
                       >
-                        Sign in with face recognition
+                        Sign-in with face recognition
                       </button>
                     </div>
                   </form>

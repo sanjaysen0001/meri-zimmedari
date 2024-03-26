@@ -31,6 +31,7 @@ const Index = () => {
         <div className="mt-5 container-fluid">
           <div className="row">
             <div className="col-md-4 col-xl-4 col-lg-4">
+            <Link style={{ textDecoration: "none" }} to={"/add-asset"}>
               <div
                 className="m-2"
                 style={{ justifyContent: "center", display: "flex" }}
@@ -51,7 +52,7 @@ const Index = () => {
                       color: "rgb(43, 77, 129)",
                       padding: "10px",
                       backgroundImage:
-                        "linear-gradient(to right, rgb(194, 215, 233) , #e2d7cc)",
+                        "linear-gradient(to right, rgb(194, 215, 233) , rgb(230, 200, 105))",
                     }}
                   >
                     ASSET ADDED
@@ -74,8 +75,10 @@ const Index = () => {
                   </p>
                 </div>
               </div>
+              </Link>
             </div>
             <div className="col-md-4 col-xl-4 col-lg-4">
+            <Link style={{ textDecoration: "none" }} to={"/lifedeclaration"}>
               <div
                 className="m-2"
                 style={{ justifyContent: "center", display: "flex" }}
@@ -96,7 +99,7 @@ const Index = () => {
                       color: "rgb(43, 77, 129)",
                       padding: "10px",
                       backgroundImage:
-                        "linear-gradient(to right, rgb(194, 215, 233) , #e2d7cc)",
+                        "linear-gradient(to right, rgb(194, 215, 233) , rgb(230, 200, 105))",
                     }}
                   >
                     HEALTH DECLERATION STATUS
@@ -144,6 +147,7 @@ const Index = () => {
                   </p>
                 </div>
               </div>
+              </Link>
             </div>
             <div className="col-md-4 col-xl-4 col-lg-4">
               <Link style={{ textDecoration: "none" }} to={"/payment"}>
@@ -167,7 +171,7 @@ const Index = () => {
                         color: "rgb(43, 77, 129)",
                         padding: "10px",
                         backgroundImage:
-                          "linear-gradient(to right, rgb(194, 215, 233) , #e2d7cc)",
+                          "linear-gradient(to right, rgb(194, 215, 233) , rgb(230, 200, 105))",
                       }}
                     >
                       SUBSCRIPTION STATUS
@@ -265,7 +269,7 @@ const Index = () => {
                           height: "3rem",
                           padding: "10px",
                           backgroundImage:
-                            "linear-gradient(to right, rgb(194, 215, 233) , #e2d7cc)",
+                            "linear-gradient(to right, rgb(194, 215, 233) , rgb(233, 239, 245))",
                         }}
                       >
                         Renew Subscription, expiring in 15 days
@@ -278,7 +282,7 @@ const Index = () => {
                           height: "3rem",
                           padding: "10px",
                           backgroundImage:
-                            "linear-gradient(to right, #e2d7cc, rgb(194, 215, 233) )",
+                            "linear-gradient(to right, rgb(224, 173, 132), rgb(241, 236, 232) )",
                         }}
                       >
                         Validate Nominee Phone Number
@@ -292,7 +296,7 @@ const Index = () => {
                           height: "3rem",
                           padding: "10px",
                           backgroundImage:
-                            "linear-gradient(to right, rgb(194, 215, 233) , #e2d7cc)",
+                            "linear-gradient(to right, rgb(194, 215, 233) , rgb(233, 239, 245))",
                         }}
                       >
                         Validate Nominee e-mail ID
@@ -309,7 +313,7 @@ const Index = () => {
                   style={{
                     border: "1px solid rgb(43, 77, 129)",
                     backgroundImage:
-                      "linear-gradient(to right, rgb(194, 215, 233) , #e4f1f0)",
+                      "linear-gradient(to right, rgb(194, 215, 233) , rgb(233, 239, 245))",
                     borderBottomRightRadius: "20px",
                     borderTopRightRadius: "20px",
                   }}

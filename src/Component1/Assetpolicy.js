@@ -11,6 +11,7 @@ const Assetpolicy = () => {
   const [dynamicFields, setdynamicFields] = useState(""); // for fields
 
   const [uploadedFileName, setUploadedFileName] = useState(null);
+  const [assetType, setAssetType] = useState("");
   const [uploadedFile, setUploadedFile] = useState(null);
   const [policyName, setPolicyName] = useState("");
   const [policyNumber, setPolicyNumber] = useState("");
@@ -24,6 +25,8 @@ const Assetpolicy = () => {
   useEffect(() => {
     let viewData = JSON.parse(localStorage.getItem("ViewOne"));
     if (location?.state) {
+      console.log(location.state.Asset_Type);
+      // setAssetType(location.state.Asset_Type);
       setdynamicFields(location?.state);
     } else {
       setdynamicFields(viewData);
@@ -31,8 +34,7 @@ const Assetpolicy = () => {
   }, []);
 
   const handleNext = () => {
-    let userData = JSON.parse(localStorage.getItem("UserZimmedari"));
-    console.log(userData._id);
+    // let userData = JSON.parse(localStorage.getItem("UserZimmedari"));
     if (policyName === "") {
       setFormError(prevData => ({ ...prevData, IspolicyName: true }));
     } else {
@@ -56,13 +58,15 @@ const Assetpolicy = () => {
     const formData = new FormData();
     formData.append("userId", userId);
     formData.append("file", uploadedFile);
+    formData.append("assetType", dynamicFields.Asset_Type);
     formData.append("policynumber", policyNumber);
     formData.append("policyIssuersName", policyName);
     formData.append("ReEnterPolicyNumber", reEnterPolicyNumber);
+    console.log(uploadedFile);
     if (
-      !formError.IspolicyName &&
-      !formError.IspolicyNumber &&
-      !formError.IsreEnterPolicyNumber
+      formError.IspolicyName &&
+      formError.IspolicyNumber &&
+      formError.IsreEnterPolicyNumber
     ) {
       axiosConfig
         .post("/asset/save-asset", formData)
@@ -79,9 +83,9 @@ const Assetpolicy = () => {
   };
 
   const handleFileChange = event => {
-    console.log("img");
     const file = event.target.files[0];
     setUploadedFileName(file.name);
+    console.log(file);
     setUploadedFile(file);
   };
   return (
@@ -240,79 +244,15 @@ const Assetpolicy = () => {
                     style={{ display: "none" }}
                     name="uploadedFileName"
                     required
-                    onChange={handleFileChange} // Add change event listener to the file input
+                    onChange={handleFileChange}
                   />
                   {uploadedFileName && <p>Uploaded file: {uploadedFileName}</p>}
                 </span>
-
-                {/* Hidden file input */}
               </div>
             </div>
             <div className="col-md-6 col-sm-6 col-lg-6 col-xl-6">
               <div className="mt-4">
-                <form>
-                  <div className="mb-3">
-                    <form action="#" method="post">
-                      <fieldset
-                        style={{
-                          color: "rgb(82, 114, 161)",
-                          fontSize: "20px",
-                          fontFamily: "Calibri",
-                          border: "1px solid rgb(114, 158, 216)",
-                          borderRadius: "10px",
-                        }}
-                      >
-                        <legend
-                          style={{
-                            color: "rgb(82, 114, 161)",
-                            fontSize: "16px",
-                            paddingLeft: "5px",
-                            fontFamily: "Calibri",
-                            marginLeft: "15px",
-                            width: "auto",
-                          }}
-                          for="exampleInputPassword1"
-                          class="form-label"
-                        >
-                          {dynamicFields?.Field_2}
-                          <span style={{ color: "red" }}>*</span>
-                        </legend>
-                        <input
-                          required
-                          type="text"
-                          style={{
-                            border: "none",
-                            width: "100%",
-                            paddingLeft: "15px",
-                            paddingBottom: "10px",
-                            marginBottom: "5px",
-                            outline: "none",
-                          }}
-                          id="policyName"
-                          onChange={e => setPolicyName(e.target.value)}
-                          name="policyName"
-                        />
-                      </fieldset>
-                      {formError.IspolicyName && (
-                        <p
-                          style={{
-                            color: "red",
-                            padding: "5px",
-                            fontSize: "16px",
-                            marginTop: "13px",
-                          }}
-                        >
-                          Enter {dynamicFields?.Field_2} is required!
-                        </p>
-                      )}
-                    </form>
-                  </div>
-                </form>
-              </div>
-            </div>
-            <div className="col-md-6 col-sm-6 col-lg-6 col-xl-6">
-              <div className="mb-3 mt-5">
-                <form action="#" method="post">
+                <div className="mb-3">
                   <fieldset
                     style={{
                       color: "rgb(82, 114, 161)",
@@ -334,26 +274,27 @@ const Assetpolicy = () => {
                       for="exampleInputPassword1"
                       class="form-label"
                     >
-                      {dynamicFields?.Field_3}
+                      {dynamicFields?.Field_2}
+
                       <span style={{ color: "red" }}>*</span>
                     </legend>
                     <input
+                      required
                       type="text"
-                      placeholder="XXXXXX"
                       style={{
                         border: "none",
+                        width: "100%",
                         paddingLeft: "15px",
                         paddingBottom: "10px",
                         marginBottom: "5px",
-                        width: "100%",
                         outline: "none",
                       }}
-                      id="policyNumber"
-                      name="policyNumber"
-                      onChange={e => setPolicyNumber(e.target.value)}
+                      id="policyName"
+                      onChange={e => setPolicyName(e.target.value)}
+                      name="policyName"
                     />
                   </fieldset>
-                  {formError.IspolicyNumber && (
+                  {formError.IspolicyName && (
                     <p
                       style={{
                         color: "red",
@@ -362,70 +303,126 @@ const Assetpolicy = () => {
                         marginTop: "13px",
                       }}
                     >
-                      Enter {dynamicFields?.Field_3} is required!
+                      Enter {dynamicFields?.Field_2} is required!
                     </p>
                   )}
-                </form>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-6 col-sm-6 col-lg-6 col-xl-6">
+              <div className="mb-3 mt-5">
+                <fieldset
+                  style={{
+                    color: "rgb(82, 114, 161)",
+                    fontSize: "20px",
+                    fontFamily: "Calibri",
+                    border: "1px solid rgb(114, 158, 216)",
+                    borderRadius: "10px",
+                  }}
+                >
+                  <legend
+                    style={{
+                      color: "rgb(82, 114, 161)",
+                      fontSize: "16px",
+                      paddingLeft: "5px",
+                      fontFamily: "Calibri",
+                      marginLeft: "15px",
+                      width: "auto",
+                    }}
+                    for="exampleInputPassword1"
+                    class="form-label"
+                  >
+                    {dynamicFields?.Field_3}
+                    <span style={{ color: "red" }}>*</span>
+                  </legend>
+                  <input
+                    type="text"
+                    required
+                    placeholder="XXXXXX"
+                    style={{
+                      border: "none",
+                      paddingLeft: "15px",
+                      paddingBottom: "10px",
+                      marginBottom: "5px",
+                      width: "100%",
+                      outline: "none",
+                    }}
+                    id="policyNumber"
+                    name="policyNumber"
+                    onChange={e => setPolicyNumber(e.target.value)}
+                  />
+                </fieldset>
+                {formError.IspolicyNumber && (
+                  <p
+                    style={{
+                      color: "red",
+                      padding: "5px",
+                      fontSize: "16px",
+                      marginTop: "13px",
+                    }}
+                  >
+                    Enter {dynamicFields?.Field_3} is required!
+                  </p>
+                )}
               </div>
             </div>
             <div className="col-md-6 col-sm-6 col-lg-6 col-xl-6">
               <div className="mt-5">
-                <form>
-                  <div class="mb-3">
-                    <fieldset
+                <div class="mb-3">
+                  <fieldset
+                    style={{
+                      color: "rgb(82, 114, 161)",
+                      fontSize: "20px",
+                      fontFamily: "Calibri",
+                      border: "1px solid rgb(114, 158, 216)",
+                      borderRadius: "10px",
+                    }}
+                  >
+                    <legend
                       style={{
                         color: "rgb(82, 114, 161)",
-                        fontSize: "20px",
+                        fontSize: "16px",
+                        paddingLeft: "5px",
                         fontFamily: "Calibri",
-                        border: "1px solid rgb(114, 158, 216)",
-                        borderRadius: "10px",
+                        marginLeft: "15px",
+                        width: "auto",
+                      }}
+                      for="exampleInputPassword1"
+                      class="form-label"
+                    >
+                      {dynamicFields?.Field_4}
+                      <span style={{ color: "red" }}>*</span>
+                    </legend>
+                    <input
+                      type="text"
+                      required
+                      style={{
+                        border: "none",
+                        paddingLeft: "15px",
+                        paddingBottom: "10px",
+                        marginBottom: "5px",
+                        width: "100%",
+                        outline: "none",
+                      }}
+                      placeholder="1234567890101023"
+                      id="reEnterPolicyNumber"
+                      onChange={e => setReEnterPolicyNumber(e.target.value)}
+                      name="reEnterPolicyNumber"
+                    />
+                  </fieldset>
+                  {formError.IsreEnterPolicyNumber && (
+                    <p
+                      style={{
+                        color: "red",
+                        padding: "5px",
+                        fontSize: "16px",
+                        marginTop: "13px",
                       }}
                     >
-                      <legend
-                        style={{
-                          color: "rgb(82, 114, 161)",
-                          fontSize: "16px",
-                          paddingLeft: "5px",
-                          fontFamily: "Calibri",
-                          marginLeft: "15px",
-                          width: "auto",
-                        }}
-                        for="exampleInputPassword1"
-                        class="form-label"
-                      >
-                        {dynamicFields?.Field_4}
-                        <span style={{ color: "red" }}>*</span>
-                      </legend>
-                      <input
-                        type="text"
-                        style={{
-                          border: "none",
-                          paddingLeft: "15px",
-                          paddingBottom: "10px",
-                          marginBottom: "5px",
-                          width: "100%",
-                          outline: "none",
-                        }}
-                        placeholder="1234567890101023"
-                        id="reEnterPolicyNumber"
-                        onChange={e => setReEnterPolicyNumber(e.target.value)}
-                        name="reEnterPolicyNumber"
-                      />
-                    </fieldset>
-                    {formError.IsreEnterPolicyNumber && (
-                      <p
-                        style={{
-                          color: "red",
-                          padding: "5px",
-                          fontSize: "16px",
-                          marginTop: "13px",
-                        }}
-                      >
-                        Enter {dynamicFields?.Field_4} is required!
-                      </p>
-                    )}
-                  </div>
-                </form>
+                      Enter {dynamicFields?.Field_4} is required!
+                    </p>
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -461,7 +458,6 @@ const Assetpolicy = () => {
             </Link>
           </div>
           <div style={{ float: "right" }}>
-            {/* <Link to={"/add-asset/step2"}> */}
             <button
               style={{
                 border: "none",
@@ -474,7 +470,6 @@ const Assetpolicy = () => {
             >
               Next
             </button>
-            {/* </Link> */}
           </div>
         </div>
       </div>

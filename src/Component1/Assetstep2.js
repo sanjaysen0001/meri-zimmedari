@@ -90,7 +90,7 @@ function MyVerticallyCenteredModal(props) {
                     setOTP(otp);
                   }}
                   autoFocus
-                  OTPLength={4}
+                  OTPLength={6}
                   className="cssforboxdesigninotp"
                   otpType="number"
                   disabled={false}
@@ -215,7 +215,7 @@ function MyModalEmail(props) {
                     setOTPE(otp);
                   }}
                   autoFocus
-                  OTPLength={4}
+                  OTPLength={6}
                   className="cssforboxdesigninotp"
                   otpType="number"
                   disabled={false}
@@ -301,10 +301,35 @@ const Assetstep2 = () => {
     setFormValues(newFormValues);
   };
   let handleChange = (i, e) => {
+    //  const inputValue = e.target.value;
+    //  const regex = /^[a-zA-Z\s]*$/; // Regex to allow only alphabets and spaces
+    //  if (regex.test(inputValue) || inputValue === "") {
+    //    this.setState({ value: inputValue });
+    //  }
     let newFormValues = [...formValues];
     newFormValues[i][e.target.name] = e.target.value;
+    // const regEx = /[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,8}(.[a-z{2,8}])?/g;
+    // if (regEx.test(email)) {
+    //   setMessage("Valid Email");
+    // } else if (!regEx.test(email`enter code here`) && email !== "") {
+    //   setMessage("Invalid email");
+    // }
+    // else {
+    //   setMessage("");
+    // }
     setFormValues(newFormValues);
   };
+  // const emailValidation = () => {
+  //   const regEx = /[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,8}(.[a-z{2,8}])?/g;
+  //   if (regEx.test(email)) {
+  //     setMessage("Valid Email");
+  //   } else if (!regEx.test(email`enter code here`) && email !== "") {
+  //     setMessage("Invalid email");
+  //   } else {
+  //     setMessage("");
+  //   }
+  // };
+
   const handleNext = () => {
     const newArr = [];
     formValues.filter(el => newArr.push(Number(el.percentageofShar)));
@@ -312,7 +337,7 @@ const Assetstep2 = () => {
       (previousValue, currentValue) => previousValue + currentValue
     );
     let userId = JSON.parse(localStorage.getItem("UserZimmedari"))._id;
-    console.log(userId);
+    // console.log(userId);
     console.log(formValues);
     const payload = {
       userId: userId,
@@ -668,11 +693,18 @@ const Assetstep2 = () => {
                                   <option
                                     selected
                                     Nominee
+                                    Relation
                                     style={{ float: "left", border: "none" }}
                                   ></option>
+
                                   <option value="Father">Father</option>
                                   <option value="Wife">Wife</option>
                                   <option value="Son">Son</option>
+                                  <option value="Mother">Mother</option>
+                                  <option value="Daughter">Daughter</option>
+                                  <option value="Sister">Sister</option>
+                                  <option value="Brother">Brother</option>
+                                  <option value="Husband">Husband</option>
                                 </select>
                               </fieldset>
                               {formError.IsrelationWithNominee && (
@@ -924,7 +956,7 @@ const Assetstep2 = () => {
                                       marginTop: "13px",
                                     }}
                                   >
-                                    Enter Nominee NomineeEmailId is required!
+                                    Enter valid e-mail ID
                                   </p>
                                 )}
                                 <div
@@ -967,12 +999,14 @@ const Assetstep2 = () => {
                       <div
                         style={{ justifyContent: "center", display: "right" }}
                       >
-                        <button
-                          className="btn btn-danger"
-                          onClick={() => removeFormFields(index)}
-                        >
-                          Delete
-                        </button>
+                        {index ? (
+                          <button
+                            className="btn btn-danger"
+                            onClick={() => removeFormFields(index)}
+                          >
+                            Delete
+                          </button>
+                        ) : null}
                       </div>
                     </div>
                   </div>
