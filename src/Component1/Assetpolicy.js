@@ -10,9 +10,7 @@ const Assetpolicy = () => {
   let location = useLocation();
   const navigate = useNavigate();
   const [dynamicFields, setdynamicFields] = useState(""); // for fields
-
   const [uploadedFileName, setUploadedFileName] = useState(null);
-  const [assetType, setAssetType] = useState("");
   const [error, setError] = useState(null);
   const [uploadedFile, setUploadedFile] = useState(null);
   const [policyName, setPolicyName] = useState("");
@@ -36,61 +34,39 @@ const Assetpolicy = () => {
   }, []);
 
   const handleNext = () => {
-    if (uploadedFile) {
-      setFormError(prevData => ({ ...prevData, IspolicyFile: false }));
-    } else {
-      setFormError(prevData => ({ ...prevData, IspolicyFile: true }));
-    }
-    if (policyName) {
-      setFormError(prevData => ({ ...prevData, IspolicyName: false }));
-    } else {
-      setFormError(prevData => ({ ...prevData, IspolicyName: true }));
-    }
+    // Validate form fields
+    let errors = {};
+    // if (!uploadedFile) errors.IspolicyFile = true;
+    if (!policyName) errors.IspolicyName = true;
+    if (!policyNumber) errors.IspolicyNumber = true;
+    if (!reEnterPolicyNumber) errors.IsreEnterPolicyNumber = true;
+    if (policyNumber !== reEnterPolicyNumber) errors.IsBothMatch = true;
 
-    if (policyNumber) {
-      setFormError(prevData => ({ ...prevData, IspolicyNumber: false }));
+    // If there are no errors, submit the form
+    if (Object.keys(errors).length === 0) {
+      let userId = JSON.parse(localStorage.getItem("UserZimmedari"))._id;
+      const formData = new FormData();
+      formData.append("userId", userId);
+      formData.append("file", uploadedFile);
+      formData.append("assetType", dynamicFields.Asset_Type);
+      formData.append("policyIssuersName", policyName);
+      formData.append("policynumber", policyNumber);
+      formData.append("ReEnterPolicyNumber", reEnterPolicyNumber);
+
+      axiosConfig
+        .post("/asset/save-asset", formData)
+        .then(response => {
+          navigate("/add-asset/step2");
+        })
+        .catch(error => {
+          console.log(error);
+        });
     } else {
-      setFormError(prevData => ({ ...prevData, IspolicyNumber: true }));
-    }
-    if (reEnterPolicyNumber) {
-      setFormError(prevData => ({ ...prevData, IsreEnterPolicyNumber: false }));
-    } else {
-      setFormError(prevData => ({
-        ...prevData,
-        IsreEnterPolicyNumber: true,
-      }));
-    }
-    let userId = JSON.parse(localStorage.getItem("UserZimmedari"))._id;
-    const formData = new FormData();
-    formData.append("userId", userId);
-    formData.append("file", uploadedFile);
-    formData.append("assetType", dynamicFields.Asset_Type);
-    formData.append("policyIssuersName", policyName);
-    formData.append("policynumber", policyNumber);
-    formData.append("ReEnterPolicyNumber", reEnterPolicyNumber);
-    if (
-      formError.IspolicyName &&
-      formError.IspolicyNumber &&
-      formError.IsreEnterPolicyNumber
-    ) {
-      if (policyNumber === reEnterPolicyNumber) {
-        axiosConfig
-          .post("/asset/save-asset", formData)
-          .then(response => {
-            // console.log(response);
-            navigate("/add-asset/step2");
-          })
-          .catch(error => {
-            console.log(error);
-          });
-      } else {
-        setFormError(prevData => ({
-          ...prevData,
-          IsBothMatch: true,
-        }));
-      }
+      // Set form errors
+      setFormError(errors);
     }
   };
+
   const handleIconClick = () => {
     fileInputRef.current.click();
   };
@@ -269,12 +245,12 @@ const Assetpolicy = () => {
                     accept="application/pdf, image/png, image/jpeg,image/jpg,image/jpe"
                     onChange={handleFileChange}
                   />
-                  <span style={{ color: "red" }}>*</span>
+                  {/* <span style={{ color: "red" }}>*</span> */}
                   {uploadedFileName && <p>Uploaded file: {uploadedFileName}</p>}
                 </span>
               </div>
 
-              {formError.IspolicyFile && (
+              {/* {formError.IspolicyFile && (
                 <p
                   style={{
                     color: "red",
@@ -285,7 +261,7 @@ const Assetpolicy = () => {
                 >
                   {dynamicFields?.Field_1} is required!
                 </p>
-              )}
+              )} */}
               {error && (
                 <p
                   style={{
@@ -386,7 +362,7 @@ const Assetpolicy = () => {
                     <span style={{ color: "red" }}>*</span>
                   </legend>
                   <input
-                    type="text"
+                    type="password"
                     required
                     placeholder="XXXXXX"
                     style={{

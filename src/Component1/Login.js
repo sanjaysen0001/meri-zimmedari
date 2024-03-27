@@ -12,10 +12,10 @@ const faceLandmarksDetection = require("@tensorflow-models/face-landmarks-detect
 
 const Login = () => {
   const [phone, setPhone] = useState(null);
-  const locations = useLocation();
-  const searchParams = new URLSearchParams(window.location.href);
-  console.log(locations.pathname);
-  console.log("_idddd", searchParams);
+  // const locations = useLocation();
+  // const searchParams = new URLSearchParams(window.location.href);
+  // console.log(locations.pathname);
+  // console.log("_idddd", searchParams);
   // for face open
   const webcamRef = useRef(null);
   const [showWebcam, setShowWebcam] = useState(false);
@@ -71,10 +71,7 @@ const Login = () => {
     setShowWebcam(true);
     handleClick();
   };
-  const handlePicture = () => {
-    capture();
-    setRegistration(true);
-  };
+
   const handleCapture = () => {
     alert("Image captured");
     const imageSrc = webcamRef.current.getScreenshot();
@@ -95,7 +92,7 @@ const Login = () => {
         predictIrises: true,
       });
 
-      if (predictions.length > 0) {
+      if (predictions?.length > 0) {
         // Somente 1 face
         const keypoints = predictions[0].scaledMesh;
         if (detectarBlink(keypoints)) {
@@ -186,12 +183,20 @@ const Login = () => {
     return result;
   };
 
+  const handlePicture = () => {
+    if (phone?.length == 10) {
+      capture();
+      setRegistration(true);
+      setIsError(false);
+    } else {
+      setIsError(true);
+    }
+  };
   const handleMobile = () => {
     let payload = {
       mobileNo: Number(phone),
     };
-    console.log(phone);
-    if (phone.length == 10) {
+    if (phone?.length == 10) {
       setIsError(false);
       axiosConfig
         .post("/save-mobile", payload)
@@ -207,14 +212,31 @@ const Login = () => {
       setIsError(true);
     }
   };
+  const handleWithPassword = () => {
+    let payload = {
+      mobileNo: Number(phone),
+    };
+    if (phone?.length == 10) {
+      setIsError(false);
+
+      navigate("/login/password", { state: phone });
+      // axiosConfig
+      //   .post("/save-mobile", payload)
+      //   .then(response => {
+      //     localStorage.setItem("MobileNUM", JSON.stringify(Number(phone)));
+      //     navigate("/login/otp", { state: phone });
+      //   })
+      //   .catch(error => {
+      //     swal("Something Went Wrong");
+      //     console.log(error.message);
+      //   });
+    } else {
+      setIsError(true);
+    }
+  };
   const handleChange = e => {
     const value = e.target.value;
     setPhone(value);
-    // if (value.length === 10) {
-    //   setIsError(false);
-    // } else {
-    //   setIsError(true);
-    // }
   };
   return (
     <>
@@ -441,19 +463,20 @@ const Login = () => {
                       >
                         Sign-in/Sign-up with OTP
                       </button>
-                      <Link to={"/login/password"}>
-                        <button
-                          type="button"
-                          class="btn mt-3 mb-3"
-                          style={{
-                            width: "100%",
-                            color: "#4478c7",
-                            height: "2.8rem",
-                          }}
-                        >
-                          Sign-in with Password
-                        </button>
-                      </Link>
+                      {/* <Link to={"/login/password"}> */}
+                      <button
+                        type="button"
+                        class="btn mt-3 mb-3"
+                        style={{
+                          width: "100%",
+                          color: "#4478c7",
+                          height: "2.8rem",
+                        }}
+                        onClick={handleWithPassword}
+                      >
+                        Sign-in with Password
+                      </button>
+                      {/* </Link> */}
                     </div>
                     <div>
                       <fieldset

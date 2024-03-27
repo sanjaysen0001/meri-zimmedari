@@ -5,25 +5,70 @@ import axiosConfig from "./../axiosConfig";
 const Icons = () => {
   const navigate = useNavigate();
   const [result, setResult] = useState([]);
-
+  const [num, setNum] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [AssetList, setAssetList] = useState([]);
   useEffect(() => {
     axiosConfig
       .get("/admin/get-list")
       .then(response => {
         // console.log(response.data.Field)
         setResult(response.data.Field);
-
-        // console.log(response.data.Field[0]);
-        setResult(response.data.Field);
       })
       .catch(error => {
         console.error(error);
       });
+    axiosConfig
+      .get("/asset/view-asset")
+      .then(res => {
+        setAssetList(res.data.Asset);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    // FindAssetType();
   }, []);
+  const FindAssetType = () => {
+    const assetTypeCounts = [];
+
+    AssetList.forEach(item => {
+      const { assetType } = item;
+      if (assetType) {
+        const index = assetTypeCounts.findIndex(
+          element => element.assetType === assetType
+        );
+        if (index === -1) {
+          // If assetType not found in array, add it with count 1
+          assetTypeCounts.push({ assetType, count: 1 });
+        } else {
+          // If assetType found in array, increment its count
+          assetTypeCounts[index].count++;
+        }
+      }
+    });
+
+    // Output assetType values and their counts
+    let arraList = [];
+    assetTypeCounts?.map(assetTypeCount => {
+      console.log(assetTypeCount);
+      arraList.push(assetTypeCount.count);
+      console.log(
+        `${assetTypeCount.assetType}: ${assetTypeCount.count} occurrences`
+      );
+    });
+    setNum(arraList);
+    console.log(num);
+  };
   const handlePlus = selectedData => {
     localStorage.setItem("ViewOne", JSON.stringify(selectedData));
     navigate("/add-asset/policy", { state: selectedData });
   };
+  const handleSearch = e => {
+    setSearchQuery(e.target.value);
+  };
+  const filteredData = result.filter(item =>
+    item.Asset_Type.toLowerCase().includes(searchQuery.toLowerCase())
+  );
   return (
     <>
       <Mynavbar />
@@ -56,7 +101,8 @@ const Icons = () => {
               type="text"
               placeholder="Search.."
               name="search"
-              // onSearch={setSearchValue}
+              onChange={handleSearch}
+              // onSearch={handleSearch}
             />
             <button type="submit" className="icon-container">
               <svg
@@ -118,13 +164,11 @@ const Icons = () => {
                 </th>
               </tr>
             </thead>
-            {/* console.log(ele.Asset_Type) */}
-
             <tbody>
-              {result &&
-                result?.map(ele => {
+              {filteredData &&
+                filteredData?.map((ele, ind) => {
                   return (
-                    <tr>
+                    <tr key={ind}>
                       <th
                         scope="row"
                         style={{
