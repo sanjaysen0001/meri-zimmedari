@@ -19,6 +19,16 @@
     color:black;
 
 }
+.cssfornavbarpadding01 {
+     margin-left: 15px;
+     border: none;
+     outline: none;
+     color:black;
+ 
+ }
+ .cssfornavbarpadding01[title]{
+     color: black;
+ }
 .cssfornavbarpadding1 {
     margin-left: 20px;
     font-size: 20px;
@@ -1222,6 +1232,78 @@
      width: 20px;
      
 }
+
+
+
+
+.footer {
+     padding-top: 120px;
+     background: #fff;
+     text-align: center;
+}
+
+.border_left {
+     border-left: #f0390f solid 1px;
+     padding-left: 40px;
+}
+
+.infoma {
+     display: block;
+}
+
+.infoma h3 {
+     text-align: left;
+     font-weight: bold;
+     font-size: 30px;
+     line-height: 24px;
+     color: #2c2c2b;
+     padding-bottom: 15px;
+}
+
+.infoma ul li {
+     color: #bebbbb;
+     font-size: 14px;
+     text-align: left;
+     line-height: 35px;
+     display: inline-block;
+}
+
+.infoma ul li img {
+     max-width: 84px;
+}
+
+ul.conta {
+     padding-top: 12px;
+}
+
+ul.conta li {
+     color: #434342;
+     text-align: left;
+     padding-bottom: 22px;
+     font-size: 17px;
+     line-height: 18px;
+     display: flex;
+     align-items: center;
+}
+
+ul.conta li:last-child {
+     padding-right: 0;
+}
+
+ul.conta li i {
+     padding-right: 15px;
+     text-align: center;
+     font-size: 18px;
+     color: #5326d3;
+}
+
+ul.conta li a {
+     color: #434342;
+}
+
+
+
+
 
 
 

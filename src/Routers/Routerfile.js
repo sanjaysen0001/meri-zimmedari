@@ -43,6 +43,9 @@ import Forgotpassword from "../Component1/Forgotpassword";
 import Forgototpverify from "../Component1/Forgototpverify";
 import Payment from "../Component1/Payment";
 import Preview from "../Component1/Preview";
+import Manageconfidential from "../Component1/Manageconfidential";
+import Termsandcondition from "../Component1/Termsandcondition";
+import Privacypolicy from "../Component1/Privacypolicy";
 
 const Routerfile = () => {
   const [loading, setLoading] = useState(false);
@@ -61,6 +64,8 @@ const Routerfile = () => {
             <Route path="/face" element={<Splashscreen />} />
           ) : (
             <>
+            <Route path="/privacypolicy" element={<Privacypolicy/>}/>
+            <Route path="/termsandcondition" element={<Termsandcondition/>}/>
               <Route path="/Preview" element={<Preview/>}/>
               <Route path="/payment" element={<Payment />} />
               <Route path="/face" element={<Loginform />} />
@@ -82,6 +87,10 @@ const Routerfile = () => {
           <Route
             path="/confidentialnoteeditor"
             element={<Confidentialeditor />}
+          />
+          <Route
+            path="/manageconfidentialnoteeditor"
+            element={<Manageconfidential />}
           />
           <Route path="/Help" element={<Help />} />
           <Route path="/termsConditions" element={<TermsConditions />} />

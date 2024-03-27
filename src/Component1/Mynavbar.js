@@ -37,7 +37,7 @@ const Mynavbar = () => {
           <Nav.Link className='cssfornavbarpadding'>My Profile</Nav.Link>
           </LinkContainer>
           
-          <NavDropdown  className='cssfornavbarpadding dropdown-toggle1' title="My Account" id="basic-nav-dropdown">
+          <NavDropdown style={{border:'none',outline:'none'}}  className='cssfornavbarpadding dropdown-toggle1' title="My Account" id="basic-nav-dropdown">
              <LinkContainer to={'/assetdetails'}>
           <NavDropdown.Item style={{color:'black',backgroundColor:'white'}}>Asset Details</NavDropdown.Item>
           </LinkContainer>
@@ -45,10 +45,21 @@ const Mynavbar = () => {
           <NavDropdown.Item >Nominee Details
           </NavDropdown.Item>
           </LinkContainer>
+          <NavDropdown   className='cssfornavbarpadding01 ' style={{color:'black',fontWeight:'400'}} title="Confidential Note" id="basic-nav-dropdown">
+            
           <LinkContainer to={'/confidentialnoteeditor'}>
-          <NavDropdown.Item >Confidential Note
+          <NavDropdown.Item >Current Confidential Note
           </NavDropdown.Item>
           </LinkContainer>
+          <LinkContainer to={'/manageconfidentialnoteeditor'}>
+          <NavDropdown.Item >Manage Confidential Note
+          </NavDropdown.Item>
+          </LinkContainer>
+         
+        
+          
+        
+            </NavDropdown>
           <LinkContainer to={'/Preview'}>
           <NavDropdown.Item >Preview
           </NavDropdown.Item>
