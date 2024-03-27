@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import axiosConfig from "./../axiosConfig";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Mynavbar from "./Mynavbar";
+
 const Assetpolicy = () => {
   const fileInputRef = useRef(null);
   let location = useLocation();
@@ -11,25 +12,20 @@ const Assetpolicy = () => {
   const [dynamicFields, setdynamicFields] = useState(""); // for fields
 
   const [uploadedFileName, setUploadedFileName] = useState(null);
+  const [assetType, setAssetType] = useState("");
+  const [error, setError] = useState(null);
   const [uploadedFile, setUploadedFile] = useState(null);
   const [policyName, setPolicyName] = useState("");
   const [policyNumber, setPolicyNumber] = useState("");
   const [reEnterPolicyNumber, setReEnterPolicyNumber] = useState("");
+  const [formError, setFormError] = useState({
+    IspolicyFile: false,
+    IspolicyName: false,
+    IspolicyNumber: false,
+    IsreEnterPolicyNumber: false,
+    IsBothMatch: false,
+  });
 
-  // const [result, setResult] = useState([]);
-
-  // useEffect(() => {
-  //   axiosConfig
-  //     .get("/admin/get-list")
-  //     .then(response => {
-  //       setResult(response.data.Field);
-  //       // console.log(response.data.Field);
-  //     })
-  //     .catch(error => {
-  //       console.error(error);
-  //     });
-  //   console.log("object");
-  // }, []);
   useEffect(() => {
     let viewData = JSON.parse(localStorage.getItem("ViewOne"));
     if (location?.state) {
@@ -38,31 +34,80 @@ const Assetpolicy = () => {
       setdynamicFields(viewData);
     }
   }, []);
+
+  const handleNext = () => {
+    if (uploadedFile) {
+      setFormError(prevData => ({ ...prevData, IspolicyFile: false }));
+    } else {
+      setFormError(prevData => ({ ...prevData, IspolicyFile: true }));
+    }
+    if (policyName) {
+      setFormError(prevData => ({ ...prevData, IspolicyName: false }));
+    } else {
+      setFormError(prevData => ({ ...prevData, IspolicyName: true }));
+    }
+
+    if (policyNumber) {
+      setFormError(prevData => ({ ...prevData, IspolicyNumber: false }));
+    } else {
+      setFormError(prevData => ({ ...prevData, IspolicyNumber: true }));
+    }
+    if (reEnterPolicyNumber) {
+      setFormError(prevData => ({ ...prevData, IsreEnterPolicyNumber: false }));
+    } else {
+      setFormError(prevData => ({
+        ...prevData,
+        IsreEnterPolicyNumber: true,
+      }));
+    }
+    let userId = JSON.parse(localStorage.getItem("UserZimmedari"))._id;
+    const formData = new FormData();
+    formData.append("userId", userId);
+    formData.append("file", uploadedFile);
+    formData.append("assetType", dynamicFields.Asset_Type);
+    formData.append("policyIssuersName", policyName);
+    formData.append("policynumber", policyNumber);
+    formData.append("ReEnterPolicyNumber", reEnterPolicyNumber);
+    if (
+      formError.IspolicyName &&
+      formError.IspolicyNumber &&
+      formError.IsreEnterPolicyNumber
+    ) {
+      if (policyNumber === reEnterPolicyNumber) {
+        axiosConfig
+          .post("/asset/save-asset", formData)
+          .then(response => {
+            // console.log(response);
+            navigate("/add-asset/step2");
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      } else {
+        setFormError(prevData => ({
+          ...prevData,
+          IsBothMatch: true,
+        }));
+      }
+    }
+  };
   const handleIconClick = () => {
     fileInputRef.current.click();
   };
 
   const handleFileChange = event => {
-    console.log("img");
     const file = event.target.files[0];
     setUploadedFileName(file.name);
     setUploadedFile(file);
-  };
-  const handleNext = () => {
-    const formData = new FormData();
-    formData.append("file", uploadedFile);
-    formData.append("policynumber", policyNumber);
-    formData.append("policyIssuersName", policyName);
-    formData.append("ReEnterPolicyNumber", reEnterPolicyNumber);
-    axiosConfig
-      .post("/asset/save-asset", formData)
-      .then(response => {
-        navigate("/add-asset/step2");
-        console.log(response);
-      })
-      .catch(error => {
-        console.error(error);
-      });
+
+    const selectedFile = event.target.files[0];
+    if (selectedFile && selectedFile.size > 500 * 1024) {
+      setError("File size exceeds the permissible limit of 500 KB.");
+      setUploadedFile(null);
+    } else {
+      setError(null);
+      setUploadedFile(selectedFile);
+    }
   };
   return (
     <>
@@ -216,71 +261,48 @@ const Assetpolicy = () => {
                   </svg>
                   <input
                     type="file"
+                    id="poster"
                     ref={fileInputRef}
                     style={{ display: "none" }}
                     name="uploadedFileName"
-                    onChange={handleFileChange} // Add change event listener to the file input
+                    required
+                    accept="application/pdf, image/png, image/jpeg,image/jpg,image/jpe"
+                    onChange={handleFileChange}
                   />
+                  <span style={{ color: "red" }}>*</span>
                   {uploadedFileName && <p>Uploaded file: {uploadedFileName}</p>}
                 </span>
-
-                {/* Hidden file input */}
               </div>
+
+              {formError.IspolicyFile && (
+                <p
+                  style={{
+                    color: "red",
+                    padding: "5px",
+                    fontSize: "16px",
+                    marginTop: "13px",
+                  }}
+                >
+                  {dynamicFields?.Field_1} is required!
+                </p>
+              )}
+              {error && (
+                <p
+                  style={{
+                    color: "red",
+                    padding: "5px",
+                    fontSize: "16px",
+                    marginTop: "13px",
+                  }}
+                >
+                  {error}
+                </p>
+              )}
+              {/* {uploadedFile && <p>File selected: {uploadedFileName}</p>} */}
             </div>
             <div className="col-md-6 col-sm-6 col-lg-6 col-xl-6">
               <div className="mt-4">
-                <form>
-                  <div className="mb-3">
-                    <form action="#" method="post">
-                      <fieldset
-                        style={{
-                          color: "rgb(82, 114, 161)",
-                          fontSize: "20px",
-                          fontFamily: "Calibri",
-                          border: "1px solid rgb(114, 158, 216)",
-                          borderRadius: "10px",
-                        }}
-                      >
-                        <legend
-                          style={{
-                            color: "rgb(82, 114, 161)",
-                            fontSize: "16px",
-                            paddingLeft: "5px",
-                            fontFamily: "Calibri",
-                            marginLeft: "15px",
-                            width: "auto",
-                          }}
-                          for="exampleInputPassword1"
-                          class="form-label"
-                        >
-                          {dynamicFields?.Field_2}
-                           <span
-                            style={{ color: "red" }}>*
-                          </span> 
-                        </legend>
-                        <input
-                          type="text"
-                          style={{
-                            border: "none",
-                            width: "100%",
-                            paddingLeft: "15px",
-                            paddingBottom: "10px",
-                            marginBottom: "5px",
-                            outline: "none",
-                          }}
-                          id="policyName"
-                          onChange={e => setPolicyName(e.target.value)}
-                          name="policyName"
-                        />
-                      </fieldset>
-                    </form>
-                  </div>
-                </form>
-              </div>
-            </div>
-            <div className="col-md-6 col-sm-6 col-lg-6 col-xl-6">
-              <div className="mb-3 mt-5">
-                <form action="#" method="post">
+                <div className="mb-3">
                   <fieldset
                     style={{
                       color: "rgb(82, 114, 161)",
@@ -302,12 +324,140 @@ const Assetpolicy = () => {
                       for="exampleInputPassword1"
                       class="form-label"
                     >
-                      {dynamicFields?.Field_3}
+                      {dynamicFields?.Field_2}
+
+                      <span style={{ color: "red" }}>*</span>
+                    </legend>
+                    <input
+                      required
+                      type="text"
+                      style={{
+                        border: "none",
+                        width: "100%",
+                        paddingLeft: "15px",
+                        paddingBottom: "10px",
+                        marginBottom: "5px",
+                        outline: "none",
+                      }}
+                      id="policyName"
+                      onChange={e => setPolicyName(e.target.value)}
+                      name="policyName"
+                    />
+                  </fieldset>
+                  {formError.IspolicyName && (
+                    <p
+                      style={{
+                        color: "red",
+                        padding: "5px",
+                        fontSize: "16px",
+                        marginTop: "13px",
+                      }}
+                    >
+                      Enter {dynamicFields?.Field_2} is required!
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+            <div className="col-md-6 col-sm-6 col-lg-6 col-xl-6">
+              <div className="mb-3 mt-5">
+                <fieldset
+                  style={{
+                    color: "rgb(82, 114, 161)",
+                    fontSize: "20px",
+                    fontFamily: "Calibri",
+                    border: "1px solid rgb(114, 158, 216)",
+                    borderRadius: "10px",
+                  }}
+                >
+                  <legend
+                    style={{
+                      color: "rgb(82, 114, 161)",
+                      fontSize: "16px",
+                      paddingLeft: "5px",
+                      fontFamily: "Calibri",
+                      marginLeft: "15px",
+                      width: "auto",
+                    }}
+                    for="exampleInputPassword1"
+                    class="form-label"
+                  >
+                    {dynamicFields?.Field_3}
+                    <span style={{ color: "red" }}>*</span>
+                  </legend>
+                  <input
+                    type="text"
+                    required
+                    placeholder="XXXXXX"
+                    style={{
+                      border: "none",
+                      paddingLeft: "15px",
+                      paddingBottom: "10px",
+                      marginBottom: "5px",
+                      width: "100%",
+                      outline: "none",
+                    }}
+                    id="policyNumber"
+                    name="policyNumber"
+                    onChange={e => setPolicyNumber(e.target.value)}
+                  />
+                </fieldset>
+                {formError.IspolicyNumber && (
+                  <p
+                    style={{
+                      color: "red",
+                      padding: "5px",
+                      fontSize: "16px",
+                      marginTop: "13px",
+                    }}
+                  >
+                    Enter {dynamicFields?.Field_3} is required!
+                  </p>
+                )}
+                {formError.IsBothMatch && (
+                  <p
+                    style={{
+                      color: "red",
+                      padding: "5px",
+                      fontSize: "16px",
+                      marginTop: "13px",
+                    }}
+                  >
+                    Value Mismatch
+                  </p>
+                )}
+              </div>
+            </div>
+            <div className="col-md-6 col-sm-6 col-lg-6 col-xl-6">
+              <div className="mt-5">
+                <div class="mb-3">
+                  <fieldset
+                    style={{
+                      color: "rgb(82, 114, 161)",
+                      fontSize: "20px",
+                      fontFamily: "Calibri",
+                      border: "1px solid rgb(114, 158, 216)",
+                      borderRadius: "10px",
+                    }}
+                  >
+                    <legend
+                      style={{
+                        color: "rgb(82, 114, 161)",
+                        fontSize: "16px",
+                        paddingLeft: "5px",
+                        fontFamily: "Calibri",
+                        marginLeft: "15px",
+                        width: "auto",
+                      }}
+                      for="exampleInputPassword1"
+                      class="form-label"
+                    >
+                      {dynamicFields?.Field_4}
                       <span style={{ color: "red" }}>*</span>
                     </legend>
                     <input
                       type="text"
-                      placeholder="XXXXXX"
+                      required
                       style={{
                         border: "none",
                         paddingLeft: "15px",
@@ -316,60 +466,37 @@ const Assetpolicy = () => {
                         width: "100%",
                         outline: "none",
                       }}
-                      id="policyNumber"
-                      name="policyNumber"
-                      onChange={e => setPolicyNumber(e.target.value)}
+                      placeholder="1234567890101023"
+                      id="reEnterPolicyNumber"
+                      onChange={e => setReEnterPolicyNumber(e.target.value)}
+                      name="reEnterPolicyNumber"
                     />
                   </fieldset>
-                </form>
-              </div>
-            </div>
-            <div className="col-md-6 col-sm-6 col-lg-6 col-xl-6">
-              <div className="mt-5">
-                <form>
-                  <div class="mb-3">
-                    <fieldset
+                  {formError.IsreEnterPolicyNumber && (
+                    <p
                       style={{
-                        color: "rgb(82, 114, 161)",
-                        fontSize: "20px",
-                        fontFamily: "Calibri",
-                        border: "1px solid rgb(114, 158, 216)",
-                        borderRadius: "10px",
+                        color: "red",
+                        padding: "5px",
+                        fontSize: "16px",
+                        marginTop: "13px",
                       }}
                     >
-                      <legend
-                        style={{
-                          color: "rgb(82, 114, 161)",
-                          fontSize: "16px",
-                          paddingLeft: "5px",
-                          fontFamily: "Calibri",
-                          marginLeft: "15px",
-                          width: "auto",
-                        }}
-                        for="exampleInputPassword1"
-                        class="form-label"
-                      >
-                        {dynamicFields?.Field_4}
-                        <span style={{ color: "red" }}>*</span>
-                      </legend>
-                      <input
-                        type="text"
-                        style={{
-                          border: "none",
-                          paddingLeft: "15px",
-                          paddingBottom: "10px",
-                          marginBottom: "5px",
-                          width: "100%",
-                          outline: "none",
-                        }}
-                        placeholder="1234567890101023"
-                        id="reEnterPolicyNumber"
-                        onChange={e => setReEnterPolicyNumber(e.target.value)}
-                        name="reEnterPolicyNumber"
-                      />
-                    </fieldset>
-                  </div>
-                </form>
+                      Enter {dynamicFields?.Field_4} is required!
+                    </p>
+                  )}
+                  {formError.IsBothMatch && (
+                    <p
+                      style={{
+                        color: "red",
+                        padding: "5px",
+                        fontSize: "16px",
+                        marginTop: "13px",
+                      }}
+                    >
+                      Value Mismatch
+                    </p>
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -405,7 +532,6 @@ const Assetpolicy = () => {
             </Link>
           </div>
           <div style={{ float: "right" }}>
-            {/* <Link to={"/add-asset/step2"}> */}
             <button
               style={{
                 border: "none",
@@ -418,7 +544,6 @@ const Assetpolicy = () => {
             >
               Next
             </button>
-            {/* </Link> */}
           </div>
         </div>
       </div>

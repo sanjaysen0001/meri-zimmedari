@@ -61,7 +61,7 @@ const Routerfile = () => {
             <Route path="/face" element={<Splashscreen />} />
           ) : (
             <>
-              <Route path="/Preview" element={<Preview/>}/>
+              <Route path="/Preview" element={<Preview />} />
               <Route path="/payment" element={<Payment />} />
               <Route path="/face" element={<Loginform />} />
               <Route path="/loginform" element={<Loginform />} />

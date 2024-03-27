@@ -39,8 +39,7 @@ const MobileNumber = () => {
     let myArray = window.location.href.split("/");
     console.log(myArray);
     let id = myArray[myArray.length - 1];
-    console.log(id)
-;
+    console.log(id);
     if (id == userData._id) {
       setIsID(true);
     }

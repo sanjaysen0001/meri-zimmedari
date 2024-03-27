@@ -6,6 +6,7 @@ import imagelogo from "../image/logo.png";
 import swal from "sweetalert";
 const Otpveri = () => {
   const [otp, setOtp] = useState(null);
+  const [bool, setBool] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
   const phoneNumber = location.state;
@@ -29,30 +30,27 @@ const Otpveri = () => {
   };
 
   const handleOtpVerify = () => {
-    // let MobileNUM = JSON.parse(localStorage.getItem("MobileNUM"));
-
     let payload = {
       otp: Number(otp),
       mobileNo: Number(phoneNumber),
     };
     axiosConfig
-    .post("/otp-verify", payload)
-    .then(response => {
-    
-      //
-      if (response.data.success == "ok") {
-        localStorage.setItem(
-          "UserZimmedari",
-          JSON.stringify(response.data.User)
-        );
-        navigate("/dashboard", { replace: true });
-      } else {
-        navigate("/registration", { replace: true });
-      }
-    })
-    .catch(error => {
-      swal(error.message);
-    });
+      .post("/otp-verify", payload)
+      .then(response => {
+        //
+        if (response.data.success == "ok") {
+          localStorage.setItem(
+            "UserZimmedari",
+            JSON.stringify(response.data.User)
+          );
+          navigate("/dashboard", { replace: true });
+        } else {
+          navigate("/registration", { replace: true });
+        }
+      })
+      .catch(error => {
+        swal("Invalid OTP");
+      });
   };
   return (
     <>
@@ -166,7 +164,7 @@ const Otpveri = () => {
                 }}
               >
                 <div style={{ fontSize: "20px", fontWeight: "600" }}>
-                  Verify OTP 
+                  Verify OTP
                 </div>
               </div>
 
@@ -231,19 +229,25 @@ const Otpveri = () => {
                         id="mobile"
                         name="mobile"
                         value={otp}
-                        // pattern="[0-9]{10}"
-                        onChange={e => setOtp(e.target.value)}
+                        onChange={e => {
+                          setOtp(e.target.value);
+                          setBool(true);
+                        }}
                         required
                       />
                     </fieldset>
 
                     <div className="mt-2">
                       <span style={{ fontSize: "13px", color: "gray" }}>
-                      Didn't receive the OTP? Resend after {count} Seconds
+                        Didn't receive the OTP? Resend after {count} Seconds
                       </span>
                       <span className="ml-1">
-                        <Link to={""} style={{ textDecoration: "none" }}  disabled={!isCountingComplete}>
-                       Resend
+                        <Link
+                          to={""}
+                          style={{ textDecoration: "none" }}
+                          disabled={!isCountingComplete}
+                        >
+                          Resend
                         </Link>
                       </span>
                     </div>
@@ -251,6 +255,7 @@ const Otpveri = () => {
                       <button
                         type="button"
                         class="btn "
+                        disabled={bool ? false : true}
                         style={{
                           width: "100%",
                           backgroundColor: "#4478c7",
@@ -259,7 +264,7 @@ const Otpveri = () => {
                         }}
                         onClick={handleOtpVerify}
                       >
-                      Submit
+                        Submit
                       </button>
                     </div>
                   </form>

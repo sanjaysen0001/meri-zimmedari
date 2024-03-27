@@ -4,8 +4,7 @@ import Webcam from "react-webcam";
 import * as tf from "@tensorflow/tfjs";
 // import imageuser from "../image/logouserimage.png";
 import axiosConfig from "../axiosConfig";
-import { Link, useNavigate, useLocation, useParams } from "react-router-dom"
-
+import { Link, useNavigate, useLocation, useParams } from "react-router-dom";
 
 import "./Otpveri";
 import swal from "sweetalert";
@@ -13,7 +12,7 @@ const faceLandmarksDetection = require("@tensorflow-models/face-landmarks-detect
 
 const Login = () => {
   const [phone, setPhone] = useState(null);
-const locations = useLocation();
+  const locations = useLocation();
   const searchParams = new URLSearchParams(window.location.href);
   console.log(locations.pathname);
   console.log("_idddd", searchParams);
@@ -31,7 +30,6 @@ const locations = useLocation();
     image: null,
   });
 
-  
   const [isError, setIsError] = useState(false);
   const navigate = useNavigate();
 
@@ -330,9 +328,15 @@ const locations = useLocation();
                   paddingLeft: "2rem",
                 }}
               >
-                <div className="cssforfontsizeinheading" style={{  fontWeight: "600" }}>
-                  Sign-in<span className="cssforfontsizeinheading" style={{  }}>/</span>Sign-up to
-                  Meri Zimmedari
+                <div
+                  className="cssforfontsizeinheading"
+                  style={{ fontWeight: "600" }}
+                >
+                  Sign-in
+                  <span className="cssforfontsizeinheading" style={{}}>
+                    /
+                  </span>
+                  Sign-up to Meri Zimmedari
                 </div>
               </div>
               {showWebcam && (
@@ -418,7 +422,7 @@ const locations = useLocation();
                             marginTop: "13px",
                           }}
                         >
-                        Enter valid 10-digit mobile number
+                          Enter valid 10-digit mobile number
                         </p>
                       )}
                     </fieldset>
@@ -447,7 +451,7 @@ const locations = useLocation();
                             height: "2.8rem",
                           }}
                         >
-                        Sign-in with Password
+                          Sign-in with Password
                         </button>
                       </Link>
                     </div>
@@ -490,7 +494,7 @@ const locations = useLocation();
                           height: "2.8rem",
                         }}
                       >
-                      Sign-in with face recognition
+                        Sign-in with face recognition
                       </button>
                     </div>
                   </form>

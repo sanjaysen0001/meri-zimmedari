@@ -5,6 +5,7 @@ import * as tf from "@tensorflow/tfjs";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import imagelogo from "../image/logo.png";
+import BlinkEye from "../image/eyedrop.gif";
 import swal from "sweetalert";
 
 import axiosConfig from "../axiosConfig";
@@ -41,6 +42,11 @@ const Register = args => {
     email: "",
     image: null,
   });
+  const [formError, setFormError] = useState({
+    IsName: false,
+    IsEmail: false,
+    IsImage: false,
+  });
   const [modal, setModal] = useState(false);
   const toggle = () => {
     setModal(!modal);
@@ -52,7 +58,7 @@ const Register = args => {
   useEffect(() => {
     tf.setBackend("webgl");
     loadModel();
-    console.log(text);
+    // console.log(text);
   }, []);
 
   useEffect(() => {
@@ -233,41 +239,63 @@ const Register = args => {
   };
   const handleSubmit = async e => {
     e.preventDefault();
-    setIsTrue(true);
+    if (formData.name) {
+      setFormError(prevData => ({ ...prevData, IsName: false }));
+    } else {
+      setFormError(prevData => ({ ...prevData, IsName: true }));
+    }
+    if (formData.email) {
+      setFormError(prevData => ({ ...prevData, IsEmail: false }));
+    } else {
+      setFormError(prevData => ({ ...prevData, IsEmail: true }));
+    }
+    if (formData.image) {
+      setFormError(prevData => ({ ...prevData, IsImage: false }));
+    } else {
+      setFormError(prevData => ({ ...prevData, IsImage: true }));
+    }
+
     let MobileNUM = JSON.parse(localStorage.getItem("MobileNUM"));
-    try {
-      const formDataToSend = new FormData();
-      formDataToSend.append("mobileNo", Number(MobileNUM));
-      formDataToSend.append("firstName", formData.name);
-      formDataToSend.append("email", formData.email);
-      formDataToSend.append("image", dataURItoBlob(formData.image));
-      setBackloading(true);
-      axiosConfig
-        .post("/register", formDataToSend)
-        .then(response => {
-          setIsTrue(false);
-          localStorage.removeItem("MobileNUM");
-          console.log(response.data);
-          if (response.data.message) {
-            swal("success", response.data.message);
-            // setTimeout(() => {
-            //   navigate("/home");
-            // }, 3000);
-          }
-        })
-        .catch(error => {
-          setIsTrue(true);
-          console.log(error);
+    if (formError.IsName && formError.IsEmail && formError.IsImage) {
+      try {
+        setIsCheck(false);
+        const formDataToSend = new FormData();
+        formDataToSend.append("mobileNo", Number(MobileNUM));
+        formDataToSend.append("firstName", formData.name);
+        formDataToSend.append("email", formData.email);
+        formDataToSend.append("image", dataURItoBlob(formData.image));
+        setBackloading(true);
+        debugger;
+        setIsTrue(true);
+        axiosConfig
+          .post("/register", formDataToSend)
+          .then(response => {
+            localStorage.removeItem("MobileNUM");
+            console.log(response.data);
+            if (response.data.message) {
+              setIsTrue(false);
+              // setIsCheck(false);
+              swal("success", response.data.message);
+            }
+          })
+          .catch(error => {
+            setIsTrue(true);
+            console.log(error);
+          });
+        setRegistered(true);
+        setFormData({
+          email: "",
+          name: "",
+          image: null,
         });
-      setRegistered(true);
-      setFormData({
-        email: "",
-        name: "",
-        image: null,
-      });
-    } catch (error) {
-      console.error("Error registering:", error);
-    } };
+      } catch (error) {
+        console.error("Error registering:", error);
+      }
+    }
+    //   else {
+    //     console.log("object")
+    // }
+  };
 
   return (
     <>
@@ -381,8 +409,7 @@ const Register = args => {
                 }}
               >
                 <div style={{ fontSize: "20px", fontWeight: "600" }}>
-                 Sign-up to
-                  Meri Zimmedari
+                  Sign-up to Meri Zimmedari
                 </div>
               </div>
 
@@ -415,7 +442,9 @@ const Register = args => {
                         class="form-label"
                       >
                         Enter Name
-                        <span style={{marginLeft:'2px', color:'red'}}>*</span>
+                        <span style={{ marginLeft: "2px", color: "red" }}>
+                          *
+                        </span>
                       </legend>
 
                       <input
@@ -438,6 +467,18 @@ const Register = args => {
                         required
                       />
                     </fieldset>
+                    {formError.IsName && (
+                      <p
+                        style={{
+                          color: "red",
+                          padding: "5px",
+                          fontSize: "16px",
+                          marginTop: "13px",
+                        }}
+                      >
+                        Enter Name is required!
+                      </p>
+                    )}
                     <fieldset
                       className="mt-4"
                       style={{
@@ -463,8 +504,10 @@ const Register = args => {
                         for="exampleInputPassword1"
                         class="form-label"
                       >
-                      Enter E-Mail ID
-                        <span style={{marginLeft:'2px', color:'red'}}>*</span>
+                        Enter E-Mail ID
+                        <span style={{ marginLeft: "2px", color: "red" }}>
+                          *
+                        </span>
                       </legend>
 
                       <input
@@ -487,12 +530,19 @@ const Register = args => {
                         required
                       />
                     </fieldset>
-
+                    {formError.IsEmail && (
+                      <p
+                        style={{
+                          color: "red",
+                          padding: "5px",
+                          fontSize: "16px",
+                          marginTop: "13px",
+                        }}
+                      >
+                        Enter Email is required!
+                      </p>
+                    )}
                     <div className="mt-4">
-                      <span className="font-weight-bold">
-                        When Click on Upload Live Pic Button that time you need
-                        to capture your image so blink your eyes.
-                      </span>
                       <button
                         type="button"
                         class="btn"
@@ -504,12 +554,29 @@ const Register = args => {
                         }}
                         onClick={toggle}
                       >
-                      Upload Live Selfie
-                        <span style={{marginLeft:'2px', color:'red'}}>*</span>
+                        Upload Live Selfie
+                        <span style={{ marginLeft: "2px", color: "red" }}>
+                          *
+                        </span>
                       </button>
+                      {formError.IsImage && (
+                        <p
+                          style={{
+                            color: "red",
+                            padding: "5px",
+                            fontSize: "16px",
+                            marginTop: "13px",
+                          }}
+                        >
+                          Enter Capture Image is required!
+                        </p>
+                      )}
                     </div>
 
-                    <div className="termsconditions pt-2" style={{width:'100%'}}>
+                    <div
+                      className="termsconditions pt-2"
+                      style={{ width: "100%" }}
+                    >
                       <input
                         type="checkbox"
                         className="terms"
@@ -517,32 +584,30 @@ const Register = args => {
                         name="terms"
                         checked={isCheck}
                         onChange={e => {
-                          console.log(e.target.checked);
                           setIsCheck(e.target.checked);
                         }}
-                        style={{width:'5%',float:'left',marginTop:'5px'}}
+                        style={{ width: "5%", float: "left", marginTop: "5px" }}
                       />
-                      
-                      <label className="pl-2" for="terms" style={{width:'95%',fontSize:'15px'}}>
-                      <span style={{color:'black'}}> 
-                      I agree to the
-                      </span> 
-                          <span style={{marginLeft:'3px'}}>
-                         <Link to={'/termsConditions'} >
-                         Terms & conditions
-                         </Link>
-                          </span>
-                          <span style={{marginLeft:'3px',color:'black'}}>
-                          and
-                          </span>
-                         
-                          <span style={{marginLeft:'3px'}}>
-                          <Link to={''} >
-                          Privacy Policy
+
+                      <label
+                        className="pl-2"
+                        for="terms"
+                        style={{ width: "95%", fontSize: "15px" }}
+                      >
+                        <span style={{ color: "black" }}>I agree to the</span>
+                        <span style={{ marginLeft: "3px" }}>
+                          <Link to={"/termsConditions"}>
+                            Terms & conditions
                           </Link>
-                         
-                          </span>
-                         </label>
+                        </span>
+                        <span style={{ marginLeft: "3px", color: "black" }}>
+                          and
+                        </span>
+
+                        <span style={{ marginLeft: "3px" }}>
+                          <Link to={""}>Privacy Policy</Link>
+                        </span>
+                      </label>
                     </div>
 
                     <div className="">
@@ -559,6 +624,7 @@ const Register = args => {
                         onClick={handleSubmit}
                       >
                         {isTrue ? "Waiting For Registration" : "Submit"}
+                        {/* Submit */}
                       </button>
                     </div>
                     <div className="mt-2">
@@ -566,13 +632,13 @@ const Register = args => {
                         className="nav-link-inner--text"
                         style={{ color: "black" }}
                       >
-                        Already have account? 
+                        Already have account?
                         <Link to={"/"} style={{ textDecoration: "none" }}>
                           <span
                             style={{ color: "rgb(57, 103, 204)" }}
                             className="ml-1"
                           >
-                          Sign-in
+                            Sign-in
                           </span>
                         </Link>
                       </span>
@@ -590,6 +656,19 @@ const Register = args => {
           <Form onSubmit={HandleSubmitData}>
             <Row>
               <Col lg="12" sm="12" md="12">
+                <div
+                  className="mainDiv text-center"
+                  style={{ fontSize: "20px", fontWeight: "600" }}
+                >
+                  <span className="mx-2"> Blink Eyes</span>
+                  <img
+                    className="blinkEye"
+                    src={BlinkEye}
+                    alt="aa"
+                    style={{ height: "50px" }}
+                  />
+                  <span className="mx-2"> to capture selfie</span>
+                </div>
                 {model == null ? (
                   <>
                     <h4>Wait while model loading...</h4>
