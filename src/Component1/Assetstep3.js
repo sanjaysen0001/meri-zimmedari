@@ -16,27 +16,24 @@ const Assetstep3 = () => {
       .then(res => {
         let arr = res.data.Asset;
         let newArray = arr[arr.length - 1];
-        console.log(newArray);
         setAssetData(newArray);
-        console.log(res.data.Asset);
       })
       .catch(err => {
         console.log(err);
       });
+
     axiosConfig
       .get("/nominee/view-nominee")
       .then(response => {
         let nomineeList = response.data?.Nominee;
         let nomineeArr = nomineeList[nomineeList.length - 1];
-        // console.log(nomineeArr.nominee);
         setNomineeData(nomineeArr.nominee);
       })
       .catch(err => {
         console.log(err);
       });
-    console.log(AssetData);
-    console.log(nomineeData);
   }, []);
+
   return (
     <>
       <Mynavbar />

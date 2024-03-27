@@ -6,17 +6,19 @@ import imagelogo from "../image/logo.png";
 import swal from "sweetalert";
 const Otpveri = () => {
   const [otp, setOtp] = useState(null);
+  const [IsvalidOtp, setIsValidOtp] = useState(false);
   const [bool, setBool] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
   const phoneNumber = location.state;
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(60);
   const [isCountingComplete, setIsCountingComplete] = useState(false);
 
   useEffect(() => {
-    if (count < 59) {
+    if (count > 0) {
+      setIsCountingComplete(false);
       const timer = setTimeout(() => {
-        setCount(count + 1);
+        setCount(count - 1);
       }, 1000);
       return () => clearTimeout(timer);
     } else {
@@ -25,8 +27,16 @@ const Otpveri = () => {
   }, [count]);
 
   const handleReset = () => {
-    setCount(0);
-    setIsCountingComplete(false);
+    setCount(60);
+    if (count >= 0) {
+      setIsCountingComplete(false);
+      const timer = setTimeout(() => {
+        setCount(count - 1);
+      }, 1000);
+      return () => clearTimeout(timer);
+    } else {
+      setIsCountingComplete(true);
+    }
   };
 
   const handleOtpVerify = () => {
@@ -39,6 +49,7 @@ const Otpveri = () => {
       .then(response => {
         //
         if (response.data.success == "ok") {
+          setIsValidOtp(false);
           localStorage.setItem(
             "UserZimmedari",
             JSON.stringify(response.data.User)
@@ -49,7 +60,7 @@ const Otpveri = () => {
         }
       })
       .catch(error => {
-        swal("Invalid OTP");
+        setIsValidOtp(true);
       });
   };
   return (
@@ -188,6 +199,17 @@ const Otpveri = () => {
                 </div>
                 <div className="mt-4">
                   <form>
+                    {IsvalidOtp ? (
+                      <span
+                        style={{
+                          color: "red",
+                          padding: "2px",
+                          fontSize: "16px",
+                        }}
+                      >
+                        Invalid OTP
+                      </span>
+                    ) : null}
                     <fieldset
                       style={{
                         color: "rgb(82, 114, 161)",
@@ -242,13 +264,14 @@ const Otpveri = () => {
                         Didn't receive the OTP? Resend after {count} Seconds
                       </span>
                       <span className="ml-1">
-                        <Link
-                          to={""}
-                          style={{ textDecoration: "none" }}
-                          disabled={!isCountingComplete}
+                        <button
+                          type="button"
+                          style={{ cursor: "pointer", border: "none" }}
+                          disabled={isCountingComplete ? false : true}
+                          onClick={handleReset}
                         >
                           Resend
-                        </Link>
+                        </button>
                       </span>
                     </div>
                     <div className="mt-3">

@@ -1,19 +1,44 @@
 // import { useHistory } from "react-router-dom";
 import React, { useState } from "react";
 import imageuser from "../image/logouserimage.png";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import imagelogo from "../image/logo.png";
+import axiosConfig from "../axiosConfig";
+import swal from "sweetalert";
 
 const Loginwithpassword = () => {
   const [password, setPassword] = useState("");
+  const [isError, setIsError] = useState(false);
   //   let history = useHistory();
   const navigate = useNavigate();
+  const location = useLocation();
+  const phoneNumber = location.state;
   //   function handleClick() {
   //     history.push("/Otp-verifly");
   //   }
 
-  const handleFormSubmit = () => {
-    navigate("/dashboard", { replace: true });
+  const handleFormSubmit = e => {
+    e.preventDefault();
+    let payload = {
+      mobileNo: Number(phoneNumber),
+      password: password,
+    };
+    if (phoneNumber?.length == 10) {
+      setIsError(false);
+      axiosConfig
+        .post("/user/singin-password", payload)
+        .then(response => {
+          // localStorage.setItem("MobileNUM", JSON.stringify(Number(phone)));
+          navigate("/dashboard");
+        })
+        .catch(error => {
+          swal("Something Went Wrong");
+          // console.log(error.message);
+        });
+    } else {
+      // setIsError(true);
+    }
+    // navigate("/dashboard", { replace: true });
     //  navigtate("/otpVerify");
   };
 
@@ -135,9 +160,9 @@ const Loginwithpassword = () => {
 
               <div style={{ margin: "2rem" }}>
                 <div className=" mt-2">
-                  <div>
+                  <div className="mb-3">
                     Please enter the password linked with mobile number
-                    9654458767.
+                    <span className="px-2"> {phoneNumber}</span>.
                   </div>
                   <Link to={"/"} style={{ textDecoration: "none" }}>
                     <div
@@ -188,7 +213,6 @@ const Loginwithpassword = () => {
                           paddingLeft: "15px",
                           paddingTop: "3px",
                         }}
-                        max={6}
                         type="password"
                         id="password"
                         name="password"
