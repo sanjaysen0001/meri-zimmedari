@@ -17,7 +17,7 @@ const Assetpolicy = () => {
   const [policyNumber, setPolicyNumber] = useState("");
   const [reEnterPolicyNumber, setReEnterPolicyNumber] = useState("");
   const [formError, setFormError] = useState({
-    IspolicyFile: false,
+    // IspolicyFile: false,
     IspolicyName: false,
     IspolicyNumber: false,
     IsreEnterPolicyNumber: false,
@@ -36,7 +36,6 @@ const Assetpolicy = () => {
   const handleNext = () => {
     // Validate form fields
     let errors = {};
-    // if (!uploadedFile) errors.IspolicyFile = true;
     if (!policyName) errors.IspolicyName = true;
     if (!policyNumber) errors.IspolicyNumber = true;
     if (!reEnterPolicyNumber) errors.IsreEnterPolicyNumber = true;
@@ -207,6 +206,9 @@ const Assetpolicy = () => {
           <div className="row">
             <div className="col-md-6 col-sm-6 col-lg-6 col-xl-6 mt-4">
               <div>
+                <p>
+                  Acceptable file - .jpg/.jpeg/.png/pdf” below upload policy
+                </p>
                 <span
                   className="mt-5"
                   style={{
@@ -250,25 +252,13 @@ const Assetpolicy = () => {
                 </span>
               </div>
 
-              {/* {formError.IspolicyFile && (
-                <p
-                  style={{
-                    color: "red",
-                    padding: "5px",
-                    fontSize: "16px",
-                    marginTop: "13px",
-                  }}
-                >
-                  {dynamicFields?.Field_1} is required!
-                </p>
-              )} */}
               {error && (
                 <p
                   style={{
                     color: "red",
                     padding: "5px",
                     fontSize: "16px",
-                    marginTop: "13px",
+                    marginTop: "3px",
                   }}
                 >
                   {error}
@@ -326,10 +316,10 @@ const Assetpolicy = () => {
                         color: "red",
                         padding: "5px",
                         fontSize: "16px",
-                        marginTop: "13px",
+                        marginTop: "3px",
                       }}
                     >
-                      Enter {dynamicFields?.Field_2} is required!
+                      * indicates required field
                     </p>
                   )}
                 </div>
@@ -384,10 +374,10 @@ const Assetpolicy = () => {
                       color: "red",
                       padding: "5px",
                       fontSize: "16px",
-                      marginTop: "13px",
+                      marginTop: "3px",
                     }}
                   >
-                    Enter {dynamicFields?.Field_3} is required!
+                    * indicates required field
                   </p>
                 )}
                 {formError.IsBothMatch && (
@@ -396,7 +386,7 @@ const Assetpolicy = () => {
                       color: "red",
                       padding: "5px",
                       fontSize: "16px",
-                      marginTop: "13px",
+                      marginTop: "3px",
                     }}
                   >
                     Value Mismatch
@@ -454,10 +444,10 @@ const Assetpolicy = () => {
                         color: "red",
                         padding: "5px",
                         fontSize: "16px",
-                        marginTop: "13px",
+                        marginTop: "3px",
                       }}
                     >
-                      Enter {dynamicFields?.Field_4} is required!
+                      * indicates required field
                     </p>
                   )}
                   {formError.IsBothMatch && (
@@ -466,7 +456,7 @@ const Assetpolicy = () => {
                         color: "red",
                         padding: "5px",
                         fontSize: "16px",
-                        marginTop: "13px",
+                        marginTop: "3px",
                       }}
                     >
                       Value Mismatch

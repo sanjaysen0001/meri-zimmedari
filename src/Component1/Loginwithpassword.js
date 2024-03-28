@@ -9,13 +9,11 @@ import swal from "sweetalert";
 const Loginwithpassword = () => {
   const [password, setPassword] = useState("");
   const [isError, setIsError] = useState(false);
+  const [isInvalid, setIsInvalid] = useState(false);
   //   let history = useHistory();
   const navigate = useNavigate();
   const location = useLocation();
   const phoneNumber = location.state;
-  //   function handleClick() {
-  //     history.push("/Otp-verifly");
-  //   }
 
   const handleFormSubmit = e => {
     e.preventDefault();
@@ -28,11 +26,21 @@ const Loginwithpassword = () => {
       axiosConfig
         .post("/user/singin-password", payload)
         .then(response => {
-          // localStorage.setItem("MobileNUM", JSON.stringify(Number(phone)));
-          navigate("/dashboard");
+          console.log(response.data);
+          if (response.status == 200) {
+            localStorage.setItem(
+              "user_token",
+              JSON.stringify(response.data.User.token)
+            );
+            swal("Login Successfully");
+            navigate("/dashboard");
+          } else {
+            setIsInvalid(true);
+          }
         })
         .catch(error => {
-          swal("Something Went Wrong");
+          setIsInvalid(true);
+          // swal("Password Did Not Match");
           // console.log(error.message);
         });
     } else {
@@ -162,7 +170,7 @@ const Loginwithpassword = () => {
                 <div className=" mt-2">
                   <div className="mb-3">
                     Please enter the password linked with mobile number
-                    <span className="px-2"> {phoneNumber}</span>.
+                    <span className="px-1"> {phoneNumber}</span>.
                   </div>
                   <Link to={"/"} style={{ textDecoration: "none" }}>
                     <div
@@ -178,6 +186,17 @@ const Loginwithpassword = () => {
                 </div>
                 <div className="mt-3">
                   <form onSubmit={handleFormSubmit}>
+                    {isInvalid ? (
+                      <span
+                        style={{
+                          color: "red",
+                          padding: "2px",
+                          fontSize: "16px",
+                        }}
+                      >
+                        Invalid Credentials
+                      </span>
+                    ) : null}
                     <fieldset
                       style={{
                         color: "rgb(82, 114, 161)",
@@ -202,7 +221,10 @@ const Loginwithpassword = () => {
                         for="exampleInputPassword1"
                         class="form-label"
                       >
-                        Enter Password
+                        Enter Password{" "}
+                        <span style={{ marginLeft: "2px", color: "red" }}>
+                          *
+                        </span>
                       </legend>
 
                       <input

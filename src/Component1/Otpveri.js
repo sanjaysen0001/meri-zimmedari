@@ -18,7 +18,7 @@ const Otpveri = () => {
     if (count > 0) {
       setIsCountingComplete(false);
       const timer = setTimeout(() => {
-        setCount(count - 1);
+        if (count > 0) setCount(count - 1);
       }, 1000);
       return () => clearTimeout(timer);
     } else {
@@ -27,15 +27,17 @@ const Otpveri = () => {
   }, [count]);
 
   const handleReset = () => {
-    setCount(60);
-    if (count >= 0) {
+    if (count > 0) {
       setIsCountingComplete(false);
       const timer = setTimeout(() => {
-        setCount(count - 1);
+        if (count > 0) setCount(count - 1);
       }, 1000);
+      // Clear the timer when the component unmounts or when resetting
       return () => clearTimeout(timer);
     } else {
       setIsCountingComplete(true);
+      // Reset the count to 60 when the countdown is complete
+      setCount(60);
     }
   };
 
@@ -47,9 +49,13 @@ const Otpveri = () => {
     axiosConfig
       .post("/otp-verify", payload)
       .then(response => {
-        //
         if (response.data.success == "ok") {
+          console.log(response.data.User);
           setIsValidOtp(false);
+          localStorage.setItem(
+            "user_token",
+            JSON.stringify(response.data.User.token)
+          );
           localStorage.setItem(
             "UserZimmedari",
             JSON.stringify(response.data.User)
@@ -235,6 +241,9 @@ const Otpveri = () => {
                         class="form-label"
                       >
                         Enter OTP
+                        <span style={{ marginLeft: "2px", color: "red" }}>
+                          *
+                        </span>
                       </legend>
 
                       <input
@@ -261,18 +270,23 @@ const Otpveri = () => {
 
                     <div className="mt-2">
                       <span style={{ fontSize: "13px", color: "gray" }}>
-                        Didn't receive the OTP? Resend after {count} Seconds
-                      </span>
-                      <span className="ml-1">
+                        Didn't receive the OTP?
                         <button
                           type="button"
-                          style={{ cursor: "pointer", border: "none" }}
+                          style={{
+                            cursor: "pointer",
+                            border: "none",
+                            padding: "0 4px",
+                            textDecoration: "underline",
+                          }}
                           disabled={isCountingComplete ? false : true}
                           onClick={handleReset}
                         >
                           Resend
                         </button>
+                        after {count} Seconds
                       </span>
+                      <span className="ml-1"></span>
                     </div>
                     <div className="mt-3">
                       <button
