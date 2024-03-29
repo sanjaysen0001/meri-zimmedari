@@ -51,7 +51,7 @@ const Routerfile = () => {
     setLoading(true);
     let token = localStorage.getItem("user_token");
 
-    console.log(token);
+    // console.log(token);
     setTimeout(() => {
       setLoading(false);
     }, 2000);
