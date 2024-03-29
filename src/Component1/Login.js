@@ -201,8 +201,10 @@ const Login = () => {
       axiosConfig
         .post("/save-mobile", payload)
         .then(response => {
-          localStorage.setItem("MobileNUM", JSON.stringify(Number(phone)));
-          navigate("/login/otp", { state: phone });
+          if (response.status == 200) {
+            localStorage.setItem("MobileNUM", JSON.stringify(Number(phone)));
+            navigate("/login/otp", { state: phone });
+          }
         })
         .catch(error => {
           swal("Something Went Wrong");
@@ -398,7 +400,10 @@ const Login = () => {
                         for="exampleInputPassword1"
                         class="form-label"
                       >
-                        Mobile Number
+                        Mobile Number{" "}
+                        <span style={{ marginLeft: "2px", color: "red" }}>
+                          *
+                        </span>
                       </legend>
                       <button
                         id="country"

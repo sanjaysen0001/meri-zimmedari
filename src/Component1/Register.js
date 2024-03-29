@@ -473,10 +473,10 @@ const Register = args => {
                           color: "red",
                           padding: "5px",
                           fontSize: "16px",
-                          marginTop: "13px",
+                          // marginTop: "5px",
                         }}
                       >
-                        Enter Name is required!
+                        * indicates required field
                       </p>
                     )}
                     <fieldset
@@ -536,10 +536,10 @@ const Register = args => {
                           color: "red",
                           padding: "5px",
                           fontSize: "16px",
-                          marginTop: "13px",
+                          // marginTop: "13px",
                         }}
                       >
-                        Enter Email is required!
+                        * indicates required field
                       </p>
                     )}
                     <div className="mt-4">
@@ -565,10 +565,10 @@ const Register = args => {
                             color: "red",
                             padding: "5px",
                             fontSize: "16px",
-                            marginTop: "13px",
+                            // marginTop: "13px",
                           }}
                         >
-                          Enter Capture Image is required!
+                          * indicates required field
                         </p>
                       )}
                     </div>

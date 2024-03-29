@@ -6,6 +6,8 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { PieChart } from "@mui/x-charts/PieChart";
 import Mynavbar from "./Mynavbar";
+// import "./App.css";
+import "./dashboard.css";
 
 const Index = () => {
   const pieParams = { height: 130, margin: { right: 5 } };
@@ -31,122 +33,122 @@ const Index = () => {
         <div className="mt-5 container-fluid">
           <div className="row">
             <div className="col-md-4 col-xl-4 col-lg-4">
-            <Link style={{ textDecoration: "none" }} to={"/add-asset"}>
-              <div
-                className="m-2"
-                style={{ justifyContent: "center", display: "flex" }}
-              >
+              <Link style={{ textDecoration: "none" }} to={"/add-asset"}>
                 <div
-                  className="cssforboxwidthsetinmobileanddesktopveiw"
-                  style={{
-                    border: "1px solid rgb(43, 77, 129)",
-                    height: "8rem",
-                    borderBottomLeftRadius: "20px",
-                    borderBottomRightRadius: "20px",
-                  }}
+                  className="m-2"
+                  style={{ justifyContent: "center", display: "flex" }}
                 >
                   <div
+                    className="cssforboxwidthsetinmobileanddesktopveiw"
                     style={{
-                      fontSize: "16px",
-                      fontWeight: "700",
-                      color: "rgb(43, 77, 129)",
-                      padding: "10px",
-                      backgroundImage:
-                        "linear-gradient(to right, rgb(194, 215, 233) , rgb(230, 200, 105))",
+                      border: "1px solid rgb(43, 77, 129)",
+                      height: "8rem",
+                      borderBottomLeftRadius: "20px",
+                      borderBottomRightRadius: "20px",
                     }}
                   >
-                    ASSET ADDED
-                  </div>
-                  <p style={{ textAlign: "center" }}>
-                    <span
-                      style={{ fontSize: "44px", color: "rgb(43, 77, 129)" }}
-                    >
-                      29
-                    </span>
-                    <span
+                    <div
                       style={{
                         fontSize: "16px",
+                        fontWeight: "700",
                         color: "rgb(43, 77, 129)",
-                        marginLeft: "5px",
+                        padding: "10px",
+                        backgroundImage:
+                          "linear-gradient(to right, rgb(194, 215, 233) , rgb(230, 200, 105))",
                       }}
                     >
-                      ASSET
-                    </span>
-                  </p>
+                      ASSET ADDED
+                    </div>
+                    <p style={{ textAlign: "center" }}>
+                      <span
+                        style={{ fontSize: "44px", color: "rgb(43, 77, 129)" }}
+                      >
+                        29
+                      </span>
+                      <span
+                        style={{
+                          fontSize: "16px",
+                          color: "rgb(43, 77, 129)",
+                          marginLeft: "5px",
+                        }}
+                      >
+                        ASSET
+                      </span>
+                    </p>
+                  </div>
                 </div>
-              </div>
               </Link>
             </div>
             <div className="col-md-4 col-xl-4 col-lg-4">
-            <Link style={{ textDecoration: "none" }} to={"/lifedeclaration"}>
-              <div
-                className="m-2"
-                style={{ justifyContent: "center", display: "flex" }}
-              >
+              <Link style={{ textDecoration: "none" }} to={"/lifedeclaration"}>
                 <div
-                  style={{
-                    border: "1px solid rgb(43, 77, 129)",
-                    width: "100%",
-                    height: "8rem",
-                    borderBottomLeftRadius: "20px",
-                    borderBottomRightRadius: "20px",
-                  }}
+                  className="m-2"
+                  style={{ justifyContent: "center", display: "flex" }}
                 >
                   <div
                     style={{
-                      fontSize: "16px",
-                      fontWeight: "700",
-                      color: "rgb(43, 77, 129)",
-                      padding: "10px",
-                      backgroundImage:
-                        "linear-gradient(to right, rgb(194, 215, 233) , rgb(230, 200, 105))",
+                      border: "1px solid rgb(43, 77, 129)",
+                      width: "100%",
+                      height: "8rem",
+                      borderBottomLeftRadius: "20px",
+                      borderBottomRightRadius: "20px",
                     }}
                   >
-                    HEALTH DECLERATION STATUS
+                    <div
+                      style={{
+                        fontSize: "16px",
+                        fontWeight: "700",
+                        color: "rgb(43, 77, 129)",
+                        padding: "10px",
+                        backgroundImage:
+                          "linear-gradient(to right, rgb(194, 215, 233) , rgb(230, 200, 105))",
+                      }}
+                    >
+                      HEALTH DECLERATION STATUS
+                    </div>
+                    <p className="m-3">
+                      <span
+                        style={{
+                          fontSize: "18px",
+                          color: "rgb(43, 77, 129)",
+                          float: "left",
+                        }}
+                      >
+                        NEXT DUE DATE
+                      </span>
+                      <span
+                        style={{
+                          marginLeft: "53px",
+                          fontSize: "18px",
+                          color: "rgb(43, 77, 129)",
+                        }}
+                      >
+                        : 15-FEB-24
+                      </span>
+
+                      <br></br>
+
+                      <span
+                        style={{
+                          fontSize: "18px",
+                          color: "rgb(43, 77, 129)",
+                          float: "left",
+                        }}
+                      >
+                        LAST SUBMITTED ON{" "}
+                      </span>
+                      <span
+                        style={{
+                          marginLeft: "10px",
+                          fontSize: "18px",
+                          color: "rgb(43, 77, 129)",
+                        }}
+                      >
+                        : 15-JAN-24
+                      </span>
+                    </p>
                   </div>
-                  <p className="m-3">
-                    <span
-                      style={{
-                        fontSize: "18px",
-                        color: "rgb(43, 77, 129)",
-                        float: "left",
-                      }}
-                    >
-                      NEXT DUE DATE
-                    </span>
-                    <span
-                      style={{
-                        marginLeft: "53px",
-                        fontSize: "18px",
-                        color: "rgb(43, 77, 129)",
-                      }}
-                    >
-                      : 15-FEB-24
-                    </span>
-
-                    <br></br>
-
-                    <span
-                      style={{
-                        fontSize: "18px",
-                        color: "rgb(43, 77, 129)",
-                        float: "left",
-                      }}
-                    >
-                      LAST SUBMITTED ON{" "}
-                    </span>
-                    <span
-                      style={{
-                        marginLeft: "10px",
-                        fontSize: "18px",
-                        color: "rgb(43, 77, 129)",
-                      }}
-                    >
-                      : 15-JAN-24
-                    </span>
-                  </p>
                 </div>
-              </div>
               </Link>
             </div>
             <div className="col-md-4 col-xl-4 col-lg-4">
@@ -213,9 +215,9 @@ const Index = () => {
           </div>
         </div>
         <div className="mt-5 container-fluid">
-          <div
-            style={{ borderBottom: "1px solid orange", width: "100%" }}
-          ></div>
+          <span className="onepoints"></span>
+          <div className="borderOrange"></div>
+          <span className="onepoints"></span>
         </div>
         <div className="mt-5 container-fluid">
           <div className="row">

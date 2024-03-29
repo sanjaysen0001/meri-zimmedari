@@ -1,15 +1,34 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import axiosConfig from "../axiosConfig";
 import imagelogo from "../image/logo.png";
 const Forgototpverify = () => {
   const [count, setCount] = useState(60);
   const [isCountingComplete, setIsCountingComplete] = useState(false);
+  const [IsvalidOtp, setIsValidOtp] = useState(false);
+  const [otp, setOtp] = useState(null);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const phoneNumber = location.state;
+
+  // useEffect(() => {
+  //   if (count > 0) {
+  //     setIsCountingComplete(false);
+  //     const timer = setTimeout(() => {
+  //       setCount(count - 1);
+  //     }, 1000);
+  //     return () => clearTimeout(timer);
+  //   } else {
+  //     setIsCountingComplete(true);
+  //   }
+  // }, [count]);
 
   useEffect(() => {
     if (count > 0) {
       setIsCountingComplete(false);
       const timer = setTimeout(() => {
-        setCount(count - 1);
+        if (count > 0) setCount(count - 1);
       }, 1000);
       return () => clearTimeout(timer);
     } else {
@@ -18,10 +37,41 @@ const Forgototpverify = () => {
   }, [count]);
 
   const handleReset = () => {
-    setCount(0);
-    setIsCountingComplete(false);
+    if (count > 0) {
+      setIsCountingComplete(false);
+      const timer = setTimeout(() => {
+        if (count > 0) setCount(count - 1);
+      }, 1000);
+      return () => clearTimeout(timer);
+    } else {
+      setIsCountingComplete(true);
+      setCount(60);
+    }
   };
-
+  const handleOtpVerify = () => {
+    let payload = {
+      otp: Number(otp),
+      mobileNo: Number(phoneNumber),
+    };
+    axiosConfig
+      .post("/otp-verify", payload)
+      .then(response => {
+        //
+        if (response.data.success == "ok") {
+          setIsValidOtp(false);
+          localStorage.setItem(
+            "UserZimmedari",
+            JSON.stringify(response.data.User)
+          );
+          navigate("/dashboard", { replace: true });
+        } else {
+          navigate("/registration", { replace: true });
+        }
+      })
+      .catch(error => {
+        setIsValidOtp(true);
+      });
+  };
   return (
     <>
       <div className="container-fluid " style={{ display: "inline-block" }}>
@@ -157,6 +207,17 @@ const Forgototpverify = () => {
                 </div>
                 <div className="mt-3">
                   <form>
+                    {IsvalidOtp ? (
+                      <span
+                        style={{
+                          color: "red",
+                          padding: "2px",
+                          fontSize: "16px",
+                        }}
+                      >
+                        Invalid OTP
+                      </span>
+                    ) : null}
                     <fieldset
                       style={{
                         color: "rgb(82, 114, 161)",
@@ -182,6 +243,9 @@ const Forgototpverify = () => {
                         class="form-label"
                       >
                         Enter OTP
+                        <span style={{ marginLeft: "2px", color: "red" }}>
+                          *
+                        </span>
                       </legend>
 
                       <input
@@ -203,18 +267,23 @@ const Forgototpverify = () => {
 
                     <div className="mt-2">
                       <span style={{ fontSize: "13px", color: "gray" }}>
-                        Didn't receive the OTP? Resend after {count} Seconds
-                      </span>
-                      <span className="ml-1">
+                        Didn't receive the OTP?
                         <button
                           type="button"
-                          style={{ cursor: "pointer", border: "none" }}
+                          style={{
+                            cursor: "pointer",
+                            border: "none",
+                            padding: "0 4px",
+                            textDecoration: "underline",
+                          }}
                           disabled={isCountingComplete ? false : true}
                           onClick={handleReset}
                         >
                           Resend
-                        </button>
+                        </button>{" "}
+                        after {count} Seconds
                       </span>
+                      <span className="ml-1"></span>
                     </div>
                     <div className="mt-3">
                       <Link to={"/forgot/password"}>
