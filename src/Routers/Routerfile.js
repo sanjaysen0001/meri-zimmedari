@@ -66,7 +66,7 @@ const Routerfile = () => {
             <>
             <Route path="/privacypolicy" element={<Privacypolicy/>}/>
             <Route path="/termsandcondition" element={<Termsandcondition/>}/>
-              <Route path="/Preview" element={<Preview/>}/>
+             <Route path="/Preview" element={<Preview/>}/>
               <Route path="/payment" element={<Payment />} />
               <Route path="/face" element={<Loginform />} />
               <Route path="/loginform" element={<Loginform />} />
@@ -110,11 +110,10 @@ const Routerfile = () => {
           <Route path="/assetdetails" element={<AssetDetails />} />
           <Route path="/myprofile/edit" element={<Myprofileedit1 />} />
           <Route path="/registration" element={<Register />} />
-          <Route path="/mobileNumber" element={<MobileNumber />} />
+          <Route path="/mobileNumber/:id" element={<MobileNumber />} />
           <Route path="/login/password" element={<Loginwithpassword />} />
           <Route path="/forgot/password" element={<Forgotpassword />} />
           <Route path="/login/otp" element={<Otpveri />} />
-          {/* <Route path="/PhoneAuth" element={<PhoneAuth />} /> */}
           <Route path="/" element={<Login />} />
           <Route path="/Forgot/password/otp" element={<Forgototpverify />} />
           <Route path="/myprofile" element={<MyProfile />} />

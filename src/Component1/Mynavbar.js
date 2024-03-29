@@ -97,7 +97,7 @@ const Mynavbar = () => {
           </span>
           </Nav.Link>
           </LinkContainer>
-          <LinkContainer to={''}> 
+          <LinkContainer to={'/'}> 
           <Nav.Link className='cssfornavbarpadding'>
           <span>
           Log Out
