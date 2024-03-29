@@ -5,6 +5,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import imagelogo from "../image/logo.png";
 import axiosConfig from "../axiosConfig";
 import swal from "sweetalert";
+import NavBar from "./NavBar";
 
 const Loginwithpassword = () => {
   const [password, setPassword] = useState("");
@@ -26,7 +27,7 @@ const Loginwithpassword = () => {
       axiosConfig
         .post("/user/singin-password", payload)
         .then(response => {
-          console.log(response.data);
+          console.log(response);
           if (response.status == 200) {
             localStorage.setItem(
               "user_token",
@@ -35,21 +36,29 @@ const Loginwithpassword = () => {
             swal("Login Successfully");
             navigate("/dashboard");
           } else {
-            setIsInvalid(true);
+            setIsInvalid("Invalid Credentials");
           }
         })
         .catch(error => {
           setIsInvalid(true);
-          // swal("Password Did Not Match");
-          // console.log(error.message);
+          setIsInvalid(error?.response?.data?.message);
+          console.log(error.response.data.message);
         });
     } else {
       // setIsError(true);
     }
-    // navigate("/dashboard", { replace: true });
-    //  navigtate("/otpVerify");
   };
-
+  const handleForgetPassword = () => {
+    navigate("/Forgot/password/otp");
+    // axiosConfig
+    //   .post("/user/forget-password", { mobileNo: "8889407856" })
+    //   .then(response => {
+    //     console.log(response);
+    //   })
+    //   .catch(error => {
+    //     console.log(error.response);
+    //   });
+  };
   return (
     <>
       <div className="container-fluid " style={{ display: "inline-block" }}>
@@ -57,7 +66,8 @@ const Loginwithpassword = () => {
           class="header"
           style={{ marginLeft: "-15px", boxShadow: "0 0 10px  #2374ee" }}
         >
-          <div class="container-fluid">
+          <NavBar />
+          {/* <div class="container-fluid">
             <div class="row d_flex">
               <a href="https://merizimmedari.com/" target="_blank">
                 <div class=" col-md-2 col-sm-9 ">
@@ -135,7 +145,7 @@ const Loginwithpassword = () => {
                 </nav>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
         <div className="row " style={{ paddingTop: "5rem" }}>
           <div className="col-md-4 col-sm-1 col-lg-4 col-xl-4">
@@ -186,7 +196,7 @@ const Loginwithpassword = () => {
                 </div>
                 <div className="mt-3">
                   <form onSubmit={handleFormSubmit}>
-                    {isInvalid ? (
+                    {isInvalid && (
                       <span
                         style={{
                           color: "red",
@@ -194,9 +204,9 @@ const Loginwithpassword = () => {
                           fontSize: "16px",
                         }}
                       >
-                        Invalid Credentials
+                        {isInvalid}
                       </span>
-                    ) : null}
+                    )}
                     <fieldset
                       style={{
                         color: "rgb(82, 114, 161)",
@@ -248,12 +258,24 @@ const Loginwithpassword = () => {
 
                     <div className="mt-2">
                       <span className="ml-1">
-                        <Link
-                          to={"/Forgot/password/otp"}
+                        <span
+                          onClick={handleForgetPassword} // corrected function name
+                          style={{
+                            textDecoration: "none",
+                            color: "#007bff",
+                            cursor: "pointer",
+                          }}
+                        >
+                          Forgot Password
+                        </span>
+
+                        {/* <Link
+                          onClick={handleForgetpassword}
+                          // to={"/Forgot/password/otp"}
                           style={{ textDecoration: "none" }}
                         >
                           Forgot Password
-                        </Link>
+                        </Link> */}
                       </span>
                     </div>
                     <div className="mt-3">

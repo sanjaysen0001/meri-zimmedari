@@ -113,7 +113,7 @@ const Routerfile = () => {
           <Route path="/login/password" element={<Loginwithpassword />} />
           <Route path="/forgot/password" element={<Forgotpassword />} />
           <Route path="/login/otp" element={<Otpveri />} />
-          <Route path="/" element={<Login />} />
+
           <Route path="/Forgot/password/otp" element={<Forgototpverify />} />
           <Route path="/myprofile" element={<MyProfile />} />
           <Route path="/lifedeclaration" element={<LifeDeclaration />} />
@@ -127,6 +127,7 @@ const Routerfile = () => {
 
           <Route path="/dashboard" element={<Index />} />
           <Route path="/add-asset" element={<Icons />} />
+          <Route path="/" element={<Login />} />
         </Routes>
       </Router>
     </>

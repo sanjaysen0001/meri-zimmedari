@@ -4,7 +4,6 @@ import Webcam from "react-webcam";
 import * as tf from "@tensorflow/tfjs";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import imagelogo from "../image/logo.png";
 import BlinkEye from "../image/eyedrop.gif";
 import swal from "sweetalert";
 
@@ -19,6 +18,7 @@ import {
   Label,
   Row,
 } from "reactstrap";
+import NavBar from "./NavBar";
 const faceLandmarksDetection = require("@tensorflow-models/face-landmarks-detection");
 const Register = args => {
   const webcamRef = useRef(null);
@@ -37,6 +37,7 @@ const Register = args => {
   const [registered, setRegistered] = useState(false);
   const [isCheck, setIsCheck] = useState(false);
   const [isTrue, setIsTrue] = useState(false);
+  const [emailError, setEmailError] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -58,7 +59,6 @@ const Register = args => {
   useEffect(() => {
     tf.setBackend("webgl");
     loadModel();
-    // console.log(text);
   }, []);
 
   useEffect(() => {
@@ -237,18 +237,41 @@ const Register = args => {
     formdata.append("image", dataURItoBlob(formData.image));
     formdata.append("firstName", LoginData?.name);
   };
+  function validateEmail(email) {
+    console.log(email);
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegex.test(email.trim());
+  }
+  const handleEmailValidation = e => {
+    setFormData({ ...formData, email: e.target.value });
+  };
   const handleSubmit = async e => {
     e.preventDefault();
+    debugger;
+    setEmailError("");
+    setFormError({
+      IsName: false,
+      IsImage: false,
+    });
     if (formData.name) {
       setFormError(prevData => ({ ...prevData, IsName: false }));
     } else {
       setFormError(prevData => ({ ...prevData, IsName: true }));
     }
-    if (formData.email) {
-      setFormError(prevData => ({ ...prevData, IsEmail: false }));
-    } else {
-      setFormError(prevData => ({ ...prevData, IsEmail: true }));
+
+    // Validate email
+    const trimmedEmail = formData.email.trim(); // Trim email
+
+    if (!validateEmail(trimmedEmail)) {
+      setEmailError("Enter valid e-mail address");
+      return;
     }
+    // if (formData.email) {
+    //   setFormError(prevData => ({ ...prevData, IsEmail: false }));
+    // } else {
+    //   setFormError(prevData => ({ ...prevData, IsEmail: true }));
+    // }
+
     if (formData.image) {
       setFormError(prevData => ({ ...prevData, IsImage: false }));
     } else {
@@ -256,7 +279,7 @@ const Register = args => {
     }
 
     let MobileNUM = JSON.parse(localStorage.getItem("MobileNUM"));
-    if (formError.IsName && formError.IsEmail && formError.IsImage) {
+    if (formError.IsName && formError.IsImage) {
       try {
         setIsCheck(false);
         const formDataToSend = new FormData();
@@ -265,7 +288,6 @@ const Register = args => {
         formDataToSend.append("email", formData.email);
         formDataToSend.append("image", dataURItoBlob(formData.image));
         setBackloading(true);
-        debugger;
         setIsTrue(true);
         axiosConfig
           .post("/register", formDataToSend)
@@ -292,9 +314,6 @@ const Register = args => {
         console.error("Error registering:", error);
       }
     }
-    //   else {
-    //     console.log("object")
-    // }
   };
 
   return (
@@ -304,7 +323,8 @@ const Register = args => {
           class="header"
           style={{ marginLeft: "-15px", boxShadow: "0 0 10px  #2374ee" }}
         >
-          <div class="container-fluid">
+          <NavBar />
+          {/* <div class="container-fluid">
             <div class="row d_flex">
               <a href="https://merizimmedari.com/" target="_blank">
                 <div class=" col-md-2 col-sm-9 " style={{ width: "100%" }}>
@@ -382,7 +402,7 @@ const Register = args => {
                 </nav>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
         <div className="row " style={{ paddingTop: "5rem" }}>
           <div className="col-md-4 col-sm-1 col-lg-4 col-xl-4">
@@ -524,24 +544,32 @@ const Register = args => {
                         id="email"
                         name="email"
                         value={formData.email}
-                        onChange={e => {
-                          setFormData({ ...formData, email: e.target.value });
-                        }}
-                        required
+                        onChange={handleEmailValidation}
+                        // required
                       />
                     </fieldset>
-                    {formError.IsEmail && (
+                    {emailError && (
                       <p
                         style={{
                           color: "red",
                           padding: "5px",
                           fontSize: "16px",
-                          // marginTop: "13px",
+                        }}
+                      >
+                        {emailError}
+                      </p>
+                    )}
+                    {/* {formError.IsEmail && (
+                      <p
+                        style={{
+                          color: "red",
+                          padding: "5px",
+                          fontSize: "16px",
                         }}
                       >
                         * indicates required field
                       </p>
-                    )}
+                    )} */}
                     <div className="mt-4">
                       <button
                         type="button"
@@ -572,7 +600,6 @@ const Register = args => {
                         </p>
                       )}
                     </div>
-
                     <div
                       className="termsconditions pt-2"
                       style={{ width: "100%" }}
@@ -609,7 +636,6 @@ const Register = args => {
                         </span>
                       </label>
                     </div>
-
                     <div className="">
                       <button
                         type="button"

@@ -8,6 +8,7 @@ import { Link, useNavigate, useLocation, useParams } from "react-router-dom";
 
 import "./Otpveri";
 import swal from "sweetalert";
+import NavBar from "./NavBar";
 const faceLandmarksDetection = require("@tensorflow-models/face-landmarks-detection");
 
 const Login = () => {
@@ -215,23 +216,10 @@ const Login = () => {
     }
   };
   const handleWithPassword = () => {
-    let payload = {
-      mobileNo: Number(phone),
-    };
     if (phone?.length == 10) {
       setIsError(false);
 
       navigate("/login/password", { state: phone });
-      // axiosConfig
-      //   .post("/save-mobile", payload)
-      //   .then(response => {
-      //     localStorage.setItem("MobileNUM", JSON.stringify(Number(phone)));
-      //     navigate("/login/otp", { state: phone });
-      //   })
-      //   .catch(error => {
-      //     swal("Something Went Wrong");
-      //     console.log(error.message);
-      //   });
     } else {
       setIsError(true);
     }
@@ -247,7 +235,8 @@ const Login = () => {
           class="header"
           style={{ marginLeft: "-15px", boxShadow: "0 0 10px  #2374ee" }}
         >
-          <div class="container-fluid">
+          <NavBar />
+          {/* <div class="container-fluid">
             <div class="row d_flex">
               <a href="https://merizimmedari.com/" target="_blank">
                 <div class=" col-md-2 col-sm-9 ">
@@ -325,7 +314,7 @@ const Login = () => {
                 </nav>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
 
         <div className="row " style={{ paddingTop: "5rem" }}>

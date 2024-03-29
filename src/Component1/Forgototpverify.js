@@ -13,16 +13,9 @@ const Forgototpverify = () => {
   const phoneNumber = location.state;
 
   // useEffect(() => {
-  //   if (count > 0) {
-  //     setIsCountingComplete(false);
-  //     const timer = setTimeout(() => {
-  //       setCount(count - 1);
-  //     }, 1000);
-  //     return () => clearTimeout(timer);
-  //   } else {
-  //     setIsCountingComplete(true);
-  //   }
-  // }, [count]);
+  //   // let mobile = JSON.parse(localStorage.getItem("MobileNUM"));
+  //   // console.log(mobile);
+  // }, []);
 
   useEffect(() => {
     if (count > 0) {
@@ -191,7 +184,11 @@ const Forgototpverify = () => {
               <div style={{ margin: "2rem" }}>
                 <div className=" mt-2">
                   <div>
-                    Please enter 6 digit OTP sent on mobile number 965477889.
+                    <span className="p-1">
+                      {" "}
+                      Please enter 6 digit OTP sent on mobile number
+                    </span>
+                    {JSON.parse(localStorage.getItem("MobileNUM"))}.
                   </div>
                   <Link to={"/"} style={{ textDecoration: "none" }}>
                     <div

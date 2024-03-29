@@ -13,7 +13,6 @@ function Login() {
   const [imageError, setImageError] = useState(false);
   const [counter, setCounter] = useState(5);
   const [labeledFaceDescriptors, setLabeledFaceDescriptors] = useState({});
-  const [isBlinking, setIsBlinking] = useState(false);
   const videoRef = useRef();
   const canvasRef = useRef();
   const faceApiIntervalRef = useRef();
@@ -23,16 +22,17 @@ function Login() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const minConfidence = 0.5 // minimum confidence level for face detection
+  const minConfidence = 0.5; // minimum confidence level for face detection
 
   useEffect(() => {
     setTempAccount(location?.state?.account);
-    navigator.mediaDevices.getUserMedia({ audio: false, video: true })
-      .then((stream) => {
+    navigator.mediaDevices
+      .getUserMedia({ audio: false, video: true })
+      .then(stream => {
         videoRef.current.srcObject = stream;
         //setLocalUserStream(stream);
       })
-      .catch((err) => {
+      .catch(err => {
         console.error("Failed to access user's camera:", err);
       });
   }, []);
@@ -50,13 +50,13 @@ function Login() {
   useEffect(() => {
     if (loginResult === "SUCCESS") {
       const counterInterval = setInterval(() => {
-        setCounter((counter) => counter - 1);
+        setCounter(counter => counter - 1);
       }, 1000);
 
       if (counter === 0) {
         videoRef.current.pause();
         videoRef.current.srcObject = null;
-        localUserStream.getTracks().forEach((track) => {
+        localUserStream.getTracks().forEach(track => {
           track.stop();
         });
         clearInterval(counterInterval);
@@ -72,7 +72,6 @@ function Login() {
     }
     setCounter(5);
   }, [loginResult, counter]);
-  
 
   const loadModels = async () => {
     // const uri = import.meta.env.DEV ? "/models" : "/react-face-auth/models";
@@ -85,11 +84,11 @@ function Login() {
   const getLocalUserVideo = async () => {
     navigator.mediaDevices
       .getUserMedia({ audio: false, video: true })
-      .then((stream) => {
+      .then(stream => {
         videoRef.current.srcObject = stream;
         setLocalUserStream(stream);
       })
-      .catch((err) => {
+      .catch(err => {
         console.error("error:", err);
       });
   };
@@ -101,14 +100,14 @@ function Login() {
     const p4 = eyeLandmarks[4];
     const p5 = eyeLandmarks[2];
     const p6 = eyeLandmarks[0];
-  
+
     const A = distance(p2, p6);
     const B = distance(p3, p5);
     const C = distance(p1, p4);
-  
+
     return (A + B) / (2 * C);
   }
-  
+
   function distance(p1, p2) {
     const dx = p1.x - p2.x;
     const dy = p1.y - p2.y;
@@ -116,27 +115,33 @@ function Login() {
   }
   const detectClosedEyes = async () => {
     const input = videoRef.current;
-  
+
     const options = new faceapi.SsdMobilenetv1Options({ minConfidence: 0.5 });
     const minBoxSize = { width: 100, height: 100 };
-  
-    const result = await faceapi.detectSingleFace(input, options).withFaceLandmarks();
-  
-    if (result && result.detection.box.width >= minBoxSize.width && result.detection.box.height >= minBoxSize.height) {
+
+    const result = await faceapi
+      .detectSingleFace(input, options)
+      .withFaceLandmarks();
+
+    if (
+      result &&
+      result.detection.box.width >= minBoxSize.width &&
+      result.detection.box.height >= minBoxSize.height
+    ) {
       const landmarks = result.landmarks;
       const leftEyeLandmarks = landmarks.getLeftEye();
       const rightEyeLandmarks = landmarks.getRightEye();
       const leftEAR = calculateEAR(leftEyeLandmarks);
       const rightEAR = calculateEAR(rightEyeLandmarks);
-  
+
       const EAR_THRESHOLD = 0.3; // set the threshold here
-  console.log(leftEAR, rightEAR);
+      console.log(leftEAR, rightEAR);
       if (leftEAR < EAR_THRESHOLD && rightEAR < EAR_THRESHOLD) {
-        console.log("Eyes closed!")
+        console.log("Eyes closed!");
       }
     }
-  }
-  
+  };
+
   const scanFace = async () => {
     faceapi.matchDimensions(canvasRef.current, videoRef.current);
     const faceApiInterval = setInterval(async () => {
@@ -153,10 +158,9 @@ function Login() {
       await detectClosedEyes();
       //blink eye detection
 
-
       const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors);
 
-      const results = resizedDetections.map((d) =>
+      const results = resizedDetections.map(d =>
         faceMatcher.findBestMatch(d.descriptor)
       );
 
@@ -288,7 +292,7 @@ function Login() {
               height: "360px",
               borderRadius: "10px",
               display: "block",
-              width:'100%'
+              width: "100%",
             }}
           />
           <h1>hey</h1>
