@@ -319,7 +319,7 @@ const Assetpolicy = () => {
                         marginTop: "3px",
                       }}
                     >
-                      * indicates required field
+                    * indicates required field
                     </p>
                   )}
                 </div>
@@ -377,7 +377,7 @@ const Assetpolicy = () => {
                       marginTop: "3px",
                     }}
                   >
-                    * indicates required field
+                  * indicates required field
                   </p>
                 )}
                 {formError.IsBothMatch && (
@@ -444,10 +444,11 @@ const Assetpolicy = () => {
                         color: "red",
                         padding: "5px",
                         fontSize: "16px",
-                        marginTop: "3px",
+                        marginTop: "13px",
+                        
                       }}
                     >
-                      * indicates required field
+                    * indicates required field
                     </p>
                   )}
                   {formError.IsBothMatch && (

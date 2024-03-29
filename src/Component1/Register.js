@@ -436,7 +436,7 @@ const Register = args => {
                           paddingLeft: "5px",
                           fontFamily: "Calibri",
                           marginLeft: "15px",
-                          width: "6rem",
+                          width: "6.5rem",
                         }}
                         for="exampleInputPassword1"
                         class="form-label"
