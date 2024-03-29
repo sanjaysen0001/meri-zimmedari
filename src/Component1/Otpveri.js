@@ -6,16 +6,19 @@ import imagelogo from "../image/logo.png";
 import swal from "sweetalert";
 const Otpveri = () => {
   const [otp, setOtp] = useState(null);
+  const [IsvalidOtp, setIsValidOtp] = useState(false);
+  const [bool, setBool] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
   const phoneNumber = location.state;
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(60);
   const [isCountingComplete, setIsCountingComplete] = useState(false);
 
   useEffect(() => {
-    if (count < 59) {
+    if (count > 0) {
+      setIsCountingComplete(false);
       const timer = setTimeout(() => {
-        setCount(count + 1);
+        setCount(count - 1);
       }, 1000);
       return () => clearTimeout(timer);
     } else {
@@ -24,35 +27,41 @@ const Otpveri = () => {
   }, [count]);
 
   const handleReset = () => {
-    setCount(0);
-    setIsCountingComplete(false);
+    setCount(60);
+    if (count >= 0) {
+      setIsCountingComplete(false);
+      const timer = setTimeout(() => {
+        setCount(count - 1);
+      }, 1000);
+      return () => clearTimeout(timer);
+    } else {
+      setIsCountingComplete(true);
+    }
   };
 
   const handleOtpVerify = () => {
-    // let MobileNUM = JSON.parse(localStorage.getItem("MobileNUM"));
-
     let payload = {
       otp: Number(otp),
       mobileNo: Number(phoneNumber),
     };
     axiosConfig
-    .post("/otp-verify", payload)
-    .then(response => {
-    
-      //
-      if (response.data.success == "ok") {
-        localStorage.setItem(
-          "UserZimmedari",
-          JSON.stringify(response.data.User)
-        );
-        navigate("/dashboard", { replace: true });
-      } else {
-        navigate("/registration", { replace: true });
-      }
-    })
-    .catch(error => {
-      swal(error.message);
-    });
+      .post("/otp-verify", payload)
+      .then(response => {
+        //
+        if (response.data.success == "ok") {
+          setIsValidOtp(false);
+          localStorage.setItem(
+            "UserZimmedari",
+            JSON.stringify(response.data.User)
+          );
+          navigate("/dashboard", { replace: true });
+        } else {
+          navigate("/registration", { replace: true });
+        }
+      })
+      .catch(error => {
+        setIsValidOtp(true);
+      });
   };
   return (
     <>
@@ -166,7 +175,7 @@ const Otpveri = () => {
                 }}
               >
                 <div style={{ fontSize: "20px", fontWeight: "600" }}>
-                  Verify OTP 
+                  Verify OTP
                 </div>
               </div>
 
@@ -190,6 +199,17 @@ const Otpveri = () => {
                 </div>
                 <div className="mt-4">
                   <form>
+                    {IsvalidOtp ? (
+                      <span
+                        style={{
+                          color: "red",
+                          padding: "2px",
+                          fontSize: "16px",
+                        }}
+                      >
+                        Invalid OTP
+                      </span>
+                    ) : null}
                     <fieldset
                       style={{
                         color: "rgb(82, 114, 161)",
@@ -231,26 +251,34 @@ const Otpveri = () => {
                         id="mobile"
                         name="mobile"
                         value={otp}
-                        // pattern="[0-9]{10}"
-                        onChange={e => setOtp(e.target.value)}
+                        onChange={e => {
+                          setOtp(e.target.value);
+                          setBool(true);
+                        }}
                         required
                       />
                     </fieldset>
 
                     <div className="mt-2">
                       <span style={{ fontSize: "13px", color: "gray" }}>
-                      Didn't receive the OTP? Resend after {count} Seconds
+                        Didn't receive the OTP? Resend after {count} Seconds
                       </span>
                       <span className="ml-1">
-                        <Link to={""} style={{ textDecoration: "none" }}  disabled={!isCountingComplete}>
-                       Resend
-                        </Link>
+                        <button
+                          type="button"
+                          style={{ cursor: "pointer", border: "none" }}
+                          disabled={isCountingComplete ? false : true}
+                          onClick={handleReset}
+                        >
+                          Resend
+                        </button>
                       </span>
                     </div>
                     <div className="mt-3">
                       <button
                         type="button"
                         class="btn "
+                        disabled={bool ? false : true}
                         style={{
                           width: "100%",
                           backgroundColor: "#4478c7",
@@ -259,7 +287,7 @@ const Otpveri = () => {
                         }}
                         onClick={handleOtpVerify}
                       >
-                      Submit
+                        Submit
                       </button>
                     </div>
                   </form>
@@ -269,6 +297,27 @@ const Otpveri = () => {
           </div>
         </div>
       </div>
+      <footer>
+      <div class="footer">
+   
+         <div class="copyright">
+            <div class="container">
+               <div class="row">
+                  <div class="col-md-4">
+                     <p style={{fontSize:'17px'}}>
+                     <span ><Link class="forhoveratagcolor" to={'https://user.merizimmedari.com/#/termsandcondition'} style={{textDecoration: "none"}}>Terms and Condition</Link> </span>
+                     <span>|</span>
+                     <span style={{marginLeft:'5px'}}><Link to={'https://user.merizimmedari.com/#/privacypolicy'} style={{textDecoration: "none"}}>Privacy Policy</Link></span>
+                     </p>
+                  </div>
+                  <div class="col-md-8">
+                     <p style={{fontSize:'17px'}}>© 2024 All Rights Reserved Meri Zimmedari</p>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </footer>
     </>
   );
 };

@@ -4,8 +4,7 @@ import Webcam from "react-webcam";
 import * as tf from "@tensorflow/tfjs";
 // import imageuser from "../image/logouserimage.png";
 import axiosConfig from "../axiosConfig";
-import { Link, useNavigate, useLocation, useParams } from "react-router-dom"
-
+import { Link, useNavigate, useLocation, useParams } from "react-router-dom";
 
 import "./Otpveri";
 import swal from "sweetalert";
@@ -13,10 +12,10 @@ const faceLandmarksDetection = require("@tensorflow-models/face-landmarks-detect
 
 const Login = () => {
   const [phone, setPhone] = useState(null);
-const locations = useLocation();
-  const searchParams = new URLSearchParams(window.location.href);
-  console.log(locations.pathname);
-  console.log("_idddd", searchParams);
+  // const locations = useLocation();
+  // const searchParams = new URLSearchParams(window.location.href);
+  // console.log(locations.pathname);
+  // console.log("_idddd", searchParams);
   // for face open
   const webcamRef = useRef(null);
   const [showWebcam, setShowWebcam] = useState(false);
@@ -31,7 +30,6 @@ const locations = useLocation();
     image: null,
   });
 
-  
   const [isError, setIsError] = useState(false);
   const navigate = useNavigate();
 
@@ -73,10 +71,7 @@ const locations = useLocation();
     setShowWebcam(true);
     handleClick();
   };
-  const handlePicture = () => {
-    capture();
-    setRegistration(true);
-  };
+
   const handleCapture = () => {
     alert("Image captured");
     const imageSrc = webcamRef.current.getScreenshot();
@@ -97,7 +92,7 @@ const locations = useLocation();
         predictIrises: true,
       });
 
-      if (predictions.length > 0) {
+      if (predictions?.length > 0) {
         // Somente 1 face
         const keypoints = predictions[0].scaledMesh;
         if (detectarBlink(keypoints)) {
@@ -188,12 +183,20 @@ const locations = useLocation();
     return result;
   };
 
+  const handlePicture = () => {
+    if (phone?.length == 10) {
+      capture();
+      setRegistration(true);
+      setIsError(false);
+    } else {
+      setIsError(true);
+    }
+  };
   const handleMobile = () => {
     let payload = {
       mobileNo: Number(phone),
     };
-    console.log(phone);
-    if (phone.length == 10) {
+    if (phone?.length == 10) {
       setIsError(false);
       axiosConfig
         .post("/save-mobile", payload)
@@ -209,14 +212,31 @@ const locations = useLocation();
       setIsError(true);
     }
   };
+  const handleWithPassword = () => {
+    let payload = {
+      mobileNo: Number(phone),
+    };
+    if (phone?.length == 10) {
+      setIsError(false);
+
+      navigate("/login/password", { state: phone });
+      // axiosConfig
+      //   .post("/save-mobile", payload)
+      //   .then(response => {
+      //     localStorage.setItem("MobileNUM", JSON.stringify(Number(phone)));
+      //     navigate("/login/otp", { state: phone });
+      //   })
+      //   .catch(error => {
+      //     swal("Something Went Wrong");
+      //     console.log(error.message);
+      //   });
+    } else {
+      setIsError(true);
+    }
+  };
   const handleChange = e => {
     const value = e.target.value;
     setPhone(value);
-    // if (value.length === 10) {
-    //   setIsError(false);
-    // } else {
-    //   setIsError(true);
-    // }
   };
   return (
     <>
@@ -330,9 +350,15 @@ const locations = useLocation();
                   paddingLeft: "2rem",
                 }}
               >
-                <div className="cssforfontsizeinheading" style={{  fontWeight: "600" }}>
-                  Sign-in<span className="cssforfontsizeinheading" style={{  }}>/</span>Sign-up to
-                  Meri Zimmedari
+                <div
+                  className="cssforfontsizeinheading"
+                  style={{ fontWeight: "600" }}
+                >
+                  Sign-in
+                  <span className="cssforfontsizeinheading" style={{}}>
+                    /
+                  </span>
+                  Sign-up to Meri Zimmedari
                 </div>
               </div>
               {showWebcam && (
@@ -418,7 +444,7 @@ const locations = useLocation();
                             marginTop: "13px",
                           }}
                         >
-                        Enter valid 10-digit mobile number
+                          Enter valid 10-digit mobile number
                         </p>
                       )}
                     </fieldset>
@@ -437,19 +463,20 @@ const locations = useLocation();
                       >
                         Sign-in/Sign-up with OTP
                       </button>
-                      <Link to={"/login/password"}>
-                        <button
-                          type="button"
-                          class="btn mt-3 mb-3"
-                          style={{
-                            width: "100%",
-                            color: "#4478c7",
-                            height: "2.8rem",
-                          }}
-                        >
+                      {/* <Link to={"/login/password"}> */}
+                      <button
+                        type="button"
+                        class="btn mt-3 mb-3"
+                        style={{
+                          width: "100%",
+                          color: "#4478c7",
+                          height: "2.8rem",
+                        }}
+                        onClick={handleWithPassword}
+                      >
                         Sign-in with Password
-                        </button>
-                      </Link>
+                      </button>
+                      {/* </Link> */}
                     </div>
                     <div>
                       <fieldset
@@ -490,7 +517,7 @@ const locations = useLocation();
                           height: "2.8rem",
                         }}
                       >
-                      Sign-in with face recognition
+                        Sign-in with face recognition
                       </button>
                     </div>
                   </form>
@@ -501,6 +528,27 @@ const locations = useLocation();
           </div>
         </div>
       </div>
+      <footer>
+      <div class="footer">
+   
+         <div class="copyright">
+            <div class="container">
+               <div class="row">
+                  <div class="col-md-4">
+                     <p style={{fontSize:'17px'}}>
+                     <span ><Link class="forhoveratagcolor" to={'https://user.merizimmedari.com/#/termsandcondition'} style={{textDecoration: "none"}}>Terms and Condition</Link> </span>
+                     <span>|</span>
+                     <span style={{marginLeft:'5px'}}><Link to={'https://user.merizimmedari.com/#/privacypolicy'} style={{textDecoration: "none"}}>Privacy Policy</Link></span>
+                     </p>
+                  </div>
+                  <div class="col-md-8">
+                     <p style={{fontSize:'17px'}}>© 2024 All Rights Reserved Meri Zimmedari</p>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </footer>
     </>
   );
 };

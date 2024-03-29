@@ -90,7 +90,7 @@ function MyVerticallyCenteredModal(props) {
                     setOTP(otp);
                   }}
                   autoFocus
-                  OTPLength={4}
+                  OTPLength={6}
                   className="cssforboxdesigninotp"
                   otpType="number"
                   disabled={false}
@@ -215,7 +215,7 @@ function MyModalEmail(props) {
                     setOTPE(otp);
                   }}
                   autoFocus
-                  OTPLength={4}
+                  OTPLength={6}
                   className="cssforboxdesigninotp"
                   otpType="number"
                   disabled={false}
@@ -271,7 +271,13 @@ const Assetstep2 = () => {
       relationWithNominee: "",
     },
   ]);
-
+  const [formError, setFormError] = useState({
+    IsnomineeName: false,
+    IsnomineeEmailId: false,
+    IspercentageofShar: false,
+    IsNomineePhoneNumber: false,
+    IsrelationWithNominee: false,
+  });
   const [modalShowe, setModalShowe] = useState(false);
   const [modalShow, setModalShow] = useState(false);
 
@@ -295,27 +301,93 @@ const Assetstep2 = () => {
     setFormValues(newFormValues);
   };
   let handleChange = (i, e) => {
+    //  const inputValue = e.target.value;
+    //  const regex = /^[a-zA-Z\s]*$/; // Regex to allow only alphabets and spaces
+    //  if (regex.test(inputValue) || inputValue === "") {
+    //    this.setState({ value: inputValue });
+    //  }
     let newFormValues = [...formValues];
     newFormValues[i][e.target.name] = e.target.value;
+    // const regEx = /[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,8}(.[a-z{2,8}])?/g;
+    // if (regEx.test(email)) {
+    //   setMessage("Valid Email");
+    // } else if (!regEx.test(email`enter code here`) && email !== "") {
+    //   setMessage("Invalid email");
+    // }
+    // else {
+    //   setMessage("");
+    // }
     setFormValues(newFormValues);
   };
+  // const emailValidation = () => {
+  //   const regEx = /[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,8}(.[a-z{2,8}])?/g;
+  //   if (regEx.test(email)) {
+  //     setMessage("Valid Email");
+  //   } else if (!regEx.test(email`enter code here`) && email !== "") {
+  //     setMessage("Invalid email");
+  //   } else {
+  //     setMessage("");
+  //   }
+  // };
+
   const handleNext = () => {
     const newArr = [];
     formValues.filter(el => newArr.push(Number(el.percentageofShar)));
     const sum = newArr.reduce(
       (previousValue, currentValue) => previousValue + currentValue
     );
+    let userId = JSON.parse(localStorage.getItem("UserZimmedari"))._id;
+    // console.log(userId);
     console.log(formValues);
     const payload = {
-      // userId: "",
+      userId: userId,
       nominee: formValues,
     };
+    formValues.map((value, key) => {
+      value.nomineeName == ""
+        ? setFormError(prevData => ({ ...prevData, IsnomineeName: true }))
+        : setFormError(prevData => ({ ...prevData, IsnomineeName: false }));
+
+      value.nomineeEmailId == ""
+        ? setFormError(prevData => ({ ...prevData, IsnomineeEmailId: true }))
+        : setFormError(prevData => ({ ...prevData, IsnomineeEmailId: false }));
+
+      value.relationWithNominee == ""
+        ? setFormError(prevData => ({
+            ...prevData,
+            IsrelationWithNominee: true,
+          }))
+        : setFormError(prevData => ({
+            ...prevData,
+            IsrelationWithNominee: false,
+          }));
+      !isNaN(value.percentageofShar)
+        ? setFormError(prevData => ({
+            ...prevData,
+            IspercentageofShar: true,
+          }))
+        : setFormError(prevData => ({
+            ...prevData,
+            IspercentageofShar: false,
+          }));
+
+      value.NomineePhoneNumber == null || undefined
+        ? setFormError(prevData => ({
+            ...prevData,
+            IsNomineePhoneNumber: true,
+          }))
+        : setFormError(prevData => ({
+            ...prevData,
+            IsNomineePhoneNumber: false,
+          }));
+    });
 
     if (sum == 100) {
+      navigate("/add-asset/step3");
       axiosConfig
         .post("/nominee/save-nominee", payload)
         .then(response => {
-          console.log(response.data.data.message);
+          // console.log(response.data);
           navigate("/add-asset/step3");
         })
         .catch(error => {
@@ -482,7 +554,7 @@ const Assetstep2 = () => {
                   }}
                 >
                   Auto-fill from pre-saved nominees
-                </span>{" "}
+                </span>
                 <br></br>
                 <span>
                   <svg
@@ -555,6 +627,18 @@ const Assetstep2 = () => {
                                   }}
                                 />
                               </fieldset>
+                              {formError.IsnomineeName && (
+                                <p
+                                  style={{
+                                    color: "red",
+                                    padding: "5px",
+                                    fontSize: "16px",
+                                    marginTop: "13px",
+                                  }}
+                                >
+                                * indicates required field
+                                </p>
+                              )}
                             </form>
                           </div>
                         </div>
@@ -609,13 +693,32 @@ const Assetstep2 = () => {
                                   <option
                                     selected
                                     Nominee
+                                    Relation
                                     style={{ float: "left", border: "none" }}
                                   ></option>
+
                                   <option value="Father">Father</option>
                                   <option value="Wife">Wife</option>
                                   <option value="Son">Son</option>
+                                  <option value="Mother">Mother</option>
+                                  <option value="Daughter">Daughter</option>
+                                  <option value="Sister">Sister</option>
+                                  <option value="Brother">Brother</option>
+                                  <option value="Husband">Husband</option>
                                 </select>
                               </fieldset>
+                              {formError.IsrelationWithNominee && (
+                                <p
+                                  style={{
+                                    color: "red",
+                                    padding: "5px",
+                                    fontSize: "16px",
+                                    marginTop: "13px",
+                                  }}
+                                >
+                                * indicates required field
+                                </p>
+                              )}
                             </form>
                           </div>
                         </div>
@@ -666,6 +769,18 @@ const Assetstep2 = () => {
                                   }}
                                 />
                               </fieldset>
+                              {formError.IspercentageofShar && (
+                                <p
+                                  style={{
+                                    color: "red",
+                                    padding: "5px",
+                                    fontSize: "16px",
+                                    marginTop: "13px",
+                                  }}
+                                >
+                                * indicates required field
+                                </p>
+                              )}
                             </form>
                           </div>
                         </div>
@@ -742,6 +857,18 @@ const Assetstep2 = () => {
                                       }}
                                     />
                                   </div>
+                                  {formError.IsNomineePhoneNumber && (
+                                    <p
+                                      style={{
+                                        color: "red",
+                                        padding: "5px",
+                                        fontSize: "16px",
+                                        marginTop: "13px",
+                                      }}
+                                    >
+                                    * indicates required field
+                                    </p>
+                                  )}
                                   <div
                                     className="col-md-2 col-sm-2 col-lg-2 col-xl-2 col-3"
                                     style={{ marginLeft: "-10px" }}
@@ -820,6 +947,18 @@ const Assetstep2 = () => {
                                     }}
                                   />
                                 </div>
+                                {formError.IsnomineeEmailId && (
+                                  <p
+                                    style={{
+                                      color: "red",
+                                      padding: "5px",
+                                      fontSize: "16px",
+                                      marginTop: "13px",
+                                    }}
+                                  >
+                                    Enter valid e-mail ID
+                                  </p>
+                                )}
                                 <div
                                   className="col-md-2 col-sm-2 col-lg-2 col-xl-2 col-3"
                                   style={{ marginLeft: "-10px" }}
@@ -860,12 +999,14 @@ const Assetstep2 = () => {
                       <div
                         style={{ justifyContent: "center", display: "right" }}
                       >
-                        <button
-                          className="btn btn-danger"
-                          onClick={() => removeFormFields(index)}
-                        >
-                          Delete
-                        </button>
+                        {index ? (
+                          <button
+                            className="btn btn-danger"
+                            onClick={() => removeFormFields(index)}
+                          >
+                            Delete
+                          </button>
+                        ) : null}
                       </div>
                     </div>
                   </div>
