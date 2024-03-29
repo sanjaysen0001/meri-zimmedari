@@ -1,31 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Mynavbar from "./Mynavbar";
 import Modal from "react-bootstrap/Modal";
 import axiosConfig from "../axiosConfig";
 import swal from "sweetalert";
-function Createpassword(props) {
-  return (
-    <Modal
-      {...props}
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Modal.Header
-        style={{
-          justifyContent: "right",
-          display: "flex",
-          padding: "0.1rem 0.1rem",
-          border: "none",
-        }}
-      ></Modal.Header>
-      <Modal.Body style={{ textAlign: "center" }}>
-        New password sent to anc.gmail.com
-      </Modal.Body>
-    </Modal>
-  );
-}
+import Spinner from "react-bootstrap/Spinner";
+import Button from "react-bootstrap/Button";
 function Savepassword(props) {
   return (
     <Modal
@@ -50,62 +30,140 @@ function Savepassword(props) {
 }
 
 const Manageaccount = () => {
-  // const [modalShow, setModalShow] = useState(false);
+  const [modalShow, setModalShow] = useState(false);
   const [modalShow1, setModalShow1] = useState(false);
-  const [oldPass, setOldPass] = useState("");
-  const [newPass, setNewPass] = useState("");
-  const [ConfirmPass, setConfirmPass] = useState("");
+  // const [oldPass, setOldPass] = useState("");
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [oldPasswordError, setOldPasswordError] = useState("");
+  const [newPasswordError, setNewPasswordError] = useState("");
+  const [newPassError, setNewPassError] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  const [error, setError] = useState("");
+  const [formData, setFormData] = useState({
+    oldPass: "",
+    newPass: "",
+    ConfirmPass: "",
+  });
+  const [IsPassError, setIsPassError] = useState({
+    isOldPass: false,
+    isNewPass: false,
+    isConfirmPass: false,
+    isBothPass: false,
+  });
+
   const [isError, setIsError] = useState(false);
+  const [isLoader, setIsLoader] = useState(false);
 
   const handleGeneratePassword = () => {
     let userData = JSON.parse(localStorage.getItem("UserZimmedari"));
 
+    setIsLoader(true);
+    setModalShow(true);
     axiosConfig
       .post("/user/generate-password", {
         email: userData.email,
       })
       .then(response => {
-        swal("Success", `New password sent to ${userData.email}`, "success");
+        // console.log(response.status);
+        if (response.status == 200) {
+          setIsLoader(false);
+          setModalShow(true);
+        }
+      })
+      .catch(error => {
+        setIsLoader(false);
+
+        swal("Something Went Wrong");
+      });
+  };
+
+  const validatePassword = password => {
+    // Regular expression to match the password requirements
+    const regex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return regex.test(password);
+  };
+  const handleSavePassWord = e => {
+    e.preventDefault();
+
+    // Reset previous errors
+    setOldPasswordError("");
+    setNewPasswordError("");
+    setConfirmPasswordError("");
+    if (!oldPassword) {
+      setOldPasswordError("* indicates required field");
+      return;
+    }
+    // Validation for new password
+    if (!validatePassword(newPassword)) {
+      setNewPasswordError(
+        "Password must contain a combination of at least 8 characters, including lowercase letters, uppercase letters, numbers, and special symbols."
+      );
+      return;
+    }
+    // Validation for confirm password
+    if (newPassword !== confirmPassword) {
+      setConfirmPasswordError("Value Mismatch");
+      return;
+    }
+
+    let payload = {
+      oldPassword: oldPassword,
+      newPassword: newPassword,
+      confirmPassword: confirmPassword,
+    };
+
+    setIsError(false);
+    axiosConfig
+      .post("/user/save-password", payload)
+      .then(response => {
+        console.log(response.data.message);
+
+        // Reset form fields
+        setOldPassword("");
+        setNewPassword("");
+        setConfirmPassword("");
+        swal("Success", "Password Reset Successfully", "Success");
       })
       .catch(error => {
         swal("Something Went Wrong");
-        console.log(error);
+        console.log(error.message);
       });
   };
-  const handleSavePassWord = () => {
-    debugger;
-    let payload = {
-      oldPassword: oldPass,
-      newPassword: newPass,
-      confirmPassword: ConfirmPass,
-    };
-    if (newPass == ConfirmPass) {
-      setIsError(false);
-      axiosConfig
-        .post("/user/save-password", payload)
-        .then(response => {
-          console.log(response.data.message);
-          setOldPass("");
-          setNewPass("");
-          setConfirmPass("");
-          swal("Success", `response.data.message`, "Success");
-          //  localStorage.setItem("MobileNUM", JSON.stringify(Number(phone)));
-        })
-        .catch(error => {
-          swal("Something Went Wrong");
-          console.log(error.message);
-        });
-    } else {
-      setIsError(true);
-    }
-  };
-
-  // () => setModalShow1(true);
+  function Createpassword(props) {
+    return (
+      <>
+        <Modal
+          {...props}
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header
+            style={{
+              justifyContent: "right",
+              display: "flex",
+              padding: "0.1rem 0.1rem",
+              border: "none",
+            }}
+          ></Modal.Header>
+          <Modal.Body style={{ textAlign: "center" }}>
+            New password sent to
+            <span className="p-1">
+              {JSON.parse(localStorage.getItem("UserZimmedari")).email}
+            </span>
+          </Modal.Body>
+        </Modal>
+      </>
+    );
+  }
   return (
     <>
       <Mynavbar />
       <Savepassword show={modalShow1} onHide={() => setModalShow1(false)} />
-      {/* <Createpassword show={modalShow} onHide={() => setModalShow(false)} /> */}
+      <Createpassword show={modalShow} onHide={() => setModalShow(false)} />
       <div>
         <p
           style={{
@@ -163,6 +221,16 @@ const Manageaccount = () => {
             </legend>
             <div className="row m-2">
               <div className="col-md-4  col-xl-4 xol-lg-4">
+                {IsPassError.isBothPass && (
+                  <span
+                    style={{
+                      color: "white",
+                      fontSize: "16px",
+                    }}
+                  >
+                    .
+                  </span>
+                )}
                 <fieldset
                   style={{
                     color: "rgb(82, 114, 161)",
@@ -198,14 +266,30 @@ const Manageaccount = () => {
                       paddingBottom: "10px",
                       marginBottom: "5px",
                     }}
-                    value={oldPass}
+                    // value={formData.oldPass}
                     id="password"
-                    name="password"
-                    onChange={e => setOldPass(e.target.value)}
+                    name="oldPass"
+                    value={oldPassword}
+                    onChange={e => setOldPassword(e.target.value)}
                   />
                 </fieldset>
+                {oldPasswordError && (
+                  <p style={{ color: "red" }}>{oldPasswordError}</p>
+                )}
               </div>
               <div className="col-md-4  col-xl-4 xol-lg-4">
+                {IsPassError.isBothPass && (
+                  <span
+                    style={{
+                      color: "white",
+                      // padding: "5px",
+                      fontSize: "16px",
+                      // marginTop: "3px",
+                    }}
+                  >
+                    .
+                  </span>
+                )}
                 <fieldset
                   style={{
                     color: "rgb(82, 114, 161)",
@@ -241,23 +325,15 @@ const Manageaccount = () => {
                       paddingBottom: "10px",
                       marginBottom: "5px",
                     }}
-                    name="newpass"
-                    value={newPass}
-                    onChange={e => setNewPass(e.target.value)}
+                    name="newPass"
+                    value={newPassword}
+                    onChange={e => setNewPassword(e.target.value)}
                   />
                 </fieldset>
-                {isError && (
-                  <p
-                    style={{
-                      color: "red",
-                      padding: "5px",
-                      fontSize: "16px",
-                      marginTop: "13px",
-                    }}
-                  >
-                    Value MissMatch
-                  </p>
+                {newPasswordError && (
+                  <p style={{ color: "red" }}>{newPasswordError}</p>
                 )}
+                {newPassError && <p style={{ color: "red" }}>{newPassError}</p>}
               </div>
               <div className="col-md-4  col-xl-4 xol-lg-4">
                 <fieldset
@@ -296,20 +372,26 @@ const Manageaccount = () => {
                       marginBottom: "5px",
                     }}
                     name="ConfirmPass"
-                    value={ConfirmPass}
-                    onChange={e => setConfirmPass(e.target.value)}
+                    value={confirmPassword}
+                    onChange={e => setConfirmPassword(e.target.value)}
+                    // value={formData.ConfirmPass}
+                    // onChange={e => setConfirmPass(e.target.value)}
                   />
                 </fieldset>
-                {isError && (
+                {confirmPasswordError && (
+                  <p style={{ color: "red" }}>{confirmPasswordError}</p>
+                )}
+                {error && <p style={{ color: "red" }}>{error}</p>}
+                {IsPassError.isConfirmPass && (
                   <p
                     style={{
                       color: "red",
                       padding: "5px",
                       fontSize: "16px",
-                      marginTop: "13px",
+                      marginTop: "3px",
                     }}
                   >
-                    Value MissMatch
+                    * indicates required field
                   </p>
                 )}
               </div>
@@ -339,21 +421,28 @@ const Manageaccount = () => {
                   Save Password
                 </button>
               </div>
-              <div className="col-md-4 col-xl-4 col-lg-4">
-                <div style={{ textAlign: "center" }}>
-                  <button
-                    to={""}
-                    onClick={handleGeneratePassword}
-                    style={{
-                      color: "rgb(82, 114, 161)",
-                      fontSize: "22px",
-                      textDecoration: "none",
-                    }}
-                  >
-                    Generate Random Password
-                  </button>
+              {isLoader ? (
+                <Spinner
+                  animation="border"
+                  role="status"
+                  style={{ marginLeft: "85px" }}
+                ></Spinner>
+              ) : (
+                <div className="col-md-4 col-xl-4 col-lg-4">
+                  <div style={{ textAlign: "center" }}>
+                    <Link
+                      onClick={handleGeneratePassword}
+                      style={{
+                        color: "rgb(82, 114, 161)",
+                        fontSize: "22px",
+                        textDecoration: "underline",
+                      }}
+                    >
+                      Generate Random Password
+                    </Link>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </fieldset>
         </div>

@@ -49,9 +49,17 @@ const Routerfile = () => {
 
   useEffect(() => {
     setLoading(true);
+    let token = localStorage.getItem("user_token");
+
+    // console.log(token);
     setTimeout(() => {
       setLoading(false);
     }, 2000);
+
+    sessionStorage.clear();
+    if (token === undefined || token === null) {
+      window.location.replace("/#");
+    }
   }, []);
   return (
     <>
@@ -126,3 +134,77 @@ const Routerfile = () => {
 };
 
 export default Routerfile;
+
+// import React, { useState, useEffect } from 'react';
+// import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
+// import LoginPage from './LoginPage';
+// import DashboardPage from './DashboardPage';
+
+// const App = () => {
+//   const [isLoggedIn, setIsLoggedIn] = useState(false);
+//   const [isLoading, setIsLoading] = useState(true);
+
+//   useEffect(() => {
+//     // Check if token is available, you can implement your own logic here
+//     const token = localStorage.getItem('token');
+
+//     if (token) {
+//       setIsLoggedIn(true);
+//     }
+
+//     setIsLoading(false);
+//   }, []);
+
+//   const handleLogin = () => {
+//     // Your login logic here
+//     // Assuming successful login, set isLoggedIn to true and store token in localStorage
+//     setIsLoggedIn(true);
+//     localStorage.setItem('token', 'your_token_here');
+//   };
+
+//   const handleLogout = () => {
+//     // Your logout logic here
+//     // Clear token from localStorage and set isLoggedIn to false
+//     setIsLoggedIn(false);
+//     localStorage.removeItem('token');
+//   };
+
+//   return (
+//     <Router>
+//       {isLoading ? (
+//         <div>Loading...</div>
+//       ) : (
+//         <Switch>
+//           <Route path="/login">
+//             {isLoggedIn ? <Redirect to="/" /> : <LoginPage onLogin={handleLogin} />}
+//           </Route>
+//           <PrivateRoute path="/" isLoggedIn={isLoggedIn}>
+//             <DashboardPage onLogout={handleLogout} />
+//           </PrivateRoute>
+//         </Switch>
+//       )}
+//     </Router>
+//   );
+// };
+
+// const PrivateRoute = ({ children, isLoggedIn, ...rest }) => {
+//   return (
+//     <Route
+//       {...rest}
+//       render={({ location }) =>
+//         isLoggedIn ? (
+//           children
+//         ) : (
+//           <Redirect
+//             to={{
+//               pathname: '/login',
+//               state: { from: location },
+//             }}
+//           />
+//         )
+//       }
+//     />
+//   );
+// };
+
+// export default App;
