@@ -636,7 +636,7 @@ const Assetstep2 = () => {
                                     marginTop: "13px",
                                   }}
                                 >
-                                  Enter Nominee Name is required!
+                                  * indicates required field
                                 </p>
                               )}
                             </form>
@@ -716,7 +716,7 @@ const Assetstep2 = () => {
                                     marginTop: "13px",
                                   }}
                                 >
-                                  Enter Nominee Name is required!
+                                  “* indicates required field
                                 </p>
                               )}
                             </form>
@@ -778,7 +778,7 @@ const Assetstep2 = () => {
                                     marginTop: "13px",
                                   }}
                                 >
-                                  Enter Percentage of Share is required!
+                                  * indicates required field
                                 </p>
                               )}
                             </form>
@@ -866,7 +866,7 @@ const Assetstep2 = () => {
                                         marginTop: "13px",
                                       }}
                                     >
-                                      Enter Nominee PhoneNumber is required!
+                                      * indicates required field
                                     </p>
                                   )}
                                   <div

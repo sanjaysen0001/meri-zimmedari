@@ -43,7 +43,7 @@ import Forgotpassword from "../Component1/Forgotpassword";
 import Forgototpverify from "../Component1/Forgototpverify";
 import Payment from "../Component1/Payment";
 import Preview from "../Component1/Preview";
-
+import NotFind from "../Component1/NotFind";
 const Routerfile = () => {
   const [loading, setLoading] = useState(false);
 
@@ -56,10 +56,10 @@ const Routerfile = () => {
       setLoading(false);
     }, 2000);
 
-    sessionStorage.clear();
-    if (token === undefined || token === null) {
-      window.location.replace("/#");
-    }
+    // sessionStorage.clear();
+    // if (token === undefined || token === null) {
+    //   window.location.replace("/404");
+    // }
   }, []);
   return (
     <>
@@ -75,6 +75,7 @@ const Routerfile = () => {
               <Route path="/loginform" element={<Loginform />} />
               <Route path="/signup" element={<SignUpForm />} />
               <Route path="/home" element={<Home />} />
+              <Route path="/404" element={<NotFind />} />
               <Route
                 path="/capture1"
                 element={
