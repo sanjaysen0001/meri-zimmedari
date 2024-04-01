@@ -6,6 +6,7 @@ import imagelogo from "../image/logo.png";
 import axiosConfig from "../axiosConfig";
 import swal from "sweetalert";
 import NavBar from "./NavBar";
+import Footer from "./Footer";
 
 const Loginwithpassword = () => {
   const [password, setPassword] = useState("");
@@ -300,6 +301,7 @@ const Loginwithpassword = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };

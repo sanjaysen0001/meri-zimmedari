@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import NavBar from "./NavBar";
 import axiosConfig from "../axiosConfig";
+import Footer from "./Footer";
 
 function Passwordsucced(props) {
   const [password, setPassword] = useState("");
@@ -262,6 +263,7 @@ const Forgotpassword = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };

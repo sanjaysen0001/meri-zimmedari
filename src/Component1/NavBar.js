@@ -65,7 +65,7 @@ export default function NavBar() {
                     Contact Us
                   </a>
                 </li>
-                <li class="nav-item">
+                {/* <li class="nav-item">
                   <a
                     class="nav-link"
                     href="https://user.merizimmedari.com/#/"
@@ -73,7 +73,7 @@ export default function NavBar() {
                   >
                     Log in
                   </a>
-                </li>
+                </li> */}
                 <li class="nav-item">
                   <a
                     class="nav-link"

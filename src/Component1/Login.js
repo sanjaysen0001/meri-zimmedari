@@ -9,6 +9,7 @@ import { Link, useNavigate, useLocation, useParams } from "react-router-dom";
 import "./Otpveri";
 import swal from "sweetalert";
 import NavBar from "./NavBar";
+import Footer from "./Footer";
 const faceLandmarksDetection = require("@tensorflow-models/face-landmarks-detection");
 
 const Login = () => {
@@ -522,6 +523,7 @@ const Login = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };

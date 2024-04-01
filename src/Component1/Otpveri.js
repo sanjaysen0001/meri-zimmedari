@@ -4,6 +4,8 @@ import axiosConfig from "../axiosConfig";
 import { Link } from "react-router-dom";
 import imagelogo from "../image/logo.png";
 import swal from "sweetalert";
+import NavBar from "./NavBar";
+import Footer from "./Footer";
 const Otpveri = () => {
   const [otp, setOtp] = useState(null);
   const [IsvalidOtp, setIsValidOtp] = useState(false);
@@ -76,85 +78,7 @@ const Otpveri = () => {
           class="header"
           style={{ marginLeft: "-15px", boxShadow: "0 0 10px  #2374ee" }}
         >
-          <div class="container-fluid">
-            <div class="row d_flex">
-              <a href="https://merizimmedari.com/" target="_blank">
-                <div class=" col-md-2 col-sm-9 ">
-                  <a href="https://merizimmedari.com/" target="_blank">
-                    <img
-                      src={imagelogo}
-                      target="_blank"
-                      href="https://merizimmedari.com/"
-                      style={{ width: "96px" }}
-                      alt="#"
-                    />
-                  </a>
-                </div>
-              </a>
-              <div class="col-md-10 col-sm-12 chgdfagdjagdagfagsf">
-                <nav class="navigation navbar navbar-expand-md navbar-dark ">
-                  <button
-                    class="navbar-toggler"
-                    type="button"
-                    data-toggle="collapse"
-                    data-target="#navbarsExample04"
-                    aria-controls="navbarsExample04"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-                  >
-                    <span class="navbar-toggler-icon"></span>
-                  </button>
-                  <div class="collapse navbar-collapse" id="navbarsExample04">
-                    <ul class="navbar-nav mr-auto">
-                      <li class="nav-item ">
-                        <a
-                          class="nav-link"
-                          href="https://merizimmedari.com/WhatWeDo.html"
-                        >
-                          What We Do ?
-                        </a>
-                      </li>
-                      <li class="nav-item ">
-                        <a
-                          class="nav-link"
-                          href="https://merizimmedari.com/HowWeDo.html"
-                        >
-                          How It Works ?
-                        </a>
-                      </li>
-                      <li class="nav-item ">
-                        <a
-                          class="nav-link"
-                          href="https://merizimmedari.com/FAQ.html"
-                        >
-                          FAQ
-                        </a>
-                      </li>
-
-                      <li class="nav-item ">
-                        <a
-                          class="nav-link"
-                          href="https://merizimmedari.com/contact.html"
-                        >
-                          Contact Us
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a
-                          class="nav-link"
-                          href="https://user.merizimmedari.com/#/"
-                          target="_blank"
-                        >
-                          sign-in<span style={{ fontSize: "22px" }}>/</span>
-                          Sign-up
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </nav>
-              </div>
-            </div>
-          </div>
+          <NavBar />
         </div>
         <div className="row " style={{ paddingTop: "5rem" }}>
           <div className="col-md-4 col-sm-2 col-lg-4 col-xl-4">
@@ -311,6 +235,7 @@ const Otpveri = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };

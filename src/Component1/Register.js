@@ -237,6 +237,7 @@ const Register = args => {
     let formdata = new FormData();
     formdata.append("image", dataURItoBlob(formData.image));
     formdata.append("firstName", LoginData?.name);
+    formdata.append("email", LoginData.email);
   };
   function validateEmail(email) {
     console.log(email);
@@ -246,6 +247,7 @@ const Register = args => {
   const handleEmailValidation = e => {
     setFormData({ ...formData, email: e.target.value });
   };
+
   const handleSubmit = async e => {
     e.preventDefault();
     setEmailError("");
@@ -267,12 +269,13 @@ const Register = args => {
       return;
     }
 
-    if (dataURItoBlob(formData.image)) {
+    if (!formData.image) {
       setImageError("indicates required field");
       // setFormError(prevData => ({ ...prevData, IsImage: false }));
     }
     // else {
-    //   setFormError(prevData => ({ ...prevData, IsImage: true }));
+    //   setImageError("");
+    //   // setFormError(prevData => ({ ...prevData, IsImage: true }));
     // }
 
     let MobileNUM = JSON.parse(localStorage.getItem("MobileNUM"));
@@ -290,23 +293,26 @@ const Register = args => {
       for (const pair of formDataToSend.entries()) {
         const [key, value] = pair;
         console.log("Key:", key, "Value:", value);
-        // console.log();
       }
 
-      // axiosConfig
-      //   .post("/register", formDataToSend)
-      //   .then(response => {
-      //     localStorage.removeItem("MobileNUM");
-      //     console.log(response.data);
-      //     if (response.data.message) {
-      //       setIsTrue(false);
-      //       swal("success", response.data.message);
-      //     }
-      //   })
-      //   .catch(error => {
-      //     setIsTrue(true);
-      //     console.log(error);
-      //   });
+      axiosConfig
+        .post("/register", formDataToSend)
+        .then(response => {
+          localStorage.removeItem("MobileNUM");
+          console.log(response.data);
+          setImageError("");
+          if (response.data.message) {
+            setIsTrue(false);
+            // setImageError("");
+            swal("success", response.data.message);
+          } else {
+          }
+        })
+        .catch(error => {
+          setIsTrue(true);
+          console.log(error);
+        });
+
       setRegistered(true);
       setFormData({
         email: "",
@@ -380,7 +386,7 @@ const Register = args => {
                           paddingLeft: "5px",
                           fontFamily: "Calibri",
                           marginLeft: "15px",
-                          width: "6rem",
+                          width: "6.5rem",
                         }}
                         for="exampleInputPassword1"
                         class="form-label"

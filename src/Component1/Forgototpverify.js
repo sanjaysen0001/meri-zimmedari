@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useNavigate, useLocation } from "react-router-dom";
 import axiosConfig from "../axiosConfig";
 import imagelogo from "../image/logo.png";
+import Footer from "./Footer";
 const Forgototpverify = () => {
   const [count, setCount] = useState(60);
   const [isCountingComplete, setIsCountingComplete] = useState(false);
@@ -305,6 +306,7 @@ const Forgototpverify = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };

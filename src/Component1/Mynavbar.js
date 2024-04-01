@@ -67,9 +67,21 @@ const Mynavbar = () => {
                 <LinkContainer to={"/nomineedetails"}>
                   <NavDropdown.Item>Nominee Details</NavDropdown.Item>
                 </LinkContainer>
-                <LinkContainer to={"/confidentialnoteeditor"}>
-                  <NavDropdown.Item>Confidential Note</NavDropdown.Item>
-                </LinkContainer>
+                <NavDropdown   className='cssfornavbarpadding01 ' style={{color:'black',fontWeight:'400'}} title="Confidential Note" id="basic-nav-dropdown">
+            
+          <LinkContainer to={'/confidentialnoteeditor'}>
+          <NavDropdown.Item >Current Confidential Note
+          </NavDropdown.Item>
+          </LinkContainer>
+          <LinkContainer to={'/manageconfidentialnoteeditor'}>
+          <NavDropdown.Item >Manage Confidential Note
+          </NavDropdown.Item>
+          </LinkContainer>
+         
+        
+          
+        
+            </NavDropdown>
                 <LinkContainer to={"/Preview"}>
                   <NavDropdown.Item>Preview</NavDropdown.Item>
                 </LinkContainer>

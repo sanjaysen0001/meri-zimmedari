@@ -1,267 +1,20 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
-import "../css/style.css";
 import { Input, Table } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Mynavbar from "./Mynavbar";
-import Modal from "react-bootstrap/Modal";
-import OtpInput from "react-otp-input";
-import OTPInput, { ResendOTP } from "otp-input-react";
 import { useNavigate } from "react-router-dom";
 
+import EmailModal from "./nominee/EmailModal";
+import "../css/style.css";
 import axiosConfig from "./../axiosConfig";
-function MyVerticallyCenteredModal(props) {
-  const [OTP, setOTP] = useState("");
-  const [count, setCount] = useState(0);
-  const [isCountingComplete, setIsCountingComplete] = useState(false);
-
-  useEffect(() => {
-    if (count < 59) {
-      const timer = setTimeout(() => {
-        setCount(count + 1);
-      }, 1000);
-      return () => clearTimeout(timer);
-    } else {
-      setIsCountingComplete(true);
-    }
-  }, [count]);
-
-  const handleReset = () => {
-    setCount(0);
-    setIsCountingComplete(false);
-  };
-
-  return (
-    <>
-      <div style={{ justifyContent: "center", display: "flex" }}>
-        <Modal
-          {...props}
-          size="lg"
-          aria-labelledby="contained-modal-title-vcenter"
-          centered
-        >
-          <div
-            className="cssfornomineeformobileview"
-            style={{ overflow: "auto" }}
-          >
-            <div style={{ paddingTop: "20px" }}>
-              <p
-                style={{
-                  color: "rgb(82, 114, 161)",
-                  textAlign: "center",
-                  fontSize: "18px",
-                }}
-              >
-                Please enter the One Time Password sent on
-              </p>
-              <p
-                style={{
-                  color: "rgb(82, 114, 161)",
-                  textAlign: "center",
-                  fontSize: "22px",
-                }}
-              >
-                <span>Phone number 96XX450XX0 </span>
-                <span>
-                  <Link
-                    onClick={props.onHide}
-                    to={""}
-                    style={{
-                      textDecoration: "none",
-                      color: "rgb(82, 114, 161)",
-                    }}
-                  >
-                    <span
-                      style={{ borderBottom: "1px solid rgb(82, 114, 161)" }}
-                    >
-                      Change
-                    </span>
-                  </Link>{" "}
-                </span>
-              </p>
-              <div
-                className="cssforboxdesigninotpcenter"
-                style={{ marginTop: "40px", marginBottom: "30px" }}
-              >
-                <OTPInput
-                  value={OTP}
-                  onChange={otp => {
-                    console.log(otp);
-                    setOTP(otp);
-                  }}
-                  autoFocus
-                  OTPLength={6}
-                  className="cssforboxdesigninotp"
-                  otpType="number"
-                  disabled={false}
-                />
-              </div>
-              <div
-                style={{
-                  justifyContent: "center",
-                  display: "flex",
-                  marginTop: "15px",
-                  paddingBottom: "40px",
-                }}
-              >
-                <span>
-                  <button
-                    className="cssforhandleotpcounttext"
-                    onClick={handleReset}
-                    style={{
-                      border: "none",
-                      borderBottom: "none",
-                      marginRight: "5px",
-                    }}
-                    disabled={!isCountingComplete}
-                  >
-                    <span
-                      style={{ borderBottom: "1px solid rgb(82, 114, 161)" }}
-                    >
-                      Reset
-                    </span>
-                  </button>
-                </span>
-                <span className="cssforhandleotpcounttext">
-                  {" "}
-                  One Time Password in {count} Seconds
-                </span>
-              </div>
-            </div>
-          </div>
-        </Modal>
-      </div>
-    </>
-  );
-}
-
-function MyModalEmail(props) {
-  const [OTPE, setOTPE] = useState("");
-  const [counte, setCounte] = useState(0);
-  const [isCountingCompletee, setIsCountingCompletee] = useState(false);
-
-  useEffect(() => {
-    if (counte < 59) {
-      const timer = setTimeout(() => {
-        setCounte(counte + 1);
-      }, 1000);
-      return () => clearTimeout(timer);
-    } else {
-      setIsCountingCompletee(true);
-    }
-  }, [counte]);
-
-  const handleResete = () => {
-    setCounte(0);
-    setIsCountingCompletee(false);
-  };
-
-  return (
-    <>
-      <div style={{ justifyContent: "center", display: "flex" }}>
-        <Modal
-          {...props}
-          size="lg"
-          aria-labelledby="contained-modal-title-vcenter"
-          centered
-        >
-          <div
-            className="cssfornomineeformobileview"
-            style={{ overflow: "auto" }}
-          >
-            <div style={{ paddingTop: "20px" }}>
-              <p
-                style={{
-                  color: "rgb(82, 114, 161)",
-                  textAlign: "center",
-                  fontSize: "18px",
-                }}
-              >
-                Please enter the One Time Password sent on
-              </p>
-              <p
-                style={{
-                  color: "rgb(82, 114, 161)",
-                  textAlign: "center",
-                  fontSize: "22px",
-                }}
-              >
-                <span>Email Id kauxxxxxxxxxxxnghxxx@gmail.com</span>
-                <span>
-                  <Link
-                    onClick={props.onHide}
-                    to={""}
-                    style={{
-                      textDecoration: "none",
-                      color: "rgb(82, 114, 161)",
-                    }}
-                  >
-                    <span
-                      style={{ borderBottom: "1px solid rgb(82, 114, 161)" }}
-                    >
-                      Change
-                    </span>
-                  </Link>{" "}
-                </span>
-              </p>
-              <div
-                className="cssforboxdesigninotpcenter"
-                style={{ marginTop: "40px", marginBottom: "30px" }}
-              >
-                <OTPInput
-                  value={OTPE}
-                  onChange={otp => {
-                    console.log(otp);
-                    setOTPE(otp);
-                  }}
-                  autoFocus
-                  OTPLength={6}
-                  className="cssforboxdesigninotp"
-                  otpType="number"
-                  disabled={false}
-                />
-              </div>
-              <div
-                style={{
-                  justifyContent: "center",
-                  display: "flex",
-                  marginTop: "15px",
-                  paddingBottom: "40px",
-                }}
-              >
-                <span>
-                  {" "}
-                  <button
-                    className="cssforhandleotpcounttext"
-                    onClick={handleResete}
-                    style={{
-                      border: "none",
-                      borderBottom: "none",
-                      marginRight: "5px",
-                    }}
-                    disabled={!isCountingCompletee}
-                  >
-                    <span
-                      style={{ borderBottom: "1px solid rgb(82, 114, 161)" }}
-                    >
-                      Reset
-                    </span>
-                  </button>
-                </span>
-                <span className="cssforhandleotpcounttext">
-                  {" "}
-                  One Time Password in {counte} Seconds
-                </span>
-              </div>
-            </div>
-          </div>
-        </Modal>
-      </div>
-    </>
-  );
-}
+import Mynavbar from "./Mynavbar";
+// import MyVerticallyCenteredModal from "./nominee/MyVerticallyCenteredModal";
+import PhoneOtp from "./nominee/phoneOtp";
 
 const Assetstep2 = () => {
+  const [emailError, setEmailError] = useState("");
+  const [percetageError, setPercetageError] = useState(false);
+  // const [phoneError, setPhoneError] = useState(null);
   const [formValues, setFormValues] = useState([
     {
       nomineeName: "",
@@ -280,7 +33,9 @@ const Assetstep2 = () => {
   });
   const [modalShowe, setModalShowe] = useState(false);
   const [modalShow, setModalShow] = useState(false);
-
+  const handlePhoneModal = () => {
+    setModalShow(true);
+  };
   const navigate = useNavigate();
 
   let addFormFields = () => {
@@ -300,35 +55,40 @@ const Assetstep2 = () => {
     newFormValues.splice(i, 1);
     setFormValues(newFormValues);
   };
-  let handleChange = (i, e) => {
-    //  const inputValue = e.target.value;
-    //  const regex = /^[a-zA-Z\s]*$/; // Regex to allow only alphabets and spaces
-    //  if (regex.test(inputValue) || inputValue === "") {
-    //    this.setState({ value: inputValue });
-    //  }
-    let newFormValues = [...formValues];
-    newFormValues[i][e.target.name] = e.target.value;
-    // const regEx = /[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,8}(.[a-z{2,8}])?/g;
-    // if (regEx.test(email)) {
-    //   setMessage("Valid Email");
-    // } else if (!regEx.test(email`enter code here`) && email !== "") {
-    //   setMessage("Invalid email");
-    // }
-    // else {
-    //   setMessage("");
-    // }
-    setFormValues(newFormValues);
+  const handleChange = (i, e) => {
+    const value = e.target.value;
+    const fieldName = e.target.name;
+
+    setFormValues(prevFormValues => {
+      // Create a copy of the previous state
+      const newFormValues = [...prevFormValues];
+
+      // Update the specific field based on the field name
+      if (fieldName === "nomineeName") {
+        if (/^[A-Za-z]+$/.test(value) || value === "") {
+          newFormValues[i][fieldName] = value;
+        }
+      } else if (fieldName === "relationWithNominee") {
+        newFormValues[i][fieldName] = value;
+      } else if (fieldName === "percentageofShar") {
+        setPercetageError(true);
+        if (/^\d*$/.test(value) || value === "") {
+          newFormValues[i][fieldName] = Number(value);
+        }
+      } else if (fieldName === "NomineePhoneNumber") {
+        newFormValues[i][fieldName] = Number(value);
+      } else if (fieldName === "nomineeEmailId") {
+        newFormValues[i][fieldName] = value;
+      }
+      return newFormValues;
+    });
   };
-  // const emailValidation = () => {
-  //   const regEx = /[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,8}(.[a-z{2,8}])?/g;
-  //   if (regEx.test(email)) {
-  //     setMessage("Valid Email");
-  //   } else if (!regEx.test(email`enter code here`) && email !== "") {
-  //     setMessage("Invalid email");
-  //   } else {
-  //     setMessage("");
-  //   }
-  // };
+  // Email validation function
+  const validateEmail = email => {
+    // Regular expression pattern for email validation
+    const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return pattern.test(email.trim());
+  };
 
   const handleNext = () => {
     const newArr = [];
@@ -361,7 +121,8 @@ const Assetstep2 = () => {
             ...prevData,
             IsrelationWithNominee: false,
           }));
-      !isNaN(value.percentageofShar)
+
+      value.percentageofShar !== 100
         ? setFormError(prevData => ({
             ...prevData,
             IspercentageofShar: true,
@@ -371,41 +132,56 @@ const Assetstep2 = () => {
             IspercentageofShar: false,
           }));
 
-      value.NomineePhoneNumber == null || undefined
-        ? setFormError(prevData => ({
-            ...prevData,
-            IsNomineePhoneNumber: true,
-          }))
-        : setFormError(prevData => ({
-            ...prevData,
-            IsNomineePhoneNumber: false,
-          }));
+      for (let i = 0; i < formValues?.length; i++) {
+        if ("NomineePhoneNumber" in formValues[i]) {
+          const phoneNumber = formValues[i].NomineePhoneNumber?.toString(); // Convert to string for easier length check
+          // Check if the phone number has exactly 10 digits
+          if (phoneNumber?.length !== 10) {
+            return setFormError(prevData => ({
+              ...prevData,
+              IsNomineePhoneNumber: true,
+            }));
+          }
+        }
+      }
+      return setFormError(prevData => ({
+        ...prevData,
+        IsNomineePhoneNumber: false,
+      }));
+
+      // -----email
     });
 
-    if (sum == 100) {
-      navigate("/add-asset/step3");
-      axiosConfig
-        .post("/nominee/save-nominee", payload)
-        .then(response => {
-          // console.log(response.data);
-          navigate("/add-asset/step3");
-        })
-        .catch(error => {
-          console.error(error);
-        });
-    } else {
-      alert("please enter correct share percentage 100% only aaceptable");
-    }
+    // if (sum == 100) {
+    navigate("/add-asset/step3");
+    // axiosConfig
+    //   .post("/nominee/save-nominee", payload)
+    //   .then(response => {
+    //     console.log(response.data);
+    //     navigate("/add-asset/step3");
+    //   })
+    //   .catch(error => {
+    //     console.error(error);
+    //   });
+    // } else {
+    //   alert("please enter correct share percentage 100% only aaceptable");
+    // }
   };
 
   return (
     <>
       <Mynavbar />
-      <MyVerticallyCenteredModal
+      {modalShow ? (
+        <div className="myModal">
+          <PhoneOtp />
+        </div>
+      ) : null}
+
+      {/* <MyVerticallyCenteredModal
         show={modalShow}
         onHide={() => setModalShow(false)}
-      />
-      <MyModalEmail show={modalShowe} onHide={() => setModalShowe(false)} />
+      /> */}
+      <EmailModal show={modalShowe} onHide={() => setModalShowe(false)} />
       <div>
         <div style={{ backgroundColor: "rgb(182, 205, 236)" }}>
           <div className="container-fluid">
@@ -586,60 +362,58 @@ const Assetstep2 = () => {
                       <div>
                         <div className="mt-4">
                           <div className="mb-3">
-                            <form action="#" method="post">
-                              <fieldset
+                            <fieldset
+                              style={{
+                                color: "rgb(82, 114, 161)",
+                                fontSize: "20px",
+                                fontFamily: "Calibri",
+                                border: "1px solid rgb(114, 158, 216)",
+                                borderRadius: "10px",
+                              }}
+                            >
+                              <legend
                                 style={{
                                   color: "rgb(82, 114, 161)",
                                   fontSize: "20px",
                                   fontFamily: "Calibri",
-                                  border: "1px solid rgb(114, 158, 216)",
-                                  borderRadius: "10px",
+                                  marginLeft: "15px",
+                                  width: "11rem",
+                                }}
+                                for="exampleInputPassword1"
+                                class="form-label"
+                              >
+                                Nominee Name
+                                <span style={{ color: "red" }}>*</span>
+                              </legend>
+
+                              <input
+                                type="text"
+                                placeholder="XXXXXXXXXXXX"
+                                name="nomineeName"
+                                value={ele.nomineeName || ""}
+                                pattern="[A-Za-z]+"
+                                onChange={e => handleChange(index, e)}
+                                style={{
+                                  width: "100%",
+                                  border: "none",
+                                  paddingLeft: "15px",
+                                  paddingBottom: "10px",
+                                  marginBottom: "5px",
+                                }}
+                              />
+                            </fieldset>
+                            {formError.IsnomineeName && (
+                              <p
+                                style={{
+                                  color: "red",
+                                  padding: "5px",
+                                  fontSize: "16px",
+                                  marginTop: "13px",
                                 }}
                               >
-                                <legend
-                                  style={{
-                                    color: "rgb(82, 114, 161)",
-                                    fontSize: "20px",
-                                    fontFamily: "Calibri",
-                                    marginLeft: "15px",
-                                    width: "11rem",
-                                  }}
-                                  for="exampleInputPassword1"
-                                  class="form-label"
-                                >
-                                  Nominee Name
-                                  <span style={{ color: "red" }}>*</span>
-                                </legend>
-
-                                <input
-                                  type="text"
-                                  placeholder="XXXXXXXXXXXX"
-                                  name="nomineeName"
-                                  value={ele.nomineeName || ""}
-                                  id="nomineeName"
-                                  onChange={e => handleChange(index, e)}
-                                  style={{
-                                    width: "100%",
-                                    border: "none",
-                                    paddingLeft: "15px",
-                                    paddingBottom: "10px",
-                                    marginBottom: "5px",
-                                  }}
-                                />
-                              </fieldset>
-                              {formError.IsnomineeName && (
-                                <p
-                                  style={{
-                                    color: "red",
-                                    padding: "5px",
-                                    fontSize: "16px",
-                                    marginTop: "13px",
-                                  }}
-                                >
-                                  * indicates required field
-                                </p>
-                              )}
-                            </form>
+                                * indicates required field
+                              </p>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -648,78 +422,76 @@ const Assetstep2 = () => {
                       <div>
                         <div className="mt-4">
                           <div className="mb-3">
-                            <form action="#" method="post">
-                              <fieldset
+                            <fieldset
+                              style={{
+                                color: "rgb(82, 114, 161)",
+                                fontSize: "20px",
+                                fontFamily: "Calibri",
+                                border: "1px solid rgb(114, 158, 216)",
+                                borderRadius: "10px",
+                                height: "5.3rem",
+                              }}
+                            >
+                              <legend
                                 style={{
                                   color: "rgb(82, 114, 161)",
                                   fontSize: "20px",
                                   fontFamily: "Calibri",
-                                  border: "1px solid rgb(114, 158, 216)",
-                                  borderRadius: "10px",
-                                  height: "5.3rem",
+                                  marginLeft: "15px",
+                                  width: "14rem",
+                                }}
+                                for="exampleInputPassword1"
+                                class="form-label"
+                              >
+                                Relation with Nominee
+                                <span style={{ color: "red" }}>*</span>
+                              </legend>
+
+                              <select
+                                class="form-select"
+                                value={ele.relationWithNominee || ""}
+                                onChange={e => handleChange(index, e)}
+                                name="relationWithNominee"
+                                aria-label="Default select example"
+                                style={{
+                                  outline: "none",
+                                  width: "100%",
+                                  float: "right",
+                                  border: "none",
+                                  paddingLeft: "15px",
+                                  paddingBottom: "10px",
+                                  marginBottom: "5px",
                                 }}
                               >
-                                <legend
-                                  style={{
-                                    color: "rgb(82, 114, 161)",
-                                    fontSize: "20px",
-                                    fontFamily: "Calibri",
-                                    marginLeft: "15px",
-                                    width: "14rem",
-                                  }}
-                                  for="exampleInputPassword1"
-                                  class="form-label"
-                                >
-                                  Relation with Nominee
-                                  <span style={{ color: "red" }}>*</span>
-                                </legend>
+                                <option
+                                  selected
+                                  Nominee
+                                  Relation
+                                  style={{ float: "left", border: "none" }}
+                                ></option>
 
-                                <select
-                                  class="form-select"
-                                  value={ele.relationWithNominee || ""}
-                                  onChange={e => handleChange(index, e)}
-                                  name="relationWithNominee"
-                                  aria-label="Default select example"
-                                  style={{
-                                    outline: "none",
-                                    width: "100%",
-                                    float: "right",
-                                    border: "none",
-                                    paddingLeft: "15px",
-                                    paddingBottom: "10px",
-                                    marginBottom: "5px",
-                                  }}
-                                >
-                                  <option
-                                    selected
-                                    Nominee
-                                    Relation
-                                    style={{ float: "left", border: "none" }}
-                                  ></option>
-
-                                  <option value="Father">Father</option>
-                                  <option value="Wife">Wife</option>
-                                  <option value="Son">Son</option>
-                                  <option value="Mother">Mother</option>
-                                  <option value="Daughter">Daughter</option>
-                                  <option value="Sister">Sister</option>
-                                  <option value="Brother">Brother</option>
-                                  <option value="Husband">Husband</option>
-                                </select>
-                              </fieldset>
-                              {formError.IsrelationWithNominee && (
-                                <p
-                                  style={{
-                                    color: "red",
-                                    padding: "5px",
-                                    fontSize: "16px",
-                                    marginTop: "13px",
-                                  }}
-                                >
-                                  “* indicates required field
-                                </p>
-                              )}
-                            </form>
+                                <option value="Wife">Wife</option>
+                                <option value="Father">Father</option>
+                                <option value="Mother">Mother</option>
+                                <option value="Son">Son</option>
+                                <option value="Daughter">Daughter</option>
+                                <option value="Sister">Sister</option>
+                                <option value="Brother">Brother</option>
+                                <option value="Husband">Husband</option>
+                              </select>
+                            </fieldset>
+                            {formError.IsrelationWithNominee && (
+                              <p
+                                style={{
+                                  color: "red",
+                                  padding: "5px",
+                                  fontSize: "16px",
+                                  marginTop: "13px",
+                                }}
+                              >
+                                * indicates required field
+                              </p>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -728,60 +500,84 @@ const Assetstep2 = () => {
                       <div>
                         <div className="mt-4">
                           <div className="mb-3">
-                            <form>
-                              <fieldset
+                            <fieldset
+                              style={{
+                                color: "rgb(82, 114, 161)",
+                                fontSize: "20px",
+                                fontFamily: "Calibri",
+                                border: "1px solid rgb(114, 158, 216)",
+                                borderRadius: "10px",
+                              }}
+                            >
+                              <legend
                                 style={{
                                   color: "rgb(82, 114, 161)",
                                   fontSize: "20px",
                                   fontFamily: "Calibri",
-                                  border: "1px solid rgb(114, 158, 216)",
-                                  borderRadius: "10px",
+                                  marginLeft: "15px",
+                                  width: "13rem",
+                                }}
+                                for="exampleInputPassword1"
+                                class="form-label"
+                              >
+                                Percentage of Share
+                                <span style={{ color: "red" }}>*</span>
+                              </legend>
+
+                              <Input
+                                type="number"
+                                placeholder="XXXXXXXXXXXX"
+                                // min="0"
+                                // max="999"
+                                // maxlength="5"
+                                name="percentageofShar"
+                                value={ele.percentageofShar || null}
+                                onChange={e => handleChange(index, e)}
+                                style={{
+                                  width: "100%",
+                                  border: "none",
+                                  paddingLeft: "15px",
+                                  paddingBottom: "10px",
+                                  marginBottom: "5px",
+                                }}
+                                onKeyDown={e => {
+                                  // Allow only digits, backspace, and arrow keys
+                                  if (
+                                    !/^\d$/.test(e.key) &&
+                                    e.key !== "Backspace" &&
+                                    e.key !== "ArrowLeft" &&
+                                    e.key !== "ArrowRight"
+                                  ) {
+                                    e.preventDefault();
+                                  }
+                                }}
+                                step="1"
+                              />
+                            </fieldset>
+                            {percetageError && (
+                              <p
+                                style={{
+                                  color: "red",
+                                  padding: "5px",
+                                  fontSize: "16px",
+                                  marginTop: "13px",
                                 }}
                               >
-                                <legend
-                                  style={{
-                                    color: "rgb(82, 114, 161)",
-                                    fontSize: "20px",
-                                    fontFamily: "Calibri",
-                                    marginLeft: "15px",
-                                    width: "13rem",
-                                  }}
-                                  for="exampleInputPassword1"
-                                  class="form-label"
-                                >
-                                  Percentage of Share
-                                  <span style={{ color: "red" }}>*</span>
-                                </legend>
-
-                                <Input
-                                  type="number"
-                                  placeholder="XXXXXXXXXXXX"
-                                  id="percentageofShar"
-                                  name="percentageofShar"
-                                  value={ele.percentageofShar || ""}
-                                  onChange={e => handleChange(index, e)}
-                                  style={{
-                                    width: "100%",
-                                    border: "none",
-                                    paddingLeft: "15px",
-                                    paddingBottom: "10px",
-                                    marginBottom: "5px",
-                                  }}
-                                />
-                              </fieldset>
-                              {formError.IspercentageofShar && (
-                                <p
-                                  style={{
-                                    color: "red",
-                                    padding: "5px",
-                                    fontSize: "16px",
-                                    marginTop: "13px",
-                                  }}
-                                >
-                                  * indicates required field
-                                </p>
-                              )}
-                            </form>
+                                Permissible value: 1 to 100 without decimal.
+                              </p>
+                            )}
+                            {formError.IspercentageofShar && (
+                              <p
+                                style={{
+                                  color: "red",
+                                  padding: "5px",
+                                  fontSize: "16px",
+                                  marginTop: "13px",
+                                }}
+                              >
+                                * indicates required field
+                              </p>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -791,112 +587,110 @@ const Assetstep2 = () => {
                       <div>
                         <div className="mt-4">
                           <div className="mb-3">
-                            <form>
-                              <fieldset
+                            <fieldset
+                              style={{
+                                color: "rgb(82, 114, 161)",
+                                fontSize: "20px",
+                                fontFamily: "Calibri",
+                                border: "1px solid rgb(114, 158, 216)",
+                                borderRadius: "10px",
+                                height: "5.3rem",
+                              }}
+                            >
+                              <legend
                                 style={{
                                   color: "rgb(82, 114, 161)",
                                   fontSize: "20px",
                                   fontFamily: "Calibri",
-                                  border: "1px solid rgb(114, 158, 216)",
-                                  borderRadius: "10px",
-                                  height: "5.3rem",
+                                  marginLeft: "15px",
+                                  width: "15rem",
                                 }}
+                                for="exampleInputPassword1"
+                                class="form-label"
                               >
-                                <legend
-                                  style={{
-                                    color: "rgb(82, 114, 161)",
-                                    fontSize: "20px",
-                                    fontFamily: "Calibri",
-                                    marginLeft: "15px",
-                                    width: "15rem",
-                                  }}
-                                  for="exampleInputPassword1"
-                                  class="form-label"
-                                >
-                                  Nominee Phone Number
-                                  <span style={{ color: "red" }}>*</span>
-                                </legend>
+                                Nominee Phone Number
+                                <span style={{ color: "red" }}>*</span>
+                              </legend>
 
-                                <div className="row">
-                                  <div className="col-md-2 col-sm-2 col-lg-2 col-xl-2 col-3">
-                                    <span>
-                                      <button
-                                        style={{
-                                          outline: "none",
-                                          marginLeft: "2px",
-                                          width: "115%",
-                                          border:
-                                            "1px solid rgb(114, 158, 216)",
-                                          textAlign: "center",
-                                          height: "3rem",
-                                          marginTop: "-10px",
-                                          borderRadius: "10px",
-                                          fontSize: "18px",
-                                        }}
-                                      >
-                                        +91
-                                      </button>
-                                    </span>
-                                  </div>
-                                  <div className="col-md-8 col-sm-8 col-lg-8 col-xl-8 col-6">
-                                    <input
-                                      maxLength={10}
-                                      type="tel"
-                                      id="NomineePhoneNumber"
-                                      name="NomineePhoneNumber"
-                                      value={ele.NomineePhoneNumber || ""}
-                                      onChange={e => handleChange(index, e)}
-                                      placeholder="965XX50XX0"
+                              <div className="row">
+                                <div className="col-md-2 col-sm-2 col-lg-2 col-xl-2 col-3">
+                                  <span>
+                                    <button
                                       style={{
-                                        width: "90%",
                                         outline: "none",
-                                        border: "none",
-                                        paddingLeft: "15px",
-                                        paddingBottom: "10px",
-                                        marginBottom: "5px",
-                                      }}
-                                    />
-                                  </div>
-                                  {formError.IsNomineePhoneNumber && (
-                                    <p
-                                      style={{
-                                        color: "red",
-                                        padding: "5px",
-                                        fontSize: "16px",
-                                        marginTop: "13px",
+                                        marginLeft: "2px",
+                                        width: "115%",
+                                        border: "1px solid rgb(114, 158, 216)",
+                                        textAlign: "center",
+                                        height: "3rem",
+                                        marginTop: "-10px",
+                                        borderRadius: "10px",
+                                        fontSize: "18px",
                                       }}
                                     >
-                                      * indicates required field
-                                    </p>
-                                  )}
-                                  <div
-                                    className="col-md-2 col-sm-2 col-lg-2 col-xl-2 col-3"
-                                    style={{ marginLeft: "-10px" }}
-                                  >
-                                    <span>
-                                      <a
-                                        onClick={() => setModalShow(true)}
-                                        className="btn"
-                                        style={{
-                                          fontSize: "13px",
-                                          width: "115%",
-                                          borderRadius: "10px",
-                                          backgroundColor: "rgb(32, 119, 190)",
-                                          color: "white",
-                                          border:
-                                            "1px solid rgb(114, 158, 216)",
-                                          lineHeight: "15px",
-                                          height: "3rem",
-                                          marginTop: "-10px",
-                                        }}
-                                      >
-                                        SEND OTP
-                                      </a>
-                                    </span>
-                                  </div>
+                                      +91
+                                    </button>
+                                  </span>
                                 </div>
-                              </fieldset>
-                            </form>
+                                <div className="col-md-8 col-sm-8 col-lg-8 col-xl-8 col-6">
+                                  <input
+                                    maxLength={10}
+                                    type="tel"
+                                    id="NomineePhoneNumber"
+                                    name="NomineePhoneNumber"
+                                    value={ele.NomineePhoneNumber || ""}
+                                    onChange={e => handleChange(index, e)}
+                                    placeholder="965XX50XX0"
+                                    style={{
+                                      width: "90%",
+                                      outline: "none",
+                                      border: "none",
+                                      paddingLeft: "15px",
+                                      paddingBottom: "10px",
+                                      marginBottom: "5px",
+                                    }}
+                                  />
+                                </div>
+
+                                <div
+                                  className="col-md-2 col-sm-2 col-lg-2 col-xl-2 col-3"
+                                  style={{ marginLeft: "-10px" }}
+                                >
+                                  <span>
+                                    <a
+                                      onClick={handlePhoneModal}
+                                      className="btn"
+                                      style={{
+                                        fontSize: "13px",
+                                        width: "115%",
+                                        borderRadius: "10px",
+                                        backgroundColor: "rgb(32, 119, 190)",
+                                        color: "white",
+                                        border: "1px solid rgb(114, 158, 216)",
+                                        lineHeight: "15px",
+                                        height: "3rem",
+                                        marginTop: "-10px",
+                                      }}
+                                    >
+                                      SEND OTP
+                                    </a>
+                                  </span>
+                                </div>
+                                {formError.IsNomineePhoneNumber && (
+                                  <p
+                                    style={{
+                                      color: "red",
+                                      padding: "5px",
+                                      fontSize: "16px",
+                                      marginTop: "13px",
+                                      marginLeft: "13px",
+                                    }}
+                                  >
+                                    Enter valid 10-digit mobile number
+                                  </p>
+                                )}
+                              </div>
+                            </fieldset>
                           </div>
                         </div>
                       </div>
@@ -932,7 +726,6 @@ const Assetstep2 = () => {
                                 <div className="col-md-10 col-sm-10 col-lg-10 col-xl-10 col-9">
                                   <input
                                     type="email"
-                                    id="nomineeEmailId"
                                     name="nomineeEmailId"
                                     value={ele.nomineeEmailId || ""}
                                     onChange={e => handleChange(index, e)}
@@ -947,18 +740,7 @@ const Assetstep2 = () => {
                                     }}
                                   />
                                 </div>
-                                {formError.IsnomineeEmailId && (
-                                  <p
-                                    style={{
-                                      color: "red",
-                                      padding: "5px",
-                                      fontSize: "16px",
-                                      marginTop: "13px",
-                                    }}
-                                  >
-                                    Enter valid e-mail ID
-                                  </p>
-                                )}
+
                                 <div
                                   className="col-md-2 col-sm-2 col-lg-2 col-xl-2 col-3"
                                   style={{ marginLeft: "-10px" }}
@@ -983,6 +765,30 @@ const Assetstep2 = () => {
                                     </a>
                                   </span>
                                 </div>
+                                {/* {formError.IsnomineeEmailId && (
+                                  <p
+                                    style={{
+                                      color: "red",
+                                      padding: "5px",
+                                      fontSize: "16px",
+                                      marginTop: "13px",
+                                      marginLeft: "13px",
+                                    }}
+                                  >
+                                    Enter valid e-mail ID
+                                  </p>
+                                )} */}
+                                {emailError && (
+                                  <p
+                                    style={{
+                                      color: "red",
+                                      padding: "5px",
+                                      fontSize: "16px",
+                                    }}
+                                  >
+                                    {emailError}
+                                  </p>
+                                )}
                               </div>
                             </fieldset>
                           </div>
