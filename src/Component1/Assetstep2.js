@@ -8,13 +8,10 @@ import EmailModal from "./nominee/EmailModal";
 import "../css/style.css";
 import axiosConfig from "./../axiosConfig";
 import Mynavbar from "./Mynavbar";
-// import MyVerticallyCenteredModal from "./nominee/MyVerticallyCenteredModal";
 import PhoneOtp from "./nominee/phoneOtp";
 
 const Assetstep2 = () => {
   const [emailError, setEmailError] = useState("");
-  const [percetageError, setPercetageError] = useState(false);
-  // const [phoneError, setPhoneError] = useState(null);
   const [formValues, setFormValues] = useState([
     {
       nomineeName: "",
@@ -31,8 +28,10 @@ const Assetstep2 = () => {
     IsNomineePhoneNumber: false,
     IsrelationWithNominee: false,
   });
+  let allError = {};
   const [modalShowe, setModalShowe] = useState(false);
   const [modalShow, setModalShow] = useState(false);
+  const [shareError, setShareError] = useState("");
   const handlePhoneModal = () => {
     setModalShow(true);
   };
@@ -45,10 +44,26 @@ const Assetstep2 = () => {
         nomineeName: "",
         nomineeEmailId: "",
         percentageofShar: null,
-        NomineePhoneNumber: null,
+        NomineePhoneNumber: "",
         relationWithNominee: "",
       },
     ]);
+    let share = document.getElementById("percentageofShar").value;
+    const newArr = [];
+    formValues.filter(el => newArr.push(Number(el.percentageofShar)));
+    const sum = newArr.reduce(
+      (previousValue, currentValue) => previousValue + currentValue
+    );
+    if (sum > 100) {
+      setShareError(
+        "The cumulative percentage share of all nominees can not exceed 100%."
+      );
+    }
+    if (share == 100) {
+      setShareError(
+        "Reduce percentage of share for the nominee to add more nominee."
+      );
+    }
   };
   let removeFormFields = i => {
     let newFormValues = [...formValues];
@@ -60,34 +75,47 @@ const Assetstep2 = () => {
     const fieldName = e.target.name;
 
     setFormValues(prevFormValues => {
-      // Create a copy of the previous state
       const newFormValues = [...prevFormValues];
 
       // Update the specific field based on the field name
       if (fieldName === "nomineeName") {
-        if (/^[A-Za-z]+$/.test(value) || value === "") {
+        if (/^[A-Za-z]+$/.test(value)) {
           newFormValues[i][fieldName] = value;
         }
       } else if (fieldName === "relationWithNominee") {
         newFormValues[i][fieldName] = value;
       } else if (fieldName === "percentageofShar") {
-        setPercetageError(true);
-        if (/^\d*$/.test(value) || value === "") {
+        const newValue = value.replace(/\D/g, "").slice(0, 3);
+        newFormValues[i][fieldName] = newValue;
+      }
+      // else {
+      //   allError.IspercentageofShar = true;
+      // }
+      const phoneNumberRegex = /^\d{10}$/;
+      if (fieldName === "NomineePhoneNumber") {
+        if (phoneNumberRegex.test(value)) {
+          // debugger;
+          newFormValues[i][fieldName] = Number(value);
+        } else {
           newFormValues[i][fieldName] = Number(value);
         }
-      } else if (fieldName === "NomineePhoneNumber") {
-        newFormValues[i][fieldName] = Number(value);
       } else if (fieldName === "nomineeEmailId") {
         newFormValues[i][fieldName] = value;
       }
       return newFormValues;
     });
   };
+  const handleInputClick = () => {
+    allError.IspercentageofShar = true;
+    setShareError("Permissible value: 1 to 100 without decimal.”");
+    setFormError({ IspercentageofShar: true });
+  };
+
   // Email validation function
   const validateEmail = email => {
     // Regular expression pattern for email validation
     const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    return pattern.test(email.trim());
+    return pattern.test(email);
   };
 
   const handleNext = () => {
@@ -96,76 +124,68 @@ const Assetstep2 = () => {
     const sum = newArr.reduce(
       (previousValue, currentValue) => previousValue + currentValue
     );
+
     let userId = JSON.parse(localStorage.getItem("UserZimmedari"))._id;
-    // console.log(userId);
-    console.log(formValues);
-    const payload = {
-      userId: userId,
-      nominee: formValues,
-    };
-    formValues.map((value, key) => {
-      value.nomineeName == ""
-        ? setFormError(prevData => ({ ...prevData, IsnomineeName: true }))
-        : setFormError(prevData => ({ ...prevData, IsnomineeName: false }));
+    // console.log(formValues);
 
-      value.nomineeEmailId == ""
-        ? setFormError(prevData => ({ ...prevData, IsnomineeEmailId: true }))
-        : setFormError(prevData => ({ ...prevData, IsnomineeEmailId: false }));
-
-      value.relationWithNominee == ""
-        ? setFormError(prevData => ({
-            ...prevData,
-            IsrelationWithNominee: true,
-          }))
-        : setFormError(prevData => ({
-            ...prevData,
-            IsrelationWithNominee: false,
-          }));
-
-      value.percentageofShar !== 100
-        ? setFormError(prevData => ({
-            ...prevData,
-            IspercentageofShar: true,
-          }))
-        : setFormError(prevData => ({
-            ...prevData,
-            IspercentageofShar: false,
-          }));
-
-      for (let i = 0; i < formValues?.length; i++) {
-        if ("NomineePhoneNumber" in formValues[i]) {
-          const phoneNumber = formValues[i].NomineePhoneNumber?.toString(); // Convert to string for easier length check
-          // Check if the phone number has exactly 10 digits
-          if (phoneNumber?.length !== 10) {
-            return setFormError(prevData => ({
-              ...prevData,
-              IsNomineePhoneNumber: true,
-            }));
-          }
-        }
+    formValues?.forEach((value, key) => {
+      if (!value.nomineeName) {
+        allError.IsnomineeName = true;
+      } else {
+        allError.IsnomineeName = false;
       }
-      return setFormError(prevData => ({
-        ...prevData,
-        IsNomineePhoneNumber: false,
-      }));
 
-      // -----email
+      if (!value.relationWithNominee) {
+        allError.IsrelationWithNominee = true;
+      } else {
+        allError.IsrelationWithNominee = false;
+      }
+
+      if (!validateEmail(value.nomineeEmailId)) {
+        allError.IsnomineeEmailId = true;
+      } else {
+        allError.IsnomineeEmailId = false;
+      }
+      let share = document.getElementById("percentageofShar").value;
+      if (share < 100) {
+        // Total Percentage of share must be 100%, please edit percentage of share of existing nominee(s) or click on add more nominee.
+        allError.IspercentageofShar = true;
+        setShareError(
+          "Total Percentage of share must be 100%, please edit percentage of share of existing nominee(s) or click on add more nominee."
+        );
+      } else {
+        allError.IspercentageofShar = false;
+      }
+      let a = document.getElementById("NomineePhoneNumber").value;
+
+      if (a?.length !== 10) {
+        allError.IsNomineePhoneNumber = true;
+      } else {
+        allError.IsNomineePhoneNumber = false;
+      }
     });
 
-    // if (sum == 100) {
-    navigate("/add-asset/step3");
-    // axiosConfig
-    //   .post("/nominee/save-nominee", payload)
-    //   .then(response => {
-    //     console.log(response.data);
-    //     navigate("/add-asset/step3");
-    //   })
-    //   .catch(error => {
-    //     console.error(error);
-    //   });
-    // } else {
-    //   alert("please enter correct share percentage 100% only aaceptable");
-    // }
+    if (Object.keys(allError)?.length === 0) {
+      debugger;
+      console.log("!!", allError);
+      const payload = {
+        userId: userId,
+        nominee: formValues,
+      };
+      axiosConfig
+        .post("/nominee/save-nominee3", payload)
+        .then(response => {
+          console.log(response.data);
+          navigate("/add-asset/step3");
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    } else {
+      // Set form errors
+      console.log("Error", allError);
+      setFormError(allError);
+    }
   };
 
   return (
@@ -173,7 +193,7 @@ const Assetstep2 = () => {
       <Mynavbar />
       {modalShow ? (
         <div className="myModal">
-          <PhoneOtp />
+          <PhoneOtp setModalShow={setModalShow} />
         </div>
       ) : null}
 
@@ -527,12 +547,11 @@ const Assetstep2 = () => {
                               <Input
                                 type="number"
                                 placeholder="XXXXXXXXXXXX"
-                                // min="0"
-                                // max="999"
-                                // maxlength="5"
+                                id="percentageofShar"
                                 name="percentageofShar"
                                 value={ele.percentageofShar || null}
                                 onChange={e => handleChange(index, e)}
+                                onClick={handleInputClick}
                                 style={{
                                   width: "100%",
                                   border: "none",
@@ -554,7 +573,7 @@ const Assetstep2 = () => {
                                 step="1"
                               />
                             </fieldset>
-                            {percetageError && (
+                            {/* {percetageError && (
                               <p
                                 style={{
                                   color: "red",
@@ -565,7 +584,7 @@ const Assetstep2 = () => {
                               >
                                 Permissible value: 1 to 100 without decimal.
                               </p>
-                            )}
+                            )} */}
                             {formError.IspercentageofShar && (
                               <p
                                 style={{
@@ -575,7 +594,7 @@ const Assetstep2 = () => {
                                   marginTop: "13px",
                                 }}
                               >
-                                * indicates required field
+                                {shareError}
                               </p>
                             )}
                           </div>
@@ -632,6 +651,7 @@ const Assetstep2 = () => {
                                     </button>
                                   </span>
                                 </div>
+                                .
                                 <div className="col-md-8 col-sm-8 col-lg-8 col-xl-8 col-6">
                                   <input
                                     maxLength={10}
@@ -651,7 +671,6 @@ const Assetstep2 = () => {
                                     }}
                                   />
                                 </div>
-
                                 <div
                                   className="col-md-2 col-sm-2 col-lg-2 col-xl-2 col-3"
                                   style={{ marginLeft: "-10px" }}
@@ -721,6 +740,7 @@ const Assetstep2 = () => {
                                 class="form-label"
                               >
                                 Nominee Email ID
+                                <span style={{ color: "red" }}>*</span>
                               </legend>
                               <div className="row">
                                 <div className="col-md-10 col-sm-10 col-lg-10 col-xl-10 col-9">
@@ -765,7 +785,7 @@ const Assetstep2 = () => {
                                     </a>
                                   </span>
                                 </div>
-                                {/* {formError.IsnomineeEmailId && (
+                                {formError.IsnomineeEmailId && (
                                   <p
                                     style={{
                                       color: "red",
@@ -777,7 +797,7 @@ const Assetstep2 = () => {
                                   >
                                     Enter valid e-mail ID
                                   </p>
-                                )} */}
+                                )}
                                 {emailError && (
                                   <p
                                     style={{
@@ -885,3 +905,26 @@ const Assetstep2 = () => {
 };
 
 export default Assetstep2;
+
+// import React, { useState } from "react";
+
+// function App() {
+//   const [showError, setShowError] = useState(false);
+
+//   const handleInputClick = () => {
+//     setShowError(true);
+//   };
+
+//   return (
+//     <div>
+//       <input type="text" onClick={handleInputClick} />
+//       {showError && (
+//         <div style={{ color: "red", fontSize: "14px" }}>
+//           Please enter a valid input.
+//         </div>
+//       )}
+//     </div>
+//   );
+// }
+
+// export default App;

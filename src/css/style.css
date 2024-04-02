@@ -1265,7 +1265,7 @@ ul.social_icon li a:hover {
 
 .myModal {
   position: absolute;
-  backdrop-filter: blur(5px);
+  /* backdrop-filter: blur(5px); */
   left: 496px;
   top: 136px;
   z-index: 9999;
