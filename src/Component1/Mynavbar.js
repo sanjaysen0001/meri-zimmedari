@@ -98,6 +98,7 @@ const Mynavbar = () => {
                   href={"https://merizimmedari.com/FAQ.html"}
                   target="_blank"
                   style={{ textDecoration: "none", color: "rgba(0, 0, 0, .5)" }}
+                  rel="noreferrer"
                 >
                   FAQ
                 </a>
@@ -108,6 +109,7 @@ const Mynavbar = () => {
                   href={"https://merizimmedari.com/contact.html"}
                   target="_blank"
                   style={{ textDecoration: "none", color: "rgba(0, 0, 0, .5)" }}
+                  rel="noreferrer"
                 >
                   Help
                 </a>
@@ -136,7 +138,6 @@ const Mynavbar = () => {
                       style={{ textDecoration: "none", hover: "red" }}
                       onClick={handleLogOut}
                     >
-                      {" "}
                       Log Out
                     </Link>
                   </span>

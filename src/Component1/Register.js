@@ -4,7 +4,6 @@ import Webcam from "react-webcam";
 import * as tf from "@tensorflow/tfjs";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import imagelogo from "../image/logo.png";
 import BlinkEye from "../image/eyedrop.gif";
 import swal from "sweetalert";
 
@@ -19,6 +18,7 @@ import {
   Label,
   Row,
 } from "reactstrap";
+import NavBar from "./NavBar";
 const faceLandmarksDetection = require("@tensorflow-models/face-landmarks-detection");
 const Register = args => {
   const webcamRef = useRef(null);
@@ -37,11 +37,15 @@ const Register = args => {
   const [registered, setRegistered] = useState(false);
   const [isCheck, setIsCheck] = useState(false);
   const [isTrue, setIsTrue] = useState(false);
+  const [emailError, setEmailError] = useState("");
+  const [ImageError, setImageError] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     image: null,
   });
+  const [LoginButton, setLoginButton] = useState("Submit");
+  const [loading, setLoading] = React.useState(false);
   const [formError, setFormError] = useState({
     IsName: false,
     IsEmail: false,
@@ -52,13 +56,10 @@ const Register = args => {
     setModal(!modal);
     handlePicture();
   };
-  const [LoginButton, setLoginButton] = useState("Submit");
-  const [loading, setLoading] = React.useState(false);
 
   useEffect(() => {
     tf.setBackend("webgl");
     loadModel();
-    // console.log(text);
   }, []);
 
   useEffect(() => {
@@ -236,65 +237,92 @@ const Register = args => {
     let formdata = new FormData();
     formdata.append("image", dataURItoBlob(formData.image));
     formdata.append("firstName", LoginData?.name);
+    formdata.append("email", LoginData.email);
   };
+  function validateEmail(email) {
+    console.log(email);
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegex.test(email.trim());
+  }
+  const handleEmailValidation = e => {
+    setFormData({ ...formData, email: e.target.value });
+  };
+
   const handleSubmit = async e => {
     e.preventDefault();
+    setEmailError("");
+    setFormError({
+      IsName: false,
+      IsImage: false,
+    });
     if (formData.name) {
       setFormError(prevData => ({ ...prevData, IsName: false }));
     } else {
       setFormError(prevData => ({ ...prevData, IsName: true }));
     }
-    if (formData.email) {
-      setFormError(prevData => ({ ...prevData, IsEmail: false }));
-    } else {
-      setFormError(prevData => ({ ...prevData, IsEmail: true }));
-    }
-    if (formData.image) {
-      setFormError(prevData => ({ ...prevData, IsImage: false }));
-    } else {
-      setFormError(prevData => ({ ...prevData, IsImage: true }));
+
+    // Validate email
+    const trimmedEmail = formData.email.trim(); // Trim email
+
+    if (!validateEmail(trimmedEmail)) {
+      setEmailError("Enter valid e-mail address");
+      return;
     }
 
-    let MobileNUM = JSON.parse(localStorage.getItem("MobileNUM"));
-    if (formError.IsName && formError.IsEmail && formError.IsImage) {
-      try {
-        setIsCheck(false);
-        const formDataToSend = new FormData();
-        formDataToSend.append("mobileNo", Number(MobileNUM));
-        formDataToSend.append("firstName", formData.name);
-        formDataToSend.append("email", formData.email);
-        formDataToSend.append("image", dataURItoBlob(formData.image));
-        setBackloading(true);
-        debugger;
-        setIsTrue(true);
-        axiosConfig
-          .post("/register", formDataToSend)
-          .then(response => {
-            localStorage.removeItem("MobileNUM");
-            console.log(response.data);
-            if (response.data.message) {
-              setIsTrue(false);
-              // setIsCheck(false);
-              swal("success", response.data.message);
-            }
-          })
-          .catch(error => {
-            setIsTrue(true);
-            console.log(error);
-          });
-        setRegistered(true);
-        setFormData({
-          email: "",
-          name: "",
-          image: null,
-        });
-      } catch (error) {
-        console.error("Error registering:", error);
-      }
+    if (!formData.image) {
+      setImageError("indicates required field");
+      // setFormError(prevData => ({ ...prevData, IsImage: false }));
     }
-    //   else {
-    //     console.log("object")
+    // else {
+    //   setImageError("");
+    //   // setFormError(prevData => ({ ...prevData, IsImage: true }));
     // }
+
+    let MobileNUM = JSON.parse(localStorage.getItem("MobileNUM"));
+    // if (formError.IsName && ImageError) {
+    //   console.log("go to inside api page");
+    try {
+      setIsCheck(false);
+      const formDataToSend = new FormData();
+      formDataToSend.append("mobileNo", Number(MobileNUM));
+      formDataToSend.append("firstName", formData.name);
+      formDataToSend.append("email", formData.email);
+      formDataToSend.append("image", dataURItoBlob(formData.image));
+      setBackloading(true);
+      setIsTrue(true);
+      for (const pair of formDataToSend.entries()) {
+        const [key, value] = pair;
+        console.log("Key:", key, "Value:", value);
+      }
+
+      axiosConfig
+        .post("/register", formDataToSend)
+        .then(response => {
+          localStorage.removeItem("MobileNUM");
+          console.log(response.data);
+          setImageError("");
+          if (response.data.message) {
+            setIsTrue(false);
+            // setImageError("");
+            swal("success", response.data.message);
+          } else {
+          }
+        })
+        .catch(error => {
+          setIsTrue(true);
+          console.log(error);
+        });
+
+      setRegistered(true);
+      setFormData({
+        email: "",
+        name: "",
+        image: null,
+      });
+    } catch (error) {
+      console.error("Error registering:", error);
+      // }
+    }
   };
 
   return (
@@ -304,85 +332,7 @@ const Register = args => {
           class="header"
           style={{ marginLeft: "-15px", boxShadow: "0 0 10px  #2374ee" }}
         >
-          <div class="container-fluid">
-            <div class="row d_flex">
-              <a href="https://merizimmedari.com/" target="_blank">
-                <div class=" col-md-2 col-sm-9 " style={{ width: "100%" }}>
-                  <a href="https://merizimmedari.com/" target="_blank">
-                    <img
-                      src={imagelogo}
-                      target="_blank"
-                      href="https://merizimmedari.com/"
-                      style={{ width: "96px" }}
-                      alt="#"
-                    />
-                  </a>
-                </div>
-              </a>
-              <div class="col-md-10 col-sm-12 chgdfagdjagdagfagsf">
-                <nav class="navigation navbar navbar-expand-md navbar-dark ">
-                  <button
-                    class="navbar-toggler"
-                    type="button"
-                    data-toggle="collapse"
-                    data-target="#navbarsExample04"
-                    aria-controls="navbarsExample04"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-                  >
-                    <span class="navbar-toggler-icon"></span>
-                  </button>
-                  <div class="collapse navbar-collapse" id="navbarsExample04">
-                    <ul class="navbar-nav mr-auto">
-                      <li class="nav-item ">
-                        <a
-                          class="nav-link"
-                          href="https://merizimmedari.com/WhatWeDo.html"
-                        >
-                          What We Do ?
-                        </a>
-                      </li>
-                      <li class="nav-item ">
-                        <a
-                          class="nav-link"
-                          href="https://merizimmedari.com/HowWeDo.html"
-                        >
-                          How It Works ?
-                        </a>
-                      </li>
-                      <li class="nav-item ">
-                        <a
-                          class="nav-link"
-                          href="https://merizimmedari.com/FAQ.html"
-                        >
-                          FAQ
-                        </a>
-                      </li>
-
-                      <li class="nav-item ">
-                        <a
-                          class="nav-link"
-                          href="https://merizimmedari.com/contact.html"
-                        >
-                          Contact Us
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a
-                          class="nav-link"
-                          href="https://user.merizimmedari.com/#/"
-                          target="_blank"
-                        >
-                          sign-in<span style={{ fontSize: "22px" }}>/</span>
-                          Sign-up
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </nav>
-              </div>
-            </div>
-          </div>
+          <NavBar />
         </div>
         <div className="row " style={{ paddingTop: "5rem" }}>
           <div className="col-md-4 col-sm-1 col-lg-4 col-xl-4">
@@ -476,7 +426,7 @@ const Register = args => {
                           // marginTop: "5px",
                         }}
                       >
-                        * indicates required field
+                        indicates required field
                       </p>
                     )}
                     <fieldset
@@ -524,24 +474,22 @@ const Register = args => {
                         id="email"
                         name="email"
                         value={formData.email}
-                        onChange={e => {
-                          setFormData({ ...formData, email: e.target.value });
-                        }}
-                        required
+                        onChange={handleEmailValidation}
+                        // required
                       />
                     </fieldset>
-                    {formError.IsEmail && (
+                    {emailError && (
                       <p
                         style={{
                           color: "red",
                           padding: "5px",
                           fontSize: "16px",
-                          // marginTop: "13px",
                         }}
                       >
-                        * indicates required field
+                        {emailError}
                       </p>
                     )}
+
                     <div className="mt-4">
                       <button
                         type="button"
@@ -559,7 +507,10 @@ const Register = args => {
                           *
                         </span>
                       </button>
-                      {formError.IsImage && (
+                      {ImageError && (
+                        <p style={{ color: "red" }}>{ImageError}</p>
+                      )}
+                      {/* {ImageError && (
                         <p
                           style={{
                             color: "red",
@@ -568,11 +519,10 @@ const Register = args => {
                             // marginTop: "13px",
                           }}
                         >
-                          * indicates required field
+                          {ImageError}
                         </p>
-                      )}
+                      )} */}
                     </div>
-
                     <div
                       className="termsconditions pt-2"
                       style={{ width: "100%" }}
@@ -609,7 +559,6 @@ const Register = args => {
                         </span>
                       </label>
                     </div>
-
                     <div className="">
                       <button
                         type="button"
@@ -676,66 +625,43 @@ const Register = args => {
                 ) : (
                   <>
                     <div className="max-w-md mx-auto  p-4 border rounded-md shadow-lg">
-                      <form onSubmit={handleSubmit}>
-                        {showWebcam && (
-                          <div className="mb-4 mt-4">
-                            <Webcam
-                              audio={false}
-                              ref={webcamRef}
-                              screenshotFormat="image/jpeg"
-                              className="mb-2"
-                              style={{ width: "100%" }}
-                            />
-                            {/* <button
+                      {/* <form onSubmit={handleSubmit}> */}
+                      {showWebcam && (
+                        <div className="mb-4 mt-4">
+                          <Webcam
+                            audio={false}
+                            ref={webcamRef}
+                            screenshotFormat="image/jpeg"
+                            className="mb-2"
+                            style={{ width: "100%" }}
+                            onClick={handleSubmit}
+                          />
+                          {/* <button
                               type="button"
                               onClick={handleCapture}
                               className="bg-blue-500 btn btn-info text-white px-4 py-2 rounded-md hover:bg-blue-600"
                             >
                               Take Picture
                             </button> */}
-                          </div>
-                        )}
-                        {formData.image && (
-                          <div className="mb-2 d-flex justify-content-center">
-                            <img
-                              style={{ borderRadius: "12px" }}
-                              src={formData.image}
-                              alt="Captured"
-                              className="mb-1"
-                            />
-                          </div>
-                        )}
-                        {/* <button
-                            type="submit"
-                            className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
-                          >
-                            login
-                          </button>
-                          {backloading && <p>Wait for a minute.</p>}
-                          {registered && <p>Registered.</p>} */}
-                      </form>
-                      {/* <div>
-                          <p>
-                            Not a user?{" "}
-                            <span onClick={() => navigate("/signup")}>
-                              Register
-                            </span>
-                          </p>
-                        </div> */}
+                        </div>
+                      )}
+                      {formData.image && (
+                        <div className="mb-2 d-flex justify-content-center">
+                          <img
+                            style={{ borderRadius: "12px" }}
+                            src={formData.image}
+                            alt="Captured"
+                            className="mb-1"
+                          />
+                        </div>
+                      )}
+
+                      {/* </form> */}
                     </div>
                   </>
                 )}
               </Col>
             </Row>
-            {/* <Row>
-              <Col lg="12" sm="12" md="12">
-                <div className="d-flex justify-content-center pt-2 mt-2">
-                  <Button type="submit" color="primary">
-                    {LoginButton && LoginButton}
-                  </Button>
-                </div>
-              </Col>
-            </Row> */}
           </Form>
         </div>
       </Modal>

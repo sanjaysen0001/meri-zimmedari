@@ -32,20 +32,16 @@ function Savepassword(props) {
 const Manageaccount = () => {
   const [modalShow, setModalShow] = useState(false);
   const [modalShow1, setModalShow1] = useState(false);
-  // const [oldPass, setOldPass] = useState("");
+
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
   const [oldPasswordError, setOldPasswordError] = useState("");
   const [newPasswordError, setNewPasswordError] = useState("");
-  const [newPassError, setNewPassError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [error, setError] = useState("");
-  const [formData, setFormData] = useState({
-    oldPass: "",
-    newPass: "",
-    ConfirmPass: "",
-  });
+
   const [IsPassError, setIsPassError] = useState({
     isOldPass: false,
     isNewPass: false,
@@ -80,7 +76,6 @@ const Manageaccount = () => {
   };
 
   const validatePassword = password => {
-    // Regular expression to match the password requirements
     const regex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     return regex.test(password);
@@ -116,23 +111,24 @@ const Manageaccount = () => {
     };
 
     setIsError(false);
+    setModalShow1(true);
     axiosConfig
       .post("/user/save-password", payload)
       .then(response => {
         console.log(response.data.message);
+        setModalShow1(true);
+        // setSavePass(true);
 
-        // Reset form fields
         setOldPassword("");
         setNewPassword("");
         setConfirmPassword("");
-        swal("Success", "Password Reset Successfully", "Success");
       })
       .catch(error => {
         swal("Something Went Wrong");
-        console.log(error.message);
       });
   };
   function Createpassword(props) {
+    // console.log(props);
     return (
       <>
         <Modal
@@ -150,10 +146,16 @@ const Manageaccount = () => {
             }}
           ></Modal.Header>
           <Modal.Body style={{ textAlign: "center" }}>
+            {/* {savePass ? (
+              "Password Reset Successfully"
+            ) : (
+              <> */}
             New password sent to
             <span className="p-1">
               {JSON.parse(localStorage.getItem("UserZimmedari")).email}
             </span>
+            {/* </>
+            )} */}
           </Modal.Body>
         </Modal>
       </>
@@ -221,7 +223,7 @@ const Manageaccount = () => {
             </legend>
             <div className="row m-2">
               <div className="col-md-4  col-xl-4 xol-lg-4">
-                {IsPassError.isBothPass && (
+                {newPasswordError && (
                   <span
                     style={{
                       color: "white",
@@ -231,6 +233,7 @@ const Manageaccount = () => {
                     .
                   </span>
                 )}
+
                 <fieldset
                   style={{
                     color: "rgb(82, 114, 161)",
@@ -266,7 +269,6 @@ const Manageaccount = () => {
                       paddingBottom: "10px",
                       marginBottom: "5px",
                     }}
-                    // value={formData.oldPass}
                     id="password"
                     name="oldPass"
                     value={oldPassword}
@@ -278,18 +280,7 @@ const Manageaccount = () => {
                 )}
               </div>
               <div className="col-md-4  col-xl-4 xol-lg-4">
-                {IsPassError.isBothPass && (
-                  <span
-                    style={{
-                      color: "white",
-                      // padding: "5px",
-                      fontSize: "16px",
-                      // marginTop: "3px",
-                    }}
-                  >
-                    .
-                  </span>
-                )}
+                {newPasswordError && <span style={{ color: "white" }}>.</span>}
                 <fieldset
                   style={{
                     color: "rgb(82, 114, 161)",
@@ -333,9 +324,9 @@ const Manageaccount = () => {
                 {newPasswordError && (
                   <p style={{ color: "red" }}>{newPasswordError}</p>
                 )}
-                {newPassError && <p style={{ color: "red" }}>{newPassError}</p>}
               </div>
               <div className="col-md-4  col-xl-4 xol-lg-4">
+                {newPasswordError && <span style={{ color: "white" }}>.</span>}
                 <fieldset
                   style={{
                     color: "rgb(82, 114, 161)",
@@ -374,25 +365,10 @@ const Manageaccount = () => {
                     name="ConfirmPass"
                     value={confirmPassword}
                     onChange={e => setConfirmPassword(e.target.value)}
-                    // value={formData.ConfirmPass}
-                    // onChange={e => setConfirmPass(e.target.value)}
                   />
                 </fieldset>
                 {confirmPasswordError && (
-                  <p style={{ color: "red" }}>{confirmPasswordError}</p>
-                )}
-                {error && <p style={{ color: "red" }}>{error}</p>}
-                {IsPassError.isConfirmPass && (
-                  <p
-                    style={{
-                      color: "red",
-                      padding: "5px",
-                      fontSize: "16px",
-                      marginTop: "3px",
-                    }}
-                  >
-                    * indicates required field
-                  </p>
+                  <span style={{ color: "red" }}>{confirmPasswordError}</span>
                 )}
               </div>
             </div>

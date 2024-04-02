@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useNavigate, useLocation } from "react-router-dom";
 import axiosConfig from "../axiosConfig";
 import imagelogo from "../image/logo.png";
+import Footer from "./Footer";
 const Forgototpverify = () => {
   const [count, setCount] = useState(60);
   const [isCountingComplete, setIsCountingComplete] = useState(false);
@@ -13,16 +14,9 @@ const Forgototpverify = () => {
   const phoneNumber = location.state;
 
   // useEffect(() => {
-  //   if (count > 0) {
-  //     setIsCountingComplete(false);
-  //     const timer = setTimeout(() => {
-  //       setCount(count - 1);
-  //     }, 1000);
-  //     return () => clearTimeout(timer);
-  //   } else {
-  //     setIsCountingComplete(true);
-  //   }
-  // }, [count]);
+  //   // let mobile = JSON.parse(localStorage.getItem("MobileNUM"));
+  //   // console.log(mobile);
+  // }, []);
 
   useEffect(() => {
     if (count > 0) {
@@ -191,7 +185,11 @@ const Forgototpverify = () => {
               <div style={{ margin: "2rem" }}>
                 <div className=" mt-2">
                   <div>
-                    Please enter 6 digit OTP sent on mobile number 965477889.
+                    <span className="p-1">
+                      {" "}
+                      Please enter 6 digit OTP sent on mobile number
+                    </span>
+                    {JSON.parse(localStorage.getItem("MobileNUM"))}.
                   </div>
                   <Link to={"/"} style={{ textDecoration: "none" }}>
                     <div
@@ -308,27 +306,7 @@ const Forgototpverify = () => {
           </div>
         </div>
       </div>
-      <footer>
-         <div class="footer">
-      
-            <div class="copyright">
-               <div class="container">
-                  <div class="row">
-                     <div class="col-md-4">
-                        <p style={{fontSize:'17px'}}>
-                        <span ><Link class="forhoveratagcolor" to={'https://user.merizimmedari.com/#/termsandcondition'} style={{textDecoration: "none"}}>Terms and Condition</Link> </span>
-                        <span>|</span>
-                        <span style={{marginLeft:'5px'}}><Link to={'https://user.merizimmedari.com/#/privacypolicy'} style={{textDecoration: "none"}}>Privacy Policy</Link></span>
-                        </p>
-                     </div>
-                     <div class="col-md-8">
-                        <p style={{fontSize:'17px'}}>© 2024 All Rights Reserved Meri Zimmedari</p>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </footer>
+      <Footer />
     </>
   );
 };

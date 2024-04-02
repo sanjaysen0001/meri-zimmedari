@@ -2,8 +2,13 @@ import React, { useState } from "react";
 import imagelogo from "../image/logo.png";
 import { Link } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
+import NavBar from "./NavBar";
+import axiosConfig from "../axiosConfig";
+import Footer from "./Footer";
 
 function Passwordsucced(props) {
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   return (
     <Modal
       {...props}
@@ -31,6 +36,51 @@ function Passwordsucced(props) {
 
 const Forgotpassword = () => {
   const [modalShow, setModalShow] = useState(false);
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [newPasswordError, setNewPasswordError] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  const validatePassword = password => {
+    // Regular expression to match the password requirements
+    const regex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return regex.test(password);
+  };
+  const handleSubmit = e => {
+    e.preventDefault();
+    // Reset previous errors
+    // setOldPasswordError("");
+    setNewPasswordError("");
+    setConfirmPasswordError("");
+    console.log(password, confirmPassword);
+    if (!validatePassword(password)) {
+      setNewPasswordError(
+        "Password must contain a combination of at least 8 characters, including lowercase letters, uppercase letters, numbers and special symbols"
+      );
+      return;
+    }
+    // Validation for confirm password
+    if (password !== confirmPassword) {
+      setConfirmPasswordError("Value Mismatch");
+      return;
+    }
+    setModalShow(true);
+    const userId = JSON.parse(localStorage.getItem("UserZimmedari"))._id;
+    const payload = {
+      password: password,
+      confirmPassword: confirmPassword,
+    };
+    // axiosConfig
+    //   .post(`/user/updated-password/${userId}`, payload)
+    //   .then(response => {
+    //     console.log(response);
+    //   })
+    //   .catch(error => {
+    //     console.log(error.response);
+    //   });
+    setPassword("");
+    setConfirmPassword("");
+  };
   return (
     <>
       <Passwordsucced show={modalShow} onHide={() => setModalShow(false)} />
@@ -39,95 +89,7 @@ const Forgotpassword = () => {
           class="header"
           style={{ marginLeft: "-15px", boxShadow: "0 0 10px  #2374ee" }}
         >
-          <div class="container-fluid">
-            <div class="row d_flex">
-              <a href="https://merizimmedari.com/" target="_blank">
-                <div class=" col-md-2 col-sm-9 ">
-                  <a href="https://merizimmedari.com/" target="_blank">
-                    <img
-                      src={imagelogo}
-                      target="_blank"
-                      href="https://merizimmedari.com/"
-                      style={{ width: "96px" }}
-                      alt="#"
-                    />
-                  </a>
-                </div>
-              </a>
-              <div class="col-md-10 col-sm-12 chgdfagdjagdagfagsf">
-                <nav class="navigation navbar navbar-expand-md navbar-dark ">
-                  <button
-                    class="navbar-toggler"
-                    type="button"
-                    data-toggle="collapse"
-                    data-target="#navbarsExample04"
-                    aria-controls="navbarsExample04"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-                  >
-                    <span class="navbar-toggler-icon"></span>
-                  </button>
-                  <div class="collapse navbar-collapse" id="navbarsExample04">
-                    <ul class="navbar-nav mr-auto">
-                      <li class="nav-item ">
-                        <a
-                          class="nav-link"
-                          href="https://merizimmedari.com/WhatWeDo.html"
-                        >
-                          What We Do ?
-                        </a>
-                      </li>
-                      <li class="nav-item ">
-                        <a
-                          class="nav-link"
-                          href="https://merizimmedari.com/HowWeDo.html"
-                        >
-                          How It Works ?
-                        </a>
-                      </li>
-                      <li class="nav-item ">
-                        <a
-                          class="nav-link"
-                          href="https://merizimmedari.com/FAQ.html"
-                        >
-                          FAQ
-                        </a>
-                      </li>
-
-                      <li class="nav-item ">
-                        <a
-                          class="nav-link"
-                          href="https://merizimmedari.com/contact.html"
-                        >
-                          Contact Us
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a
-                          class="nav-link"
-                          href="https://user.merizimmedari.com/#/"
-                          target="_blank"
-                        >
-                          Log in
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a
-                          class="nav-link"
-                          href="https://user.merizimmedari.com/#/registration"
-                          target="_blank"
-                        >
-                          {" "}
-                          sign-in<span style={{ fontSize: "22px" }}>/</span>
-                          Sign-up
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </nav>
-              </div>
-            </div>
-          </div>
+          <NavBar />
         </div>
         <div className="row " style={{ paddingTop: "5rem" }}>
           <div className="col-md-4 col-sm-1 col-lg-4 col-xl-4">
@@ -184,8 +146,8 @@ const Forgotpassword = () => {
                           marginLeft: "15px",
                           width: "8rem",
                         }}
-                        for="exampleInputPassword1"
-                        class="form-label"
+                        for="Password"
+                        className="form-label"
                       >
                         New Password <span style={{ color: "red" }}>*</span>
                       </legend>
@@ -198,14 +160,16 @@ const Forgotpassword = () => {
                           width: "100%",
                           paddingLeft: "15px",
                         }}
-                        max={6}
-                        type="tel"
-                        id="mobile"
-                        name="mobile"
-                        pattern="[0-9]{10}"
+                        type="password"
+                        name="password"
+                        value={password}
+                        onChange={e => setPassword(e.target.value)}
                         required
                       />
                     </fieldset>
+                    {newPasswordError && (
+                      <p style={{ color: "red" }}>{newPasswordError}</p>
+                    )}
                     <fieldset
                       className="mt-4"
                       style={{
@@ -242,14 +206,18 @@ const Forgotpassword = () => {
                           width: "100%",
                           paddingLeft: "15px",
                         }}
-                        max={6}
-                        type="tel"
-                        id="mobile"
-                        name="mobile"
-                        pattern="[0-9]{10}"
+                        type="password"
+                        name="confirmPassword"
+                        value={confirmPassword}
+                        onChange={e => setConfirmPassword(e.target.value)}
                         required
                       />
                     </fieldset>
+                    {confirmPasswordError && (
+                      <span style={{ color: "red" }}>
+                        {confirmPasswordError}
+                      </span>
+                    )}
                     <div className="mt-1">
                       <span style={{ fontSize: "13px" }}>
                         Password required must be minimum 8 word, capital case,
@@ -258,7 +226,7 @@ const Forgotpassword = () => {
                     </div>
                     <div className="mt-3">
                       <button
-                        onClick={() => setModalShow(true)}
+                        onClick={handleSubmit}
                         type="button"
                         class="btn mt-2"
                         style={{
@@ -268,10 +236,25 @@ const Forgotpassword = () => {
                           height: "2.8rem",
                         }}
                       >
-                        {" "}
                         Submit
                       </button>
                     </div>
+                    {/* <div className="mt-2">
+                      <span
+                        className="nav-link-inner--text"
+                        style={{ color: "black" }}
+                      >
+                        Already have account?
+                        <Link to={"/"} style={{ textDecoration: "none" }}>
+                          <span
+                            style={{ color: "rgb(57, 103, 204)" }}
+                            className="ml-1"
+                          >
+                            Sign-in
+                          </span>
+                        </Link>
+                      </span>
+                    </div> */}
                   </form>
                 </div>
               </div>
@@ -280,27 +263,7 @@ const Forgotpassword = () => {
           </div>
         </div>
       </div>
-      <footer>
-         <div class="footer">
-      
-            <div class="copyright">
-               <div class="container">
-                  <div class="row">
-                     <div class="col-md-4">
-                        <p style={{fontSize:'17px'}}>
-                        <span ><Link class="forhoveratagcolor" to={'https://user.merizimmedari.com/#/termsandcondition'} style={{textDecoration: "none"}}>Terms and Condition</Link> </span>
-                        <span>|</span>
-                        <span style={{marginLeft:'5px'}}><Link to={'https://user.merizimmedari.com/#/privacypolicy'} style={{textDecoration: "none"}}>Privacy Policy</Link></span>
-                        </p>
-                     </div>
-                     <div class="col-md-8">
-                        <p style={{fontSize:'17px'}}>© 2024 All Rights Reserved Meri Zimmedari</p>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </footer>
+      <Footer />
     </>
   );
 };
