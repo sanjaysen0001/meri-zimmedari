@@ -2,16 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axiosConfig from "../../axiosConfig";
 import { Link } from "react-router-dom";
-// import imagelogo from "../../image/logo.png";
 import swal from "sweetalert";
 // import NavBar from "./NavBar";
-const PhoneOtp = () => {
-  const [otp, setOtp] = useState(null);
-  const [IsvalidOtp, setIsValidOtp] = useState(false);
-  const [bool, setBool] = useState(null);
+const PhoneOtp = ({ setModalShow }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const phoneNumber = location.state;
+  const [otp, setOtp] = useState(null);
+  const [IsvalidOtp, setIsValidOtp] = useState(false);
+  const [bool, setBool] = useState(null);
   const [count, setCount] = useState(60);
   const [isCountingComplete, setIsCountingComplete] = useState(false);
 
@@ -41,7 +40,9 @@ const PhoneOtp = () => {
       setCount(60);
     }
   };
-
+  const handleCloseModal = () => {
+    setModalShow(false);
+  };
   const handleOtpVerify = () => {
     let payload = {
       otp: Number(otp),
@@ -95,10 +96,23 @@ const PhoneOtp = () => {
                 borderTopLeftRadius: "20px",
                 borderTopRightRadius: "20px",
                 paddingLeft: "2rem",
+                display: "flex",
+                justifyContent: "space-around",
               }}
             >
               <div style={{ fontSize: "20px", fontWeight: "600" }}>
                 Verify OTP
+              </div>
+              <div
+                onClick={handleCloseModal}
+                style={{
+                  fontSize: "20px",
+                  fontWeight: "600",
+                  color: "red",
+                  cursor: "pointer",
+                }}
+              >
+                X
               </div>
             </div>
 
@@ -107,17 +121,18 @@ const PhoneOtp = () => {
                 <div className="mb-3">
                   Please enter 6 digit OTP sent on mobile number {phoneNumber}.
                 </div>
-                <Link to={"/"} style={{ textDecoration: "none" }}>
-                  <div
-                    style={{
-                      color: "#4478c7",
-                      fontWeight: "600",
-                      marginTop: "5px",
-                    }}
-                  >
-                    Change mobile number
-                  </div>
-                </Link>
+                {/* <Link to={"/"} style={{ textDecoration: "none" }}> */}
+                <div
+                  style={{
+                    color: "#4478c7",
+                    fontWeight: "600",
+                    marginTop: "5px",
+                  }}
+                  onClick={handleCloseModal}
+                >
+                  Change mobile number
+                </div>
+                {/* </Link> */}
               </div>
               <div className="mt-4">
                 <form>
