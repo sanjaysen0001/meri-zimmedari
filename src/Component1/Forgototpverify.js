@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate, useLocation } from "react-router-dom";
 import axiosConfig from "../axiosConfig";
-import imagelogo from "../image/logo.png";
 import Footer from "./Footer";
+import NavBar from "./NavBar";
 const Forgototpverify = () => {
   const [count, setCount] = useState(60);
   const [isCountingComplete, setIsCountingComplete] = useState(false);
   const [IsvalidOtp, setIsValidOtp] = useState(false);
-  const [otp, setOtp] = useState(null);
+  const [otp, setOtp] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
   const phoneNumber = location.state;
@@ -42,28 +42,22 @@ const Forgototpverify = () => {
       setCount(60);
     }
   };
-  const handleOtpVerify = () => {
-    let payload = {
+  const handleForgetPass = () => {
+    const phone = JSON.parse(localStorage.getItem("MobileNUM"));
+    const payload = {
+      // userId:userId,
+      mobileNo: phone,
       otp: Number(otp),
-      mobileNo: Number(phoneNumber),
     };
     axiosConfig
-      .post("/otp-verify", payload)
+      .post("/user/otp-verify", payload)
       .then(response => {
-        //
-        if (response.data.success == "ok") {
-          setIsValidOtp(false);
-          localStorage.setItem(
-            "UserZimmedari",
-            JSON.stringify(response.data.User)
-          );
-          navigate("/dashboard", { replace: true });
-        } else {
-          navigate("/registration", { replace: true });
-        }
+        // console.log(response.data.message);
+        navigate("/forgot/password");
       })
       .catch(error => {
-        setIsValidOtp(true);
+        console.log(error);
+        // setIsValidOtp(true);
       });
   };
   return (
@@ -73,85 +67,7 @@ const Forgototpverify = () => {
           class="header"
           style={{ marginLeft: "-15px", boxShadow: "0 0 10px  #2374ee" }}
         >
-          <div class="container-fluid">
-            <div class="row d_flex">
-              <a href="https://merizimmedari.com/" target="_blank">
-                <div class=" col-md-2 col-sm-9 ">
-                  <a href="https://merizimmedari.com/" target="_blank">
-                    <img
-                      src={imagelogo}
-                      target="_blank"
-                      href="https://merizimmedari.com/"
-                      style={{ width: "96px" }}
-                      alt="#"
-                    />
-                  </a>
-                </div>
-              </a>
-              <div class="col-md-10 col-sm-12 chgdfagdjagdagfagsf">
-                <nav class="navigation navbar navbar-expand-md navbar-dark ">
-                  <button
-                    class="navbar-toggler"
-                    type="button"
-                    data-toggle="collapse"
-                    data-target="#navbarsExample04"
-                    aria-controls="navbarsExample04"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-                  >
-                    <span class="navbar-toggler-icon"></span>
-                  </button>
-                  <div class="collapse navbar-collapse" id="navbarsExample04">
-                    <ul class="navbar-nav mr-auto">
-                      <li class="nav-item ">
-                        <a
-                          class="nav-link"
-                          href="https://merizimmedari.com/WhatWeDo.html"
-                        >
-                          What We Do ?
-                        </a>
-                      </li>
-                      <li class="nav-item ">
-                        <a
-                          class="nav-link"
-                          href="https://merizimmedari.com/HowWeDo.html"
-                        >
-                          How It Works ?
-                        </a>
-                      </li>
-                      <li class="nav-item ">
-                        <a
-                          class="nav-link"
-                          href="https://merizimmedari.com/FAQ.html"
-                        >
-                          FAQ
-                        </a>
-                      </li>
-
-                      <li class="nav-item ">
-                        <a
-                          class="nav-link"
-                          href="https://merizimmedari.com/contact.html"
-                        >
-                          Contact Us
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a
-                          class="nav-link"
-                          href="https://user.merizimmedari.com/#/"
-                          target="_blank"
-                        >
-                          sign-in<span style={{ fontSize: "22px" }}>/</span>
-                          Sign-up
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </nav>
-              </div>
-            </div>
-          </div>
+          <NavBar />
         </div>
         <div className="row " style={{ paddingTop: "5rem" }}>
           <div className="col-md-4 col-sm-2 col-lg-4 col-xl-4">
@@ -186,7 +102,6 @@ const Forgototpverify = () => {
                 <div className=" mt-2">
                   <div>
                     <span className="p-1">
-                      {" "}
                       Please enter 6 digit OTP sent on mobile number
                     </span>
                     {JSON.parse(localStorage.getItem("MobileNUM"))}.
@@ -256,10 +171,24 @@ const Forgototpverify = () => {
                         }}
                         max={6}
                         type="tel"
-                        id="mobile"
-                        name="mobile"
-                        pattern="[0-9]{10}"
-                        required
+                        id="otpNum"
+                        name="otpNum"
+                        value={otp}
+                        onChange={e => {
+                          setOtp(e.target.value);
+                        }}
+                        onKeyDown={e => {
+                          // Allow only digits, backspace, and arrow keys
+                          if (
+                            !/^\d$/.test(e.key) &&
+                            e.key !== "Backspace" &&
+                            e.key !== "ArrowLeft" &&
+                            e.key !== "ArrowRight"
+                          ) {
+                            e.preventDefault();
+                          }
+                        }}
+                        // required
                       />
                     </fieldset>
 
@@ -284,20 +213,21 @@ const Forgototpverify = () => {
                       <span className="ml-1"></span>
                     </div>
                     <div className="mt-3">
-                      <Link to={"/forgot/password"}>
-                        <button
-                          type="button"
-                          class="btn "
-                          style={{
-                            width: "100%",
-                            backgroundColor: "#4478c7",
-                            color: "white",
-                            height: "2.8rem",
-                          }}
-                        >
-                          Submit
-                        </button>
-                      </Link>
+                      {/* <Link to={"/forgot/password"}> */}
+                      <button
+                        type="button"
+                        class="btn "
+                        style={{
+                          width: "100%",
+                          backgroundColor: "#4478c7",
+                          color: "white",
+                          height: "2.8rem",
+                        }}
+                        onClick={handleForgetPass}
+                      >
+                        Submit
+                      </button>
+                      {/* </Link> */}
                     </div>
                   </form>
                 </div>

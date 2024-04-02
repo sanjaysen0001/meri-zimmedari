@@ -111,7 +111,7 @@ const Assetstep2 = () => {
   };
   const handleInputClick = () => {
     allError.IspercentageofShar = true;
-    setShareError("Permissible value: 1 to 100 without decimal.”");
+    setShareError("Permissible value: 1 to 100 without decimal.");
     setFormError({ IspercentageofShar: true });
   };
   // Email validation function
@@ -150,7 +150,6 @@ const Assetstep2 = () => {
       }
       let share = document.getElementById("percentageofShar").value;
       if (share < 100) {
-        // Total Percentage of share must be 100%, please edit percentage of share of existing nominee(s) or click on add more nominee.
         allError.IspercentageofShar = true;
         setShareError(
           "Total Percentage of share must be 100%, please edit percentage of share of existing nominee(s) or click on add more nominee."
