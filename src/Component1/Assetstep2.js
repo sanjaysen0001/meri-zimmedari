@@ -32,8 +32,12 @@ const Assetstep2 = () => {
   const [modalShowe, setModalShowe] = useState(false);
   const [modalShow, setModalShow] = useState(false);
   const [shareError, setShareError] = useState("");
+  const [modalShowmail,setModalShowmail]=useState(false);
   const handlePhoneModal = () => {
     setModalShow(true);
+  };
+  const handleEmailModal=()=>{
+   setModalShowmail(true);
   };
   const navigate = useNavigate();
 
@@ -110,14 +114,12 @@ const Assetstep2 = () => {
     setShareError("Permissible value: 1 to 100 without decimal.”");
     setFormError({ IspercentageofShar: true });
   };
-
   // Email validation function
   const validateEmail = email => {
     // Regular expression pattern for email validation
     const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return pattern.test(email);
   };
-
   const handleNext = () => {
     const newArr = [];
     formValues.filter(el => newArr.push(Number(el.percentageofShar)));
@@ -187,7 +189,6 @@ const Assetstep2 = () => {
       setFormError(allError);
     }
   };
-
   return (
     <>
       <Mynavbar />
@@ -196,12 +197,20 @@ const Assetstep2 = () => {
           <PhoneOtp setModalShow={setModalShow} />
         </div>
       ) : null}
+      {modalShowmail ? (
+        <div className="myModal">
+          <EmailModal setModalShowmail={setModalShowmail} />
+        </div>
+      ) : null}
+
 
       {/* <MyVerticallyCenteredModal
         show={modalShow}
         onHide={() => setModalShow(false)}
       /> */}
+      {/*
       <EmailModal show={modalShowe} onHide={() => setModalShowe(false)} />
+ */}
       <div>
         <div style={{ backgroundColor: "rgb(182, 205, 236)" }}>
           <div className="container-fluid">
@@ -375,9 +384,9 @@ const Assetstep2 = () => {
         <div className="container-fluid">
           {formValues &&
             formValues?.map((ele, index) => (
-              <div className="row" key={index} style={{ margin: "1rem" }}>
+              <div className="row" key={index} >
                 <div className="container-fluid">
-                  <div className="row" style={{ margin: "1rem" }}>
+                  <div className="row" >
                     <div className="col-md-4 col-sm-4 col-lg-4 col-xl-4">
                       <div>
                         <div className="mt-4">
@@ -397,13 +406,13 @@ const Assetstep2 = () => {
                                   fontSize: "20px",
                                   fontFamily: "Calibri",
                                   marginLeft: "15px",
-                                  width: "11rem",
+                                  width: "auto",
                                 }}
                                 for="exampleInputPassword1"
                                 class="form-label"
                               >
                                 Nominee Name
-                                <span style={{ color: "red" }}>*</span>
+                                <span style={{ color: "red" }}> *</span>
                               </legend>
 
                               <input
@@ -414,11 +423,14 @@ const Assetstep2 = () => {
                                 pattern="[A-Za-z]+"
                                 onChange={e => handleChange(index, e)}
                                 style={{
-                                  width: "100%",
+                                  width: "95%",
                                   border: "none",
                                   paddingLeft: "15px",
                                   paddingBottom: "10px",
                                   marginBottom: "5px",
+                                  outline:'none',
+                                  marginLeft:'5px',
+                                  backgroundColor:'white'
                                 }}
                               />
                             </fieldset>
@@ -458,13 +470,13 @@ const Assetstep2 = () => {
                                   fontSize: "20px",
                                   fontFamily: "Calibri",
                                   marginLeft: "15px",
-                                  width: "14rem",
+                                  width: "auto",
                                 }}
                                 for="exampleInputPassword1"
                                 class="form-label"
                               >
                                 Relation with Nominee
-                                <span style={{ color: "red" }}>*</span>
+                                <span style={{ color: "red" }}> *</span>
                               </legend>
 
                               <select
@@ -475,12 +487,15 @@ const Assetstep2 = () => {
                                 aria-label="Default select example"
                                 style={{
                                   outline: "none",
-                                  width: "100%",
+                                  width: "95%",
                                   float: "right",
                                   border: "none",
                                   paddingLeft: "15px",
+                                  paddingRight:"15px",
                                   paddingBottom: "10px",
                                   marginBottom: "5px",
+                                  backgroundColor:'white'
+
                                 }}
                               >
                                 <option
@@ -535,29 +550,33 @@ const Assetstep2 = () => {
                                   fontSize: "20px",
                                   fontFamily: "Calibri",
                                   marginLeft: "15px",
-                                  width: "13rem",
+                                  width: "auto",
                                 }}
                                 for="exampleInputPassword1"
                                 class="form-label"
                               >
                                 Percentage of Share
-                                <span style={{ color: "red" }}>*</span>
+                                <span style={{ color: "red" }}> *</span>
                               </legend>
 
                               <Input
                                 type="number"
                                 placeholder="XXXXXXXXXXXX"
+                                className="numberofpersentagecssedit"
                                 id="percentageofShar"
                                 name="percentageofShar"
                                 value={ele.percentageofShar || null}
                                 onChange={e => handleChange(index, e)}
                                 onClick={handleInputClick}
                                 style={{
-                                  width: "100%",
+                                  width: "95%",
                                   border: "none",
                                   paddingLeft: "15px",
                                   paddingBottom: "10px",
                                   marginBottom: "5px",
+                                  outline:'none',
+                                  marginLeft:'5px',
+                                  backgroundColor:'white'
                                 }}
                                 onKeyDown={e => {
                                   // Allow only digits, backspace, and arrow keys
@@ -622,13 +641,13 @@ const Assetstep2 = () => {
                                   fontSize: "20px",
                                   fontFamily: "Calibri",
                                   marginLeft: "15px",
-                                  width: "15rem",
+                                  width: "auto",
                                 }}
                                 for="exampleInputPassword1"
                                 class="form-label"
                               >
                                 Nominee Phone Number
-                                <span style={{ color: "red" }}>*</span>
+                                <span style={{ color: "red" }}> *</span>
                               </legend>
 
                               <div className="row">
@@ -651,7 +670,7 @@ const Assetstep2 = () => {
                                     </button>
                                   </span>
                                 </div>
-                                .
+                                
                                 <div className="col-md-8 col-sm-8 col-lg-8 col-xl-8 col-6">
                                   <input
                                     maxLength={10}
@@ -677,6 +696,7 @@ const Assetstep2 = () => {
                                 >
                                   <span>
                                     <a
+                                      
                                       onClick={handlePhoneModal}
                                       className="btn"
                                       style={{
@@ -734,13 +754,13 @@ const Assetstep2 = () => {
                                   fontSize: "20px",
                                   fontFamily: "Calibri",
                                   marginLeft: "15px",
-                                  width: "12rem",
+                                  width: "auto",
                                 }}
                                 for="exampleInputPassword1"
                                 class="form-label"
                               >
                                 Nominee Email ID
-                                <span style={{ color: "red" }}>*</span>
+                                <span style={{ color: "red" }}> *</span>
                               </legend>
                               <div className="row">
                                 <div className="col-md-10 col-sm-10 col-lg-10 col-xl-10 col-9">
@@ -757,6 +777,7 @@ const Assetstep2 = () => {
                                       paddingLeft: "15px",
                                       paddingBottom: "10px",
                                       marginBottom: "5px",
+                                      marginLeft:'5px'
                                     }}
                                   />
                                 </div>
@@ -767,7 +788,7 @@ const Assetstep2 = () => {
                                 >
                                   <span>
                                     <a
-                                      onClick={() => setModalShowe(true)}
+                                    onClick={handleEmailModal}
                                       className="btn "
                                       style={{
                                         fontSize: "13px",

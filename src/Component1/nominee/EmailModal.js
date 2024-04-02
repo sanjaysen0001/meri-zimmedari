@@ -1,137 +1,247 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import axiosConfig from "../../axiosConfig";
 import { Link } from "react-router-dom";
-import { Input, Table } from "reactstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
-import Modal from "react-bootstrap/Modal";
-import OtpInput from "react-otp-input";
-import OTPInput, { ResendOTP } from "otp-input-react";
-import { useNavigate } from "react-router-dom";
-import "../../css/style.css";
-import axiosConfig from ".././../axiosConfig";
-import Mynavbar from ".././Mynavbar";
-function EmailModal(props) {
-  const [OTPE, setOTPE] = useState("");
-  const [counte, setCounte] = useState(0);
-  const [isCountingCompletee, setIsCountingCompletee] = useState(false);
+import swal from "sweetalert";
+// import NavBar from "./NavBar";
+const EmailOtp = ({ setModalShowmail }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const phoneNumber = location.state;
+  const [otp, setOtp] = useState(null);
+  const [IsvalidOtp, setIsValidOtp] = useState(false);
+  const [bool, setBool] = useState(null);
+  const [count, setCount] = useState(60);
+  const [isCountingComplete, setIsCountingComplete] = useState(false);
 
   useEffect(() => {
-    if (counte < 59) {
+    if (count > 0) {
+      setIsCountingComplete(false);
       const timer = setTimeout(() => {
-        setCounte(counte + 1);
+        if (count > 0) setCount(count - 1);
       }, 1000);
       return () => clearTimeout(timer);
     } else {
-      setIsCountingCompletee(true);
+      setIsCountingComplete(true);
     }
-  }, [counte]);
+  }, [count]);
 
-  const handleResete = () => {
-    setCounte(0);
-    setIsCountingCompletee(false);
+  const handleReset = () => {
+    if (count > 0) {
+      setIsCountingComplete(false);
+      const timer = setTimeout(() => {
+        if (count > 0) setCount(count - 1);
+      }, 1000);
+      // Clear the timer when the component unmounts or when resetting
+      return () => clearTimeout(timer);
+    } else {
+      setIsCountingComplete(true);
+      // Reset the count to 60 when the countdown is complete
+      setCount(60);
+    }
   };
-
+  const handleCloseModal = () => {
+    setModalShowmail(false);
+  };
+  const handleOtpVerify = () => {
+    let payload = {
+      otp: Number(otp),
+      mobileNo: Number(phoneNumber),
+    };
+    axiosConfig
+      .post("/otp-verify", payload)
+      .then(response => {
+        if (response.data.success == "ok") {
+          console.log(response.data.User);
+          setIsValidOtp(false);
+          localStorage.setItem(
+            "user_token",
+            JSON.stringify(response.data.User.token)
+          );
+          localStorage.setItem(
+            "UserZimmedari",
+            JSON.stringify(response.data.User)
+          );
+          navigate("/dashboard", { replace: true });
+        } else {
+          navigate("/registration", { replace: true });
+        }
+      })
+      .catch(error => {
+        setIsValidOtp(true);
+      });
+  };
   return (
     <>
-      <div style={{ justifyContent: "center", display: "flex" }}>
-        <Modal
-          {...props}
-          size="lg"
-          aria-labelledby="contained-modal-title-vcenter"
-          centered
-        >
+      {/* <div className="container-fluid " style={{ display: "inline-block" }}> */}
+      <div className="row " style={{ paddingTop: "5rem" }}>
+        {/* <div className="col-md-4 col-sm-2 col-lg-4 col-xl-4">
+          <div></div>
+        </div> */}
+        <div className="col-md-12 col-sm-2 col-lg-12 col-xl-12">
           <div
-            className="cssfornomineeformobileview"
-            style={{ overflow: "auto" }}
+            className="gdfhagfjhagjhfgagfjhaf"
+            style={{
+              margin: "1rem",
+              marginTop: "4rem",
+              borderRadius: "20px",
+              backgroundColor: "white",
+              paddingBottom: "1rem",
+            }}
           >
-            <div style={{ paddingTop: "20px" }}>
-              <p
-                style={{
-                  color: "rgb(82, 114, 161)",
-                  textAlign: "center",
-                  fontSize: "18px",
-                }}
-              >
-                Please enter the One Time Password sent on
-              </p>
-              <p
-                style={{
-                  color: "rgb(82, 114, 161)",
-                  textAlign: "center",
-                  fontSize: "22px",
-                }}
-              >
-                <span>Email Id kauxxxxxxxxxxxnghxxx@gmail.com</span>
-                <span>
-                  <Link
-                    onClick={props.onHide}
-                    to={""}
-                    style={{
-                      textDecoration: "none",
-                      color: "rgb(82, 114, 161)",
-                    }}
-                  >
-                    <span
-                      style={{ borderBottom: "1px solid rgb(82, 114, 161)" }}
-                    >
-                      Change
-                    </span>
-                  </Link>{" "}
-                </span>
-              </p>
-              <div
-                className="cssforboxdesigninotpcenter"
-                style={{ marginTop: "40px", marginBottom: "30px" }}
-              >
-                <OTPInput
-                  value={OTPE}
-                  onChange={otp => {
-                    console.log(otp);
-                    setOTPE(otp);
-                  }}
-                  autoFocus
-                  OTPLength={6}
-                  className="cssforboxdesigninotp"
-                  otpType="number"
-                  disabled={false}
-                />
+            <div
+              style={{
+                backgroundColor: "rgb(194, 215, 233)",
+                width: "100%",
+                borderTopLeftRadius: "20px",
+                borderTopRightRadius: "20px",
+                paddingLeft: "2rem",
+                display: "flex",
+                justifyContent: "space-around",
+              }}
+            >
+              <div style={{ fontSize: "20px", fontWeight: "600" }}>
+                Verify OTP
               </div>
               <div
+                onClick={handleCloseModal}
                 style={{
-                  justifyContent: "center",
-                  display: "flex",
-                  marginTop: "15px",
-                  paddingBottom: "40px",
+                  fontSize: "20px",
+                  fontWeight: "600",
+                  color: "red",
+                  cursor: "pointer",
                 }}
               >
-                <span>
-                  {" "}
-                  <button
-                    className="cssforhandleotpcounttext"
-                    onClick={handleResete}
-                    style={{
-                      border: "none",
-                      borderBottom: "none",
-                      marginRight: "5px",
-                    }}
-                    disabled={!isCountingCompletee}
-                  >
+                X
+              </div>
+            </div>
+
+            <div style={{ margin: "2rem" }}>
+              <div className=" mt-2">
+                <div className="mb-3">
+                  Please enter 6 digit OTP sent on email-id {phoneNumber}.
+                </div>
+                {/* <Link to={"/"} style={{ textDecoration: "none" }}> */}
+                <div
+                  style={{
+                    color: "#4478c7",
+                    fontWeight: "600",
+                    marginTop: "5px",
+                  }}
+                  onClick={handleCloseModal}
+                >
+                  Change email-id
+                </div>
+                {/* </Link> */}
+              </div>
+              <div className="mt-4">
+                <form>
+                  {IsvalidOtp ? (
                     <span
-                      style={{ borderBottom: "1px solid rgb(82, 114, 161)" }}
+                      style={{
+                        color: "red",
+                        padding: "2px",
+                        fontSize: "16px",
+                      }}
                     >
-                      Reset
+                      Invalid OTP
                     </span>
-                  </button>
-                </span>
-                <span className="cssforhandleotpcounttext">
-                  {" "}
-                  One Time Password in {counte} Seconds
-                </span>
+                  ) : null}
+                  <fieldset
+                    style={{
+                      color: "rgb(82, 114, 161)",
+                      fontSize: "20px",
+                      fontFamily: "Calibri",
+                      border: "1px solid rgb(114, 158, 216)",
+                      borderRadius: "10px",
+                      height: "4rem",
+                      width: "100%",
+                    }}
+                  >
+                    <legend
+                      style={{
+                        color: "rgb(82, 114, 161)",
+                        marginBottom: "-5px",
+                        fontSize: "16px",
+                        paddingLeft: "5px",
+                        fontFamily: "Calibri",
+                        marginLeft: "15px",
+                        width: "5.5rem",
+                      }}
+                      for="exampleInputPassword1"
+                      class="form-label"
+                    >
+                      Enter OTP
+                      <span style={{ marginLeft: "2px", color: "red" }}>*</span>
+                    </legend>
+
+                    <input
+                      maxLength={6}
+                      style={{
+                        border: "none",
+                        outline: "none",
+                        width: "100%",
+                        paddingLeft: "15px",
+                        paddingTop: "5px",
+                      }}
+                      max={6}
+                      type="tel"
+                      id="mobile"
+                      name="mobile"
+                      value={otp}
+                      onChange={e => {
+                        setOtp(e.target.value);
+                        setBool(true);
+                      }}
+                      required
+                    />
+                  </fieldset>
+
+                  <div className="mt-2">
+                    <span style={{ fontSize: "13px", color: "gray" }}>
+                      Didn't receive the OTP?
+                      <button
+                        type="button"
+                        style={{
+                          cursor: "pointer",
+                          border: "none",
+                          padding: "0 4px",
+                          textDecoration: "underline",
+                        }}
+                        disabled={isCountingComplete ? false : true}
+                        onClick={handleReset}
+                      >
+                        Resend
+                      </button>
+                      after {count} Seconds
+                    </span>
+                    <span className="ml-1"></span>
+                  </div>
+                  <div className="mt-3">
+                    <button
+                      type="button"
+                      class="btn "
+                      disabled={bool ? false : true}
+                      style={{
+                        width: "100%",
+                        backgroundColor: "#4478c7",
+                        color: "white",
+                        height: "2.8rem",
+                      }}
+                      //   onClick={handleOtpVerify}
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
-        </Modal>
+        </div>
       </div>
+      {/* </div> */}
     </>
   );
-}
-export default EmailModal;
+};
+
+export default EmailOtp;
