@@ -52,7 +52,7 @@ const Forgotpassword = () => {
     // setOldPasswordError("");
     setNewPasswordError("");
     setConfirmPasswordError("");
-    console.log(password, confirmPassword);
+    // console.log(password, confirmPassword);
     if (!validatePassword(password)) {
       setNewPasswordError(
         "Password must contain a combination of at least 8 characters, including lowercase letters, uppercase letters, numbers and special symbols"
@@ -67,17 +67,18 @@ const Forgotpassword = () => {
     setModalShow(true);
     const userId = JSON.parse(localStorage.getItem("UserZimmedari"))._id;
     const payload = {
+      // userId:userId,
       password: password,
       confirmPassword: confirmPassword,
     };
-    // axiosConfig
-    //   .post(`/user/updated-password/${userId}`, payload)
-    //   .then(response => {
-    //     console.log(response);
-    //   })
-    //   .catch(error => {
-    //     console.log(error.response);
-    //   });
+    axiosConfig
+      .post(`/user/updated-password/${userId}`, payload)
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error.response);
+      });
     setPassword("");
     setConfirmPassword("");
   };
@@ -218,12 +219,12 @@ const Forgotpassword = () => {
                         {confirmPasswordError}
                       </span>
                     )}
-                    <div className="mt-1">
+                    {/* <div className="mt-1">
                       <span style={{ fontSize: "13px" }}>
                         Password required must be minimum 8 word, capital case,
                         small case, special character, number
                       </span>
-                    </div>
+                    </div> */}
                     <div className="mt-3">
                       <button
                         onClick={handleSubmit}

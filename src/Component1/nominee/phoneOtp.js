@@ -121,7 +121,6 @@ const PhoneOtp = ({ setModalShow }) => {
                 <div className="mb-3">
                   Please enter 6 digit OTP sent on mobile number {phoneNumber}.
                 </div>
-                {/* <Link to={"/"} style={{ textDecoration: "none" }}> */}
                 <div
                   style={{
                     color: "#4478c7",
@@ -132,7 +131,6 @@ const PhoneOtp = ({ setModalShow }) => {
                 >
                   Change mobile number
                 </div>
-                {/* </Link> */}
               </div>
               <div className="mt-4">
                 <form>
