@@ -5,6 +5,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import imagelogo from "../image/logo.png";
 import axiosConfig from "../axiosConfig";
 import swal from "sweetalert";
+import Footer from "../../../src/Component1/Footer";
 
 const Loginwithpassword = () => {
   const [password, setPassword] = useState("");
@@ -256,27 +257,7 @@ const Loginwithpassword = () => {
           </div>
         </div>
       </div>
-      <footer>
-      <div class="footer">
-   
-         <div class="copyright">
-            <div class="container">
-               <div class="row">
-                  <div class="col-md-4">
-                     <p style={{fontSize:'17px'}}>
-                     <span ><Link class="forhoveratagcolor" to={'https://user.merizimmedari.com/#/termsandcondition'} style={{textDecoration: "none"}}>Terms and Condition</Link> </span>
-                     <span>|</span>
-                     <span style={{marginLeft:'5px'}}><Link to={'https://user.merizimmedari.com/#/privacypolicy'} style={{textDecoration: "none"}}>Privacy Policy</Link></span>
-                     </p>
-                  </div>
-                  <div class="col-md-8">
-                     <p style={{fontSize:'17px'}}>© 2024 All Rights Reserved Meri Zimmedari</p>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-   </footer>
+      <Footer />
     </>
   );
 };

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import imagelogo from "../image/logo.png";
+import Footer from "../../../src/Component1/Footer";
 const Forgototpverify = () => {
   const [count, setCount] = useState(60);
   const [isCountingComplete, setIsCountingComplete] = useState(false);
@@ -239,27 +240,7 @@ const Forgototpverify = () => {
           </div>
         </div>
       </div>
-      <footer>
-         <div class="footer">
-      
-            <div class="copyright">
-               <div class="container">
-                  <div class="row">
-                     <div class="col-md-4">
-                        <p style={{fontSize:'17px'}}>
-                        <span ><Link class="forhoveratagcolor" to={'https://user.merizimmedari.com/#/termsandcondition'} style={{textDecoration: "none"}}>Terms and Condition</Link> </span>
-                        <span>|</span>
-                        <span style={{marginLeft:'5px'}}><Link to={'https://user.merizimmedari.com/#/privacypolicy'} style={{textDecoration: "none"}}>Privacy Policy</Link></span>
-                        </p>
-                     </div>
-                     <div class="col-md-8">
-                        <p style={{fontSize:'17px'}}>© 2024 All Rights Reserved Meri Zimmedari</p>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </footer>
+      <Footer />
     </>
   );
 };

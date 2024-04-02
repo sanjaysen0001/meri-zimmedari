@@ -42,7 +42,7 @@ const Assetpolicy = () => {
     if (policyNumber !== reEnterPolicyNumber) errors.IsBothMatch = true;
 
     // If there are no errors, submit the form
-    if (Object.keys(errors).length === 0) {
+    if (Object.keys(errors)?.length === 0) {
       let userId = JSON.parse(localStorage.getItem("UserZimmedari"))._id;
       const formData = new FormData();
       formData.append("userId", userId);
@@ -206,9 +206,6 @@ const Assetpolicy = () => {
           <div className="row">
             <div className="col-md-6 col-sm-6 col-lg-6 col-xl-6 mt-4">
               <div>
-                <p>
-                  Acceptable file - .jpg/.jpeg/.png/pdf” below upload policy
-                </p>
                 <span
                   className="mt-5"
                   style={{
@@ -247,6 +244,7 @@ const Assetpolicy = () => {
                     accept="application/pdf, image/png, image/jpeg,image/jpg,image/jpe"
                     onChange={handleFileChange}
                   />
+                  <p>Acceptable file - .jpg/.jpeg/.png/pdf</p>
                   {/* <span style={{ color: "red" }}>*</span> */}
                   {uploadedFileName && <p>Uploaded file: {uploadedFileName}</p>}
                 </span>
@@ -319,7 +317,7 @@ const Assetpolicy = () => {
                         marginTop: "3px",
                       }}
                     >
-                    * indicates required field
+                      * indicates required field
                     </p>
                   )}
                 </div>
@@ -377,7 +375,7 @@ const Assetpolicy = () => {
                       marginTop: "3px",
                     }}
                   >
-                  * indicates required field
+                    * indicates required field
                   </p>
                 )}
                 {formError.IsBothMatch && (
@@ -445,10 +443,9 @@ const Assetpolicy = () => {
                         padding: "5px",
                         fontSize: "16px",
                         marginTop: "13px",
-                        
                       }}
                     >
-                    * indicates required field
+                      * indicates required field
                     </p>
                   )}
                   {formError.IsBothMatch && (
