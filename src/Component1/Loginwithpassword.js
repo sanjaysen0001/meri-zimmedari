@@ -51,14 +51,15 @@ const Loginwithpassword = () => {
   };
   const handleForgetPassword = () => {
     navigate("/Forgot/password/otp");
-    // axiosConfig
-    //   .post("/user/forget-password", { mobileNo: "8889407856" })
-    //   .then(response => {
-    //     console.log(response);
-    //   })
-    //   .catch(error => {
-    //     console.log(error.response);
-    //   });
+    axiosConfig
+      .post("/user/forget-password", { mobileNo: Number(phoneNumber) })
+      .then(response => {
+        console.log(response.data);
+        navigate("/forgot/password");
+      })
+      .catch(error => {
+        //  setIsValidOtp(true);
+      });
   };
   return (
     <>
