@@ -95,17 +95,18 @@ const PhoneOtp = ({ setModalShow }) => {
                 width: "100%",
                 borderTopLeftRadius: "20px",
                 borderTopRightRadius: "20px",
-                paddingLeft: "2rem",
-                display: "flex",
-                justifyContent: "space-around",
+               
+                
               }}
             >
-              <div style={{ fontSize: "20px", fontWeight: "600" }}>
+              <span style={{ fontSize: "20px", fontWeight: "600",marginLeft:'1rem' }}>
                 Verify OTP
-              </div>
-              <div
+              </span>
+              <span
                 onClick={handleCloseModal}
                 style={{
+                  float:'right',
+                  marginRight:'1rem',
                   fontSize: "20px",
                   fontWeight: "600",
                   color: "red",
@@ -113,7 +114,7 @@ const PhoneOtp = ({ setModalShow }) => {
                 }}
               >
                 X
-              </div>
+              </span>
             </div>
 
             <div style={{ margin: "2rem" }}>
