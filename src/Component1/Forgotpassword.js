@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import imagelogo from "../image/logo.png";
+// import imagelogo from "../image/logo.png";
 import { Link } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import NavBar from "./NavBar";
@@ -239,17 +239,14 @@ const Forgotpassword = () => {
                       {messageClass}
                     </span>
 
-                    {/* {confirmPasswordError && (
-                      <span style={{ color: "red" }}>
-                        {confirmPasswordError}
-                      </span>
-                    )} */}
-                    {/* <div className="mt-1">
-                      <span style={{ fontSize: "13px" }}>
-                        Password required must be minimum 8 word, capital case,
-                        small case, special character, number
-                      </span>
-                    </div> */}
+                    <div>
+                      {confirmPasswordError && (
+                        <span style={{ color: "red", fontSize: "12px" }}>
+                          {confirmPasswordError}
+                        </span>
+                      )}
+                    </div>
+
                     <div className="mt-3">
                       <button
                         onClick={handleSubmit}

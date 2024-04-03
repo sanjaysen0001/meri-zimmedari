@@ -39,9 +39,11 @@ const Assetstep2 = () => {
   const navigate = useNavigate();
   const handlePhoneModal = () => {
     setModalShow(true);
+    setModalShowmail(false);
   };
   const handleEmailModal = () => {
     setModalShowmail(true);
+    setModalShow(false);
   };
 
   let addFormFields = () => {
@@ -207,12 +209,6 @@ const Assetstep2 = () => {
               console.error(error);
             });
         }
-        // else {
-        //   // Set form errors
-
-        //   console.log("Error", allError);
-        //   // setFormError(allError);
-        // }
       }
       setFormError(allError);
       console.log("@@@@@@@", formValues);
@@ -239,7 +235,10 @@ const Assetstep2 = () => {
       ) : null}
       {modalShowmail ? (
         <div className="myModal">
-          <EmailModal setModalShowmail={setModalShowmail} />
+          <EmailModal
+            setModalShowmail={setModalShowmail}
+            setModalShow={setModalShow}
+          />
         </div>
       ) : null}
 

@@ -4,7 +4,7 @@ import axiosConfig from "../../axiosConfig";
 import { Link } from "react-router-dom";
 import swal from "sweetalert";
 // import NavBar from "./NavBar";
-const EmailOtp = ({ setModalShowmail }) => {
+const EmailOtp = ({ setModalShowmail, setModalShow }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const phoneNumber = location.state;
@@ -95,10 +95,15 @@ const EmailOtp = ({ setModalShowmail }) => {
                 width: "100%",
                 borderTopLeftRadius: "20px",
                 borderTopRightRadius: "20px",
-              
               }}
             >
-              <span style={{ fontSize: "20px", fontWeight: "600",marginLeft:'1rem' }}>
+              <span
+                style={{
+                  fontSize: "20px",
+                  fontWeight: "600",
+                  marginLeft: "1rem",
+                }}
+              >
                 Verify OTP
               </span>
               <span
@@ -108,8 +113,8 @@ const EmailOtp = ({ setModalShowmail }) => {
                   fontWeight: "600",
                   color: "red",
                   cursor: "pointer",
-                  marginRight:'1rem',
-                  float:'right'
+                  marginRight: "1rem",
+                  float: "right",
                 }}
               >
                 X
