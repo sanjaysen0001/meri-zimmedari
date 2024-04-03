@@ -149,14 +149,24 @@ const Assetstep2 = () => {
         allError.IsnomineeEmailId = false;
       }
       let share = document.getElementById("percentageofShar").value;
-      if (share < 100) {
+       console.log(share)
+      if(share==""){
+        allError.IspercentageofShar = true;
+        setShareError(
+          "Permissible value: 1 to 100 without decimal."
+        );
+      
+      }
+      else if(share < 100){
         allError.IspercentageofShar = true;
         setShareError(
           "Total Percentage of share must be 100%, please edit percentage of share of existing nominee(s) or click on add more nominee."
         );
-      } else {
+      }
+      else {
         allError.IspercentageofShar = false;
       }
+     
       let a = document.getElementById("NomineePhoneNumber").value;
 
       if (a?.length !== 10) {
