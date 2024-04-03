@@ -27,36 +27,23 @@ const MyProfile = () => {
    <div>
    <form>
    <div className="form-row">
-     <div className="form-group col-md-4 classformargininmyprofilepage" >
+     <div className="form-group col-md-6 classformargininmyprofilepage" >
      <fieldset  style={{color:'rgb(82, 114, 161)', fontSize:'20px',fontFamily:'Calibri', border: "1px solid rgb(114, 158, 216)",borderRadius:'10px'}}>
-     <legend style={{color:'rgb(82, 114, 161)',marginBottom:'-5px', fontSize:'16px',paddingLeft:'5px',fontFamily:'Calibri',marginLeft:'15px',width:'5.5rem'}} for="exampleInputPassword1" class="form-label">First Name 
+     <legend style={{color:'rgb(82, 114, 161)',marginBottom:'-5px', fontSize:'16px',paddingLeft:'5px',fontFamily:'Calibri',marginLeft:'15px',width:'auto',paddingRight:'5px'}} for="exampleInputPassword1" class="form-label"> Name 
      
      </legend>
          <input type="text" style={{border:'none', outline: "none",paddingLeft:'15px',width:'95%',marginTop:'-15px',paddingBottom:'10px',marginBottom:'5px'}} id="dob" name="dob"/>
      </fieldset>
       
        </div>
-     <div className="form-group col-md-4 classformargininmyprofilepage">
 
-     <fieldset  style={{color:'rgb(82, 114, 161)', fontSize:'20px',fontFamily:'Calibri', border: "1px solid rgb(114, 158, 216)",borderRadius:'10px'}}>
-     <legend style={{color:'rgb(82, 114, 161)',marginBottom:'-5px', fontSize:'16px',paddingLeft:'5px',fontFamily:'Calibri',marginLeft:'15px',width:'6.5rem'}} for="exampleInputPassword1" class="form-label">Middle Name 
-     
-     </legend>
-         <input type="text" style={{border:'none', outline: "none",width:'95%',paddingLeft:'15px',marginTop:'-15px',paddingBottom:'10px',marginBottom:'5px'}} id="dob" name="dob"/>
-     </fieldset>
-     
-       </div>
-     <div className="form-group col-md-4 classformargininmyprofilepage">
-     <fieldset  style={{color:'rgb(82, 114, 161)', fontSize:'20px',fontFamily:'Calibri', border: "1px solid rgb(114, 158, 216)",borderRadius:'10px'}}>
-     <legend style={{color:'rgb(82, 114, 161)',marginBottom:'-5px', fontSize:'16px',paddingLeft:'5px',fontFamily:'Calibri',marginLeft:'15px',width:'5.5rem'}} for="exampleInputPassword1" class="form-label">Last Name 
-     
-     </legend>
-         <input type="text" style={{border:'none', outline: "none",width:'95%',paddingLeft:'15px',marginTop:'-15px',paddingBottom:'10px',marginBottom:'5px'}} id="dob" name="dob"/>
-     </fieldset>
+    
+ 
 
-       </div>
-   </div>
-   <div className="form-row">
+   
+
+
+  
      <div className="form-group col-md-6 classformargininmyprofilepage">
      <fieldset  style={{color:'rgb(82, 114, 161)', fontSize:'20px',fontFamily:'Calibri', border: "1px solid rgb(114, 158, 216)",borderRadius:'10px'}}>
      <legend style={{color:'rgb(82, 114, 161)',marginBottom:'-5px', fontSize:'16px',paddingLeft:'5px',fontFamily:'Calibri',marginLeft:'15px',width:'7.3rem'}} for="exampleInputPassword1" class="form-label">Phone Number 
@@ -76,31 +63,33 @@ const MyProfile = () => {
      </fieldset>
        
        </div>
-     <div className="form-group col-md-6 classformargininmyprofilepage">
-     <fieldset  style={{color:'rgb(82, 114, 161)', fontSize:'20px',fontFamily:'Calibri', border: "1px solid rgb(114, 158, 216)",borderRadius:'10px'}}>
-    <legend style={{color:'rgb(82, 114, 161)',marginBottom:'-5px', fontSize:'16px',paddingLeft:'5px',fontFamily:'Calibri',marginLeft:'15px',width:'6.5rem'}} for="exampleInputPassword1" class="form-label">Date of Birth 
-    
-    </legend>
-        <input type="date" style={{border:'none', outline: "none",paddingRight:'5px',paddingLeft:'15px',background:'transparent',marginTop:'-15px',paddingBottom:'10px',marginBottom:'5px'}} id="dob" name="dob"/>
-    </fieldset>
-    
-     </div>
-     <div className="form-group col-md-6 classformargininmyprofilepage">
-     <fieldset  style={{color:'rgb(82, 114, 161)', fontSize:'20px',fontFamily:'Calibri', border: "1px solid rgb(114, 158, 216)",borderRadius:'10px'}}>
-    <legend style={{color:'rgb(82, 114, 161)',marginBottom:'-5px', fontSize:'16px',paddingLeft:'5px',fontFamily:'Calibri',marginLeft:'15px',width:'4.5rem'}} for="exampleInputPassword1" class="form-label">Gender 
-    
-    </legend>
-      
-    <select class="form-select" aria-label="Default select example" style={{border:'none',color:'#C4A484',background:'transparent', outline: "none",paddingLeft:'15px',marginTop:'-15px',paddingBottom:'10px',marginBottom:'5px'}}>
-  <option selected>Select Gender</option>
-  <option value="1">Male</option>
-  <option value="2">Female</option>
-  <option value="3">Other</option>
-</select>
-    </fieldset>
-    
-     </div>
+       <div className="form-group col-md-6 classformargininmyprofilepage">
+   <fieldset  style={{color:'rgb(82, 114, 161)', fontSize:'20px',fontFamily:'Calibri', border: "1px solid rgb(114, 158, 216)",borderRadius:'10px'}}>
+  <legend style={{color:'rgb(82, 114, 161)',marginBottom:'-5px', fontSize:'16px',paddingLeft:'5px',fontFamily:'Calibri',marginLeft:'15px',width:'6.5rem'}} for="exampleInputPassword1" class="form-label">Date of Birth 
+  
+  </legend>
+      <input type="date" style={{border:'none', outline: "none",paddingRight:'5px',paddingLeft:'15px',background:'transparent',marginTop:'-15px',paddingBottom:'10px',marginBottom:'5px'}} id="dob" name="dob"/>
+  </fieldset>
+  
    </div>
+   <div className="form-group col-md-6 classformargininmyprofilepage">
+   <fieldset  style={{color:'rgb(82, 114, 161)', fontSize:'20px',fontFamily:'Calibri', border: "1px solid rgb(114, 158, 216)",borderRadius:'10px'}}>
+  <legend style={{color:'rgb(82, 114, 161)',marginBottom:'-5px', fontSize:'16px',paddingLeft:'5px',fontFamily:'Calibri',marginLeft:'15px',width:'4.5rem'}} for="exampleInputPassword1" class="form-label">Gender 
+  
+  </legend>
+    
+  <select class="form-select" aria-label="Default select example" style={{border:'none',color:'#C4A484',background:'transparent', outline: "none",paddingLeft:'15px',marginTop:'-15px',paddingBottom:'10px',marginBottom:'5px'}}>
+<option selected>Select Gender</option>
+<option value="1">Male</option>
+<option value="2">Female</option>
+<option value="3">Other</option>
+</select>
+  </fieldset>
+  
+   </div>
+
+       </div>
+  
   
  </form>
    </div>

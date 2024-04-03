@@ -31,43 +31,26 @@ const Myprofileedit1 = () => {
    <div>
    <form>
    <div className="form-row classformargininmyprofilepage">
-     <div className="form-group col-md-4">
+     <div className="form-group col-md-6">
      <fieldset  style={{color:'rgb(82, 114, 161)', fontSize:'20px',fontFamily:'Calibri', border: "1px solid rgb(114, 158, 216)",borderRadius:'10px'}}>
-     <legend style={{color:'rgb(82, 114, 161)',marginBottom:'-5px', fontSize:'16px',paddingLeft:'5px',fontFamily:'Calibri',marginLeft:'15px',width:'5.5rem'}} for="exampleInputPassword1" class="form-label">First Name 
+     <legend style={{color:'rgb(82, 114, 161)',marginBottom:'-5px', fontSize:'16px',paddingLeft:'5px',paddingRight:'5px',fontFamily:'Calibri',marginLeft:'15px',width:'auto'}} for="exampleInputPassword1" class="form-label">Name 
      
      </legend>
          <input type="text" style={{border:'none',width:'95%', outline: "none",paddingLeft:'15px',marginTop:'-15px',paddingBottom:'10px',marginBottom:'5px'}} id="dob" name="dob"/>
      </fieldset>
       
        </div>
-     <div className="form-group col-md-4">
+   
+   
 
-     <fieldset  style={{color:'rgb(82, 114, 161)', fontSize:'20px',fontFamily:'Calibri', border: "1px solid rgb(114, 158, 216)",borderRadius:'10px'}}>
-     <legend style={{color:'rgb(82, 114, 161)',marginBottom:'-5px', fontSize:'16px',paddingLeft:'5px',fontFamily:'Calibri',marginLeft:'15px',width:'6.5rem'}} for="exampleInputPassword1" class="form-label">Middle Name 
-     
-     </legend>
-         <input type="text" style={{border:'none',width:'95%', outline: "none",paddingLeft:'15px',marginTop:'-15px',paddingBottom:'10px',marginBottom:'5px'}} id="dob" name="dob"/>
-     </fieldset>
-     
-       </div>
-     <div className="form-group col-md-4">
-     <fieldset  style={{color:'rgb(82, 114, 161)', fontSize:'20px',fontFamily:'Calibri', border: "1px solid rgb(114, 158, 216)",borderRadius:'10px'}}>
-     <legend style={{color:'rgb(82, 114, 161)',marginBottom:'-5px', fontSize:'16px',paddingLeft:'5px',fontFamily:'Calibri',marginLeft:'15px',width:'5.5rem'}} for="exampleInputPassword1" class="form-label">Last Name 
-     
-     </legend>
-         <input type="text" style={{border:'none',width:'95%', outline: "none",paddingLeft:'15px',marginTop:'-15px',paddingBottom:'10px',marginBottom:'5px'}} id="dob" name="dob"/>
-     </fieldset>
 
-       </div>
-   </div>
-   <div className="form-row">
-     <div className="form-group col-md-5 col-sm-5 col-xl-5 col-lg-5 col-10 classformargininmyprofilepage">
+     <div className="form-group col-md-5 col-sm-5 col-xl-5 col-lg-5 col-10 ">
     
        
        <div>
        <span>
        <fieldset  style={{color:'rgb(82, 114, 161)', fontSize:'20px',fontFamily:'Calibri', border: "1px solid rgb(114, 158, 216)",borderRadius:'10px'}}>
-       <legend style={{color:'rgb(82, 114, 161)',marginBottom:'-5px', fontSize:'16px',paddingLeft:'5px',fontFamily:'Calibri',marginLeft:'15px',width:'auto'}} for="exampleInputPassword1" class="form-label">Phone Number 
+       <legend style={{color:'rgb(82, 114, 161)',marginBottom:'-5px', fontSize:'16px',paddingLeft:'5px',fontFamily:'Calibri',marginLeft:'15px',width:'auto',paddingRight:'5px'}} for="exampleInputPassword1" class="form-label">Phone Number 
      
      </legend>
            <input type="tel" style={{border:'none',width:'95%', outline: "none",paddingLeft:'15px',marginTop:'-15px',paddingBottom:'10px',marginBottom:'5px'}} id="dob" name="dob"/>
@@ -79,17 +62,18 @@ const Myprofileedit1 = () => {
        
        
        </div>
-       <div className="form-group col-md-1 col-sm-1 col-xl-1 col-lg-1 col-2 classformargininmyprofilepage" >
+       <div className="form-group col-md-1 col-sm-1 col-xl-1 col-lg-1 col-2 " >
 
-       <button style={{border:'1px solid  rgb(201, 198, 198)',marginTop:'10px',fontSize:'14px',color:'white',height:'3.4rem',borderRadius:'10px',backgroundColor:'rgb(20, 130, 233)'}}>SEND OTP</button>
+       <button style={{border:'1px solid  rgb(201, 198, 198)',marginTop:'11px',fontSize:'14px',color:'white',height:'3.3rem',borderRadius:'10px',backgroundColor:'rgb(20, 130, 233)'}}>SEND OTP</button>
        </div>
+
        <div className="form-group col-md-5 col-sm-5 col-xl-5 col-lg-5 col-10 classformargininmyprofilepage">
     
        
        <div>
        <span>
        <fieldset  style={{color:'rgb(82, 114, 161)', fontSize:'20px',fontFamily:'Calibri', border: "1px solid rgb(114, 158, 216)",borderRadius:'10px'}}>
-       <legend style={{color:'rgb(82, 114, 161)',marginBottom:'-5px', fontSize:'16px',fontFamily:'Calibri',marginLeft:'15px',width:'7rem',paddingLeft:'5px'}} for="exampleInputPassword1" class="form-label">Email Address 
+       <legend style={{color:'rgb(82, 114, 161)',marginBottom:'-5px', fontSize:'16px',fontFamily:'Calibri',marginLeft:'15px',width:'auto',paddingRight:'5px',paddingLeft:'5px'}} for="exampleInputPassword1" class="form-label">Email Address 
      
      </legend>
            <input type="tel" style={{border:'none',width:'95%', outline: "none",paddingLeft:'15px',marginTop:'-15px',paddingBottom:'10px',marginBottom:'5px'}} id="dob" name="dob"/>
@@ -107,7 +91,7 @@ const Myprofileedit1 = () => {
        </div>
      <div className="form-group col-md-6 classformargininmyprofilepage">
      <fieldset  style={{color:'rgb(82, 114, 161)', fontSize:'20px',fontFamily:'Calibri', border: "1px solid rgb(114, 158, 216)",borderRadius:'10px'}}>
-     <legend style={{color:'rgb(82, 114, 161)',marginBottom:'-5px', fontSize:'16px',paddingLeft:'5px',fontFamily:'Calibri',marginLeft:'15px',width:'6.5rem'}} for="exampleInputPassword1" class="form-label">Date of Birth 
+     <legend style={{color:'rgb(82, 114, 161)',marginBottom:'-5px', fontSize:'16px',paddingLeft:'5px',fontFamily:'Calibri',marginLeft:'15px',width:'auto',paddingRight:'5px'}} for="exampleInputPassword1" class="form-label">Date of Birth 
     
     </legend>
          <input type="date" style={{border:'none',width:'95%',backgroundColor:'white', outline: "none",paddingLeft:'15px',marginTop:'-15px',paddingBottom:'10px',marginBottom:'5px'}} id="dob" name="dob"/>
@@ -115,7 +99,7 @@ const Myprofileedit1 = () => {
      </div>
      <div className="form-group col-md-6 classformargininmyprofilepage">
      <fieldset  style={{color:'rgb(82, 114, 161)', fontSize:'20px',fontFamily:'Calibri', border: "1px solid rgb(114, 158, 216)",borderRadius:'10px'}}>
-     <legend style={{color:'rgb(82, 114, 161)',marginBottom:'-5px', fontSize:'16px',paddingLeft:'5px',fontFamily:'Calibri',marginLeft:'15px',width:'4.5rem'}} for="exampleInputPassword1" class="form-label">Gender 
+     <legend style={{color:'rgb(82, 114, 161)',marginBottom:'-5px', fontSize:'16px',paddingLeft:'5px',fontFamily:'Calibri',marginLeft:'15px',width:'auto',paddingRight:'5px'}} for="exampleInputPassword1" class="form-label">Gender 
     
     </legend>
       
@@ -128,8 +112,8 @@ const Myprofileedit1 = () => {
     </fieldset>
     
      </div>
+   
    </div>
-  
  </form>
    </div>
    </div>
