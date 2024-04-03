@@ -226,7 +226,7 @@ const PhoneOtp = ({ setModalShow }) => {
                         color: "white",
                         height: "2.8rem",
                       }}
-                      //   onClick={handleOtpVerify}
+                      onClick={handleOtpVerify}
                     >
                       Submit
                     </button>
