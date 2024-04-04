@@ -177,9 +177,9 @@ const PhoneBox = ({
                         width: "45%",
                         margin: "5px",
                       }}
-                      onClick={handleOtpVerifyNow}
+                      onClick={handleOtpVerifyLater}
                     >
-                      Verify Now
+                      Verify Later
                     </button>
                     <button
                       type="button"
@@ -192,9 +192,9 @@ const PhoneBox = ({
                         width: "45%",
                         margin: "5px",
                       }}
-                      onClick={handleOtpVerifyLater}
+                      onClick={handleOtpVerifyNow}
                     >
-                      Verify Later
+                      Verify Now
                     </button>
                   </div>
                 </form>
