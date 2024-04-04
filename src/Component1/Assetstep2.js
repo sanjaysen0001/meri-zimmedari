@@ -9,6 +9,7 @@ import "../css/style.css";
 import axiosConfig from "./../axiosConfig";
 import Mynavbar from "./Mynavbar";
 import PhoneOtp from "./nominee/phoneOtp";
+import PhoneBox from "./nominee/PhoneBox";
 
 const Assetstep2 = () => {
   const [emailError, setEmailError] = useState("");
@@ -29,17 +30,21 @@ const Assetstep2 = () => {
     IsrelationWithNominee: false,
   });
   let allError = {};
-  const [modalShowe, setModalShowe] = useState(false);
   const [modalShow, setModalShow] = useState(false);
   const [shareError, setShareError] = useState("");
-  const [modalShowmail,setModalShowmail]=useState(false);
+  const [modalShowmail, setModalShowmail] = useState(false);
+  const [modalSendOtp, setModalSendOtp] = useState(false);
+  const [phoneModalNotify, setPhoneModalNotify] = useState(false);
+  const [phoneRemark, setPhoneRemark] = useState(false);
+  const navigate = useNavigate();
   const handlePhoneModal = () => {
     setModalShow(true);
+    setModalShowmail(false);
   };
-  const handleEmailModal=()=>{
-   setModalShowmail(true);
+  const handleEmailModal = () => {
+    setModalShowmail(true);
+    setModalShow(false);
   };
-  const navigate = useNavigate();
 
   let addFormFields = () => {
     setFormValues([
@@ -90,15 +95,12 @@ const Assetstep2 = () => {
         newFormValues[i][fieldName] = value;
       } else if (fieldName === "percentageofShar") {
         const newValue = value.replace(/\D/g, "").slice(0, 3);
-        newFormValues[i][fieldName] = newValue;
+        newFormValues[i][fieldName] = Number(newValue);
       }
-      // else {
-      //   allError.IspercentageofShar = true;
-      // }
+
       const phoneNumberRegex = /^\d{10}$/;
       if (fieldName === "NomineePhoneNumber") {
         if (phoneNumberRegex.test(value)) {
-          // debugger;
           newFormValues[i][fieldName] = Number(value);
         } else {
           newFormValues[i][fieldName] = Number(value);
@@ -111,15 +113,23 @@ const Assetstep2 = () => {
   };
   const handleInputClick = () => {
     allError.IspercentageofShar = true;
-    setShareError("Permissible value: 1 to 100 without decimal.");
+
+    if (formValues.length > 1) {
+      setShareError(
+        "Reduce percentage of share for the nominee to add more nominee."
+      );
+    } else {
+      setShareError("Permissible value: 1 to 100 without decimal.");
+    }
     setFormError({ IspercentageofShar: true });
+    // formValues.filter(el => newArr.push(Number(el.percentageofShar)));
   };
   // Email validation function
-  const validateEmail = email => {
-    // Regular expression pattern for email validation
-    const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    return pattern.test(email);
-  };
+  // const validateEmail = email => {
+  //   // Regular expression pattern for email validation
+  //   const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  //   return pattern.test(email);
+  // };
   const handleNext = () => {
     const newArr = [];
     formValues.filter(el => newArr.push(Number(el.percentageofShar)));
@@ -128,7 +138,6 @@ const Assetstep2 = () => {
     );
 
     let userId = JSON.parse(localStorage.getItem("UserZimmedari"))._id;
-    // console.log(formValues);
 
     formValues?.forEach((value, key) => {
       if (!value.nomineeName) {
@@ -143,30 +152,26 @@ const Assetstep2 = () => {
         allError.IsrelationWithNominee = false;
       }
 
-      if (!validateEmail(value.nomineeEmailId)) {
-        allError.IsnomineeEmailId = true;
-      } else {
-        allError.IsnomineeEmailId = false;
-      }
+      // if (!validateEmail(value.nomineeEmailId)) {
+      //   allError.IsnomineeEmailId = true;
+      // } else {
+      //   allError.IsnomineeEmailId = false;
+      // }
       let share = document.getElementById("percentageofShar").value;
-       console.log(share)
-      if(share==""){
+      console.log(share);
+      if (!Number(share)) {
         allError.IspercentageofShar = true;
-        setShareError(
-          "Permissible value: 1 to 100 without decimal."
-        );
-      
-      }
-      else if(share < 100){
+        setShareError("Permissible value: 1 to 100 without decimal.");
+      } else if (sum < 100) {
         allError.IspercentageofShar = true;
         setShareError(
           "Total Percentage of share must be 100%, please edit percentage of share of existing nominee(s) or click on add more nominee."
         );
-      }
-      else {
+      } else {
+        setShareError("");
         allError.IspercentageofShar = false;
       }
-     
+
       let a = document.getElementById("NomineePhoneNumber").value;
 
       if (a?.length !== 10) {
@@ -176,31 +181,53 @@ const Assetstep2 = () => {
       }
     });
 
-    if (Object.keys(allError)?.length === 0) {
-      debugger;
-      console.log("!!", allError);
-      const payload = {
-        userId: userId,
-        nominee: formValues,
-      };
-      axiosConfig
-        .post("/nominee/save-nominee3", payload)
-        .then(response => {
-          console.log(response.data);
-          navigate("/add-asset/step3");
-        })
-        .catch(error => {
-          console.error(error);
-        });
-    } else {
-      // Set form errors
-      console.log("Error", allError);
+    if (Object.keys(allError)?.length >= 0) {
+      if (
+        allError.IsnomineeName &&
+        allError.IsNomineePhoneNumber &&
+        allError.IspercentageofShar
+      ) {
+        setPhoneModalNotify(false);
+        console.log("testttt");
+      } else {
+        setPhoneModalNotify(true);
+        const payload = {
+          userId: userId,
+          nominee: formValues,
+        };
+
+        if (phoneRemark) {
+          setPhoneModalNotify(false);
+          axiosConfig
+            .post("/nominee/save-nominee", payload)
+            .then(response => {
+              console.log(response.data);
+              navigate("/add-asset/step3");
+            })
+            .catch(error => {
+              setPhoneModalNotify(false);
+              console.error(error);
+            });
+        }
+      }
       setFormError(allError);
+      console.log("@@@@@@@", formValues);
     }
   };
   return (
     <>
       <Mynavbar />
+      {phoneModalNotify ? (
+        <div className="myModal">
+          <PhoneBox
+            setModalSendOtp={setModalSendOtp}
+            setPhoneModalNotify={setPhoneModalNotify}
+            setPhoneRemark={setPhoneRemark}
+            setModalShow={setModalShow}
+          />
+        </div>
+      ) : null}
+
       {modalShow ? (
         <div className="myModal">
           <PhoneOtp setModalShow={setModalShow} />
@@ -208,18 +235,13 @@ const Assetstep2 = () => {
       ) : null}
       {modalShowmail ? (
         <div className="myModal">
-          <EmailModal setModalShowmail={setModalShowmail} />
+          <EmailModal
+            setModalShowmail={setModalShowmail}
+            setModalShow={setModalShow}
+          />
         </div>
       ) : null}
 
-
-      {/* <MyVerticallyCenteredModal
-        show={modalShow}
-        onHide={() => setModalShow(false)}
-      /> */}
-      {/*
-      <EmailModal show={modalShowe} onHide={() => setModalShowe(false)} />
- */}
       <div>
         <div style={{ backgroundColor: "rgb(182, 205, 236)" }}>
           <div className="container-fluid">
@@ -393,9 +415,9 @@ const Assetstep2 = () => {
         <div className="container-fluid">
           {formValues &&
             formValues?.map((ele, index) => (
-              <div className="row" key={index} >
+              <div className="row" key={index}>
                 <div className="container-fluid">
-                  <div className="row" >
+                  <div className="row">
                     <div className="col-md-4 col-sm-4 col-lg-4 col-xl-4">
                       <div>
                         <div className="mt-4">
@@ -437,9 +459,9 @@ const Assetstep2 = () => {
                                   paddingLeft: "15px",
                                   paddingBottom: "10px",
                                   marginBottom: "5px",
-                                  outline:'none',
-                                  marginLeft:'5px',
-                                  backgroundColor:'white'
+                                  outline: "none",
+                                  marginLeft: "5px",
+                                  backgroundColor: "white",
                                 }}
                               />
                             </fieldset>
@@ -500,11 +522,10 @@ const Assetstep2 = () => {
                                   float: "right",
                                   border: "none",
                                   paddingLeft: "15px",
-                                  paddingRight:"15px",
+                                  paddingRight: "15px",
                                   paddingBottom: "10px",
                                   marginBottom: "5px",
-                                  backgroundColor:'white'
-
+                                  backgroundColor: "white",
                                 }}
                               >
                                 <option
@@ -583,9 +604,9 @@ const Assetstep2 = () => {
                                   paddingLeft: "15px",
                                   paddingBottom: "10px",
                                   marginBottom: "5px",
-                                  outline:'none',
-                                  marginLeft:'5px',
-                                  backgroundColor:'white'
+                                  outline: "none",
+                                  marginLeft: "5px",
+                                  backgroundColor: "white",
                                 }}
                                 onKeyDown={e => {
                                   // Allow only digits, backspace, and arrow keys
@@ -679,7 +700,7 @@ const Assetstep2 = () => {
                                     </button>
                                   </span>
                                 </div>
-                                
+
                                 <div className="col-md-8 col-sm-8 col-lg-8 col-xl-8 col-6">
                                   <input
                                     maxLength={10}
@@ -705,7 +726,6 @@ const Assetstep2 = () => {
                                 >
                                   <span>
                                     <a
-                                      
                                       onClick={handlePhoneModal}
                                       className="btn"
                                       style={{
@@ -769,7 +789,7 @@ const Assetstep2 = () => {
                                 class="form-label"
                               >
                                 Nominee Email ID
-                                <span style={{ color: "red" }}> *</span>
+                                {/* <span style={{ color: "red" }}> *</span> */}
                               </legend>
                               <div className="row">
                                 <div className="col-md-10 col-sm-10 col-lg-10 col-xl-10 col-9">
@@ -786,7 +806,7 @@ const Assetstep2 = () => {
                                       paddingLeft: "15px",
                                       paddingBottom: "10px",
                                       marginBottom: "5px",
-                                      marginLeft:'5px'
+                                      marginLeft: "5px",
                                     }}
                                   />
                                 </div>
@@ -797,7 +817,7 @@ const Assetstep2 = () => {
                                 >
                                   <span>
                                     <a
-                                    onClick={handleEmailModal}
+                                      onClick={handleEmailModal}
                                       className="btn "
                                       style={{
                                         fontSize: "13px",
@@ -815,7 +835,7 @@ const Assetstep2 = () => {
                                     </a>
                                   </span>
                                 </div>
-                                {formError.IsnomineeEmailId && (
+                                {/* {formError.IsnomineeEmailId && (
                                   <p
                                     style={{
                                       color: "red",
@@ -827,8 +847,8 @@ const Assetstep2 = () => {
                                   >
                                     Enter valid e-mail ID
                                   </p>
-                                )}
-                                {emailError && (
+                                )} */}
+                                {/* {emailError && (
                                   <p
                                     style={{
                                       color: "red",
@@ -838,7 +858,7 @@ const Assetstep2 = () => {
                                   >
                                     {emailError}
                                   </p>
-                                )}
+                                )} */}
                               </div>
                             </fieldset>
                           </div>
@@ -935,26 +955,3 @@ const Assetstep2 = () => {
 };
 
 export default Assetstep2;
-
-// import React, { useState } from "react";
-
-// function App() {
-//   const [showError, setShowError] = useState(false);
-
-//   const handleInputClick = () => {
-//     setShowError(true);
-//   };
-
-//   return (
-//     <div>
-//       <input type="text" onClick={handleInputClick} />
-//       {showError && (
-//         <div style={{ color: "red", fontSize: "14px" }}>
-//           Please enter a valid input.
-//         </div>
-//       )}
-//     </div>
-//   );
-// }
-
-// export default App;

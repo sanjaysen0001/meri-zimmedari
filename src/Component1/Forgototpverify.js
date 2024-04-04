@@ -8,6 +8,7 @@ const Forgototpverify = () => {
   const [count, setCount] = useState(60);
   const [isCountingComplete, setIsCountingComplete] = useState(false);
   const [IsvalidOtp, setIsValidOtp] = useState(false);
+  const [otpMsg, setOtpMsg] = useState("");
   const [otp, setOtp] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
@@ -29,7 +30,11 @@ const Forgototpverify = () => {
       setIsCountingComplete(true);
     }
   }, [count]);
-
+  const handleChange = e => {
+    let value = e.target.value;
+    const newValue = value.replace(/\D/g, "").slice(0, 6);
+    setOtp(Number(newValue));
+  };
   const handleReset = () => {
     if (count > 0) {
       setIsCountingComplete(false);
@@ -56,8 +61,9 @@ const Forgototpverify = () => {
         navigate("/forgot/password");
       })
       .catch(error => {
-        console.log(error);
-        // setIsValidOtp(true);
+        console.log(error.response.data.error);
+        setOtpMsg(error.response.data.error);
+        setIsValidOtp(true);
       });
   };
   return (
@@ -128,9 +134,11 @@ const Forgototpverify = () => {
                           fontSize: "16px",
                         }}
                       >
-                        Invalid OTP
+                        {/* {otpMsg} */}
+                        Enter Valid OTP
                       </span>
                     ) : null}
+
                     <fieldset
                       style={{
                         color: "rgb(82, 114, 161)",
@@ -174,9 +182,10 @@ const Forgototpverify = () => {
                         id="otpNum"
                         name="otpNum"
                         value={otp}
-                        onChange={e => {
-                          setOtp(e.target.value);
-                        }}
+                        onChange={handleChange}
+                        // onChange={e => {
+                        //   setOtp(e.target.value);
+                        // }}
                         onKeyDown={e => {
                           // Allow only digits, backspace, and arrow keys
                           if (
