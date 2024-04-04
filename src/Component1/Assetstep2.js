@@ -158,7 +158,7 @@ const Assetstep2 = () => {
       //   allError.IsnomineeEmailId = false;
       // }
       let share = document.getElementById("percentageofShar").value;
-      console.log(share);
+      // console.log(share);
       if (!Number(share)) {
         allError.IspercentageofShar = true;
         setShareError("Permissible value: 1 to 100 without decimal.");
@@ -180,16 +180,39 @@ const Assetstep2 = () => {
         allError.IsNomineePhoneNumber = false;
       }
     });
-
+    // Check if all keys inside the object are false
+    const allFalse = Object.values(allError).some(value => value === true);
+    console.log(allFalse);
     if (Object.keys(allError)?.length >= 0) {
       if (
         allError.IsnomineeName &&
         allError.IsNomineePhoneNumber &&
-        allError.IspercentageofShar
+        allError.IspercentageofShar &&
+        allError.IsrelationWithNominee
       ) {
+        debugger;
+        console.log(
+          allError.IsnomineeName,
+          allError.IsNomineePhoneNumber,
+          allError.IspercentageofShar,
+          allError.IsrelationWithNominee
+        );
         setPhoneModalNotify(false);
         console.log("testttt");
-      } else {
+      }
+      // else if( allError.IsnomineeName,
+      //     allError.IsNomineePhoneNumber,
+      //     allError.IspercentageofShar,
+      //   allError.IsrelationWithNominee) {
+
+      //     }
+      else if (
+        !allError.IsnomineeName &&
+        !allError.IsNomineePhoneNumber &&
+        !allError.IspercentageofShar &&
+        !allError.IsrelationWithNominee
+      ) {
+        debugger;
         setPhoneModalNotify(true);
         const payload = {
           userId: userId,
@@ -199,10 +222,10 @@ const Assetstep2 = () => {
         if (phoneRemark) {
           setPhoneModalNotify(false);
           axiosConfig
-            .post("/nominee/save-nominee", payload)
+            .post("/nominee/save-nominee11", payload)
             .then(response => {
               console.log(response.data);
-              navigate("/add-asset/step3");
+              // navigate("/add-asset/step3");
             })
             .catch(error => {
               setPhoneModalNotify(false);
@@ -412,11 +435,49 @@ const Assetstep2 = () => {
           </div>
         </div>
 
-        <div className="container-fluid">
+        <div className="container-fluid" id="modalbg">
           {formValues &&
             formValues?.map((ele, index) => (
               <div className="row" key={index}>
                 <div className="container-fluid">
+                  <div className="step2deletbutton" style={{}}>
+                    {index ? (
+                      <>
+                        <fieldset
+                          style={{
+                            color: "rgb(82, 114, 161)",
+                            fontSize: "20px",
+                            fontFamily: "Calibri",
+                            borderTop: "1px solid rgb(114, 158, 216)",
+                          }}
+                        >
+                          <legend
+                            style={{
+                              color: "rgb(82, 114, 161)",
+                              fontSize: "20px",
+                              fontFamily: "Calibri",
+                              width: "auto",
+                            }}
+                            for="exampleInputPassword1"
+                            class="form-label cssforwidth74587"
+                          >
+                            <button
+                              style={{
+                                border: "1px solid rgb(82,114,161)",
+                                borderRadius: "10px",
+                                width: "13rem",
+                                height: "2.5rem",
+                              }}
+                            >
+                              <span className="text-center">
+                                {`${index} Nominee Details`}
+                              </span>
+                            </button>
+                          </legend>
+                        </fieldset>
+                      </>
+                    ) : null}
+                  </div>
                   <div className="row">
                     <div className="col-md-4 col-sm-4 col-lg-4 col-xl-4">
                       <div>
@@ -865,15 +926,14 @@ const Assetstep2 = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="col-md-2 col-sm-2 col-lg-2 col-xl-2"></div>
-                  </div>
-                </div>
-                <div className="container-fluid">
-                  <div class="row">
-                    <div class="col-md-10 col-sm-10 col-lg-10 col-xl-10 col-9"></div>
-                    <div class="col-md-2 col-sm-2 col-lg-2 col-xl-2 col-3">
+                    <div className="col-md-2 col-sm-2 col-lg-2 col-xl-2">
                       <div
-                        style={{ justifyContent: "center", display: "right" }}
+                        className="step2deletbutton"
+                        style={{
+                          justifyContent: "right",
+                          display: "flex",
+                          marginRight: "2rem",
+                        }}
                       >
                         {index ? (
                           <button
@@ -884,6 +944,25 @@ const Assetstep2 = () => {
                           </button>
                         ) : null}
                       </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="container-fluid">
+                  <div class="row">
+                    <div class="col-md-10 col-sm-10 col-lg-10 col-xl-10 col-9"></div>
+                    <div class="col-md-2 col-sm-2 col-lg-2 col-xl-2 col-3">
+                      {/* <div
+                        style={{ justifyContent: "center", display: "right" }}
+                      >
+                        {index ? (
+                          <button
+                            className="btn btn-danger"
+                            onClick={() => removeFormFields(index)}
+                          >
+                            Delete
+                          </button>
+                        ) : null}
+                      </div> */}
                     </div>
                   </div>
                 </div>
