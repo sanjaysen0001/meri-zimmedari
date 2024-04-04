@@ -1116,6 +1116,12 @@ ul.social_icon li a:hover {
   }
 }
 @media screen and (min-width: 1024px) {
+  .cssforwidth74587{
+    margin-left: 40%;
+  }
+  .step2deletbutton{
+    margin-top: 50px;
+  }
   .cssfordesktopviewconfidentialnote{
     bottom:0;
     position:absolute;
@@ -1176,6 +1182,9 @@ ul.social_icon li a:hover {
   cursor: pointer;
 }
 @media only screen and (max-width: 767px) {
+  .cssforwidth74587{
+    margin-left: 20%;
+  }
   .myModal {
     position: absolute;
     /* backdrop-filter: blur(5px); */
@@ -1302,4 +1311,38 @@ ul.social_icon li a:hover {
 
 .numberofpersentagecssedit[type="text"]{
   outline: none;
+}
+
+.buttonnextnominee{
+border: 1px solid #2077BE;
+width: 15rem;
+background-color: white;
+border-radius: 5px;
+padding-top: 8px;
+
+background: transparent;
+}
+.horizontal-line {
+  position: relative;
+  width: 100%;
+  height: 1px;
+  background-color: #2077BE;
+  
+}
+
+.endpoint-dot {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color:  #2077BE;
+  border-radius: 50%;
+  top: -5px;
+}
+
+.left-dot {
+  left: 0;
+}
+
+.right-dot {
+  right: 0;
 }
