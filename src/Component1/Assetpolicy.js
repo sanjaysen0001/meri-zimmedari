@@ -5,12 +5,12 @@ import axiosConfig from "./../axiosConfig";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Mynavbar from "./Mynavbar";
 
-const Assetpolicy = () => {
+const Assetpolicy = props => {
   const fileInputRef = useRef(null);
   let location = useLocation();
   const navigate = useNavigate();
   const [dynamicFields, setdynamicFields] = useState(""); // for fields
-  const [uploadedFileName, setUploadedFileName] = useState(null);
+  const [uploadedFileName, setUploadedFileName] = useState("");
   const [error, setError] = useState(null);
   const [uploadedFile, setUploadedFile] = useState(null);
   const [policyName, setPolicyName] = useState("");
@@ -23,8 +23,11 @@ const Assetpolicy = () => {
     IsreEnterPolicyNumber: false,
     IsBothMatch: false,
   });
-
+  const [fileUrl, setFileUrl] = useState(null);
   useEffect(() => {
+    // console.log("myProps", props);
+    // const message = location.state && location.state.payload;
+    // console.log(message);
     let viewData = JSON.parse(localStorage.getItem("ViewOne"));
     if (location?.state) {
       setdynamicFields(location?.state);
@@ -44,22 +47,34 @@ const Assetpolicy = () => {
     // If there are no errors, submit the form
     if (Object.keys(errors)?.length === 0) {
       let userId = JSON.parse(localStorage.getItem("UserZimmedari"))._id;
-      const formData = new FormData();
-      formData.append("userId", userId);
-      formData.append("file", uploadedFile);
-      formData.append("assetType", dynamicFields.Asset_Type);
-      formData.append("policyIssuersName", policyName);
-      formData.append("policynumber", policyNumber);
-      formData.append("ReEnterPolicyNumber", reEnterPolicyNumber);
+      const assetType = {
+        userId,
+        dynamicFields,
+        uploadedFile,
+        policyNumber,
+        policyName,
+        reEnterPolicyNumber,
+      };
 
-      axiosConfig
-        .post("/asset/save-asset", formData)
-        .then(response => {
-          navigate("/add-asset/step2");
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      localStorage.setItem("assetDetails", JSON.stringify(assetType));
+      navigate("/add-asset/step2");
+      // const formData = new FormData();
+      // formData.append("userId", userId);
+      // formData.append("file", uploadedFile);
+      // formData.append("assetType", dynamicFields.Asset_Type);
+      // formData.append("policyIssuersName", policyName);
+      // formData.append("policynumber", policyNumber);
+      // formData.append("Field_3", dynamicFields?.Field_3);
+      // formData.append("ReEnterPolicyNumber", reEnterPolicyNumber);
+      // axiosConfig
+      //   .post("/asset/save-asset", formData)
+      //   .then(response => {
+      //     setFormError("");
+      //     navigate("/add-asset/step2");
+      //   })
+      //   .catch(error => {
+      //     console.log(error);
+      //   });
     } else {
       // Set form errors
       setFormError(errors);
@@ -72,16 +87,24 @@ const Assetpolicy = () => {
 
   const handleFileChange = event => {
     const file = event.target.files[0];
-    setUploadedFileName(file.name);
+    setUploadedFileName(file?.name || "Name Not Found");
     setUploadedFile(file);
 
-    const selectedFile = event.target.files[0];
-    if (selectedFile && selectedFile.size > 500 * 1024) {
+    if (file && file.size > 500 * 1024) {
       setError("File size exceeds the permissible limit of 500 KB.");
       setUploadedFile(null);
     } else {
       setError(null);
-      setUploadedFile(selectedFile);
+      setUploadedFile(file);
+      if (file) {
+        const fileReader = new FileReader();
+        fileReader.onload = () => {
+          setFileUrl(fileReader.result);
+        };
+        if (file.type.includes("image") || file.type === "application/pdf") {
+          fileReader.readAsDataURL(file);
+        }
+      }
     }
   };
   return (
@@ -245,9 +268,25 @@ const Assetpolicy = () => {
                     onChange={handleFileChange}
                   />
                   <p>Acceptable file - .jpg/.jpeg/.png/pdf</p>
-                  {/* <span style={{ color: "red" }}>*</span> */}
                   {uploadedFileName && <p>Uploaded file: {uploadedFileName}</p>}
                 </span>
+                <div>
+                  {fileUrl &&
+                    (fileUrl.includes("image") ? (
+                      <img
+                        src={fileUrl}
+                        alt="Uploaded Image"
+                        style={{ maxWidth: "50%", maxHeight: "100px" }}
+                      />
+                    ) : (
+                      <embed
+                        src={fileUrl}
+                        type="application/pdf"
+                        width="50%"
+                        height="200px"
+                      />
+                    ))}
+                </div>
               </div>
 
               {error && (

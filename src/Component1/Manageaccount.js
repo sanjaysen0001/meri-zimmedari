@@ -1,37 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import Mynavbar from "./Mynavbar";
 import Modal from "react-bootstrap/Modal";
 import axiosConfig from "../axiosConfig";
-import swal from "sweetalert";
 import Spinner from "react-bootstrap/Spinner";
-// import Button from "react-bootstrap/Button";
-function Savepassword(props) {
-  return (
-    <Modal
-      {...props}
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Modal.Header
-        style={{
-          justifyContent: "right",
-          display: "flex",
-          padding: "0.1rem 0.1rem",
-          border: "none",
-        }}
-      ></Modal.Header>
-      <Modal.Body style={{ textAlign: "center" }}>
-        Password Reset Successfully
-      </Modal.Body>
-    </Modal>
-  );
-}
+import {
+  Savepassword,
+  ErrorModal,
+  Createpassword,
+} from "./ManageAccount/ErrorModal";
+import Mynavbar from "./Mynavbar";
 
 const Manageaccount = () => {
   const [modalShow, setModalShow] = useState(false);
   const [modalShow1, setModalShow1] = useState(false);
+  const [errModal, setErrModal] = useState(false);
 
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -40,14 +22,6 @@ const Manageaccount = () => {
   const [oldPasswordError, setOldPasswordError] = useState("");
   const [newPasswordError, setNewPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
-  const [error, setError] = useState("");
-
-  const [IsPassError, setIsPassError] = useState({
-    isOldPass: false,
-    isNewPass: false,
-    isConfirmPass: false,
-    isBothPass: false,
-  });
 
   const [isError, setIsError] = useState(false);
   const [isLoader, setIsLoader] = useState(false);
@@ -61,7 +35,6 @@ const Manageaccount = () => {
         email: userData.email,
       })
       .then(response => {
-        // console.log(response.status);
         if (response.status == 200) {
           setIsLoader(false);
           setModalShow(true);
@@ -69,8 +42,7 @@ const Manageaccount = () => {
       })
       .catch(error => {
         setIsLoader(false);
-
-        swal("Something Went Wrong");
+        setErrModal(true);
       });
   };
 
@@ -111,9 +83,8 @@ const Manageaccount = () => {
 
     setIsError(false);
     axiosConfig
-      .post("/user/save-password1", payload)
+      .post("/user/save-password", payload)
       .then(response => {
-        console.log(response.data.message);
         setModalShow1(true);
 
         setOldPassword("");
@@ -121,48 +92,16 @@ const Manageaccount = () => {
         setConfirmPassword("");
       })
       .catch(error => {
-        // setModalShow1(true);
+        setErrModal(true);
         // swal("Something Went Wrong");
       });
   };
-  function Createpassword(props) {
-    // console.log(props);
-    return (
-      <>
-        <Modal
-          {...props}
-          size="lg"
-          aria-labelledby="contained-modal-title-vcenter"
-          centered
-        >
-          <Modal.Header
-            style={{
-              justifyContent: "right",
-              display: "flex",
-              padding: "0.1rem 0.1rem",
-              border: "none",
-            }}
-          ></Modal.Header>
-          <Modal.Body style={{ textAlign: "center" }}>
-            {/* {savePass ? (
-              "Password Reset Successfully"
-            ) : (
-              <> */}
-            New password sent to
-            <span className="p-1">
-              {JSON.parse(localStorage.getItem("UserZimmedari")).email}
-            </span>
-            {/* </>
-            )} */}
-          </Modal.Body>
-        </Modal>
-      </>
-    );
-  }
+
   return (
     <>
       <Mynavbar />
       <Savepassword show={modalShow1} onHide={() => setModalShow1(false)} />
+      <ErrorModal show={errModal} onHide={() => setErrModal(false)} />
       <Createpassword show={modalShow} onHide={() => setModalShow(false)} />
       <div>
         <p
