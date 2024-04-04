@@ -5,7 +5,7 @@ import Modal from "react-bootstrap/Modal";
 import axiosConfig from "../axiosConfig";
 import swal from "sweetalert";
 import Spinner from "react-bootstrap/Spinner";
-import Button from "react-bootstrap/Button";
+// import Button from "react-bootstrap/Button";
 function Savepassword(props) {
   return (
     <Modal
@@ -56,7 +56,6 @@ const Manageaccount = () => {
     let userData = JSON.parse(localStorage.getItem("UserZimmedari"));
 
     setIsLoader(true);
-    setModalShow(true);
     axiosConfig
       .post("/user/generate-password", {
         email: userData.email,
@@ -111,20 +110,19 @@ const Manageaccount = () => {
     };
 
     setIsError(false);
-    setModalShow1(true);
     axiosConfig
-      .post("/user/save-password", payload)
+      .post("/user/save-password1", payload)
       .then(response => {
         console.log(response.data.message);
         setModalShow1(true);
-        // setSavePass(true);
 
         setOldPassword("");
         setNewPassword("");
         setConfirmPassword("");
       })
       .catch(error => {
-        swal("Something Went Wrong");
+        // setModalShow1(true);
+        // swal("Something Went Wrong");
       });
   };
   function Createpassword(props) {

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import imagelogo from "../image/logo.png";
+// import imagelogo from "../image/logo.png";
 import { Link } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import NavBar from "./NavBar";
@@ -7,8 +7,6 @@ import axiosConfig from "../axiosConfig";
 import Footer from "./Footer";
 
 function Passwordsucced(props) {
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   return (
     <Modal
       {...props}
@@ -39,7 +37,12 @@ const Forgotpassword = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [newPasswordError, setNewPasswordError] = useState("");
+  const [message, setMessage] = useState("");
+  const [messageColor, setMessageColor] = useState("gray");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  const [messageClass, setMessageClass] = useState(
+    "Password must contain a combination of at least 8 characters, including lowercase letters, uppercase letters, numbers and special symbols"
+  );
   const validatePassword = password => {
     // Regular expression to match the password requirements
     const regex =
@@ -53,12 +56,25 @@ const Forgotpassword = () => {
     setNewPasswordError("");
     setConfirmPasswordError("");
     // console.log(password, confirmPassword);
+
     if (!validatePassword(password)) {
-      setNewPasswordError(
-        "Password must contain a combination of at least 8 characters, including lowercase letters, uppercase letters, numbers and special symbols"
+      showMessage(
+        "Password must contain a combination of at least 8 characters, including lowercase letters, uppercase letters, numbers and special symbols",
+        "red"
       );
+      // setNewPasswordError(
+      //   "Password must contain a combination of at least 8 characters, including lowercase letters, uppercase letters, numbers and special symbols"
+      // );
       return;
+    } else if (validatePassword(password)) {
+      showMessage("This is strong Password", "green");
+    } else {
+      showMessage(
+        "Password must contain a combination of at least 8 characters, including lowercase letters, uppercase letters, numbers and special symbols",
+        "gray"
+      );
     }
+
     // Validation for confirm password
     if (password !== confirmPassword) {
       setConfirmPasswordError("Value Mismatch");
@@ -81,6 +97,10 @@ const Forgotpassword = () => {
       });
     setPassword("");
     setConfirmPassword("");
+  };
+  const showMessage = (messageText, color) => {
+    setMessage(messageText);
+    setMessageColor(color);
   };
   return (
     <>
@@ -168,9 +188,7 @@ const Forgotpassword = () => {
                         required
                       />
                     </fieldset>
-                    {newPasswordError && (
-                      <p style={{ color: "red" }}>{newPasswordError}</p>
-                    )}
+
                     <fieldset
                       className="mt-4"
                       style={{
@@ -214,17 +232,21 @@ const Forgotpassword = () => {
                         required
                       />
                     </fieldset>
-                    {confirmPasswordError && (
-                      <span style={{ color: "red" }}>
-                        {confirmPasswordError}
-                      </span>
+                    {newPasswordError && (
+                      <p style={{ color: "red" }}>{newPasswordError}</p>
                     )}
-                    {/* <div className="mt-1">
-                      <span style={{ fontSize: "13px" }}>
-                        Password required must be minimum 8 word, capital case,
-                        small case, special character, number
-                      </span>
-                    </div> */}
+                    <span className="" style={{ color: messageColor }}>
+                      {messageClass}
+                    </span>
+
+                    <div>
+                      {confirmPasswordError && (
+                        <span style={{ color: "red", fontSize: "12px" }}>
+                          {confirmPasswordError}
+                        </span>
+                      )}
+                    </div>
+
                     <div className="mt-3">
                       <button
                         onClick={handleSubmit}

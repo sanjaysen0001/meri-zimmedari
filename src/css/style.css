@@ -138,6 +138,9 @@ form.example::after {
   .cssforfontsizeinheading {
     font-size: 20px;
   }
+  .step2deletbutton {
+    margin-top: 50px;
+  }
 }
 
 /* dgjhasgdjhga */
@@ -1116,21 +1119,15 @@ ul.social_icon li a:hover {
   }
 }
 @media screen and (min-width: 1024px) {
-  .cssforwidth74587{
-    margin-left: 40%;
-  }
-  .step2deletbutton{
-    margin-top: 50px;
-  }
-  .cssfordesktopviewconfidentialnote{
-    bottom:0;
-    position:absolute;
+  .cssfordesktopviewconfidentialnote {
+    bottom: 0;
+    position: absolute;
   }
   .myModal {
     position: absolute;
     /* backdrop-filter: blur(5px); */
     left: 496px;
-    
+
     z-index: 9999;
     background: blur;
   }
@@ -1138,11 +1135,11 @@ ul.social_icon li a:hover {
     position: absolute;
     /* backdrop-filter: blur(5px); */
     left: 496px;
-    
+
     z-index: 9999;
     background: blur;
   }
-  
+
   .cssforborderadjustforalldevice {
     height: 100%;
     border-left: 2px solid orange;
@@ -1163,6 +1160,9 @@ ul.social_icon li a:hover {
   .classformargininmyprofilepage {
     margin-top: 35px;
   }
+  .cssforwidth74587 {
+    margin-left: 40%;
+  }
 }
 
 .icon-container:hover .icon-name {
@@ -1182,9 +1182,6 @@ ul.social_icon li a:hover {
   cursor: pointer;
 }
 @media only screen and (max-width: 767px) {
-  .cssforwidth74587{
-    margin-left: 20%;
-  }
   .myModal {
     position: absolute;
     /* backdrop-filter: blur(5px); */
@@ -1197,7 +1194,7 @@ ul.social_icon li a:hover {
     position: absolute;
     /* backdrop-filter: blur(5px); */
     left: 0px;
-    
+
     z-index: 9999;
     background: blur;
   }
@@ -1209,6 +1206,9 @@ ul.social_icon li a:hover {
   }
   .sdasdfadfdfsdffsdfsdf {
     margin-top: 8px;
+  }
+  .cssforwidth74587 {
+    margin-left: 20%;
   }
 }
 .cssforboxdesigninotpcenter {
@@ -1309,32 +1309,32 @@ ul.social_icon li a:hover {
   width: 20px;
 }
 
-.numberofpersentagecssedit[type="text"]{
+.numberofpersentagecssedit[type="text"] {
   outline: none;
 }
+.buttonnextnominee {
+  position: absolute;
+  top: 80%;
+  border: 1px solid #2077be;
+  width: 15rem;
+  background: white;
+  border-radius: 5px;
+  padding-top: 8px;
 
-.buttonnextnominee{
-border: 1px solid #2077BE;
-width: 15rem;
-background-color: white;
-border-radius: 5px;
-padding-top: 8px;
-
-background: transparent;
+  /* background: transparent; */
 }
 .horizontal-line {
   position: relative;
   width: 100%;
   height: 1px;
-  background-color: #2077BE;
-  
+  background-color: #2077be;
 }
 
 .endpoint-dot {
   position: absolute;
   width: 10px;
   height: 10px;
-  background-color:  #2077BE;
+  background-color: #2077be;
   border-radius: 50%;
   top: -5px;
 }
