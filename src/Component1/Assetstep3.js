@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../css/style.css";
 import React, { useState, useEffect } from "react";
 
@@ -10,29 +10,53 @@ import axiosConfig from "./../axiosConfig";
 const Assetstep3 = () => {
   const [AssetData, setAssetData] = useState({});
   const [nomineeData, setNomineeData] = useState([{}]);
+  const navigate = useNavigate();
   useEffect(() => {
-    axiosConfig
-      .get("/asset/view-asset")
-      .then(res => {
-        let arr = res.data.Asset;
-        let newArray = arr[arr.length - 1];
-        setAssetData(newArray);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    let assetDetails = JSON.parse(localStorage.getItem("assetDetails"));
+    let nomineeDetails = JSON.parse(localStorage.getItem("nomineeDetails"));
+    setNomineeData(nomineeDetails);
 
-    axiosConfig
-      .get("/nominee/view-nominee")
-      .then(response => {
-        let nomineeList = response.data?.Nominee;
-        let nomineeArr = nomineeList[nomineeList.length - 1];
-        setNomineeData(nomineeArr.nominee);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    setAssetData(assetDetails);
+    console.log(assetDetails);
+    console.log(nomineeDetails);
+    // axiosConfig
+    //   .get("/asset/view-asset")
+    //   .then(res => {
+    //     let arr = res.data.Asset;
+    //     let newArray = arr[arr.length - 1];
+    //     setAssetData(newArray);
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
+    // axiosConfig
+    //   .get("/nominee/view-nominee")
+    //   .then(response => {
+    //     let nomineeList = response.data?.Nominee;
+    //     let nomineeArr = nomineeList[nomineeList.length - 1];
+    //     setNomineeData(nomineeArr.nominee);
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
   }, []);
+
+  const handleAllFormEdit = () => {
+    navigate("/add-asset/policy");
+  };
+  const handleSubmit = () => {
+    navigate("/add-asset/setp3/confirm");
+    // axiosConfig
+    //   .get("/nominee/view-nominee")
+    //   .then(response => {
+    //     let nomineeList = response.data?.Nominee;
+    //     let nomineeArr = nomineeList[nomineeList.length - 1];
+    //     setNomineeData(nomineeArr.nominee);
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
+  };
 
   return (
     <>
@@ -221,8 +245,7 @@ const Assetstep3 = () => {
                     className="text-center"
                     style={{ border: "2px solid rgb(201, 198, 198)" }}
                   >
-                    {AssetData.assetType}
-                    {/* Term Insurance Policy */}
+                    {AssetData?.dynamicFields?.Asset_Type}
                   </td>
                 </tr>
 
@@ -233,16 +256,14 @@ const Assetstep3 = () => {
                     style={{ border: "2px solid rgb(201, 198, 198)" }}
                     colspan="2"
                   >
-                    Policy Insurer Name
+                    {AssetData.dynamicFields?.Field_2}
                   </th>
                   <td
                     colspan="3"
                     className="text-center"
                     style={{ border: "2px solid rgb(201, 198, 198)" }}
                   >
-                    {AssetData.policyIssuersName}
-
-                    {/* Bajaj Allianze */}
+                    Bajaj Allianze111
                   </td>
                 </tr>
                 <tr>
@@ -252,15 +273,14 @@ const Assetstep3 = () => {
                     style={{ border: "2px solid rgb(201, 198, 198)" }}
                     colspan="2"
                   >
-                    Policy Number
+                    {AssetData.dynamicFields?.Field_3}
                   </th>
                   <td
                     colspan="3"
                     className="text-center"
                     style={{ border: "2px solid rgb(201, 198, 198)" }}
                   >
-                    {AssetData.policynumber}
-                    {/* 0.101012334 */}
+                    {AssetData.policyNumber}
                   </td>
                 </tr>
                 <tr>
@@ -270,7 +290,7 @@ const Assetstep3 = () => {
                     style={{ border: "2px solid rgb(201, 198, 198)" }}
                     colspan="2"
                   >
-                    Policy Document
+                    {AssetData.dynamicFields?.Field_1}
                   </th>
                   <td
                     colspan="3"
@@ -278,12 +298,12 @@ const Assetstep3 = () => {
                     style={{ border: "2px solid rgb(201, 198, 198)" }}
                   >
                     {/* Policy212414242 */}
-                    <embed
-                      src={AssetData.uploadPolicy}
+                    {/* <embed
+                      src={AssetData.uploadedFile}
                       type="application/pdf"
                       width="50%"
                       height="100px"
-                    />
+                    /> */}
                   </td>
                 </tr>
               </tbody>
@@ -494,6 +514,7 @@ const Assetstep3 = () => {
                 fill="currentColor"
                 class="bi bi-pencil-square hoverable-image"
                 viewBox="0 0 16 16"
+                onClick={handleAllFormEdit}
               >
                 <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                 <path
@@ -505,29 +526,30 @@ const Assetstep3 = () => {
                 Edit
               </span>
             </span>
-            <Link to={"/add-asset/setp3/confirm"}>
-              <span className="icon-container">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  style={{ cursor: "pointer" }}
-                  color="rgb(43, 77, 129)"
-                  width="40"
-                  height="40"
-                  fill="currentColor"
-                  class="bi bi-file-earmark-text hoverable-image"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5" />
-                  <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" />
-                </svg>
-                <span
-                  className="icon-name"
-                  style={{ marginLeft: "4.5%", marginTop: "2px" }}
-                >
-                  Save
-                </span>
+            {/* <Link to={"/add-asset/setp3/confirm"}> */}
+            <span className="icon-container">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                style={{ cursor: "pointer" }}
+                color="rgb(43, 77, 129)"
+                width="40"
+                height="40"
+                fill="currentColor"
+                class="bi bi-file-earmark-text hoverable-image"
+                viewBox="0 0 16 16"
+                onClick={handleSubmit}
+              >
+                <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5" />
+                <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" />
+              </svg>
+              <span
+                className="icon-name"
+                style={{ marginLeft: "4.5%", marginTop: "2px" }}
+              >
+                Save
               </span>
-            </Link>
+            </span>
+            {/* </Link> */}
           </div>
         </div>
       </div>

@@ -12,7 +12,7 @@ import PhoneOtp from "./nominee/phoneOtp";
 import PhoneBox from "./nominee/PhoneBox";
 
 const Assetstep2 = () => {
-  const [emailError, setEmailError] = useState("");
+  // const [emailError, setEmailError] = useState("");
   const [formValues, setFormValues] = useState([
     {
       nomineeName: "",
@@ -190,23 +190,8 @@ const Assetstep2 = () => {
         allError.IspercentageofShar &&
         allError.IsrelationWithNominee
       ) {
-        debugger;
-        console.log(
-          allError.IsnomineeName,
-          allError.IsNomineePhoneNumber,
-          allError.IspercentageofShar,
-          allError.IsrelationWithNominee
-        );
         setPhoneModalNotify(false);
-        console.log("testttt");
-      }
-      // else if( allError.IsnomineeName,
-      //     allError.IsNomineePhoneNumber,
-      //     allError.IspercentageofShar,
-      //   allError.IsrelationWithNominee) {
-
-      //     }
-      else if (
+      } else if (
         !allError.IsnomineeName &&
         !allError.IsNomineePhoneNumber &&
         !allError.IspercentageofShar &&
@@ -214,23 +199,25 @@ const Assetstep2 = () => {
       ) {
         debugger;
         setPhoneModalNotify(true);
-        const payload = {
-          userId: userId,
-          nominee: formValues,
-        };
+        // const payload = {
+        //   userId: userId,
+        //   nominee: formValues,
+        // };
 
         if (phoneRemark) {
           setPhoneModalNotify(false);
-          axiosConfig
-            .post("/nominee/save-nominee11", payload)
-            .then(response => {
-              console.log(response.data);
-              // navigate("/add-asset/step3");
-            })
-            .catch(error => {
-              setPhoneModalNotify(false);
-              console.error(error);
-            });
+          localStorage.setItem("nomineeDetails", JSON.stringify(formValues));
+          navigate("/add-asset/step3");
+          // axiosConfig
+          //   .post("/nominee/save-nominee", payload)
+          //   .then(response => {
+          //     console.log(response.data);
+          //     // navigate("/add-asset/step3");
+          //   })
+          //   .catch(error => {
+          //     setPhoneModalNotify(false);
+          //     console.error(error);
+          //   });
         }
       }
       setFormError(allError);
