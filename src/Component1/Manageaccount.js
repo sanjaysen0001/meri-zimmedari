@@ -9,8 +9,14 @@ import {
   Createpassword,
 } from "./ManageAccount/ErrorModal";
 import Mynavbar from "./Mynavbar";
+import { Button } from "react-bootstrap";
+
 
 const Manageaccount = () => {
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   const [modalShow, setModalShow] = useState(false);
   const [modalShow1, setModalShow1] = useState(false);
   const [errModal, setErrModal] = useState(false);
@@ -100,6 +106,29 @@ const Manageaccount = () => {
   return (
     <>
       <Mynavbar />
+      <div>
+     
+      <Modal show={show} >
+        <Modal.Header >
+          <Modal.Title>
+          <span >Delete Account</span>
+          
+          </Modal.Title>
+          <span style={{textAlign:'right',cursor:'pointer'}} onClick={handleClose}><svg xmlns="http://www.w3.org/2000/svg"  color="red" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+          <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+        </svg></span>
+        </Modal.Header>
+        <Modal.Body className="text-center">Are you sure to permanently delete the account?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="danger" onClick={handleClose}>
+            Yes
+          </Button>
+          <Button variant="secondary" onClick={handleClose}>
+           No
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      </div>
       <Savepassword show={modalShow1} onHide={() => setModalShow1(false)} />
       <ErrorModal show={errModal} onHide={() => setErrModal(false)} />
       <Createpassword show={modalShow} onHide={() => setModalShow(false)} />
@@ -187,13 +216,14 @@ const Manageaccount = () => {
                       fontSize: "16px",
                       fontFamily: "Calibri",
                       marginLeft: "15px",
-                      width: "7rem",
+                      width: "auto",
                       paddingLeft: "5px",
                     }}
                     for="exampleInputPassword1"
                     class="form-label"
                   >
                     Old Password
+                    <span style={{color:'red'}}> *</span>
                   </legend>
                   <input
                     type="password"
@@ -234,13 +264,14 @@ const Manageaccount = () => {
                       fontSize: "16px",
                       fontFamily: "Calibri",
                       marginLeft: "15px",
-                      width: "7rem",
+                      width: "auto",
                       paddingLeft: "5px",
                     }}
                     for="exampleInputPassword1"
                     class="form-label"
                   >
                     New Password
+                    <span style={{color:'red'}}> *</span>
                   </legend>
                   <input
                     type="password"
@@ -280,13 +311,14 @@ const Manageaccount = () => {
                       fontSize: "16px",
                       fontFamily: "Calibri",
                       marginLeft: "15px",
-                      width: "9rem",
+                      width: "auto",
                       paddingLeft: "5px",
                     }}
                     for="exampleInputPassword1"
                     class="form-label"
                   >
                     Confirm Password
+                    <span style={{color:'red'}}> *</span>
                   </legend>
                   <input
                     type="password"
@@ -409,6 +441,7 @@ const Manageaccount = () => {
                 style={{ justifyContent: "center", display: "flex" }}
               >
                 <button
+                onClick={handleShow}
                   style={{
                     width: "80%",
                     fontSize: "24px",
