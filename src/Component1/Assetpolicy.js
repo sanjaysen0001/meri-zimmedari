@@ -25,9 +25,14 @@ const Assetpolicy = props => {
   });
   const [fileUrl, setFileUrl] = useState(null);
   useEffect(() => {
-    // console.log("myProps", props);
-    // const message = location.state && location.state.payload;
-    // console.log(message);
+    let assetAllData = JSON.parse(localStorage.getItem("assetDetails"));
+    let asset = localStorage.getItem("assetDetails");
+    if (asset) {
+      setPolicyName(assetAllData?.policyName);
+      setPolicyNumber(assetAllData.policyNumber);
+      setReEnterPolicyNumber(assetAllData.reEnterPolicyNumber);
+    }
+
     let viewData = JSON.parse(localStorage.getItem("ViewOne"));
     if (location?.state) {
       setdynamicFields(location?.state);
@@ -334,6 +339,7 @@ const Assetpolicy = props => {
                     <input
                       required
                       type="text"
+                      value={policyName}
                       style={{
                         border: "none",
                         width: "100%",
@@ -392,6 +398,7 @@ const Assetpolicy = props => {
                     type="password"
                     required
                     placeholder="XXXXXX"
+                    value={policyNumber}
                     style={{
                       border: "none",
                       paddingLeft: "15px",
@@ -470,6 +477,7 @@ const Assetpolicy = props => {
                         outline: "none",
                       }}
                       placeholder="1234567890101023"
+                      value={reEnterPolicyNumber}
                       id="reEnterPolicyNumber"
                       onChange={e => setReEnterPolicyNumber(e.target.value)}
                       name="reEnterPolicyNumber"
