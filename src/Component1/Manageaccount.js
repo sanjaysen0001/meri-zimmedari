@@ -213,7 +213,7 @@ const Manageaccount = () => {
                   />
                 </fieldset>
                 {oldPasswordError && (
-                  <p style={{ color: "red" }}>{oldPasswordError}</p>
+                  <p style={{ color: "red" }}     className="validationmobilefont">{oldPasswordError}</p>
                 )}
               </div>
               <div className="col-md-4  col-xl-4 xol-lg-4">
@@ -259,7 +259,7 @@ const Manageaccount = () => {
                   />
                 </fieldset>
                 {newPasswordError && (
-                  <p style={{ color: "red" }}>{newPasswordError}</p>
+                  <p style={{ color: "red" }}  className="validationmobilefont">{newPasswordError}</p>
                 )}
               </div>
               <div className="col-md-4  col-xl-4 xol-lg-4">
@@ -305,7 +305,7 @@ const Manageaccount = () => {
                   />
                 </fieldset>
                 {confirmPasswordError && (
-                  <span style={{ color: "red" }}>{confirmPasswordError}</span>
+                  <span style={{ color: "red" }}  className="validationmobilefont">{confirmPasswordError}</span>
                 )}
               </div>
             </div>
@@ -313,9 +313,34 @@ const Manageaccount = () => {
               className="row mt-4 "
               style={{ marginLeft: "1rem", marginRight: "1rem" }}
             >
+            <div className="col-md-4 col-xl-4 col-lg-4"></div>
+            <div className="col-md-4 col-xl-4 col-lg-4"></div>
+            {isLoader ? (
+              <Spinner
+                animation="border"
+                role="status"
+                style={{ marginLeft: "85px" }}
+              ></Spinner>
+            ) : (
+              <div className="col-md-4 col-xl-4 col-lg-4">
+                <div style={{ textAlign: "center" }}>
+                  <Link
+                    onClick={handleGeneratePassword}
+                    style={{
+                      color: "rgb(82, 114, 161)",
+                      fontSize: "22px",
+                      textDecoration: "underline",
+                    }}
+                  >
+                    Generate Random Password
+                  </Link>
+                </div>
+              </div>
+            )}
+
               <div className="col-md-4 col-xl-4 col-lg-4"></div>
               <div
-                className="col-md-4 col-xl-4 col-lg-4"
+                className="col-md-4 col-xl-4 col-lg-4 cssforsavepasswordtoppadding"
                 style={{ justifyContent: "center", display: "flex" }}
               >
                 <button
@@ -334,28 +359,7 @@ const Manageaccount = () => {
                   Save Password
                 </button>
               </div>
-              {isLoader ? (
-                <Spinner
-                  animation="border"
-                  role="status"
-                  style={{ marginLeft: "85px" }}
-                ></Spinner>
-              ) : (
-                <div className="col-md-4 col-xl-4 col-lg-4">
-                  <div style={{ textAlign: "center" }}>
-                    <Link
-                      onClick={handleGeneratePassword}
-                      style={{
-                        color: "rgb(82, 114, 161)",
-                        fontSize: "22px",
-                        textDecoration: "underline",
-                      }}
-                    >
-                      Generate Random Password
-                    </Link>
-                  </div>
-                </div>
-              )}
+              <div className="col-md-4 col-xl-4 col-lg-4"></div>
             </div>
           </fieldset>
         </div>
