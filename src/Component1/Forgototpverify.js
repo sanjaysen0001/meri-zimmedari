@@ -128,10 +128,11 @@ const Forgototpverify = () => {
                   <form>
                     {IsvalidOtp ? (
                       <span
+                      className="validationmobilefont"
                         style={{
                           color: "red",
                           padding: "2px",
-                          fontSize: "16px",
+                         
                         }}
                       >
                         {/* {otpMsg} */}
