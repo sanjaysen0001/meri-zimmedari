@@ -132,6 +132,9 @@ form.example::after {
   display: table;
 }
 @media screen and (min-width: 1024px) {
+  .cssforsavepasswordtoppadding{
+    margin-top:-30px
+  }
   .sdasdfadfdfsdffsdfsdf {
     padding: 0.5rem 1rem;
   }

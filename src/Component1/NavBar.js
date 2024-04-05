@@ -77,8 +77,8 @@ export default function NavBar() {
                 <li class="nav-item">
                   <a
                     class="nav-link"
-                    href="https://user.merizimmedari.com"
-                    target="_blank"
+                    href="https://user.merizimmedari.com/#/registration"
+                    
                   >
                     {" "}
                     sign-in<span style={{ fontSize: "22px" }}>/</span>

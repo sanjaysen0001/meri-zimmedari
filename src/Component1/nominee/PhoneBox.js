@@ -48,7 +48,7 @@ const PhoneBox = ({
     setPhoneRemark(true);
   };
   const handleOtpVerifyLater = () => {
-    setPhoneRemark(false);
+    setPhoneRemark(true);
     setModalSendOtp(false);
     setPhoneModalNotify(false);
   };
