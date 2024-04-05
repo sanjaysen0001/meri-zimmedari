@@ -120,11 +120,11 @@ const Loginwithpassword = () => {
                 <div className="mt-3">
                   <form onSubmit={handleFormSubmit}>
                     {isInvalid && (
-                      <span
+                      <span className="validationmobilefont"
                         style={{
                           color: "red",
                           padding: "2px",
-                          fontSize: "16px",
+                         
                         }}
                       >
                         {isInvalid}

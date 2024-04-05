@@ -518,10 +518,11 @@ const Assetstep2 = () => {
                             </fieldset>
                             {formError.IsnomineeName && (
                               <p
+                              className="validationmobilefont"
                                 style={{
                                   color: "red",
                                   padding: "5px",
-                                  fontSize: "16px",
+                                 
                                   marginTop: "13px",
                                 }}
                               >
@@ -598,10 +599,11 @@ const Assetstep2 = () => {
                             </fieldset>
                             {formError.IsrelationWithNominee && (
                               <p
+                              className="validationmobilefont"
                                 style={{
                                   color: "red",
                                   padding: "5px",
-                                  fontSize: "16px",
+                                 
                                   marginTop: "13px",
                                 }}
                               >
@@ -676,10 +678,11 @@ const Assetstep2 = () => {
 
                             {formError.IspercentageofShar && (
                               <p
+                              className="validationmobilefont"
                                 style={{
                                   color: "red",
                                   padding: "5px",
-                                  fontSize: "16px",
+                                 
                                   marginTop: "13px",
                                 }}
                               >
@@ -786,10 +789,11 @@ const Assetstep2 = () => {
                                 </div>
                                 {formError.IsNomineePhoneNumber && (
                                   <p
+                                  className="validationmobilefont"
                                     style={{
                                       color: "red",
                                       padding: "5px",
-                                      fontSize: "16px",
+                                  
                                       marginTop: "13px",
                                       marginLeft: "13px",
                                     }}

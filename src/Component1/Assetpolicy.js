@@ -354,16 +354,17 @@ const Assetpolicy = props => {
                     />
                   </fieldset>
                   {formError.IspolicyName && (
-                    <p
+                    <div
+                    className="validationmobilefont"
                       style={{
                         color: "red",
                         padding: "5px",
-                        fontSize: "16px",
+                       
                         marginTop: "3px",
                       }}
                     >
                       * indicates required field
-                    </p>
+                    </div>
                   )}
                 </div>
               </div>
@@ -414,10 +415,11 @@ const Assetpolicy = props => {
                 </fieldset>
                 {formError.IspolicyNumber && (
                   <p
+                  className="validationmobilefont"
                     style={{
                       color: "red",
                       padding: "5px",
-                      fontSize: "16px",
+                    
                       marginTop: "3px",
                     }}
                   >
@@ -485,10 +487,11 @@ const Assetpolicy = props => {
                   </fieldset>
                   {formError.IsreEnterPolicyNumber && (
                     <p
-                      style={{
+                    className="validationmobilefont"
+                       style={{
                         color: "red",
                         padding: "5px",
-                        fontSize: "16px",
+                       
                         marginTop: "13px",
                       }}
                     >

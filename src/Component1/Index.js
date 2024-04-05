@@ -263,9 +263,12 @@ const Index = () => {
                       </div>
                     </div>
                     <div className="col-md-8 col-xl-8 col-lg-8 col-12 col-sm-8">
+                    <div style={{overflow:'auto',height:'9rem'}}>
+                    
+                    
                       <div
                         style={{
-                          fontSize: "18px",
+                          fontSize: "17px",
                           fontWeight: "400",
                           color: "rgb(43, 77, 129)",
                           height: "3rem",
@@ -278,7 +281,7 @@ const Index = () => {
                       </div>
                       <div
                         style={{
-                          fontSize: "18px",
+                          fontSize: "17px",
                           fontWeight: "400",
                           color: "rgb(43, 77, 129)",
                           height: "3rem",
@@ -292,7 +295,7 @@ const Index = () => {
                       <div
                         className="cssforborderradiusmobileveiw"
                         style={{
-                          fontSize: "18px",
+                          fontSize: "17px",
                           fontWeight: "400",
                           color: "rgb(43, 77, 129)",
                           height: "3rem",
@@ -303,6 +306,7 @@ const Index = () => {
                       >
                         Validate Nominee e-mail ID
                       </div>
+                    </div>
                     </div>
                   </div>
                 </div>

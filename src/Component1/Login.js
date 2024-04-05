@@ -429,13 +429,13 @@ const Login = () => {
                         value={phone}
                         onChange={handleChange}
                       />
-
+ 
                       {isError && (
-                        <p
+                        <p className="validationmobilefont"
                           style={{
                             color: "red",
                             padding: "5px",
-                            fontSize: "16px",
+                            
                             marginTop: "13px",
                           }}
                         >

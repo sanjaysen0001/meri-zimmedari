@@ -546,7 +546,7 @@ const Register = args => {
                       >
                         <span style={{ color: "black" }}>I agree to the</span>
                         <span style={{ marginLeft: "3px" }}>
-                          <Link to={"/termsConditions"}>
+                          <Link to={"https://merizimmedari.com/termsandcondition.html"}>
                             Terms & conditions
                           </Link>
                         </span>
@@ -555,7 +555,7 @@ const Register = args => {
                         </span>
 
                         <span style={{ marginLeft: "3px" }}>
-                          <Link to={""}>Privacy Policy</Link>
+                          <Link to={"https://merizimmedari.com/PrivacyPolicy.html"}>Privacy Policy</Link>
                         </span>
                       </label>
                     </div>

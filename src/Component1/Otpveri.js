@@ -131,10 +131,11 @@ const Otpveri = () => {
                   <form>
                     {IsvalidOtp ? (
                       <span
+                      className="validationmobilefont"
                         style={{
                           color: "red",
                           padding: "2px",
-                          fontSize: "16px",
+                        
                         }}
                       >
                         Invalid OTP
