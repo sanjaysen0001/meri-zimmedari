@@ -12,7 +12,6 @@ const Icons = () => {
     axiosConfig
       .get("/admin/get-list")
       .then(response => {
-        // console.log(response.data.Field)
         setResult(response.data.Field);
       })
       .catch(error => {
@@ -60,6 +59,7 @@ const Icons = () => {
     console.log(num);
   };
   const handlePlus = selectedData => {
+    console.log(selectedData);
     localStorage.setItem("ViewOne", JSON.stringify(selectedData));
     navigate("/add-asset/policy", { state: selectedData });
   };
@@ -102,7 +102,6 @@ const Icons = () => {
               placeholder="Search.."
               name="search"
               onChange={handleSearch}
-              // onSearch={handleSearch}
             />
             <button type="submit" className="icon-container">
               <svg
@@ -249,7 +248,6 @@ const Icons = () => {
                             </span>
                           </span>
                           <span className="icon-container cssfordesktopviewforicon">
-                            {/* <Link to={"/add-asset/policy"}> */}
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               width="30"
@@ -296,7 +294,6 @@ const Icons = () => {
                             >
                               Add
                             </span>
-                            {/* </Link> */}
                           </span>
                         </div>
                       </td>
@@ -674,7 +671,6 @@ const Icons = () => {
               </p>
             </Link>
           </div>
-          
         </div>
       </div>
     </>

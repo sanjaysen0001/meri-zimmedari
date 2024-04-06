@@ -20,8 +20,8 @@ const Assetstep3 = () => {
     if (assetDetails) {
       setAssetData(assetDetails);
     }
-
-    console.log(AssetData);
+    // setNomineeData([]);
+    // console.log(AssetData);
     // console.log(nomineeDetails);
   }, []);
 

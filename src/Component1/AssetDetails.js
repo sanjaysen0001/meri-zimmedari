@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import Mynavbar from "./Mynavbar";
 import { NomineesDetails } from "./assetDetail/NomineesDetails";
 import axiosConfig from "./../axiosConfig";
@@ -8,7 +8,9 @@ const AssetDetails = () => {
   const [modalShow, setModalShow] = useState(false);
   const [assetList, setAssetList] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation();
   useEffect(() => {
+    console.log(location);
     AllAssetList();
   }, [assetList]);
 

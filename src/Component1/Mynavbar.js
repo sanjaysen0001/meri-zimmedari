@@ -134,6 +134,7 @@ const Mynavbar = () => {
                 <Nav.Link className="cssfornavbarpadding">
                   <span>
                     <Link
+                      to="/"
                       className="Logout"
                       style={{ textDecoration: "none", hover: "red" }}
                       onClick={handleLogOut}
