@@ -24,7 +24,7 @@ const Index = () => {
             color: "rgb(43, 77, 129)",
             fontWeight: "400",
             backgroundImage:
-              "linear-gradient(to right, rgb(194, 215, 233) , rgb(229, 234, 238))",
+              "linear-gradient(to right, rgb(174, 191, 207) , rgb(229, 234, 238))",
           }}
         >
           <span className="ml-3">Dashboard </span>
@@ -54,7 +54,7 @@ const Index = () => {
                         color: "rgb(43, 77, 129)",
                         padding: "10px",
                         backgroundImage:
-                          "linear-gradient(to right, rgb(194, 215, 233) , rgb(230, 200, 105))",
+                          "linear-gradient(to right, rgb(174, 191, 207) , rgb(243, 227, 175))",
                       }}
                     >
                       ASSET ADDED
@@ -101,7 +101,7 @@ const Index = () => {
                         color: "rgb(43, 77, 129)",
                         padding: "10px",
                         backgroundImage:
-                          "linear-gradient(to right, rgb(194, 215, 233) , rgb(230, 200, 105))",
+                        "linear-gradient(to right, rgb(174, 191, 207) , rgb(243, 227, 175))",
                       }}
                     >
                       HEALTH DECLERATION STATUS
@@ -173,7 +173,7 @@ const Index = () => {
                         color: "rgb(43, 77, 129)",
                         padding: "10px",
                         backgroundImage:
-                          "linear-gradient(to right, rgb(194, 215, 233) , rgb(230, 200, 105))",
+                        "linear-gradient(to right, rgb(174, 191, 207) , rgb(243, 227, 175))",
                       }}
                     >
                       SUBSCRIPTION STATUS
@@ -215,9 +215,11 @@ const Index = () => {
           </div>
         </div>
         <div className="mt-5 container-fluid">
-          <span className="onepoints"></span>
-          <div className="borderOrange"></div>
-          <span className="onepoints"></span>
+         
+          <div class="horizontal-line">
+  <div class="endpoint-dot left-dot"></div>
+  <div class="endpoint-dot right-dot"></div>
+</div>
         </div>
         <div className="mt-5 container-fluid">
           <div className="row">
@@ -234,6 +236,7 @@ const Index = () => {
                     borderTopLeftRadius: "20px",
                   }}
                 >
+                
                   <div className="row">
                     <div className="col-md-4 col-xl-4 col-lg-4 col-12 col-sm-4 ">
                       <div className="m-2">
@@ -268,26 +271,26 @@ const Index = () => {
                     
                       <div
                         style={{
-                          fontSize: "17px",
+                          fontSize: "16px",
                           fontWeight: "400",
                           color: "rgb(43, 77, 129)",
                           height: "3rem",
                           padding: "10px",
                           backgroundImage:
-                            "linear-gradient(to right, rgb(194, 215, 233) , rgb(233, 239, 245))",
+                          "linear-gradient(to right, rgb(174, 191, 207) , rgb(229, 234, 238))",
                         }}
                       >
                         Renew Subscription, expiring in 15 days
                       </div>
                       <div
                         style={{
-                          fontSize: "17px",
+                          fontSize: "16px",
                           fontWeight: "400",
                           color: "rgb(43, 77, 129)",
                           height: "3rem",
                           padding: "10px",
                           backgroundImage:
-                            "linear-gradient(to right, rgb(224, 173, 132), rgb(241, 236, 232) )",
+                          "linear-gradient(to right, rgb(243, 206, 175) , rgb(250, 252, 253))",
                         }}
                       >
                         Validate Nominee Phone Number
@@ -295,13 +298,13 @@ const Index = () => {
                       <div
                         className="cssforborderradiusmobileveiw"
                         style={{
-                          fontSize: "17px",
+                          fontSize: "16px",
                           fontWeight: "400",
                           color: "rgb(43, 77, 129)",
                           height: "3rem",
                           padding: "10px",
                           backgroundImage:
-                            "linear-gradient(to right, rgb(194, 215, 233) , rgb(233, 239, 245))",
+                          "linear-gradient(to right, rgb(174, 191, 207) , rgb(229, 234, 238))",
                         }}
                       >
                         Validate Nominee e-mail ID
