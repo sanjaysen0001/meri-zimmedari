@@ -9,53 +9,51 @@ import Mynavbar from "./Mynavbar";
 import axiosConfig from "./../axiosConfig";
 const Assetstep3 = () => {
   const [AssetData, setAssetData] = useState({});
-  const [nomineeData, setNomineeData] = useState([{}]);
+  const [nomineeData, setNomineeData] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
     let assetDetails = JSON.parse(localStorage.getItem("assetDetails"));
     let nomineeDetails = JSON.parse(localStorage.getItem("nomineeDetails"));
-    setNomineeData(nomineeDetails);
+    if (nomineeDetails) {
+      setNomineeData(nomineeDetails);
+    }
+    if (assetDetails) {
+      setAssetData(assetDetails);
+    }
 
-    setAssetData(assetDetails);
-    console.log(assetDetails);
-    console.log(nomineeDetails);
-    // axiosConfig
-    //   .get("/asset/view-asset")
-    //   .then(res => {
-    //     let arr = res.data.Asset;
-    //     let newArray = arr[arr.length - 1];
-    //     setAssetData(newArray);
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
-    // axiosConfig
-    //   .get("/nominee/view-nominee")
-    //   .then(response => {
-    //     let nomineeList = response.data?.Nominee;
-    //     let nomineeArr = nomineeList[nomineeList.length - 1];
-    //     setNomineeData(nomineeArr.nominee);
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
+    console.log(AssetData);
+    // console.log(nomineeDetails);
   }, []);
 
   const handleAllFormEdit = () => {
     navigate("/add-asset/policy");
   };
   const handleSubmit = () => {
-    navigate("/add-asset/setp3/confirm");
-    // axiosConfig
-    //   .get("/nominee/view-nominee")
-    //   .then(response => {
-    //     let nomineeList = response.data?.Nominee;
-    //     let nomineeArr = nomineeList[nomineeList.length - 1];
-    //     setNomineeData(nomineeArr.nominee);
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
+    debugger;
+    console.log(JSON.stringify(nomineeData));
+    const formData = new FormData();
+    formData.append("userId", AssetData?.userId);
+    formData.append("file", AssetData?.uploadedFile);
+    formData.append("assetType", AssetData?.dynamicFields?.Asset_Type);
+    formData.append("policyIssuersName", AssetData?.policyName);
+    formData.append("policynumber", AssetData?.policyNumber);
+    formData.append("Field_1", AssetData?.dynamicFields?.Field_1);
+    formData.append("Field_2", AssetData?.dynamicFields?.Field_2);
+    formData.append("Field_3", AssetData?.dynamicFields?.Field_3);
+    formData.append("Field_4", AssetData?.dynamicFields?.Field_4);
+    formData.append("ReEnterPolicyNumber", AssetData?.reEnterPolicyNumber);
+    formData.append("nominee", JSON.stringify(nomineeData));
+    axiosConfig
+      .post("/asset/save-asset", formData)
+      .then(response => {
+        console.log(response.data.message);
+        navigate("/add-asset/setp3/confirm");
+        localStorage.removeItem("assetDetails");
+        localStorage.removeItem("nomineeDetails");
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   return (

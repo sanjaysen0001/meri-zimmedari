@@ -20,6 +20,7 @@ const Assetstep2 = () => {
       percentageofShar: null,
       NomineePhoneNumber: null,
       relationWithNominee: "",
+      // nomineeId: 1,
     },
   ]);
   const [formError, setFormError] = useState({
@@ -36,49 +37,26 @@ const Assetstep2 = () => {
   const [modalSendOtp, setModalSendOtp] = useState(false);
   const [phoneModalNotify, setPhoneModalNotify] = useState(false);
   const [phoneRemark, setPhoneRemark] = useState(false);
+  const [myNominee, setMyNominee] = useState([]);
   const navigate = useNavigate();
-  const handlePhoneModal = () => {
-    setModalShow(true);
-    setModalShowmail(false);
-  };
-  const handleEmailModal = () => {
-    setModalShowmail(true);
-    setModalShow(false);
-  };
 
-  let addFormFields = () => {
-    setFormValues([
-      ...formValues,
-      {
-        nomineeName: "",
-        nomineeEmailId: "",
-        percentageofShar: null,
-        NomineePhoneNumber: "",
-        relationWithNominee: "",
-      },
-    ]);
-    let share = document.getElementById("percentageofShar").value;
-    const newArr = [];
-    formValues.filter(el => newArr.push(Number(el.percentageofShar)));
-    const sum = newArr.reduce(
-      (previousValue, currentValue) => previousValue + currentValue
-    );
-    if (sum > 100) {
-      setShareError(
-        "The cumulative percentage share of all nominees can not exceed 100%."
-      );
+  useEffect(() => {
+    let nomineeDetails = JSON.parse(localStorage.getItem("nomineeDetails"));
+
+    // localStorage.setItem("nomineeDetails", JSON.stringify(formValues));
+    console.log(nomineeDetails);
+
+    if (nomineeDetails) {
+      const newArray = [...nomineeDetails, ...formValues];
+      setFormValues(newArray);
+      setMyNominee(nomineeDetails);
+      //  setFormValues(prevFormValues => {
+      //    const newFormValues = [...prevFormValues];
+
+      //  });
+      // nomineeDetails?.map((item,index)=>)
     }
-    if (share == 100) {
-      setShareError(
-        "Reduce percentage of share for the nominee to add more nominee."
-      );
-    }
-  };
-  let removeFormFields = i => {
-    let newFormValues = [...formValues];
-    newFormValues.splice(i, 1);
-    setFormValues(newFormValues);
-  };
+  }, []);
   const handleChange = (i, e) => {
     const value = e.target.value;
     const fieldName = e.target.name;
@@ -113,8 +91,11 @@ const Assetstep2 = () => {
   };
   const handleInputClick = () => {
     allError.IspercentageofShar = true;
-
-    if (formValues.length > 1) {
+    // formValues?.map((value, i) =>
+    //   value?.percentageofShar.length > 1
+    // );
+    let share = document.getElementById("percentageofShar").value;
+    if (share?.length > 1) {
       setShareError(
         "Reduce percentage of share for the nominee to add more nominee."
       );
@@ -131,13 +112,15 @@ const Assetstep2 = () => {
   //   return pattern.test(email);
   // };
   const handleNext = () => {
+    debugger;
     const newArr = [];
     formValues.filter(el => newArr.push(Number(el.percentageofShar)));
     const sum = newArr.reduce(
-      (previousValue, currentValue) => previousValue + currentValue
+      (previousValue, currentValue) => previousValue + currentValue,
+      0
     );
 
-    let userId = JSON.parse(localStorage.getItem("UserZimmedari"))._id;
+    // let userId = JSON.parse(localStorage.getItem("UserZimmedari"))._id;
 
     formValues?.forEach((value, key) => {
       if (!value.nomineeName) {
@@ -158,9 +141,11 @@ const Assetstep2 = () => {
       //   allError.IsnomineeEmailId = false;
       // }
       let share = document.getElementById("percentageofShar").value;
+      // let shareMessage = "";
       // console.log(share);
       if (!Number(share)) {
         allError.IspercentageofShar = true;
+        // shareMessage="Permissible value: 1 to 100 without decimal.";
         setShareError("Permissible value: 1 to 100 without decimal.");
       } else if (sum < 100) {
         allError.IspercentageofShar = true;
@@ -181,8 +166,7 @@ const Assetstep2 = () => {
       }
     });
     // Check if all keys inside the object are false
-    const allFalse = Object.values(allError).some(value => value === true);
-    console.log(allFalse);
+
     if (Object.keys(allError)?.length >= 0) {
       if (
         allError.IsnomineeName &&
@@ -197,60 +181,79 @@ const Assetstep2 = () => {
         !allError.IspercentageofShar &&
         !allError.IsrelationWithNominee
       ) {
-        debugger;
         setPhoneModalNotify(true);
-        // const payload = {
-        //   userId: userId,
-        //   nominee: formValues,
-        // };
-
+        let nomineeDetails = JSON.parse(localStorage.getItem("nomineeDetails"));
+        console.log(nomineeDetails);
+        let newArray;
+        if (nomineeDetails?.length > 0) {
+          newArray = [...nomineeDetails, ...formValues];
+          setFormValues(newArray);
+        } else {
+          newArray = [...formValues];
+        }
         if (phoneRemark) {
           setPhoneModalNotify(false);
-          localStorage.setItem("nomineeDetails", JSON.stringify(formValues));
+          localStorage.setItem("nomineeDetails", JSON.stringify(newArray));
           navigate("/add-asset/step3");
-          // axiosConfig
-          //   .post("/nominee/save-nominee", payload)
-          //   .then(response => {
-          //     console.log(response.data);
-          //     // navigate("/add-asset/step3");
-          //   })
-          //   .catch(error => {
-          //     setPhoneModalNotify(false);
-          //     console.error(error);
-          //   });
         }
       }
       setFormError(allError);
       console.log("@@@@@@@", formValues);
     }
   };
+  const handlePhoneModal = () => {
+    setModalShow(true);
+    setModalShowmail(false);
+  };
+  const handleEmailModal = () => {
+    setModalShowmail(true);
+    setModalShow(false);
+  };
+
+  let addFormFields = () => {
+    // debugger;
+    if (shareError.includes("Permissible")) {
+      if (!shareError.includes("Percentage")) {
+        setFormValues([
+          ...formValues,
+          {
+            nomineeName: "",
+            nomineeEmailId: "",
+            percentageofShar: null,
+            NomineePhoneNumber: "",
+            relationWithNominee: "",
+            nominee: 0,
+          },
+        ]);
+      }
+    }
+
+    let share = document.getElementById("percentageofShar").value;
+    const newArr = [];
+    formValues.filter(el => newArr.push(Number(el.percentageofShar)));
+    const sum = newArr.reduce(
+      (previousValue, currentValue) => previousValue + currentValue,
+      0
+    );
+    if (share >= 100) {
+      setShareError(
+        "Reduce percentage of share for the nominee to add more nominee."
+      );
+    }
+    if (sum > 100) {
+      setShareError(
+        "The cumulative percentage share of all nominees can not exceed 100%."
+      );
+    }
+  };
+  let removeFormFields = i => {
+    let newFormValues = [...formValues];
+    newFormValues.splice(i, 1);
+    setFormValues(newFormValues);
+  };
   return (
     <>
       <Mynavbar />
-      {phoneModalNotify ? (
-        <div className="myModal">
-          <PhoneBox
-            setModalSendOtp={setModalSendOtp}
-            setPhoneModalNotify={setPhoneModalNotify}
-            setPhoneRemark={setPhoneRemark}
-            setModalShow={setModalShow}
-          />
-        </div>
-      ) : null}
-
-      {modalShow ? (
-        <div className="myModal">
-          <PhoneOtp setModalShow={setModalShow} />
-        </div>
-      ) : null}
-      {modalShowmail ? (
-        <div className="myModal">
-          <EmailModal
-            setModalShowmail={setModalShowmail}
-            setModalShow={setModalShow}
-          />
-        </div>
-      ) : null}
 
       <div>
         <div style={{ backgroundColor: "rgb(182, 205, 236)" }}>
@@ -457,7 +460,7 @@ const Assetstep2 = () => {
                               }}
                             >
                               <span className="text-center">
-                                {`${index} Nominee Details`}
+                                {`${index + 1} Nominee Details`}
                               </span>
                             </button>
                           </legend>
@@ -672,18 +675,7 @@ const Assetstep2 = () => {
                                 step="1"
                               />
                             </fieldset>
-                            {/* {percetageError && (
-                              <p
-                                style={{
-                                  color: "red",
-                                  padding: "5px",
-                                  fontSize: "16px",
-                                  marginTop: "13px",
-                                }}
-                              >
-                                Permissible value: 1 to 100 without decimal.
-                              </p>
-                            )} */}
+
                             {formError.IspercentageofShar && (
                               <p
                               className="validationmobilefont"
@@ -1020,6 +1012,30 @@ const Assetstep2 = () => {
           </div>
         </div>
       </div>
+      {phoneModalNotify ? (
+        <div className="myModal">
+          <PhoneBox
+            setModalSendOtp={setModalSendOtp}
+            setPhoneModalNotify={setPhoneModalNotify}
+            setPhoneRemark={setPhoneRemark}
+            setModalShow={setModalShow}
+          />
+        </div>
+      ) : null}
+
+      {modalShow ? (
+        <div className="myModal">
+          <PhoneOtp setModalShow={setModalShow} />
+        </div>
+      ) : null}
+      {modalShowmail ? (
+        <div className="myModal">
+          <EmailModal
+            setModalShowmail={setModalShowmail}
+            setModalShow={setModalShow}
+          />
+        </div>
+      ) : null}
     </>
   );
 };
