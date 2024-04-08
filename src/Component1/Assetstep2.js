@@ -32,6 +32,8 @@ const Assetstep2 = () => {
   });
   let allError = {};
   const [modalShow, setModalShow] = useState(false);
+  const [myNumber, setMyNumber] = useState("");
+  const [myEmail, setMyEmail] = useState("");
   const [shareError, setShareError] = useState("");
   const [modalShowmail, setModalShowmail] = useState(false);
   const [modalSendOtp, setModalSendOtp] = useState(false);
@@ -76,6 +78,7 @@ const Assetstep2 = () => {
       if (fieldName === "NomineePhoneNumber") {
         if (phoneNumberRegex.test(value)) {
           newFormValues[i][fieldName] = Number(value);
+          localStorage.setItem("UpdatedNo", Number(value));
         } else {
           newFormValues[i][fieldName] = Number(value);
         }
@@ -126,11 +129,6 @@ const Assetstep2 = () => {
       setFormError({ IspercentageofShar: true });
       setShareError(
         "Reduce percentage of share for the nominee to add more nominee."
-      );
-    } else if (sum < 100) {
-      setFormError({ IspercentageofShar: true });
-      setShareError(
-        " Total Percentage of share must be 100%, please edit percentage of share of existing nominee(s) or click on add more nominee."
       );
     } else if (sum > 100) {
       setFormError({ IspercentageofShar: true });
@@ -249,13 +247,45 @@ const Assetstep2 = () => {
     newFormValues.splice(i, 1);
     setFormValues(newFormValues);
   };
-  const handlePhoneModal = () => {
-    setModalShow(true);
-    setModalShowmail(false);
+  const handlePhoneModal = number => {
+    let user = JSON.parse(localStorage.getItem("UserZimmedari"));
+    if (number) {
+      let payload = {
+        userId: user?._id,
+        mobileNo: Number(number),
+      };
+      axiosConfig
+        .post("/user/otp-mobile", payload)
+        .then(response => {
+          console.log("response", response.data.message);
+          setMyNumber(number);
+          setModalShow(true);
+          setModalShowmail(false);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
   };
-  const handleEmailModal = () => {
-    setModalShowmail(true);
-    setModalShow(false);
+  const handleEmailModal = currentEmail => {
+    let user = JSON.parse(localStorage.getItem("UserZimmedari"));
+    if (currentEmail) {
+      let payload = {
+        userId: user?._id,
+        email: currentEmail,
+      };
+      axiosConfig
+        .post("/user/otp-email", payload)
+        .then(response => {
+          console.log("response", response.data.message);
+          setModalShowmail(true);
+          setModalShow(false);
+          setMyEmail(currentEmail);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
   };
   return (
     <>
@@ -574,6 +604,7 @@ const Assetstep2 = () => {
                                 onChange={e => handleChange(index, e)}
                                 name="relationWithNominee"
                                 aria-label="Default select example"
+                                defaultChecked
                                 style={{
                                   outline: "none",
                                   width: "95%",
@@ -587,12 +618,14 @@ const Assetstep2 = () => {
                                 }}
                               >
                                 <option
-                                  selected
                                   Nominee
                                   Relation
                                   style={{ float: "left", border: "none" }}
                                 ></option>
 
+                                <option disabled value="">
+                                  Select
+                                </option>
                                 <option value="Wife">Wife</option>
                                 <option value="Father">Father</option>
                                 <option value="Mother">Mother</option>
@@ -775,7 +808,9 @@ const Assetstep2 = () => {
                                 >
                                   <span>
                                     <a
-                                      onClick={handlePhoneModal}
+                                      onClick={() =>
+                                        handlePhoneModal(ele.NomineePhoneNumber)
+                                      }
                                       className="btn"
                                       style={{
                                         fontSize: "13px",
@@ -867,7 +902,9 @@ const Assetstep2 = () => {
                                 >
                                   <span>
                                     <a
-                                      onClick={handleEmailModal}
+                                      onClick={() =>
+                                        handleEmailModal(ele.nomineeEmailId)
+                                      }
                                       className="btn "
                                       style={{
                                         fontSize: "13px",
@@ -1031,7 +1068,7 @@ const Assetstep2 = () => {
 
       {modalShow ? (
         <div className="myModal">
-          <PhoneOtp setModalShow={setModalShow} />
+          <PhoneOtp setModalShow={setModalShow} myNumber={myNumber} />
         </div>
       ) : null}
       {modalShowmail ? (
@@ -1039,6 +1076,7 @@ const Assetstep2 = () => {
           <EmailModal
             setModalShowmail={setModalShowmail}
             setModalShow={setModalShow}
+            myEmail={myEmail}
           />
         </div>
       ) : null}

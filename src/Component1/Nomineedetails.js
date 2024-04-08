@@ -9,7 +9,7 @@ const Nomineedetails = () => {
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("UserZimmedari"));
     axiosConfig
-      .get(`/asset/nominee-list/${userData._id}`)
+      .get(`/asset/nominee-list`)
       .then(response => {
         setNomineeList(response.data.Nominee);
       })
@@ -143,8 +143,9 @@ const Nomineedetails = () => {
             </thead>
             <tbody>
               {nomineeList &&
-                nomineeList?.map(item => (
+                nomineeList?.map((item, index) => (
                   <tr
+                    key={index}
                     style={{
                       backgroundColor: "rgb(176, 193, 219)",
                       width: "100%",
@@ -234,8 +235,8 @@ const Nomineedetails = () => {
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           color="rgb(43, 77, 129)"
-                          width="50"
-                          height="50"
+                          width="30"
+                          height="30"
                           fill="currentColor"
                           class="bi bi-pencil-square hoverable-image"
                           viewBox="0 0 16 16"

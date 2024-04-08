@@ -34,9 +34,9 @@ const Assetpolicy = props => {
       setPolicyNumber(assetAllData.policyNumber);
       setReEnterPolicyNumber(assetAllData.reEnterPolicyNumber);
     } else if (assetAllData?.dynamicFields?.Asset_Type) {
-      setPolicyName(assetAllData?.policyName);
-      setPolicyNumber(assetAllData.policyNumber);
-      setReEnterPolicyNumber(assetAllData.reEnterPolicyNumber);
+      setPolicyName();
+      setPolicyNumber();
+      setReEnterPolicyNumber();
     }
 
     let viewData = JSON.parse(localStorage.getItem("ViewOne"));

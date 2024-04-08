@@ -261,7 +261,7 @@ const Assetstep3 = () => {
                     className="text-center"
                     style={{ border: "2px solid rgb(201, 198, 198)" }}
                   >
-                    Bajaj Allianze111
+                    {AssetData.policyName}
                   </td>
                 </tr>
                 <tr>
@@ -290,10 +290,11 @@ const Assetstep3 = () => {
                   >
                     {AssetData.dynamicFields?.Field_1}
                   </th>
-                  <td
-                    colspan="3"
+                  <th
+                    scope="row"
                     className="text-center"
                     style={{ border: "2px solid rgb(201, 198, 198)" }}
+                    colspan="2"
                   >
                     {/* Policy212414242 */}
                     {/* <embed
@@ -302,7 +303,7 @@ const Assetstep3 = () => {
                       width="50%"
                       height="100px"
                     /> */}
-                  </td>
+                  </th>
                 </tr>
               </tbody>
               <thead>
@@ -337,58 +338,65 @@ const Assetstep3 = () => {
                   >
                     Nominee Name
                   </th>
-                  <td
+                  <th
+                    scope="row"
                     className="text-center"
                     style={{
+                      fontSize: "",
                       border: "2px solid rgb(201, 198, 198)",
-                      width: "15%",
+                      width: "20%",
                     }}
                   >
                     Relation with Nominee
-                  </td>
-                  <td
+                  </th>
+                  <th
+                    scope="row"
                     className="text-center"
                     style={{
+                      fontSize: "",
                       border: "2px solid rgb(201, 198, 198)",
-                      width: "15%",
+                      width: "20%",
                     }}
                   >
                     Percentage of share
-                  </td>
-                  <td
+                  </th>
+                  <th
+                    scope="row"
                     className="text-center"
                     style={{
+                      fontSize: "",
                       border: "2px solid rgb(201, 198, 198)",
-                      width: "25%",
+                      width: "20%",
                     }}
                   >
                     Nominee Phone No.
-                  </td>
-                  <td
+                  </th>
+                  <th
+                    scope="row"
                     className="text-center"
                     style={{
+                      fontSize: "",
                       border: "2px solid rgb(201, 198, 198)",
-                      width: "25%",
+                      width: "20%",
                     }}
                   >
                     Nominee e-mail ID
-                  </td>
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {nomineeData &&
                   nomineeData?.map((val, ind) => (
                     <tr key={ind}>
-                      <th
-                        scope="row"
+                      <td
                         className="text-center"
                         style={{
                           border: "2px solid rgb(201, 198, 198)",
-                          width: "20%",
+                          width: "15%",
                         }}
                       >
                         {val?.nomineeName}
-                      </th>
+                      </td>
                       <td
                         className="text-center"
                         style={{

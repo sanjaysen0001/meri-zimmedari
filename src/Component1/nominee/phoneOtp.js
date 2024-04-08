@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axiosConfig from "../../axiosConfig";
-import { Link } from "react-router-dom";
-import swal from "sweetalert";
+
 // import NavBar from "./NavBar";
-const PhoneOtp = ({ setModalShow }) => {
+const PhoneOtp = ({ setModalShow, myNumber }) => {
+  // debugger;
+  let phoneNumber;
   const navigate = useNavigate();
   const location = useLocation();
-  const phoneNumber = location.state;
+  if (location?.state) {
+    phoneNumber = location?.state;
+  }
   const [otp, setOtp] = useState(null);
   const [IsvalidOtp, setIsValidOtp] = useState(false);
   const [bool, setBool] = useState(null);
@@ -15,6 +18,7 @@ const PhoneOtp = ({ setModalShow }) => {
   const [isCountingComplete, setIsCountingComplete] = useState(false);
 
   useEffect(() => {
+    // console.log("myNumber", myNumber);
     if (count > 0) {
       setIsCountingComplete(false);
       const timer = setTimeout(() => {
@@ -44,40 +48,25 @@ const PhoneOtp = ({ setModalShow }) => {
     setModalShow(false);
   };
   const handleOtpVerify = () => {
+    let user = JSON.parse(localStorage.getItem("UserZimmedari"));
     let payload = {
+      userId: user._id,
       otp: Number(otp),
-      mobileNo: Number(phoneNumber),
     };
     axiosConfig
-      .post("/otp-verify", payload)
+      .post("/user/otp-verify-mobile", payload)
       .then(response => {
-        if (response.data.success == "ok") {
-          console.log(response.data.User);
-          setIsValidOtp(false);
-          localStorage.setItem(
-            "user_token",
-            JSON.stringify(response.data.User.token)
-          );
-          localStorage.setItem(
-            "UserZimmedari",
-            JSON.stringify(response.data.User)
-          );
-          navigate("/dashboard", { replace: true });
-        } else {
-          navigate("/registration", { replace: true });
-        }
+        setModalShow(false);
+        console.log("response", response.data.message);
       })
       .catch(error => {
+        console.log("response", error);
         setIsValidOtp(true);
       });
   };
   return (
     <>
-      {/* <div className="container-fluid " style={{ display: "inline-block" }}> */}
       <div className="row " style={{ paddingTop: "5rem" }}>
-        {/* <div className="col-md-4 col-sm-2 col-lg-4 col-xl-4">
-          <div></div>
-        </div> */}
         <div className="col-md-12 col-sm-2 col-lg-12 col-xl-12">
           <div
             className="gdfhagfjhagjhfgagfjhaf"
@@ -95,18 +84,22 @@ const PhoneOtp = ({ setModalShow }) => {
                 width: "100%",
                 borderTopLeftRadius: "20px",
                 borderTopRightRadius: "20px",
-               
-                
               }}
             >
-              <span style={{ fontSize: "20px", fontWeight: "600",marginLeft:'1rem' }}>
+              <span
+                style={{
+                  fontSize: "20px",
+                  fontWeight: "600",
+                  marginLeft: "1rem",
+                }}
+              >
                 Verify OTP
               </span>
               <span
                 onClick={handleCloseModal}
                 style={{
-                  float:'right',
-                  marginRight:'1rem',
+                  float: "right",
+                  marginRight: "1rem",
                   fontSize: "20px",
                   fontWeight: "600",
                   color: "red",
@@ -120,7 +113,8 @@ const PhoneOtp = ({ setModalShow }) => {
             <div style={{ margin: "2rem" }}>
               <div className=" mt-2">
                 <div className="mb-3">
-                  Please enter 6 digit OTP sent on mobile number {phoneNumber}.
+                  Please enter 6 digit OTP sent on mobile number{" "}
+                  {myNumber && myNumber}.
                 </div>
                 <div
                   style={{
@@ -238,7 +232,6 @@ const PhoneOtp = ({ setModalShow }) => {
           </div>
         </div>
       </div>
-      {/* </div> */}
     </>
   );
 };

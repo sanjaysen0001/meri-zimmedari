@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axiosConfig from "../../axiosConfig";
-import { Link } from "react-router-dom";
-import swal from "sweetalert";
-// import NavBar from "./NavBar";
-const EmailOtp = ({ setModalShowmail, setModalShow }) => {
+const EmailOtp = ({ setModalShowmail, setModalShow, myEmail }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const phoneNumber = location.state;
@@ -43,41 +40,28 @@ const EmailOtp = ({ setModalShowmail, setModalShow }) => {
   const handleCloseModal = () => {
     setModalShowmail(false);
   };
+
   const handleOtpVerify = () => {
+    let user = JSON.parse(localStorage.getItem("UserZimmedari"));
     let payload = {
       otp: Number(otp),
-      mobileNo: Number(phoneNumber),
+      userId: user?._id,
     };
     axiosConfig
-      .post("/otp-verify", payload)
+      .post("/user/otp-verify-email", payload)
       .then(response => {
-        if (response.data.success == "ok") {
-          console.log(response.data.User);
-          setIsValidOtp(false);
-          localStorage.setItem(
-            "user_token",
-            JSON.stringify(response.data.User.token)
-          );
-          localStorage.setItem(
-            "UserZimmedari",
-            JSON.stringify(response.data.User)
-          );
-          navigate("/dashboard", { replace: true });
-        } else {
-          navigate("/registration", { replace: true });
-        }
+        setModalShow(false);
+        setModalShowmail(false);
+        console.log("response", response.data.message);
       })
       .catch(error => {
+        console.log("response", error);
         setIsValidOtp(true);
       });
   };
   return (
     <>
-      {/* <div className="container-fluid " style={{ display: "inline-block" }}> */}
       <div className="row " style={{ paddingTop: "5rem" }}>
-        {/* <div className="col-md-4 col-sm-2 col-lg-4 col-xl-4">
-          <div></div>
-        </div> */}
         <div className="col-md-12 col-sm-2 col-lg-12 col-xl-12">
           <div
             className="gdfhagfjhagjhfgagfjhaf"
@@ -124,9 +108,10 @@ const EmailOtp = ({ setModalShowmail, setModalShow }) => {
             <div style={{ margin: "2rem" }}>
               <div className=" mt-2">
                 <div className="mb-3">
-                  Please enter 6 digit OTP sent on email-id {phoneNumber}.
+                  Please enter 6 digit OTP sent on email-id
+                  <span className="pl-2">{myEmail && myEmail}</span>
+                  {/* to verify your account. */}.
                 </div>
-                {/* <Link to={"/"} style={{ textDecoration: "none" }}> */}
                 <div
                   style={{
                     color: "#4478c7",
@@ -137,7 +122,6 @@ const EmailOtp = ({ setModalShowmail, setModalShow }) => {
                 >
                   Change email-id
                 </div>
-                {/* </Link> */}
               </div>
               <div className="mt-4">
                 <form>
@@ -189,7 +173,7 @@ const EmailOtp = ({ setModalShowmail, setModalShow }) => {
                         paddingLeft: "15px",
                         paddingTop: "5px",
                       }}
-                      max={6}
+                      max={5}
                       type="tel"
                       id="mobile"
                       name="mobile"
@@ -233,7 +217,7 @@ const EmailOtp = ({ setModalShowmail, setModalShow }) => {
                         color: "white",
                         height: "2.8rem",
                       }}
-                      //   onClick={handleOtpVerify}
+                      onClick={handleOtpVerify}
                     >
                       Submit
                     </button>

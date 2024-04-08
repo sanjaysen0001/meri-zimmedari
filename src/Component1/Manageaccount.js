@@ -11,7 +11,6 @@ import {
 import Mynavbar from "./Mynavbar";
 import { Button } from "react-bootstrap";
 
-
 const Manageaccount = () => {
   const [show, setShow] = useState(false);
 
@@ -99,7 +98,6 @@ const Manageaccount = () => {
       })
       .catch(error => {
         setErrModal(true);
-        // swal("Something Went Wrong");
       });
   };
 
@@ -107,27 +105,40 @@ const Manageaccount = () => {
     <>
       <Mynavbar />
       <div>
-     
-      <Modal show={show} >
-        <Modal.Header >
-          <Modal.Title>
-          <span >Delete Account</span>
-          
-          </Modal.Title>
-          <span style={{textAlign:'right',cursor:'pointer'}} onClick={handleClose}><svg xmlns="http://www.w3.org/2000/svg"  color="red" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-          <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
-        </svg></span>
-        </Modal.Header>
-        <Modal.Body className="text-center">Are you sure to permanently delete the account?</Modal.Body>
-        <Modal.Footer>
-          <Button variant="danger" onClick={handleClose}>
-            Yes
-          </Button>
-          <Button variant="secondary" onClick={handleClose}>
-           No
-          </Button>
-        </Modal.Footer>
-      </Modal>
+        <Modal show={show}>
+          <Modal.Header>
+            <Modal.Title>
+              <span>Delete Account</span>
+            </Modal.Title>
+            <span
+              style={{ textAlign: "right", cursor: "pointer" }}
+              onClick={handleClose}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                color="red"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-x-lg"
+                viewBox="0 0 16 16"
+              >
+                <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
+              </svg>
+            </span>
+          </Modal.Header>
+          <Modal.Body className="text-center">
+            Are you sure to permanently delete the account?
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="danger" onClick={handleClose}>
+              Yes
+            </Button>
+            <Button variant="secondary" onClick={handleClose}>
+              No
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </div>
       <Savepassword show={modalShow1} onHide={() => setModalShow1(false)} />
       <ErrorModal show={errModal} onHide={() => setErrModal(false)} />
@@ -223,7 +234,7 @@ const Manageaccount = () => {
                     class="form-label"
                   >
                     Old Password
-                    <span style={{color:'red'}}> *</span>
+                    <span style={{ color: "red" }}> *</span>
                   </legend>
                   <input
                     type="password"
@@ -243,7 +254,9 @@ const Manageaccount = () => {
                   />
                 </fieldset>
                 {oldPasswordError && (
-                  <p style={{ color: "red" }}     className="validationmobilefont">{oldPasswordError}</p>
+                  <p style={{ color: "red" }} className="validationmobilefont">
+                    {oldPasswordError}
+                  </p>
                 )}
               </div>
               <div className="col-md-4  col-xl-4 xol-lg-4">
@@ -271,7 +284,7 @@ const Manageaccount = () => {
                     class="form-label"
                   >
                     New Password
-                    <span style={{color:'red'}}> *</span>
+                    <span style={{ color: "red" }}> *</span>
                   </legend>
                   <input
                     type="password"
@@ -290,7 +303,9 @@ const Manageaccount = () => {
                   />
                 </fieldset>
                 {newPasswordError && (
-                  <p style={{ color: "red" }}  className="validationmobilefont">{newPasswordError}</p>
+                  <p style={{ color: "red" }} className="validationmobilefont">
+                    {newPasswordError}
+                  </p>
                 )}
               </div>
               <div className="col-md-4  col-xl-4 xol-lg-4">
@@ -318,7 +333,7 @@ const Manageaccount = () => {
                     class="form-label"
                   >
                     Confirm Password
-                    <span style={{color:'red'}}> *</span>
+                    <span style={{ color: "red" }}> *</span>
                   </legend>
                   <input
                     type="password"
@@ -337,7 +352,12 @@ const Manageaccount = () => {
                   />
                 </fieldset>
                 {confirmPasswordError && (
-                  <span style={{ color: "red" }}  className="validationmobilefont">{confirmPasswordError}</span>
+                  <span
+                    style={{ color: "red" }}
+                    className="validationmobilefont"
+                  >
+                    {confirmPasswordError}
+                  </span>
                 )}
               </div>
             </div>
@@ -345,30 +365,30 @@ const Manageaccount = () => {
               className="row mt-4 "
               style={{ marginLeft: "1rem", marginRight: "1rem" }}
             >
-            <div className="col-md-4 col-xl-4 col-lg-4"></div>
-            <div className="col-md-4 col-xl-4 col-lg-4"></div>
-            {isLoader ? (
-              <Spinner
-                animation="border"
-                role="status"
-                style={{ marginLeft: "85px" }}
-              ></Spinner>
-            ) : (
-              <div className="col-md-4 col-xl-4 col-lg-4">
-                <div style={{ textAlign: "center" }}>
-                  <Link
-                    onClick={handleGeneratePassword}
-                    style={{
-                      color: "rgb(82, 114, 161)",
-                      fontSize: "22px",
-                      textDecoration: "underline",
-                    }}
-                  >
-                    Generate Random Password
-                  </Link>
+              <div className="col-md-4 col-xl-4 col-lg-4"></div>
+              <div className="col-md-4 col-xl-4 col-lg-4"></div>
+              {isLoader ? (
+                <Spinner
+                  animation="border"
+                  role="status"
+                  style={{ marginLeft: "85px" }}
+                ></Spinner>
+              ) : (
+                <div className="col-md-4 col-xl-4 col-lg-4">
+                  <div style={{ textAlign: "center" }}>
+                    <Link
+                      onClick={handleGeneratePassword}
+                      style={{
+                        color: "rgb(82, 114, 161)",
+                        fontSize: "22px",
+                        textDecoration: "underline",
+                      }}
+                    >
+                      Generate Random Password
+                    </Link>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
               <div className="col-md-4 col-xl-4 col-lg-4"></div>
               <div
@@ -441,7 +461,7 @@ const Manageaccount = () => {
                 style={{ justifyContent: "center", display: "flex" }}
               >
                 <button
-                onClick={handleShow}
+                  onClick={handleShow}
                   style={{
                     width: "80%",
                     fontSize: "24px",
