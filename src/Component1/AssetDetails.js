@@ -53,8 +53,10 @@ const AssetDetails = () => {
   return (
     <>
       <Mynavbar />
-
+      <div >
       <NomineesDetails show={modalShow} onHide={() => setModalShow(false)} />
+      </div>
+     
       <div>
         <p
           style={{

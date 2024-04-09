@@ -220,6 +220,10 @@ const Index = () => {
   <div class="endpoint-dot left-dot"></div>
   <div class="endpoint-dot right-dot"></div>
 </div>
+<div class="horizontal-line001">
+  <div class="endpoint-dot001 left-dot001"></div>
+  <div class="endpoint-dot001 right-dot001"></div>
+</div>
         </div>
         <div className="mt-5 container-fluid">
           <div className="row">
@@ -309,6 +313,20 @@ const Index = () => {
                       >
                         Validate Nominee e-mail ID
                       </div>
+                       <div
+                        className="cssforborderradiusmobileveiw"
+                        style={{
+                          fontSize: "16px",
+                          fontWeight: "400",
+                          color: "rgb(43, 77, 129)",
+                          height: "3rem",
+                          padding: "10px",
+                          backgroundImage:
+                          "linear-gradient(to right, rgb(174, 191, 207) , rgb(229, 234, 238))",
+                        }}
+                      >
+                        Validate Nominee e-mail ID
+                      </div>
                     </div>
                     </div>
                   </div>
@@ -322,7 +340,7 @@ const Index = () => {
                   style={{
                     border: "1px solid rgb(43, 77, 129)",
                     backgroundImage:
-                      "linear-gradient(to right, rgb(194, 215, 233) , rgb(233, 239, 245))",
+                      "linear-gradient(to right, rgb(194, 215, 233) , rgb(254, 254, 255))",
                     borderBottomRightRadius: "20px",
                     borderTopRightRadius: "20px",
                   }}

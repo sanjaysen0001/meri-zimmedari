@@ -38,7 +38,7 @@ const Payment = () => {
        </div>
   <div className="card-body">
   <div style={{justifyContent:'center',display:'flex'}}>
-  <button  style={{width:'90%',height:'3rem',backgroundColor:'rgb(6, 43, 165)',border:'none',color:'white',borderRadius:'10px'}}>MONTHLY
+  <button  style={{width:'90%',height:'3rem',backgroundColor:'rgb(6, 43, 165)',border:'none',color:'white',borderRadius:'10px',textTransform:'uppercase'}}>quarterly
   </button>
   </div>
   <div >
@@ -108,13 +108,22 @@ const Payment = () => {
 
   </div>
 </div>
-
+ 
   </div>
   </div>
   </div>
   </div>
   <div className='col-md-1 col-lg-1 col-xl-1 cssforborderadjustforalldevice1' >
   <div className='cssforborderadjustforalldevice'></div>
+   <div class="vertical-line001">
+    <div class="dot001 top-dot001"></div>
+    <div class="line001"></div>
+    <div class="dot001 bottom-dot001"></div>
+  </div>
+  <div class="horizontal-line001">
+  <div class="endpoint-dot001 left-dot001"></div>
+  <div class="endpoint-dot001 right-dot001"></div>
+</div>
   </div>
   <div className='col-md-5 col-lg-5 col-xl-5' >
   <div className='container'>
