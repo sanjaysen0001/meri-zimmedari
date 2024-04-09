@@ -25,12 +25,18 @@ const Assetpolicy = props => {
   });
   const [fileUrl, setFileUrl] = useState(null);
   useEffect(() => {
+    console.log(location?.state?.Asset_Type);
     let assetAllData = JSON.parse(localStorage.getItem("assetDetails"));
-    let asset = localStorage.getItem("assetDetails");
-    if (asset) {
+    // let asset = localStorage.getItem("assetDetails");
+    // console.log(assetAllData?.dynamicFields.Asset_Type);
+    if (location?.state?.Asset_Type == assetAllData?.dynamicFields.Asset_Type) {
       setPolicyName(assetAllData?.policyName);
       setPolicyNumber(assetAllData.policyNumber);
       setReEnterPolicyNumber(assetAllData.reEnterPolicyNumber);
+    } else if (assetAllData?.dynamicFields?.Asset_Type) {
+      setPolicyName();
+      setPolicyNumber();
+      setReEnterPolicyNumber();
     }
 
     let viewData = JSON.parse(localStorage.getItem("ViewOne"));
@@ -63,23 +69,6 @@ const Assetpolicy = props => {
 
       localStorage.setItem("assetDetails", JSON.stringify(assetType));
       navigate("/add-asset/step2");
-      // const formData = new FormData();
-      // formData.append("userId", userId);
-      // formData.append("file", uploadedFile);
-      // formData.append("assetType", dynamicFields.Asset_Type);
-      // formData.append("policyIssuersName", policyName);
-      // formData.append("policynumber", policyNumber);
-      // formData.append("Field_3", dynamicFields?.Field_3);
-      // formData.append("ReEnterPolicyNumber", reEnterPolicyNumber);
-      // axiosConfig
-      //   .post("/asset/save-asset", formData)
-      //   .then(response => {
-      //     setFormError("");
-      //     navigate("/add-asset/step2");
-      //   })
-      //   .catch(error => {
-      //     console.log(error);
-      //   });
     } else {
       // Set form errors
       setFormError(errors);
@@ -355,11 +344,11 @@ const Assetpolicy = props => {
                   </fieldset>
                   {formError.IspolicyName && (
                     <div
-                    className="validationmobilefont"
+                      className="validationmobilefont"
                       style={{
                         color: "red",
                         padding: "5px",
-                       
+
                         marginTop: "3px",
                       }}
                     >
@@ -415,11 +404,11 @@ const Assetpolicy = props => {
                 </fieldset>
                 {formError.IspolicyNumber && (
                   <p
-                  className="validationmobilefont"
+                    className="validationmobilefont"
                     style={{
                       color: "red",
                       padding: "5px",
-                    
+
                       marginTop: "3px",
                     }}
                   >
@@ -487,11 +476,11 @@ const Assetpolicy = props => {
                   </fieldset>
                   {formError.IsreEnterPolicyNumber && (
                     <p
-                    className="validationmobilefont"
-                       style={{
+                      className="validationmobilefont"
+                      style={{
                         color: "red",
                         padding: "5px",
-                       
+
                         marginTop: "13px",
                       }}
                     >

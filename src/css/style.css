@@ -132,8 +132,8 @@ form.example::after {
   display: table;
 }
 @media screen and (min-width: 1024px) {
-  .cssforsavepasswordtoppadding{
-    margin-top:-30px
+  .cssforsavepasswordtoppadding {
+    margin-top: -30px;
   }
   .sdasdfadfdfsdffsdfsdf {
     padding: 0.5rem 1rem;
@@ -884,7 +884,6 @@ ul.social_icon li a:hover {
 }
 
 @media (min-width: 576px) and (max-width: 767px) {
-  
   .cssforfontsizeinheading {
     font-size: 17px;
   }
@@ -1130,16 +1129,14 @@ ul.social_icon li a:hover {
   .myModal {
     position: absolute;
     /* backdrop-filter: blur(5px); */
-    left: 496px;
-
+    left: 35%;
+    top: 28%;
     z-index: 9999;
     background: blur;
   }
   .myModal1 {
     position: absolute;
-    /* backdrop-filter: blur(5px); */
     left: 496px;
-
     z-index: 9999;
     background: blur;
   }
@@ -1186,12 +1183,11 @@ ul.social_icon li a:hover {
   cursor: pointer;
 }
 @media only screen and (max-width: 767px) {
-  .validationmobilefont{
+  .validationmobilefont {
     font-size: 12px;
   }
   .myModal {
     position: absolute;
-    /* backdrop-filter: blur(5px); */
     left: 0px;
     top: 430px;
     z-index: 9999;
