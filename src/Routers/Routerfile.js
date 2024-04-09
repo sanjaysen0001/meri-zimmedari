@@ -29,7 +29,7 @@ import Assetpolicy from "../Component1/Assetpolicy";
 import Icons from "../Component1/Icons";
 import Index from "../Component1/Index";
 import SubscriptionInvoices1 from "../Component1/SubscriptionInvoices1";
-import FAQ from "../Component1/FAQ";
+
 import Help from "../Component1/Help";
 import TermsConditions from "../Component1/termsConditions";
 import Confidentialeditor from "../Component1/Confidentialeditor";
@@ -47,6 +47,7 @@ import NotFind from "../Component1/NotFind";
 import Manageconfidential from "../Component1/Manageconfidential";
 import Termsandcondition from "../Component1/Termsandcondition";
 import Privacypolicy from "../Component1/Privacypolicy";
+import Faqpageweb from "../Component1/Faqpageweb";
 
 const Routerfile = () => {
   const [loading, setLoading] = useState(false);
@@ -78,6 +79,7 @@ const Routerfile = () => {
                 path="/termsandcondition"
                 element={<Termsandcondition />}
               />
+              <Route path="/FAQ" element={<Faqpageweb/>}/>
               <Route path="/Preview" element={<Preview />} />
               <Route path="/payment" element={<Payment />} />
               <Route path="/face" element={<Loginform />} />
@@ -107,7 +109,7 @@ const Routerfile = () => {
           />
           <Route path="/Help" element={<Help />} />
           <Route path="/termsConditions" element={<TermsConditions />} />
-          <Route path="/FAQ" element={<FAQ />} />
+         
           <Route
             path="/Subscriptioninvoices/history"
             element={<SubscriptionInvoices1 />}

@@ -203,25 +203,24 @@ const Myprofileedit1 = () => {
                   </div>
                   <div className="form-group col-md-1 col-sm-1 col-xl-1 col-lg-1 col-2 ">
                     <span>
-                      <a
+                    
+                      <button
                         onClick={e =>
                           handlePhoneModal(e, formDetails?.mobileNo)
                         }
-                        className="btn"
                         style={{
-                          fontSize: "13px",
-                          width: "115%",
-                          borderRadius: "10px",
-                          backgroundColor: "rgb(32, 119, 190)",
+                          border: "1px solid  rgb(201, 198, 198)",
+                          marginTop: "10px",
+                          fontSize: "14px",
                           color: "white",
-                          border: "1px solid rgb(114, 158, 216)",
-                          lineHeight: "15px",
-                          height: "3rem",
-                          marginTop: "-10px",
+                          height: "3.5rem",
+                          borderRadius: "10px",
+                          backgroundColor: "rgb(20, 130, 233)",
+                          outline:'none'
                         }}
                       >
                         SEND OTP
-                      </a>
+                      </button>
                     </span>
                     {/* <button
                       type="button"
@@ -299,6 +298,7 @@ const Myprofileedit1 = () => {
                         height: "3.5rem",
                         borderRadius: "10px",
                         backgroundColor: "rgb(20, 130, 233)",
+                        outline:'none'
                       }}
                     >
                       SEND OTP

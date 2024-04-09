@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Input, Table } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
-
+import {Step2modals} from '../Component1/assetDetail/Step2modals'
 import EmailModal from "./nominee/EmailModal";
 import "../css/style.css";
 import axiosConfig from "./../axiosConfig";
@@ -39,6 +39,7 @@ const Assetstep2 = () => {
   const [modalSendOtp, setModalSendOtp] = useState(false);
   const [phoneModalNotify, setPhoneModalNotify] = useState(false);
   const [phoneRemark, setPhoneRemark] = useState(false);
+  const [modalShowauto,setModalShowauto]=useState(false)
   // const [myNominee, setMyNominee] = useState([]);
   const navigate = useNavigate();
 
@@ -290,7 +291,8 @@ const Assetstep2 = () => {
   return (
     <>
       <Mynavbar />
-
+     
+      <Step2modals show={modalShowauto} onHide={() => setModalShowauto(false)} />
       <div>
         <div style={{ backgroundColor: "rgb(182, 205, 236)" }}>
           <div className="container-fluid">
@@ -429,14 +431,18 @@ const Assetstep2 = () => {
                   borderBottomRightRadius: " 50px",
                   backgroundColor: "rgb(92, 139, 201)",
                   textAlign: "center",
+                  cursor:'pointer'
                 }}
+                onClick={() => setModalShowauto(true)}
               >
                 <span
                   style={{
                     color: "white",
                     fontSize: "20px",
                     fontFamily: "Calibri",
+                    cursor:'pointer'
                   }}
+                 
                 >
                   Auto-fill from pre-saved nominees
                 </span>

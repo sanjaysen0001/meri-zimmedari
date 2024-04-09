@@ -6,18 +6,23 @@ import Modal from "react-bootstrap/Modal";
 export const NomineesDetails = props => {
   return (
     <Modal
+    
       {...props}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
+      
     >
+    <div  className="cssfornomineedetailsmodal cssformodalassetdetails" >
       <Modal.Header
         style={{
           justifyContent: "right",
           display: "flex",
           padding: "0.1rem 0.1rem",
-          border: "none",
+          
+         
         }}
+       
       >
         <div>
           <svg
@@ -44,7 +49,10 @@ export const NomineesDetails = props => {
         >
           <table className="table">
             <thead>
-              <tr style={{ backgroundColor: "rgb(176, 193, 219)" }}>
+              
+            </thead>
+            <tbody style={{ border: "none" }}>
+            <tr style={{ backgroundColor: "rgb(176, 193, 219)" }}>
                 <th
                   scope="col"
                   style={{
@@ -140,7 +148,7 @@ export const NomineesDetails = props => {
                     fontFamily: "Calibri",
                     textAlign: "center",
                     color: "rgb(43, 77, 129)",
-                    borderRight: "2px solid white",
+                   
                     textAlign: "center",
                     lineHeight: "20px",
                   }}
@@ -152,8 +160,6 @@ export const NomineesDetails = props => {
                   </div>
                 </th>
               </tr>
-            </thead>
-            <tbody style={{ border: "none" }}>
               <tr style={{ borderTop: "white" }}>
                 <th
                   scope="col"
@@ -184,6 +190,7 @@ export const NomineesDetails = props => {
                         outline: "none",
                         paddingLeft: "5px",
                         paddingRight: "5px",
+                        background:'transparent'
                       }}
                     />
                   </div>
@@ -217,6 +224,7 @@ export const NomineesDetails = props => {
                         outline: "none",
                         paddingLeft: "5px",
                         paddingRight: "5px",
+                        background:'transparent'
                       }}
                     />
                   </div>
@@ -251,6 +259,7 @@ export const NomineesDetails = props => {
                         outline: "none",
                         paddingLeft: "5px",
                         paddingRight: "5px",
+                        background:'transparent'
                       }}
                     />
                     %
@@ -285,6 +294,7 @@ export const NomineesDetails = props => {
                         outline: "none",
                         paddingLeft: "5px",
                         paddingRight: "5px",
+                        background:'transparent'
                       }}
                     />
                   </div>
@@ -318,6 +328,7 @@ export const NomineesDetails = props => {
                         outline: "none",
                         paddingLeft: "5px",
                         paddingRight: "5px",
+                        background:'transparent'
                       }}
                     />
                   </div>
@@ -353,6 +364,7 @@ export const NomineesDetails = props => {
                         outline: "none",
                         paddingLeft: "5px",
                         paddingRight: "5px",
+                        background:'transparent'
                       }}
                     />
                   </div>
@@ -386,6 +398,7 @@ export const NomineesDetails = props => {
                         outline: "none",
                         paddingLeft: "5px",
                         paddingRight: "5px",
+                        background:'transparent'
                       }}
                     />
                   </div>
@@ -420,6 +433,7 @@ export const NomineesDetails = props => {
                         outline: "none",
                         paddingLeft: "5px",
                         paddingRight: "5px",
+                        background:'transparent'
                       }}
                     />
                     %
@@ -454,6 +468,7 @@ export const NomineesDetails = props => {
                         outline: "none",
                         paddingLeft: "5px",
                         paddingRight: "5px",
+                        background:'transparent'
                       }}
                     />
                   </div>
@@ -487,6 +502,7 @@ export const NomineesDetails = props => {
                         outline: "none",
                         paddingLeft: "5px",
                         paddingRight: "5px",
+                        background:'transparent'
                       }}
                     />
                   </div>
@@ -522,6 +538,7 @@ export const NomineesDetails = props => {
                         outline: "none",
                         paddingLeft: "5px",
                         paddingRight: "5px",
+                        background:'transparent'
                       }}
                     />
                   </div>
@@ -555,6 +572,7 @@ export const NomineesDetails = props => {
                         outline: "none",
                         paddingLeft: "5px",
                         paddingRight: "5px",
+                        background:'transparent'
                       }}
                     />
                   </div>
@@ -589,6 +607,7 @@ export const NomineesDetails = props => {
                         outline: "none",
                         paddingLeft: "5px",
                         paddingRight: "5px",
+                        background:'transparent'
                       }}
                     />
                     %
@@ -623,6 +642,7 @@ export const NomineesDetails = props => {
                         outline: "none",
                         paddingLeft: "5px",
                         paddingRight: "5px",
+                        background:'transparent'
                       }}
                     />
                   </div>
@@ -656,184 +676,21 @@ export const NomineesDetails = props => {
                         outline: "none",
                         paddingLeft: "5px",
                         paddingRight: "5px",
+                        background:'transparent'
                       }}
                     />
                   </div>
                 </th>
               </tr>
-              <tr style={{ borderTop: "white" }}>
-                <th
-                  scope="col"
-                  style={{
-                    textTransform: "capitalize",
-                    width: "20%",
-                    fontWeight: "normal",
-                    fontSize: "18px",
-                    fontFamily: "Calibri",
-                    color: "black",
-                    textAlign: "center",
-                    lineHeight: "15px",
-                  }}
-                >
-                  <div
-                    style={{
-                      border: "1px solid rgb(176, 193, 219)",
-                      height: "2.5rem",
-                      paddingTop: "7px",
-                      borderRadius: "10px",
-                    }}
-                  >
-                    <input
-                      type="text"
-                      style={{
-                        border: "none",
-                        width: "100%",
-                        outline: "none",
-                        paddingLeft: "5px",
-                        paddingRight: "5px",
-                      }}
-                    />
-                  </div>
-                </th>
-                <th
-                  scope="col"
-                  style={{
-                    textTransform: "capitalize",
-                    width: "20%",
-                    fontWeight: "normal",
-                    fontSize: "18px",
-                    fontFamily: "Calibri",
-                    color: "black",
-                    textAlign: "center",
-                    lineHeight: "15px",
-                  }}
-                >
-                  <div
-                    style={{
-                      border: "1px solid rgb(176, 193, 219)",
-                      height: "2.5rem",
-                      paddingTop: "7px",
-                      borderRadius: "10px",
-                    }}
-                  >
-                    <input
-                      type="text"
-                      style={{
-                        border: "none",
-                        width: "100%",
-                        outline: "none",
-                        paddingLeft: "5px",
-                        paddingRight: "5px",
-                      }}
-                    />
-                  </div>
-                </th>
-                <th
-                  scope="col"
-                  style={{
-                    textTransform: "capitalize",
-                    width: "20%",
-                    fontWeight: "normal",
-                    fontSize: "18px",
-                    fontFamily: "Calibri",
-                    color: "black",
-                    textAlign: "center",
-                    lineHeight: "15px",
-                  }}
-                >
-                  <div
-                    style={{
-                      border: "1px solid rgb(176, 193, 219)",
-                      height: "2.5rem",
-                      paddingTop: "7px",
-                      borderRadius: "10px",
-                    }}
-                  >
-                    <input
-                      type="tel"
-                      placeholder="XX"
-                      style={{
-                        border: "none",
-                        width: "50%",
-                        outline: "none",
-                        paddingLeft: "5px",
-                        paddingRight: "5px",
-                      }}
-                    />
-                    %
-                  </div>
-                </th>
-                <th
-                  scope="col"
-                  style={{
-                    textTransform: "capitalize",
-                    width: "20%",
-                    fontWeight: "normal",
-                    fontSize: "18px",
-                    fontFamily: "Calibri",
-                    color: "black",
-                    textAlign: "center",
-                    lineHeight: "15px",
-                  }}
-                >
-                  <div
-                    style={{
-                      border: "1px solid rgb(176, 193, 219)",
-                      height: "2.5rem",
-                      paddingTop: "7px",
-                      borderRadius: "10px",
-                    }}
-                  >
-                    <input
-                      type="tel"
-                      style={{
-                        border: "none",
-                        width: "100%",
-                        outline: "none",
-                        paddingLeft: "5px",
-                        paddingRight: "5px",
-                      }}
-                    />
-                  </div>
-                </th>
-                <th
-                  scope="col"
-                  style={{
-                    textTransform: "capitalize",
-                    width: "20%",
-                    fontWeight: "normal",
-                    fontSize: "18px",
-                    fontFamily: "Calibri",
-                    color: "black",
-                    textAlign: "center",
-                    lineHeight: "15px",
-                  }}
-                >
-                  <div
-                    style={{
-                      border: "1px solid rgb(176, 193, 219)",
-                      height: "2.5rem",
-                      paddingTop: "7px",
-                      borderRadius: "10px",
-                    }}
-                  >
-                    <input
-                      type="email"
-                      style={{
-                        border: "none",
-                        width: "100%",
-                        outline: "none",
-                        paddingLeft: "5px",
-                        paddingRight: "5px",
-                      }}
-                    />
-                  </div>
-                </th>
-              </tr>
+
+             
             </tbody>
           </table>
+         <div style={{textAlign:'center',fontSize:'18px'}}>To edit nominee detail, close this screen and click on edit button.
+         </div>
         </div>
       </Modal.Body>
+      </div>
     </Modal>
   );
 };

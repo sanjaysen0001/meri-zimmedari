@@ -69,8 +69,345 @@ const Nomineedetailsedit = () => {
           <span> Nominee Details</span>
         </p>
       </div>
+      <div className="container-fluid">
+      <div className="row">
+                    <div className="col-md-3 col-sm-3 col-lg-3 col-xl-3">
+                      <div>
+                        <div className="mt-4">
+                          <div className="mb-3">
+                            <fieldset
+                              style={{
+                                color: "rgb(82, 114, 161)",
+                                fontSize: "20px",
+                                fontFamily: "Calibri",
+                                border: "1px solid rgb(114, 158, 216)",
+                                borderRadius: "10px",
+                              }}
+                            >
+                              <legend
+                                style={{
+                                  color: "rgb(82, 114, 161)",
+                                  fontSize: "20px",
+                                  fontFamily: "Calibri",
+                                  marginLeft: "15px",
+                                  width: "auto",
+                                }}
+                                for="exampleInputPassword1"
+                                class="form-label"
+                              >
+                                Nominee Name
+                                <span style={{ color: "red" }}> *</span>
+                              </legend>
+
+                              <input
+                                type="text"
+                                placeholder="XXXXXXXXXXXX"
+                                name="nomineeName"
+                                value={formValues?.nomineeName}
+                                // pattern="[A-Za-z]+"
+                                // onChange={e => handleChange(index, e)}
+                                style={{
+                                  width: "95%",
+                                  border: "none",
+                                  paddingLeft: "15px",
+                                  paddingBottom: "10px",
+                                  marginBottom: "5px",
+                                  outline: "none",
+                                  marginLeft: "5px",
+                                  backgroundColor: "white",
+                                }}
+                              />
+                            </fieldset>
+                           
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-md-3 col-sm-3 col-lg-3 col-xl-3">
+                      <div>
+                        <div className="mt-4">
+                          <div className="mb-3">
+                            <fieldset
+                              style={{
+                                color: "rgb(82, 114, 161)",
+                                fontSize: "20px",
+                                fontFamily: "Calibri",
+                                border: "1px solid rgb(114, 158, 216)",
+                                borderRadius: "10px",
+                                height: "5.3rem",
+                              }}
+                            >
+                              <legend
+                                style={{
+                                  color: "rgb(82, 114, 161)",
+                                  fontSize: "20px",
+                                  fontFamily: "Calibri",
+                                  marginLeft: "15px",
+                                  width: "auto",
+                                }}
+                                for="exampleInputPassword1"
+                                class="form-label"
+                              >
+                                Relation with Nominee
+                                <span style={{ color: "red" }}> *</span>
+                              </legend>
+
+                              <select
+                                class="form-select"
+                                value={formValues?.relationWithNominee}
+                                onChange={handleSelect}
+                                name="relationWithNominee"
+                                aria-label="Default select example"
+                                defaultChecked
+                                style={{
+                                  outline: "none",
+                                  width: "95%",
+                                  float: "right",
+                                  border: "none",
+                                  paddingLeft: "15px",
+                                  paddingRight: "15px",
+                                  paddingBottom: "10px",
+                                  marginBottom: "5px",
+                                  backgroundColor: "white",
+                                }}
+                              >
+                                <option
+                                  Nominee
+                                  Relation
+                                  style={{ float: "left", border: "none" }}
+                                ></option>
+
+                                <option disabled value="">
+                                  Select
+                                </option>
+                                <option value="Wife">Wife</option>
+                                <option value="Father">Father</option>
+                                <option value="Mother">Mother</option>
+                                <option value="Son">Son</option>
+                                <option value="Daughter">Daughter</option>
+                                <option value="Sister">Sister</option>
+                                <option value="Brother">Brother</option>
+                                <option value="Husband">Husband</option>
+                              </select>
+                            </fieldset>
+                            
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-md-3 col-sm-3 col-lg-3 col-xl-3">
+                      <div>
+                        <div className="mt-4">
+                          <div className="mb-3">
+                            <fieldset
+                              style={{
+                                color: "rgb(82, 114, 161)",
+                                fontSize: "20px",
+                                fontFamily: "Calibri",
+                                border: "1px solid rgb(114, 158, 216)",
+                                borderRadius: "10px",
+                                height: "5.3rem",
+                              }}
+                            >
+                              <legend
+                                style={{
+                                  color: "rgb(82, 114, 161)",
+                                  fontSize: "20px",
+                                  fontFamily: "Calibri",
+                                  marginLeft: "15px",
+                                  width: "auto",
+                                }}
+                                for="exampleInputPassword1"
+                                class="form-label"
+                              >
+                                Nominee Phone Number
+                                <span style={{ color: "red" }}> *</span>
+                              </legend>
+
+                              <div className="row">
+                                <div className="col-md-3 col-sm-3 col-lg-3 col-xl-3 col-3">
+                                  <span>
+                                    <button
+                                      style={{
+                                        outline: "none",
+                                        marginLeft: "2px",
+                                        width: "115%",
+                                        border: "1px solid rgb(114, 158, 216)",
+                                        textAlign: "center",
+                                        height: "3rem",
+                                        marginTop: "-10px",
+                                        borderRadius: "10px",
+                                        fontSize: "18px",
+                                      }}
+                                    >
+                                      +91
+                                    </button>
+                                  </span>
+                                </div>
+
+                                <div className="col-md-6 col-sm-6 col-lg-6 col-xl-6 col-6">
+                                  <input
+                                    maxLength={10}
+                                    type="tel"
+                                    id="NomineePhoneNumber"
+                                    name="NomineePhoneNumber"
+                                    value={formValues?.NomineePhoneNumber}
+                                    // onChange={e => handleChange(index, e)}
+                                    placeholder="965XX50XX0"
+                                    style={{
+                                      width: "90%",
+                                      outline: "none",
+                                      border: "none",
+                                      paddingLeft: "15px",
+                                      paddingBottom: "10px",
+                                      marginBottom: "5px",
+                                    }}
+                                  />
+                                </div>
+                                <div
+                                  className="col-md-3 col-sm-3 col-lg-3 col-xl-3 col-3"
+                                  style={{ marginLeft: "-10px" }}
+                                >
+                                  <span>
+                                    <a
+                                      // onClick={() =>
+                                      //   handlePhoneModal(ele.NomineePhoneNumber)
+                                      // }
+                                      className="btn"
+                                      style={{
+                                        fontSize: "13px",
+                                        width: "115%",
+                                        borderRadius: "10px",
+                                        backgroundColor: "rgb(32, 119, 190)",
+                                        color: "white",
+                                        border: "1px solid rgb(114, 158, 216)",
+                                        lineHeight: "15px",
+                                        height: "3rem",
+                                        marginTop: "-10px",
+                                      }}
+                                    >
+                                      SEND OTP
+                                    </a>
+                                  </span>
+                                </div>
+                                
+                              </div>
+                            </fieldset>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-md-3 col-sm-3 col-lg-3 col-xl-3">
+                      <div>
+                        <div className="mt-4">
+                          <div className="mb-3">
+                            <fieldset
+                              style={{
+                                color: "rgb(82, 114, 161)",
+                                fontSize: "20px",
+                                fontFamily: "Calibri",
+                                border: "1px solid rgb(114, 158, 216)",
+                                borderRadius: "10px",
+                                height: "5.3rem",
+                              }}
+                            >
+                              <legend
+                                style={{
+                                  color: "rgb(82, 114, 161)",
+                                  fontSize: "20px",
+                                  fontFamily: "Calibri",
+                                  marginLeft: "15px",
+                                  width: "auto",
+                                }}
+                                for="exampleInputPassword1"
+                                class="form-label"
+                              >
+                                Nominee Email ID
+                                {/* <span style={{ color: "red" }}> *</span> */}
+                              </legend>
+                              <div className="row">
+                                <div className="col-md-9 col-sm-9 col-lg-9 col-xl-9 col-9">
+                                  <input
+                                    type="email"
+                                    name="nomineeEmailId"
+                                    value={formValues?.nomineeEmailId}
+                                    // onChange={e => handleChange(index, e)}
+                                    placeholder="kauxxxxxxxxxxxnghxxx@gmail.com"
+                                    style={{
+                                      width: "90%",
+                                      outline: "none",
+                                      border: "none",
+                                      paddingLeft: "15px",
+                                      paddingBottom: "10px",
+                                      marginBottom: "5px",
+                                      marginLeft: "5px",
+                                    }}
+                                  />
+                                </div>
+
+                                <div
+                                  className="col-md-3 col-sm-3 col-lg-3 col-xl-3 col-3"
+                                  style={{ marginLeft: "-10px" }}
+                                >
+                                  <span>
+                                    <a
+                                      // onClick={() =>
+                                      //   handleEmailModal(ele.nomineeEmailId)
+                                      // }
+                                      className="btn "
+                                      style={{
+                                        fontSize: "13px",
+                                        backgroundColor: "rgb(32, 119, 190)",
+                                        color: "white",
+                                        width: "115%",
+                                        borderRadius: "10px",
+                                        border: "1px solid rgb(114, 158, 216)",
+                                        lineHeight: "15px",
+                                        height: "3rem",
+                                        marginTop: "-10px",
+                                      }}
+                                    >
+                                      SEND OTP
+                                    </a>
+                                  </span>
+                                </div>
+                                {/* {formError.IsnomineeEmailId && (
+                                  <p
+                                    style={{
+                                      color: "red",
+                                      padding: "5px",
+                                      fontSize: "16px",
+                                      marginTop: "13px",
+                                      marginLeft: "13px",
+                                    }}
+                                  >
+                                    Enter valid e-mail ID
+                                  </p>
+                                )} */}
+                                {/* {emailError && (
+                                  <p
+                                    style={{
+                                      color: "red",
+                                      padding: "5px",
+                                      fontSize: "16px",
+                                    }}
+                                  >
+                                    {emailError}
+                                  </p>
+                                )} */}
+                              </div>
+                            </fieldset>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                  </div>
+      </div>
       <div className="container">
+        {/* 
         <div style={{ overflowX: "auto" }}>
+
           <table class="table">
             <thead>
               <tr
@@ -301,7 +638,7 @@ const Nomineedetailsedit = () => {
                   </div>
                 </th>
               </tr>
-              {/* <tr>
+              <tr>
                 <th scope="col" style={{ border: "none" }}>
                   <input
                     className="inputetextcssforedit"
@@ -579,11 +916,12 @@ const Nomineedetailsedit = () => {
                     </span>
                   </div>
                 </th>
-              </tr> */}
+              </tr> 
             </tbody>
           </table>
         </div>
-        <div className="container mt-5">
+      */}
+        <div className="container mt-5 mb-2 cssforfooternomineedetails" >
           <div style={{ float: "left" }}>
             <Link to={"/nomineedetails"}>
               <p
