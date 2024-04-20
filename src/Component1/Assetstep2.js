@@ -1,18 +1,20 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Input, Table } from "reactstrap";
+import { Input } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
 
-import EmailModal from "./nominee/EmailModal";
 import "../css/style.css";
-import axiosConfig from "./../axiosConfig";
 import Mynavbar from "./Mynavbar";
+import EmailModal from "./nominee/EmailModal";
 import PhoneOtp from "./nominee/phoneOtp";
 import PhoneBox from "./nominee/PhoneBox";
+import axiosConfig from "./../axiosConfig";
+import { OTP_main } from "./Api";
+import { AutoSaveModal } from "./assetDetail/AutoSaveModal";
 
 const Assetstep2 = () => {
-  // const [emailError, setEmailError] = useState("");
+  const [newOtp, setNewOtp] = useState(null);
   const [formValues, setFormValues] = useState([
     {
       nomineeName: "",
@@ -39,6 +41,8 @@ const Assetstep2 = () => {
   const [modalSendOtp, setModalSendOtp] = useState(false);
   const [phoneModalNotify, setPhoneModalNotify] = useState(false);
   const [phoneRemark, setPhoneRemark] = useState(false);
+  const [modalShowauto, setModalShowauto] = useState(false);
+
   // const [myNominee, setMyNominee] = useState([]);
   const navigate = useNavigate();
 
@@ -54,6 +58,7 @@ const Assetstep2 = () => {
       // setMyNominee(nomineeDetails);
     }
   }, []);
+
   const handleChange = (i, e) => {
     const value = e.target.value;
     const fieldName = e.target.name;
@@ -115,14 +120,13 @@ const Assetstep2 = () => {
   //   return pattern.test(email);
   // };
 
-  let addFormFields = () => {
+  let addFormFields = item => {
     const newArr = [];
     formValues.filter(el => newArr.push(Number(el.percentageofShar)));
     const sum = newArr.reduce(
       (previousValue, currentValue) => previousValue + currentValue,
       0
     );
-    // debugger;
     // let share = document.getElementById("percentageofShar").value;
     if (Number(sum) >= 100) {
       // debugger;
@@ -136,6 +140,19 @@ const Assetstep2 = () => {
         "The cumulative percentage share of all nominees can not exceed 100%."
       );
     } else {
+      if (item) {
+        setFormValues([
+          ...formValues,
+          {
+            nomineeName: item.name,
+            nomineeEmailId: "",
+            percentageofShar: null,
+            NomineePhoneNumber: "",
+            relationWithNominee: item.relation,
+            nominee: 0,
+          },
+        ]);
+      }
       setFormValues([
         ...formValues,
         {
@@ -150,7 +167,6 @@ const Assetstep2 = () => {
     }
   };
   const handleNext = () => {
-    debugger;
     const newArr = [];
     formValues.filter(el => newArr.push(Number(el.percentageofShar)));
     const sum = newArr.reduce(
@@ -170,11 +186,6 @@ const Assetstep2 = () => {
         allError.IsrelationWithNominee = false;
       }
 
-      // if (!validateEmail(value.nomineeEmailId)) {
-      //   allError.IsnomineeEmailId = true;
-      // } else {
-      //   allError.IsnomineeEmailId = false;
-      // }
       let share = document.getElementById("percentageofShar").value;
       // let shareMessage = "";
       // console.log(share);
@@ -224,7 +235,6 @@ const Assetstep2 = () => {
       ) {
         setPhoneModalNotify(true);
         let nomineeDetails = JSON.parse(localStorage.getItem("nomineeDetails"));
-        // console.log(nomineeDetails);
         let newArray;
         if (nomineeDetails?.length > 0) {
           newArray = [...nomineeDetails];
@@ -239,13 +249,36 @@ const Assetstep2 = () => {
         }
       }
       setFormError(allError);
-      console.log("@@@@@@@", formValues);
     }
   };
   let removeFormFields = i => {
     let newFormValues = [...formValues];
     newFormValues.splice(i, 1);
     setFormValues(newFormValues);
+  };
+  const generateOTP = () => {
+    // Generate a random 6-digit number
+    const myOtp = Math.floor(100000 + Math.random() * 900000);
+    console.log(myOtp);
+    return myOtp.toString(); // Convert number to string
+  };
+  const sendSMS = async number => {
+    const newOTP = generateOTP();
+    setNewOtp(newOTP);
+    try {
+      const apiKey = OTP_main;
+      const url = `https://www.fast2sms.com/dev/bulkV2?authorization=${apiKey}&variables_values=${newOTP}&route=otp&numbers=${number}`;
+
+      const response = await axiosConfig.get(url);
+      // setResponse(response.data);
+      console.log(response.data);
+      document.getElementById("alert").innerHTML = "";
+    } catch (error) {
+      if (error?.response?.data?.message) {
+        document.getElementById("alert").innerHTML =
+          "Sending multiple sms to same number is not allowed";
+      }
+    }
   };
   const handlePhoneModal = number => {
     let user = JSON.parse(localStorage.getItem("UserZimmedari"));
@@ -258,6 +291,7 @@ const Assetstep2 = () => {
         .post("/user/otp-mobile", payload)
         .then(response => {
           console.log("response", response.data.message);
+          sendSMS(number);
           setMyNumber(number);
           setModalShow(true);
           setModalShowmail(false);
@@ -287,10 +321,18 @@ const Assetstep2 = () => {
         });
     }
   };
+  const handleAutoSave = () => {
+    setModalShowauto(true);
+  };
   return (
     <>
       <Mynavbar />
 
+      <AutoSaveModal
+        show={modalShowauto}
+        addFormFields={addFormFields}
+        onHide={() => setModalShowauto(false)}
+      />
       <div>
         <div style={{ backgroundColor: "rgb(182, 205, 236)" }}>
           <div className="container-fluid">
@@ -429,13 +471,16 @@ const Assetstep2 = () => {
                   borderBottomRightRadius: " 50px",
                   backgroundColor: "rgb(92, 139, 201)",
                   textAlign: "center",
+                  cursor: "pointer",
                 }}
+                onClick={handleAutoSave}
               >
                 <span
                   style={{
                     color: "white",
                     fontSize: "20px",
                     fontFamily: "Calibri",
+                    cursor: "pointer",
                   }}
                 >
                   Auto-fill from pre-saved nominees
@@ -976,20 +1021,7 @@ const Assetstep2 = () => {
                 <div className="container-fluid">
                   <div class="row">
                     <div class="col-md-10 col-sm-10 col-lg-10 col-xl-10 col-9"></div>
-                    <div class="col-md-2 col-sm-2 col-lg-2 col-xl-2 col-3">
-                      {/* <div
-                        style={{ justifyContent: "center", display: "right" }}
-                      >
-                        {index ? (
-                          <button
-                            className="btn btn-danger"
-                            onClick={() => removeFormFields(index)}
-                          >
-                            Delete
-                          </button>
-                        ) : null}
-                      </div> */}
-                    </div>
+                    <div class="col-md-2 col-sm-2 col-lg-2 col-xl-2 col-3"></div>
                   </div>
                 </div>
               </div>
@@ -1068,7 +1100,11 @@ const Assetstep2 = () => {
 
       {modalShow ? (
         <div className="myModal">
-          <PhoneOtp setModalShow={setModalShow} myNumber={myNumber} />
+          <PhoneOtp
+            setModalShow={setModalShow}
+            myNumber={myNumber}
+            newOtp={newOtp}
+          />
         </div>
       ) : null}
       {modalShowmail ? (

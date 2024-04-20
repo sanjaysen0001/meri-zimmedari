@@ -1,14 +1,11 @@
-import Routerfile from './Routers/Routerfile'
-import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-
+import Routerfile from "./Routers/Routerfile";
+import "./App.css";
 
 function App() {
   return (
-  <>
-  <Routerfile/>
-  
-  </>
+    <>
+      <Routerfile />
+    </>
   );
 }
 

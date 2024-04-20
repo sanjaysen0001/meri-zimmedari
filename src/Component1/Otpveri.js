@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axiosConfig from "../axiosConfig";
 import { Link } from "react-router-dom";
-import imagelogo from "../image/logo.png";
-import swal from "sweetalert";
 import NavBar from "./NavBar";
 import Footer from "./Footer";
 const Otpveri = () => {
@@ -12,7 +10,7 @@ const Otpveri = () => {
   const [bool, setBool] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
-  const phoneNumber = location.state;
+  const { phone, newOTP } = location.state;
   const [count, setCount] = useState(60);
   const [isCountingComplete, setIsCountingComplete] = useState(false);
 
@@ -44,32 +42,37 @@ const Otpveri = () => {
   };
 
   const handleOtpVerify = () => {
-    let payload = {
-      otp: Number(otp),
-      mobileNo: Number(phoneNumber),
-    };
-    axiosConfig
-      .post("/otp-verify", payload)
-      .then(response => {
-        if (response.data.success == "ok") {
-          console.log(response.data.User);
-          setIsValidOtp(false);
-          localStorage.setItem(
-            "user_token",
-            JSON.stringify(response.data.User.token)
-          );
-          localStorage.setItem(
-            "UserZimmedari",
-            JSON.stringify(response.data.User)
-          );
-          navigate("/dashboard", { replace: true });
-        } else {
-          navigate("/registration", { replace: true });
-        }
-      })
-      .catch(error => {
-        setIsValidOtp(true);
-      });
+    if (newOTP && newOTP == otp) {
+      let payload = {
+        // otp: Number(otp),
+        otp: 123400,
+        mobileNo: Number(phone),
+      };
+      axiosConfig
+        .post("/otp-verify", payload)
+        .then(response => {
+          if (response.data.success == "ok") {
+            console.log(response.data.User);
+            setIsValidOtp(false);
+            localStorage.setItem(
+              "user_token",
+              JSON.stringify(response.data.User.token)
+            );
+            localStorage.setItem(
+              "UserZimmedari",
+              JSON.stringify(response.data.User)
+            );
+            navigate("/dashboard", { replace: true });
+          } else {
+            navigate("/registration", { replace: true });
+          }
+        })
+        .catch(error => {
+          setIsValidOtp(true);
+        });
+    } else {
+      setIsValidOtp(true);
+    }
   };
   return (
     <>
@@ -112,8 +115,7 @@ const Otpveri = () => {
               <div style={{ margin: "2rem" }}>
                 <div className=" mt-2">
                   <div className="mb-3">
-                    Please enter 6 digit OTP sent on mobile number {phoneNumber}
-                    .
+                    Please enter 6 digit OTP sent on mobile number {phone}.
                   </div>
                   <Link to={"/"} style={{ textDecoration: "none" }}>
                     <div
@@ -131,11 +133,10 @@ const Otpveri = () => {
                   <form>
                     {IsvalidOtp ? (
                       <span
-                      className="validationmobilefont"
+                        className="validationmobilefont"
                         style={{
                           color: "red",
                           padding: "2px",
-                        
                         }}
                       >
                         Invalid OTP

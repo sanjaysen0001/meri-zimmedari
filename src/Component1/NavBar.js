@@ -52,9 +52,9 @@ export default function NavBar() {
                   </a>
                 </li>
                 <li class="nav-item ">
-                  <a class="nav-link" href="https://merizimmedari.com/FAQ.html">
+                  <Link class="nav-link" to="/FAQs">
                     FAQ
-                  </a>
+                  </Link>
                 </li>
 
                 <li class="nav-item ">
@@ -75,12 +75,7 @@ export default function NavBar() {
                   </a>
                 </li> */}
                 <li class="nav-item">
-                  <a
-                    class="nav-link"
-                    href="https://user.merizimmedari.com/#/"
-                    
-                  >
-                    {" "}
+                  <a class="nav-link" href="https://user.merizimmedari.com/#/">
                     sign-in<span style={{ fontSize: "22px" }}>/</span>
                     Sign-up
                   </a>

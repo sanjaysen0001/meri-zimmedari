@@ -1,25 +1,22 @@
 import React, { useEffect, useState, useRef } from "react";
-import imagelogo from "../image/logo.png";
 import Webcam from "react-webcam";
 import * as tf from "@tensorflow/tfjs";
-// import imageuser from "../image/logouserimage.png";
+
 import axiosConfig from "../axiosConfig";
-import { Link, useNavigate, useLocation, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import "./Otpveri";
 import swal from "sweetalert";
 import NavBar from "./NavBar";
 import Footer from "./Footer";
+import { OTP_main } from "./Api";
 const faceLandmarksDetection = require("@tensorflow-models/face-landmarks-detection");
 
 const Login = () => {
   const [phone, setPhone] = useState(null);
-  // const locations = useLocation();
-  // const searchParams = new URLSearchParams(window.location.href);
-  // console.log(locations.pathname);
-  // console.log("_idddd", searchParams);
-  // for face open
+
   const webcamRef = useRef(null);
+  const [response, setResponse] = useState(null);
   const [showWebcam, setShowWebcam] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [count, setCount] = useState(0);
@@ -194,18 +191,47 @@ const Login = () => {
       setIsError(true);
     }
   };
+  const generateOTP = () => {
+    // Generate a random 6-digit number
+    const myOtp = Math.floor(100000 + Math.random() * 900000);
+    console.log(myOtp);
+    return myOtp.toString(); // Convert number to string
+  };
+
+  const sendSMS = async () => {
+    const newOTP = generateOTP();
+    try {
+      const apiKey = OTP_main;
+      const url = `https://www.fast2sms.com/dev/bulkV2?authorization=${apiKey}&variables_values=${newOTP}&route=otp&numbers=${phone}`;
+
+      const response = await axiosConfig.get(url);
+      setResponse(response.data);
+      console.log(response.data);
+      document.getElementById("alert").innerHTML = "";
+      navigate("/login/otp", {
+        state: { phone, newOTP },
+      });
+    } catch (error) {
+      if (error?.response?.data?.message) {
+        document.getElementById("alert").innerHTML =
+          "Sending multiple sms to same number is not allowed";
+      }
+    }
+  };
+
   const handleMobile = () => {
     let payload = {
       mobileNo: Number(phone),
     };
     if (phone?.length == 10) {
       setIsError(false);
+
       axiosConfig
         .post("/save-mobile", payload)
         .then(response => {
           if (response.status == 200) {
             localStorage.setItem("MobileNUM", JSON.stringify(Number(phone)));
-            navigate("/login/otp", { state: phone });
+            sendSMS();
           }
         })
         .catch(error => {
@@ -237,85 +263,6 @@ const Login = () => {
           style={{ marginLeft: "-15px", boxShadow: "0 0 10px  #2374ee" }}
         >
           <NavBar />
-          {/* <div class="container-fluid">
-            <div class="row d_flex">
-              <a href="https://merizimmedari.com/" target="_blank">
-                <div class=" col-md-2 col-sm-9 ">
-                  <a href="https://merizimmedari.com/" target="_blank">
-                    <img
-                      src={imagelogo}
-                      target="_blank"
-                      href="https://merizimmedari.com/"
-                      style={{ width: "96px" }}
-                      alt="#"
-                    />
-                  </a>
-                </div>
-              </a>
-              <div class="col-md-10 col-sm-12 chgdfagdjagdagfagsf">
-                <nav class="navigation navbar navbar-expand-md navbar-dark ">
-                  <button
-                    class="navbar-toggler"
-                    type="button"
-                    data-toggle="collapse"
-                    data-target="#navbarsExample04"
-                    aria-controls="navbarsExample04"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-                  >
-                    <span class="navbar-toggler-icon"></span>
-                  </button>
-                  <div class="collapse navbar-collapse" id="navbarsExample04">
-                    <ul class="navbar-nav mr-auto">
-                      <li class="nav-item ">
-                        <a
-                          class="nav-link"
-                          href="https://merizimmedari.com/WhatWeDo.html"
-                        >
-                          What We Do ?
-                        </a>
-                      </li>
-                      <li class="nav-item ">
-                        <a
-                          class="nav-link"
-                          href="https://merizimmedari.com/HowWeDo.html"
-                        >
-                          How It Works ?
-                        </a>
-                      </li>
-                      <li class="nav-item ">
-                        <a
-                          class="nav-link"
-                          href="https://merizimmedari.com/FAQ.html"
-                        >
-                          FAQ
-                        </a>
-                      </li>
-
-                      <li class="nav-item ">
-                        <a
-                          class="nav-link"
-                          href="https://merizimmedari.com/contact.html"
-                        >
-                          Contact Us
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a
-                          class="nav-link"
-                          href="https://user.merizimmedari.com/#/"
-                          target="_blank"
-                        >
-                          sign-in<span style={{ fontSize: "22px" }}>/</span>
-                          Sign-up
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </nav>
-              </div>
-            </div>
-          </div> */}
         </div>
 
         <div className="row " style={{ paddingTop: "5rem" }}>
@@ -354,12 +301,14 @@ const Login = () => {
                 </div>
               </div>
               {showWebcam && (
-                <div className="mb-4">
+                <div className="mb-2" style={{ borderRadius: "12px" }}>
                   <Webcam
+                    height="auto"
+                    width="100%"
                     audio={false}
                     ref={webcamRef}
                     screenshotFormat="image/jpeg"
-                    className="mb-2"
+                    className="mb-1"
                   />
                 </div>
               )}
@@ -429,17 +378,18 @@ const Login = () => {
                         value={phone}
                         onChange={handleChange}
                       />
- 
+
                       {isError && (
-                        <p className="validationmobilefont"
+                        <p
+                          className="validationmobilefont"
                           style={{
                             color: "red",
                             padding: "5px",
-                            
+
                             marginTop: "13px",
                           }}
                         >
-                          Enter valid 10-digit mobile number
+                          Enter valid 10-digit mobile Number
                         </p>
                       )}
                     </fieldset>
@@ -458,7 +408,18 @@ const Login = () => {
                       >
                         Sign-in/Sign-up with OTP
                       </button>
-                      {/* <Link to={"/login/password"}> */}
+
+                      <span
+                        id="alert"
+                        className="validationmobilefont"
+                        style={{
+                          color: "red",
+                          padding: "5px",
+
+                          marginTop: "13px",
+                        }}
+                      ></span>
+
                       <button
                         type="button"
                         class="btn mt-3 mb-3"
@@ -471,7 +432,6 @@ const Login = () => {
                       >
                         Sign-in with Password
                       </button>
-                      {/* </Link> */}
                     </div>
                     <div>
                       <fieldset

@@ -2,13 +2,18 @@
   width: 95%;
   margin-left: 10px;
   border-bottom: 1px solid orange;
-  /* borderBottom: "1px solid orange" */
 }
-/* .onepoints {
-  position: absolute;
-  background-color: brown;
-  left: 2px;
-  border-radius: 50%;
-  width: 12px;
-  height: 13px;
+.css-66gjpw-MuiResponsiveChart-container {
+  width: 100% !important;
+  height: 100% !important;
+}
+/* .css-66gjpw-MuiResponsiveChart-container > svg {
+  width: 62% !important;
+  height: 65% !important;
+  margin-right: 201px;
+  margin-bottom: 46px;
+} */
+/* .css-eh057r {
+  width: 100% !important;
+  height: 100% !important;
 } */

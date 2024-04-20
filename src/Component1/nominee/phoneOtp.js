@@ -3,14 +3,13 @@ import { useNavigate, useLocation } from "react-router-dom";
 import axiosConfig from "../../axiosConfig";
 
 // import NavBar from "./NavBar";
-const PhoneOtp = ({ setModalShow, myNumber }) => {
-  // debugger;
-  let phoneNumber;
-  const navigate = useNavigate();
-  const location = useLocation();
-  if (location?.state) {
-    phoneNumber = location?.state;
-  }
+const PhoneOtp = ({ setModalShow, myNumber, newOtp }) => {
+  // let phoneNumber;
+  // const navigate = useNavigate();
+  // const location = useLocation();
+  // if (location?.state) {
+  //   phoneNumber = location?.state;
+  // }
   const [otp, setOtp] = useState(null);
   const [IsvalidOtp, setIsValidOtp] = useState(false);
   const [bool, setBool] = useState(null);
@@ -18,7 +17,6 @@ const PhoneOtp = ({ setModalShow, myNumber }) => {
   const [isCountingComplete, setIsCountingComplete] = useState(false);
 
   useEffect(() => {
-    // console.log("myNumber", myNumber);
     if (count > 0) {
       setIsCountingComplete(false);
       const timer = setTimeout(() => {
@@ -51,18 +49,24 @@ const PhoneOtp = ({ setModalShow, myNumber }) => {
     let user = JSON.parse(localStorage.getItem("UserZimmedari"));
     let payload = {
       userId: user._id,
-      otp: Number(otp),
+      otp: 123400,
+      // otp: Number(otp),
     };
-    axiosConfig
-      .post("/user/otp-verify-mobile", payload)
-      .then(response => {
-        setModalShow(false);
-        console.log("response", response.data.message);
-      })
-      .catch(error => {
-        console.log("response", error);
-        setIsValidOtp(true);
-      });
+
+    if (newOtp === otp) {
+      axiosConfig
+        .post("/user/otp-verify-mobile", payload)
+        .then(response => {
+          setModalShow(false);
+          console.log("response", response.data.message);
+        })
+        .catch(error => {
+          console.log("response", error);
+          setIsValidOtp(true);
+        });
+    } else {
+      setIsValidOtp(true);
+    }
   };
   return (
     <>
@@ -113,8 +117,8 @@ const PhoneOtp = ({ setModalShow, myNumber }) => {
             <div style={{ margin: "2rem" }}>
               <div className=" mt-2">
                 <div className="mb-3">
-                  Please enter 6 digit OTP sent on mobile number{" "}
-                  {myNumber && myNumber}.
+                  Please enter 6 digit OTP sent on mobile number
+                  <span className="px-2">{myNumber && myNumber}</span>.
                 </div>
                 <div
                   style={{

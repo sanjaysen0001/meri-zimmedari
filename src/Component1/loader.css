@@ -1,0 +1,28 @@
+/* HTML: <div class="loader"></div> */
+.loader {
+  width: 50px;
+  aspect-ratio: 1;
+  --_c: no-repeat radial-gradient(farthest-side, #25b09b 92%, #0000);
+  background: var(--_c) top, var(--_c) left, var(--_c) right, var(--_c) bottom;
+  background-size: 12px 12px;
+  animation: l7 1s infinite;
+}
+@keyframes l7 {
+  to {
+    transform: rotate(0.5turn);
+  }
+}
+
+.rowColorHead {
+  background-color: rgb(43, 77, 129);
+  width: "100%";
+}
+
+.rowColor {
+  background-color: rgb(176, 193, 219);
+  width: "100%";
+}
+
+.rowColor:nth-child(odd) {
+  background-color: rgb(43, 77, 129);
+}

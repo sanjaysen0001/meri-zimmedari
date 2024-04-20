@@ -1,26 +1,16 @@
 import React, { useEffect, useState, useRef } from "react";
 import Webcam from "react-webcam";
-
+import "./loader.css";
 import * as tf from "@tensorflow/tfjs";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import BlinkEye from "../image/eyedrop.gif";
 import swal from "sweetalert";
-
 import axiosConfig from "../axiosConfig";
-import {
-  Modal,
-  ModalHeader,
-  Button,
-  Col,
-  Form,
-  Input,
-  Label,
-  Row,
-} from "reactstrap";
+import { Modal, ModalHeader, Col, Form, Row } from "reactstrap";
 import NavBar from "./NavBar";
 const faceLandmarksDetection = require("@tensorflow-models/face-landmarks-detection");
-const Register = args => {
+const Register = (args) => {
   const webcamRef = useRef(null);
   const navigate = useNavigate();
 
@@ -76,11 +66,11 @@ const Register = args => {
       .load(faceLandmarksDetection.SupportedPackages.mediapipeFacemesh, {
         maxFaces: 1,
       })
-      .then(model => {
+      .then((model) => {
         setModel(model);
         setText("ready for capture");
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -101,7 +91,6 @@ const Register = args => {
     setRegistration(true);
   };
   const handleCapture = () => {
-    alert("Image captured");
     const imageSrc = webcamRef.current.getScreenshot();
     setFormData({
       ...formData,
@@ -157,7 +146,7 @@ const Register = args => {
     return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
   };
 
-  const detectarBlink = keypoints => {
+  const detectarBlink = (keypoints) => {
     const leftEye_left = 263;
     const leftEye_right = 362;
     const leftEye_top = 386;
@@ -229,7 +218,7 @@ const Register = args => {
     return new Blob([ab], { type: mimeString });
   }
 
-  const HandleSubmitData = async e => {
+  const HandleSubmitData = async (e) => {
     e.preventDefault();
 
     setLoginButton("Submitting...");
@@ -244,11 +233,11 @@ const Register = args => {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return emailRegex.test(email.trim());
   }
-  const handleEmailValidation = e => {
+  const handleEmailValidation = (e) => {
     setFormData({ ...formData, email: e.target.value });
   };
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setEmailError("");
     setFormError({
@@ -256,9 +245,9 @@ const Register = args => {
       IsImage: false,
     });
     if (formData.name) {
-      setFormError(prevData => ({ ...prevData, IsName: false }));
+      setFormError((prevData) => ({ ...prevData, IsName: false }));
     } else {
-      setFormError(prevData => ({ ...prevData, IsName: true }));
+      setFormError((prevData) => ({ ...prevData, IsName: true }));
     }
 
     // Validate email
@@ -297,7 +286,7 @@ const Register = args => {
 
       axiosConfig
         .post("/register", formDataToSend)
-        .then(response => {
+        .then((response) => {
           localStorage.removeItem("MobileNUM");
           console.log(response.data);
           setImageError("");
@@ -308,7 +297,7 @@ const Register = args => {
           } else {
           }
         })
-        .catch(error => {
+        .catch((error) => {
           setIsTrue(true);
           console.log(error);
         });
@@ -411,7 +400,7 @@ const Register = args => {
                         id="name"
                         name="name"
                         value={formData.name}
-                        onChange={e => {
+                        onChange={(e) => {
                           setFormData({ ...formData, name: e.target.value });
                         }}
                         required
@@ -500,7 +489,11 @@ const Register = args => {
                           color: "white",
                           height: "2.8rem",
                         }}
-                        onClick={toggle}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          toggle();
+                          detectPoints();
+                        }}
                       >
                         Upload Live Selfie
                         <span style={{ marginLeft: "2px", color: "red" }}>
@@ -533,7 +526,7 @@ const Register = args => {
                         id="terms"
                         name="terms"
                         checked={isCheck}
-                        onChange={e => {
+                        onChange={(e) => {
                           setIsCheck(e.target.checked);
                         }}
                         style={{ width: "5%", float: "left", marginTop: "5px" }}
@@ -546,7 +539,11 @@ const Register = args => {
                       >
                         <span style={{ color: "black" }}>I agree to the</span>
                         <span style={{ marginLeft: "3px" }}>
-                          <Link to={"https://merizimmedari.com/termsandcondition.html"}>
+                          <Link
+                            to={
+                              "https://merizimmedari.com/termsandcondition.html"
+                            }
+                          >
                             Terms & conditions
                           </Link>
                         </span>
@@ -555,7 +552,11 @@ const Register = args => {
                         </span>
 
                         <span style={{ marginLeft: "3px" }}>
-                          <Link to={"https://merizimmedari.com/PrivacyPolicy.html"}>Privacy Policy</Link>
+                          <Link
+                            to={"https://merizimmedari.com/PrivacyPolicy.html"}
+                          >
+                            Privacy Policy
+                          </Link>
                         </span>
                       </label>
                     </div>
@@ -600,7 +601,7 @@ const Register = args => {
         </div>
       </div>
       <Modal isOpen={modal} toggle={toggle} {...args}>
-        <ModalHeader toggle={toggle}>Image Capture Modal</ModalHeader>
+        <ModalHeader toggle={toggle}>Capture Image</ModalHeader>
         <div className="p-3">
           <Form onSubmit={HandleSubmitData}>
             <Row>
@@ -620,20 +621,24 @@ const Register = args => {
                 </div>
                 {model == null ? (
                   <>
-                    <h4>Wait while model loading...</h4>
+                    <div className="d-flex justify-content-center mt-5 mb-5">
+                      <div className="loader"></div>
+                    </div>
                   </>
                 ) : (
                   <>
-                    <div className="max-w-md mx-auto  p-4 border rounded-md shadow-lg">
+                    <div className="">
                       {/* <form onSubmit={handleSubmit}> */}
                       {showWebcam && (
-                        <div className="mb-4 mt-4">
+                        <div className="mb-2 mt-2">
                           <Webcam
+                            width="100%"
+                            height="auto"
                             audio={false}
                             ref={webcamRef}
                             screenshotFormat="image/jpeg"
-                            className="mb-2"
-                            style={{ width: "100%" }}
+                            // className="mb-2"
+                            style={{ borderRadius: "8px" }}
                             onClick={handleSubmit}
                           />
                           {/* <button

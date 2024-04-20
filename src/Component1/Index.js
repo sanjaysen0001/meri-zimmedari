@@ -1,22 +1,64 @@
 import { Link } from "react-router-dom";
-
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
+import React, { useEffect, useState } from "react";
 import { PieChart } from "@mui/x-charts/PieChart";
+import { useDrawingArea } from "@mui/x-charts/hooks";
+import { styled } from "@mui/material/styles";
+import axiosConfig from "../axiosConfig";
 import Mynavbar from "./Mynavbar";
-// import "./App.css";
+
 import "./dashboard.css";
 
+const StyledText = styled("text")(({ theme }) => ({
+  fill: theme.palette.text.primary,
+  textAnchor: "middle",
+  dominantBaseline: "central",
+  fontSize: 40,
+  fontWeight: 600,
+}));
 const Index = () => {
-  const pieParams = { height: 130, margin: { right: 5 } };
-  const palette = ["blue", "orange"];
+  const [PaymentStatus, setPaymentStatus] = useState({});
+  const [assetList, setAssetList] = useState([]);
+  const pieParams = { width: 400, height: 200, margin: { right: 5 } };
+  // const pieParams = { margin: { right: 60 } };
 
+  useEffect(() => {
+    let user = JSON.parse(localStorage.getItem("UserZimmedari"));
+    axiosConfig
+      .get("/payment/view-payment-by-userId/" + user?._id)
+      .then(res => {
+        // console.log(res?.data?.Payment);
+        let length = res?.data?.Payment?.length - 1;
+        localStorage.setItem("PaymentList", JSON.stringify(res?.data?.Payment));
+        if (res?.data?.Payment) {
+          setPaymentStatus(res?.data?.Payment[length]);
+        }
+      })
+      .catch(err => {
+        console.log(err.response);
+      });
+
+    axiosConfig
+      .get("/asset/view-asset-by-id/" + user?._id)
+      .then(response => {
+        console.log(response);
+        setAssetList(response.data);
+      })
+      .catch(error => {
+        console.log(error.response?.data);
+      });
+  }, []);
+  const PieCenterLabel = ({ children }) => {
+    const { width, height, left, top } = useDrawingArea();
+    console.log(width, height, left, top);
+    return (
+      <StyledText x={left + width / 2} y={top + height / 2}>
+        80%
+      </StyledText>
+    );
+  };
   return (
     <>
       <Mynavbar />
-      {/* Page content */}
       <div className="">
         <p
           style={{
@@ -63,7 +105,7 @@ const Index = () => {
                       <span
                         style={{ fontSize: "44px", color: "rgb(43, 77, 129)" }}
                       >
-                        29
+                        {assetList.length}
                       </span>
                       <span
                         style={{
@@ -101,7 +143,7 @@ const Index = () => {
                         color: "rgb(43, 77, 129)",
                         padding: "10px",
                         backgroundImage:
-                        "linear-gradient(to right, rgb(174, 191, 207) , rgb(243, 227, 175))",
+                          "linear-gradient(to right, rgb(174, 191, 207) , rgb(243, 227, 175))",
                       }}
                     >
                       HEALTH DECLERATION STATUS
@@ -123,7 +165,12 @@ const Index = () => {
                           color: "rgb(43, 77, 129)",
                         }}
                       >
-                        : 15-FEB-24
+                        :{" "}
+                        {PaymentStatus?.nextPaymentDate ? (
+                          <>{PaymentStatus?.nextPaymentDate}</>
+                        ) : (
+                          "NA"
+                        )}
                       </span>
 
                       <br></br>
@@ -144,7 +191,12 @@ const Index = () => {
                           color: "rgb(43, 77, 129)",
                         }}
                       >
-                        : 15-JAN-24
+                        :{" "}
+                        {PaymentStatus?.lastPaymentDate ? (
+                          <>{PaymentStatus?.lastPaymentDate}</>
+                        ) : (
+                          "NA"
+                        )}
                       </span>
                     </p>
                   </div>
@@ -173,7 +225,7 @@ const Index = () => {
                         color: "rgb(43, 77, 129)",
                         padding: "10px",
                         backgroundImage:
-                        "linear-gradient(to right, rgb(174, 191, 207) , rgb(243, 227, 175))",
+                          "linear-gradient(to right, rgb(174, 191, 207) , rgb(243, 227, 175))",
                       }}
                     >
                       SUBSCRIPTION STATUS
@@ -205,7 +257,12 @@ const Index = () => {
                           color: "rgb(43, 77, 129)",
                         }}
                       >
-                        : 15-JAN-24
+                        :{" "}
+                        {PaymentStatus?.nextPaymentDate ? (
+                          <> {PaymentStatus?.nextPaymentDate}</>
+                        ) : (
+                          "NA"
+                        )}
                       </span>
                     </p>
                   </div>
@@ -215,11 +272,10 @@ const Index = () => {
           </div>
         </div>
         <div className="mt-5 container-fluid">
-         
           <div class="horizontal-line">
-  <div class="endpoint-dot left-dot"></div>
-  <div class="endpoint-dot right-dot"></div>
-</div>
+            <div class="endpoint-dot left-dot"></div>
+            <div class="endpoint-dot right-dot"></div>
+          </div>
         </div>
         <div className="mt-5 container-fluid">
           <div className="row">
@@ -236,7 +292,6 @@ const Index = () => {
                     borderTopLeftRadius: "20px",
                   }}
                 >
-                
                   <div className="row">
                     <div className="col-md-4 col-xl-4 col-lg-4 col-12 col-sm-4 ">
                       <div className="m-2">
@@ -266,50 +321,62 @@ const Index = () => {
                       </div>
                     </div>
                     <div className="col-md-8 col-xl-8 col-lg-8 col-12 col-sm-8">
-                    <div style={{overflow:'auto',height:'9rem'}}>
-                    
-                    
-                      <div
-                        style={{
-                          fontSize: "16px",
-                          fontWeight: "400",
-                          color: "rgb(43, 77, 129)",
-                          height: "3rem",
-                          padding: "10px",
-                          backgroundImage:
-                          "linear-gradient(to right, rgb(174, 191, 207) , rgb(229, 234, 238))",
-                        }}
-                      >
-                        Renew Subscription, expiring in 15 days
+                      <div style={{ overflow: "auto", height: "9rem" }}>
+                        <div
+                          style={{
+                            fontSize: "16px",
+                            fontWeight: "400",
+                            color: "rgb(43, 77, 129)",
+                            height: "3rem",
+                            padding: "10px",
+                            backgroundImage:
+                              "linear-gradient(to right, rgb(174, 191, 207) , rgb(229, 234, 238))",
+                          }}
+                        >
+                          Renew Subscription, expiring in 15 days
+                        </div>
+                        <div
+                          style={{
+                            fontSize: "16px",
+                            fontWeight: "400",
+                            color: "rgb(43, 77, 129)",
+                            height: "3rem",
+                            padding: "10px",
+                            backgroundImage:
+                              "linear-gradient(to right, rgb(243, 206, 175) , rgb(250, 252, 253))",
+                          }}
+                        >
+                          Validate Nominee Phone Number
+                        </div>
+                        <div
+                          className="cssforborderradiusmobileveiw"
+                          style={{
+                            fontSize: "16px",
+                            fontWeight: "400",
+                            color: "rgb(43, 77, 129)",
+                            height: "3rem",
+                            padding: "10px",
+                            backgroundImage:
+                              "linear-gradient(to right, rgb(174, 191, 207) , rgb(229, 234, 238))",
+                          }}
+                        >
+                          Validate Nominee e-mail ID
+                        </div>
+                        <div
+                          className="cssforborderradiusmobileveiw"
+                          style={{
+                            fontSize: "16px",
+                            fontWeight: "400",
+                            color: "rgb(43, 77, 129)",
+                            height: "3rem",
+                            padding: "10px",
+                            backgroundImage:
+                              "linear-gradient(to right, rgb(174, 191, 207) , rgb(229, 234, 238))",
+                          }}
+                        >
+                          Validate Nominee e-mail ID
+                        </div>
                       </div>
-                      <div
-                        style={{
-                          fontSize: "16px",
-                          fontWeight: "400",
-                          color: "rgb(43, 77, 129)",
-                          height: "3rem",
-                          padding: "10px",
-                          backgroundImage:
-                          "linear-gradient(to right, rgb(243, 206, 175) , rgb(250, 252, 253))",
-                        }}
-                      >
-                        Validate Nominee Phone Number
-                      </div>
-                      <div
-                        className="cssforborderradiusmobileveiw"
-                        style={{
-                          fontSize: "16px",
-                          fontWeight: "400",
-                          color: "rgb(43, 77, 129)",
-                          height: "3rem",
-                          padding: "10px",
-                          backgroundImage:
-                          "linear-gradient(to right, rgb(174, 191, 207) , rgb(229, 234, 238))",
-                        }}
-                      >
-                        Validate Nominee e-mail ID
-                      </div>
-                    </div>
                     </div>
                   </div>
                 </div>
@@ -320,9 +387,10 @@ const Index = () => {
                 <div
                   className="row m-1"
                   style={{
+                    // height: "9rem",
                     border: "1px solid rgb(43, 77, 129)",
                     backgroundImage:
-                      "linear-gradient(to right, rgb(194, 215, 233) , rgb(233, 239, 245))",
+                      "linear-gradient(to right, rgb(194, 215, 233) , rgb(254, 254, 255))",
                     borderBottomRightRadius: "20px",
                     borderTopRightRadius: "20px",
                   }}
@@ -345,20 +413,26 @@ const Index = () => {
                     </p>
                   </div>
                   <div
-                    className="col-md-5 col-xl-5 col-lg-5"
+                    className="col-md-5 col-xl-5 col-lg-5 pieChart"
                     style={{ height: "9rem" }}
                   >
                     <PieChart
+                      className="pieArea"
                       series={[
                         {
                           data: [
                             { value: 80, color: "rgb(52, 145, 233)" },
                             { value: 20, color: "rgb(235, 139, 94)" },
                           ],
+                          innerRadius: 80,
                         },
                       ]}
                       {...pieParams}
-                    />
+                    >
+                      <PieCenterLabel className="pieName">
+                        Center label
+                      </PieCenterLabel>
+                    </PieChart>
                   </div>
                 </div>
               </div>

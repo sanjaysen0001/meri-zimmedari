@@ -1,9 +1,9 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import "../css/style.css";
 import React, { useState, useRef, useEffect } from "react";
-import axiosConfig from "./../axiosConfig";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Mynavbar from "./Mynavbar";
+import axiosConfig from "./../axiosConfig";
 
 const Assetpolicy = props => {
   const fileInputRef = useRef(null);
@@ -24,15 +24,19 @@ const Assetpolicy = props => {
     IsBothMatch: false,
   });
   const [fileUrl, setFileUrl] = useState(null);
+  const [result, setResult] = useState([]);
+  const [AssetList, setAssetList] = useState([]);
   useEffect(() => {
+    AssetListFunc();
+    console.log(location?.state);
     console.log(location?.state?.Asset_Type);
     let assetAllData = JSON.parse(localStorage.getItem("assetDetails"));
     // let asset = localStorage.getItem("assetDetails");
     // console.log(assetAllData?.dynamicFields.Asset_Type);
     if (location?.state?.Asset_Type == assetAllData?.dynamicFields.Asset_Type) {
       setPolicyName(assetAllData?.policyName);
-      setPolicyNumber(assetAllData.policyNumber);
-      setReEnterPolicyNumber(assetAllData.reEnterPolicyNumber);
+      setPolicyNumber(assetAllData?.policyNumber);
+      setReEnterPolicyNumber(assetAllData?.reEnterPolicyNumber);
     } else if (assetAllData?.dynamicFields?.Asset_Type) {
       setPolicyName();
       setPolicyNumber();
@@ -45,10 +49,31 @@ const Assetpolicy = props => {
     } else {
       setdynamicFields(viewData);
     }
-  }, []);
 
+    axiosConfig
+      .get("/asset/view-asset")
+      .then(res => {
+        console.log(res.data.Asset);
+        setAssetList(res.data.Asset);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }, []);
+  const AssetListFunc = () => {
+    axiosConfig
+      .get("/admin/get-list")
+      .then(response => {
+        console.log(response.data.Field);
+        setResult(response.data.Field);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
   const handleNext = () => {
     // Validate form fields
+
     let errors = {};
     if (!policyName) errors.IspolicyName = true;
     if (!policyNumber) errors.IspolicyNumber = true;
@@ -66,6 +91,30 @@ const Assetpolicy = props => {
         policyName,
         reEnterPolicyNumber,
       };
+
+      // console.log(dynamicFields.Asset_Type);
+      // let count = 0;
+      // AssetList.forEach(item => {
+      //   const { assetType } = item;
+      //   console.log(assetType);
+      //   if (assetType) {
+      //     const index = result.filter(
+      //       element => element.Asset_Type === assetType
+      //     );
+      //     if (index === -1) {
+      //       // If assetType not found in array, add it with count 1
+      //       result.push({ count: 1 });
+      //     } else {
+      //       // If assetType found in array, increment its count
+      //       result[index].count++;
+      //     }
+      //   }
+      // });
+      // result.filter(assetType =>
+      //  if (assetType.Asset_Type == dynamicFields.Asset_Type) {
+      //   result.push(dynamicFields.)
+      //  }
+      // );
 
       localStorage.setItem("assetDetails", JSON.stringify(assetType));
       navigate("/add-asset/step2");

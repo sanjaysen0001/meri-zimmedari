@@ -12,20 +12,23 @@ const Icons = () => {
     axiosConfig
       .get("/admin/get-list")
       .then(response => {
+        console.log(response.data.Field);
         setResult(response.data.Field);
       })
       .catch(error => {
         console.error(error);
       });
+
     axiosConfig
       .get("/asset/view-asset")
       .then(res => {
+        console.log(res.data.Asset);
         setAssetList(res.data.Asset);
       })
       .catch(err => {
         console.log(err);
       });
-    // FindAssetType();
+    FindAssetType();
   }, []);
   const FindAssetType = () => {
     const assetTypeCounts = [];
@@ -37,10 +40,8 @@ const Icons = () => {
           element => element.assetType === assetType
         );
         if (index === -1) {
-          // If assetType not found in array, add it with count 1
           assetTypeCounts.push({ assetType, count: 1 });
         } else {
-          // If assetType found in array, increment its count
           assetTypeCounts[index].count++;
         }
       }
@@ -50,12 +51,13 @@ const Icons = () => {
     let arraList = [];
     assetTypeCounts?.map(assetTypeCount => {
       console.log(assetTypeCount);
-      arraList.push(assetTypeCount.count);
+      arraList.push(assetTypeCount);
       console.log(
         `${assetTypeCount.assetType}: ${assetTypeCount.count} occurrences`
       );
     });
     setNum(arraList);
+    console.log(arraList);
     console.log(num);
   };
   const handlePlus = selectedData => {
@@ -72,7 +74,6 @@ const Icons = () => {
   return (
     <>
       <Mynavbar />
-      {/* Page content */}
       <div>
         <p
           style={{

@@ -29,8 +29,7 @@ const Assetstep3 = () => {
     navigate("/add-asset/policy");
   };
   const handleSubmit = () => {
-    debugger;
-    console.log(JSON.stringify(nomineeData));
+    // console.log(JSON.stringify(nomineeData));
     const formData = new FormData();
     formData.append("userId", AssetData?.userId);
     formData.append("file", AssetData?.uploadedFile);
@@ -211,7 +210,7 @@ const Assetstep3 = () => {
                 <tr>
                   <th
                     scope="col"
-                    colspan="5"
+                    colSpan="5"
                     style={{
                       border: "2px solid rgb(201, 198, 198)",
                       textTransform: "capitalize",
@@ -234,12 +233,12 @@ const Assetstep3 = () => {
                     scope="row"
                     className="text-center"
                     style={{ border: "2px solid rgb(201, 198, 198)" }}
-                    colspan="2"
+                    colSpan="2"
                   >
                     Asset Type
                   </th>
                   <td
-                    colspan="3"
+                    colSpan="3"
                     className="text-center"
                     style={{ border: "2px solid rgb(201, 198, 198)" }}
                   >
@@ -252,12 +251,12 @@ const Assetstep3 = () => {
                     scope="row"
                     className="text-center"
                     style={{ border: "2px solid rgb(201, 198, 198)" }}
-                    colspan="2"
+                    colSpan="2"
                   >
                     {AssetData.dynamicFields?.Field_2}
                   </th>
                   <td
-                    colspan="3"
+                    colSpan="3"
                     className="text-center"
                     style={{ border: "2px solid rgb(201, 198, 198)" }}
                   >
@@ -269,12 +268,12 @@ const Assetstep3 = () => {
                     scope="row"
                     className="text-center"
                     style={{ border: "2px solid rgb(201, 198, 198)" }}
-                    colspan="2"
+                    colSpan="2"
                   >
                     {AssetData.dynamicFields?.Field_3}
                   </th>
                   <td
-                    colspan="3"
+                    colSpan="3"
                     className="text-center"
                     style={{ border: "2px solid rgb(201, 198, 198)" }}
                   >
@@ -286,7 +285,7 @@ const Assetstep3 = () => {
                     scope="row"
                     className="text-center"
                     style={{ border: "2px solid rgb(201, 198, 198)" }}
-                    colspan="2"
+                    colSpan="2"
                   >
                     {AssetData.dynamicFields?.Field_1}
                   </th>
@@ -294,7 +293,7 @@ const Assetstep3 = () => {
                     scope="row"
                     className="text-center"
                     style={{ border: "2px solid rgb(201, 198, 198)" }}
-                    colspan="2"
+                    colSpan="2"
                   >
                     {/* Policy212414242 */}
                     {/* <embed
@@ -310,7 +309,7 @@ const Assetstep3 = () => {
                 <tr style={{ border: "2px solid rgb(201, 198, 198)" }}>
                   <th
                     scope="col"
-                    colspan="5"
+                    colSpan="5"
                     style={{
                       border: "2px solid rgb(201, 198, 198)",
                       textTransform: "capitalize",

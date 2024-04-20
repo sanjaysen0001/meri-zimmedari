@@ -4,7 +4,7 @@ import "../css/style.css";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-
+import faq from "../Component1/FAQ";
 import { LinkContainer } from "react-router-bootstrap";
 import { Dropdown, NavDropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -94,14 +94,9 @@ const Mynavbar = () => {
               </NavDropdown>
 
               <div className="cssfornavbarpadding sdasdfadfdfsdffsdfsdf">
-                <a
-                  href={"https://merizimmedari.com/FAQ.html"}
-                  target="_blank"
-                  style={{ textDecoration: "none", color: "rgba(0, 0, 0, .5)" }}
-                  rel="noreferrer"
-                >
-                  FAQ
-                </a>
+                <Link to={"/FAQs"}>
+                  <NavDropdown.Item>FAQ</NavDropdown.Item>
+                </Link>
               </div>
 
               <div className="cssfornavbarpadding sdasdfadfdfsdffsdfsdf">

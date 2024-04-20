@@ -29,7 +29,7 @@ import Assetpolicy from "../Component1/Assetpolicy";
 import Icons from "../Component1/Icons";
 import Index from "../Component1/Index";
 import SubscriptionInvoices1 from "../Component1/SubscriptionInvoices1";
-import FAQ from "../Component1/FAQ";
+
 import Help from "../Component1/Help";
 import TermsConditions from "../Component1/termsConditions";
 import Confidentialeditor from "../Component1/Confidentialeditor";
@@ -45,9 +45,13 @@ import Payment from "../Component1/Payment";
 import Preview from "../Component1/Preview";
 import NotFind from "../Component1/NotFind";
 import Manageconfidential from "../Component1/Manageconfidential";
+import ViewConfidentialNote from "../Component1/confidentialNote/ViewConfidentialNote";
 import Termsandcondition from "../Component1/Termsandcondition";
 import Privacypolicy from "../Component1/Privacypolicy";
-
+import Faqpageweb from "../Component1/Faqpageweb";
+import FAQs from "../Component1/FAQs";
+import TermsAndConditions from "../Component1/TermsAndConditions";
+import PrivacyandPolicy from "../Component1/PrivacyandPolicy";
 const Routerfile = () => {
   const [loading, setLoading] = useState(false);
 
@@ -78,6 +82,7 @@ const Routerfile = () => {
                 path="/termsandcondition"
                 element={<Termsandcondition />}
               />
+              <Route path="/FAQ" element={<Faqpageweb />} />
               <Route path="/Preview" element={<Preview />} />
               <Route path="/payment" element={<Payment />} />
               <Route path="/face" element={<Loginform />} />
@@ -105,9 +110,13 @@ const Routerfile = () => {
             path="/manageconfidentialnoteeditor"
             element={<Manageconfidential />}
           />
+          <Route
+            path="/viewConfidentialNote/:id"
+            element={<ViewConfidentialNote />}
+          />
           <Route path="/Help" element={<Help />} />
           <Route path="/termsConditions" element={<TermsConditions />} />
-          <Route path="/FAQ" element={<FAQ />} />
+
           <Route
             path="/Subscriptioninvoices/history"
             element={<SubscriptionInvoices1 />}
@@ -118,8 +127,8 @@ const Routerfile = () => {
             element={<Subscriptioninvoices />}
           />
           <Route path="/confidentialnote" element={<Confidentialnote />} />
-          <Route path="/nomineedetailsedit" element={<Nomineedetailsedit />} />
           <Route path="/nomineedetails" element={<Nomineedetails />} />
+          <Route path="/nomineedetailsedit" element={<Nomineedetailsedit />} />
           <Route path="/assetdetails" element={<AssetDetails />} />
           <Route path="/myprofile/edit" element={<Myprofileedit1 />} />
           <Route path="/registration" element={<Register />} />
@@ -127,7 +136,9 @@ const Routerfile = () => {
           <Route path="/login/password" element={<Loginwithpassword />} />
           <Route path="/forgot/password" element={<Forgotpassword />} />
           <Route path="/login/otp" element={<Otpveri />} />
-
+          <Route path="/FAQs" element={<FAQs />} />
+          <Route path="/TermsAndConditions" element={<TermsAndConditions />} />
+          <Route path="/PrivacyandPolicy" element={<PrivacyandPolicy />} />
           <Route path="/Forgot/password/otp" element={<Forgototpverify />} />
           <Route path="/myprofile" element={<MyProfile />} />
           <Route path="/lifedeclaration" element={<LifeDeclaration />} />
