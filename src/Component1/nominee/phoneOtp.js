@@ -1,15 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
 import axiosConfig from "../../axiosConfig";
 
-// import NavBar from "./NavBar";
 const PhoneOtp = ({ setModalShow, myNumber, newOtp }) => {
-  // let phoneNumber;
-  // const navigate = useNavigate();
-  // const location = useLocation();
-  // if (location?.state) {
-  //   phoneNumber = location?.state;
-  // }
   const [otp, setOtp] = useState(null);
   const [IsvalidOtp, setIsValidOtp] = useState(false);
   const [bool, setBool] = useState(null);
@@ -49,16 +41,17 @@ const PhoneOtp = ({ setModalShow, myNumber, newOtp }) => {
     let user = JSON.parse(localStorage.getItem("UserZimmedari"));
     let payload = {
       userId: user._id,
+      mobileNo: Number(myNumber),
       otp: 123400,
       // otp: Number(otp),
     };
 
     if (newOtp === otp) {
       axiosConfig
-        .post("/user/otp-verify-mobile", payload)
+        .post("/asset/otp-verify-mobile", payload)
         .then(response => {
           setModalShow(false);
-          console.log("response", response.data.message);
+          // console.log("response", response.data);
         })
         .catch(error => {
           console.log("response", error);

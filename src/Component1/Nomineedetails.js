@@ -1,22 +1,32 @@
 import React, { useState, useRef, useEffect } from "react";
-import { LinkContainer } from "react-router-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import Mynavbar from "./Mynavbar";
+
 import "./loader.css";
+import Mynavbar from "./Mynavbar";
 import axiosConfig from "./../axiosConfig";
 const Nomineedetails = () => {
   const [nomineeList, setNomineeList] = useState([]);
   const [model, setModel] = useState(null);
   const navigate = useNavigate();
-
+  const array = [
+    {
+      nomineeName: "abc",
+      relationWithNominee: "wife",
+      NomineePhoneNumber: 8889407856,
+      nomineeEmailId: "abc@gmail",
+    },
+  ];
   useEffect(() => {
+    setNomineeList(array);
     (async () => {
       const userData = JSON.parse(localStorage.getItem("UserZimmedari"));
       await axiosConfig
         .get(`/asset/nominee-list/${userData?._id}`)
         .then(response => {
           setModel(false);
-          // console.log(response.data.Nominee);
+          console.log(response.data.Nominee);
+          console.log(array);
+          setNomineeList(array);
           // const oldList = response.data.NomineeList;
           // const newList = oldList.flatMap(item => {
           //   return item.nominee.map(element => {
@@ -24,7 +34,11 @@ const Nomineedetails = () => {
           //   });
           // });
           // console.log(newList);
-          setNomineeList(response.data.Nominee);
+          // if (response.data.Nominee) {
+          //   setNomineeList(response.data.Nominee);
+          // } else {
+          //   setNomineeList(array);
+          // }
         })
         .catch(err => {
           setModel(true);
@@ -34,7 +48,6 @@ const Nomineedetails = () => {
   }, []);
 
   const handleEdit = item => {
-    console.log(item);
     navigate("/nomineedetailsedit", { state: item });
   };
   return (
@@ -88,7 +101,7 @@ const Nomineedetails = () => {
                       fontWeight: "600",
                       fontSize: "18px",
                       fontFamily: "Calibri",
-                      color: "white",
+                      // color: "white",
                       width: "22%",
                       borderRight: "2px solid white",
                       textAlign: "center",
@@ -104,14 +117,14 @@ const Nomineedetails = () => {
                       fontWeight: "600",
                       fontSize: "18px",
                       fontFamily: "Calibri",
-                      color: "white",
-                      width: "18%",
+                      // color: "white",
+                      width: "21%",
                       borderRight: "2px solid white",
                       textAlign: "center",
                       lineHeight: "20px",
                     }}
                   >
-                    Relation with <br></br> Nominee
+                    Relation with Nominee
                   </th>
                   <th
                     scope="col"
@@ -120,7 +133,7 @@ const Nomineedetails = () => {
                       fontWeight: "600",
                       fontSize: "18px",
                       fontFamily: "Calibri",
-                      color: "white",
+                      // color: "white",
                       width: "30%",
                       borderRight: "2px solid white",
                       textAlign: "center",
@@ -136,14 +149,14 @@ const Nomineedetails = () => {
                       fontWeight: "600",
                       fontSize: "18px",
                       fontFamily: "Calibri",
-                      color: "white",
+                      // color: "white",
                       width: "30%",
                       borderRight: "2px solid white",
                       textAlign: "center",
                       lineHeight: "20px",
                     }}
                   >
-                    Nominee e-mail ID
+                    Nominee E-mail ID
                   </th>
                   <th
                     scope="col"
@@ -152,7 +165,7 @@ const Nomineedetails = () => {
                       fontWeight: "600",
                       fontSize: "18px",
                       fontFamily: "Calibri",
-                      color: "white",
+                      // color: "white",
                       width: "30%",
                       borderRight: "2px solid white",
                       textAlign: "center",
@@ -174,7 +187,7 @@ const Nomineedetails = () => {
                           fontWeight: "normal",
                           fontSize: "18px",
                           fontFamily: "Calibri",
-                          color: "black",
+                          // color: "black",
                           width: "22%",
                           borderRight: "2px solid white",
                           textAlign: "center",
@@ -190,7 +203,7 @@ const Nomineedetails = () => {
                           fontWeight: "normal",
                           fontSize: "18px",
                           fontFamily: "Calibri",
-                          color: "black",
+                          // color: "black",
                           width: "18%",
                           borderRight: "2px solid white",
                           textAlign: "center",
@@ -206,7 +219,7 @@ const Nomineedetails = () => {
                           fontWeight: "normal",
                           fontSize: "18px",
                           fontFamily: "Calibri",
-                          color: "black",
+                          // color: "black",
                           width: "30%",
                           borderRight: "2px solid white",
                           textAlign: "center",
@@ -220,11 +233,10 @@ const Nomineedetails = () => {
                       <th
                         scope="col"
                         style={{
-                          textTransform: "capitalize",
                           fontWeight: "normal",
                           fontSize: "18px",
                           fontFamily: "Calibri",
-                          color: "black",
+                          // color: "black",
                           width: "30%",
                           borderRight: "2px solid white",
                           textAlign: "center",
@@ -244,7 +256,7 @@ const Nomineedetails = () => {
                           fontWeight: "normal",
                           fontSize: "18px",
                           fontFamily: "Calibri",
-                          color: "black",
+                          // color: "black",
                           width: "30%",
                           borderRight: "2px solid white",
                           textAlign: "center",
@@ -255,7 +267,7 @@ const Nomineedetails = () => {
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             // color="rgb(43, 77, 129)"
-                            color="blue"
+                            color="green"
                             width="30"
                             height="30"
                             fill="currentColor"

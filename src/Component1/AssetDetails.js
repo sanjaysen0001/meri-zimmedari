@@ -4,6 +4,16 @@ import Mynavbar from "./Mynavbar";
 import { NomineesDetails } from "./assetDetail/NomineesDetails";
 import axiosConfig from "./../axiosConfig";
 import "./loader.css";
+
+const array = [
+  {
+    assetType: "aaaa",
+    policyIssuersName: "abc",
+    Field_3: "wife",
+    policynumber: 8889407856,
+    nomineeEmailId: "abc@gmail",
+  },
+];
 const AssetDetails = () => {
   const [modalShow, setModalShow] = useState(false);
   const [assetList, setAssetList] = useState([]);
@@ -15,11 +25,12 @@ const AssetDetails = () => {
   }, []);
 
   const AllAssetList = () => {
+    setAssetList(array);
     const userData = JSON.parse(localStorage.getItem("UserZimmedari"));
     axiosConfig
-      .get(`/asset/view-asset-by-id/${userData?._id}`)
+      .get(`/asset/view-assets-userId/${userData?._id}`)
       .then(response => {
-        console.log(response.data);
+        // console.log(response.data);
         setModel(false);
         setAssetList(response.data.Asset);
       })
@@ -34,17 +45,17 @@ const AssetDetails = () => {
       .delete(`/asset/delete-asset/${id}`)
       .then(response => {
         AllAssetList();
-        console.log(response.data.message);
+        // console.log(response.data.message);
       })
       .catch(error => {
         console.log(error.response);
       });
   };
   const handleEdit = payload => {
-    navigate("/add-asset/policy", { state: { payload: payload } });
+    navigate("/add-asset/policy", { state: payload });
   };
   const handleNomineeDetails = item => {
-    debugger;
+    console.log(item);
     setNominees(item);
     setModalShow(true);
   };
@@ -159,7 +170,7 @@ const AssetDetails = () => {
                         fontFamily: "Calibri",
                         textAlign: "center",
                         color: "white",
-                        width: "14%",
+                        width: "16%",
                         borderRight: "2px solid white",
                         lineHeight: "20px",
                       }}
@@ -175,7 +186,7 @@ const AssetDetails = () => {
                         fontFamily: "Calibri",
                         textAlign: "center",
                         color: "white",
-                        width: "14%",
+                        width: "18%",
                         borderRight: "2px solid white",
                         lineHeight: "20px",
                       }}
@@ -209,7 +220,6 @@ const AssetDetails = () => {
                         color: "white",
                         width: "15%",
                         borderRight: "2px solid white",
-                        textAlign: "center",
                         lineHeight: "20px",
                       }}
                     >
@@ -228,7 +238,7 @@ const AssetDetails = () => {
                             fontWeight: "normal",
                             fontSize: "18px",
                             fontFamily: "Calibri",
-                            color: "black",
+                            // color: "black",
                             width: "14%",
                             borderRight: "2px solid white",
                             textAlign: "center",
@@ -244,7 +254,7 @@ const AssetDetails = () => {
                             fontWeight: "normal",
                             fontSize: "18px",
                             fontFamily: "Calibri",
-                            color: "black",
+                            // color: "black",
                             width: "14%",
                             borderRight: "2px solid white",
                             textAlign: "center",
@@ -260,7 +270,7 @@ const AssetDetails = () => {
                             fontWeight: "normal",
                             fontSize: "18px",
                             fontFamily: "Calibri",
-                            color: "black",
+                            // color: "black",
                             width: "14%",
                             borderRight: "2px solid white",
                             textAlign: "center",
@@ -276,7 +286,7 @@ const AssetDetails = () => {
                             fontWeight: "normal",
                             fontSize: "18px",
                             fontFamily: "Calibri",
-                            color: "black",
+                            // color: "black",
                             width: "14%",
                             borderRight: "2px solid white",
                             textAlign: "center",
@@ -292,7 +302,7 @@ const AssetDetails = () => {
                             fontWeight: "normal",
                             fontSize: "18px",
                             fontFamily: "Calibri",
-                            color: "black",
+                            // color: "black",
                             width: "14%",
                             borderRight: "2px solid white",
                             textAlign: "center",
@@ -308,8 +318,8 @@ const AssetDetails = () => {
                             fontWeight: "normal",
                             fontSize: "18px",
                             fontFamily: "Calibri",
-                            color: "black",
-                            width: "15%",
+                            // color: "black",
+                            width: "14%",
                             borderRight: "2px solid white",
                             textAlign: "center",
                             lineHeight: "15px",
@@ -320,7 +330,7 @@ const AssetDetails = () => {
                               cursor: "pointer",
                               borderBottom: "1px solid rgb(43, 77, 129)",
                               // color: "rgb(43, 77, 129)",
-                              color: "black",
+                              // color: "black",
                               fontWeight: "600",
                             }}
                             onClick={() => handleNomineeDetails(item.nominee)}
@@ -335,7 +345,7 @@ const AssetDetails = () => {
                             fontWeight: "normal",
                             fontSize: "18px",
                             fontFamily: "Calibri",
-                            color: "black",
+                            // color: "black",
                             width: "15%",
                             borderRight: "2px solid white",
                             textAlign: "center",

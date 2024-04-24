@@ -17,7 +17,7 @@ const StyledText = styled("text")(({ theme }) => ({
 }));
 const Index = () => {
   const [PaymentStatus, setPaymentStatus] = useState({});
-  const [assetList, setAssetList] = useState([]);
+  const [assetList, setAssetList] = useState("");
   const pieParams = { width: 400, height: 200, margin: { right: 5 } };
   // const pieParams = { margin: { right: 60 } };
 
@@ -36,20 +36,12 @@ const Index = () => {
       .catch(err => {
         console.log(err.response);
       });
-
-    axiosConfig
-      .get("/asset/view-asset-by-id/" + user?._id)
-      .then(response => {
-        console.log(response);
-        setAssetList(response.data);
-      })
-      .catch(error => {
-        console.log(error.response?.data);
-      });
+    let NoOfAsset = JSON.parse(localStorage.getItem("UserZimmedari"));
+    setAssetList(NoOfAsset);
   }, []);
   const PieCenterLabel = ({ children }) => {
     const { width, height, left, top } = useDrawingArea();
-    console.log(width, height, left, top);
+
     return (
       <StyledText x={left + width / 2} y={top + height / 2}>
         80%
@@ -105,7 +97,7 @@ const Index = () => {
                       <span
                         style={{ fontSize: "44px", color: "rgb(43, 77, 129)" }}
                       >
-                        {assetList.length}
+                        {assetList?.noOfAssetsType}
                       </span>
                       <span
                         style={{
@@ -165,7 +157,7 @@ const Index = () => {
                           color: "rgb(43, 77, 129)",
                         }}
                       >
-                        :{" "}
+                        :
                         {PaymentStatus?.nextPaymentDate ? (
                           <>{PaymentStatus?.nextPaymentDate}</>
                         ) : (
@@ -417,6 +409,7 @@ const Index = () => {
                     style={{ height: "9rem" }}
                   >
                     <PieChart
+                      style={{ display: "inline" }}
                       className="pieArea"
                       series={[
                         {

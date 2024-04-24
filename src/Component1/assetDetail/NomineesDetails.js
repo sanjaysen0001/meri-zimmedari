@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 export const NomineesDetails = props => {
-  const [formValue, setFormValue] = useState(null);
-  useEffect(() => {
-    setFormValue(props.nominees);
-  }, []);
+  // const [formValue, setFormValue] = useState(null);
+  // useEffect(() => {
+  //   // console.log(props.nominees);
+  //   setFormValue(props.nominees);
+  // }, []);
 
   return (
     <Modal
@@ -152,8 +153,8 @@ export const NomineesDetails = props => {
                     </div>
                   </th>
                 </tr>
-                {formValue &&
-                  formValue?.map((item, index) => (
+                {props.nominees &&
+                  props.nominees?.map((item, index) => (
                     <tr style={{ borderTop: "white" }} key={index}>
                       <th
                         scope="col"

@@ -25,19 +25,20 @@ const Assetpolicy = props => {
   });
   const [fileUrl, setFileUrl] = useState(null);
   const [result, setResult] = useState([]);
-  const [AssetList, setAssetList] = useState([]);
   useEffect(() => {
     AssetListFunc();
-    console.log(location?.state);
-    console.log(location?.state?.Asset_Type);
+    console.log(location.state.assetType);
     let assetAllData = JSON.parse(localStorage.getItem("assetDetails"));
-    // let asset = localStorage.getItem("assetDetails");
-    // console.log(assetAllData?.dynamicFields.Asset_Type);
+
     if (location?.state?.Asset_Type == assetAllData?.dynamicFields.Asset_Type) {
       setPolicyName(assetAllData?.policyName);
       setPolicyNumber(assetAllData?.policyNumber);
       setReEnterPolicyNumber(assetAllData?.reEnterPolicyNumber);
-    } else if (assetAllData?.dynamicFields?.Asset_Type) {
+    } else if (location?.state) {
+      setPolicyName(location?.state.policyIssuersName);
+      setPolicyNumber(location?.state.policynumber);
+      setReEnterPolicyNumber(location?.state.ReEnterPolicyNumber);
+    } else {
       setPolicyName();
       setPolicyNumber();
       setReEnterPolicyNumber();
@@ -49,22 +50,11 @@ const Assetpolicy = props => {
     } else {
       setdynamicFields(viewData);
     }
-
-    axiosConfig
-      .get("/asset/view-asset")
-      .then(res => {
-        console.log(res.data.Asset);
-        setAssetList(res.data.Asset);
-      })
-      .catch(err => {
-        console.log(err);
-      });
   }, []);
   const AssetListFunc = () => {
     axiosConfig
       .get("/admin/get-list")
       .then(response => {
-        console.log(response.data.Field);
         setResult(response.data.Field);
       })
       .catch(error => {

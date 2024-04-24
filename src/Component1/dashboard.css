@@ -3,17 +3,19 @@
   margin-left: 10px;
   border-bottom: 1px solid orange;
 }
+/* .css-66gjpw-MuiResponsiveChart-container {
+  width: 100% !important;
+  height: 100% !important;
+} */
+
 .css-66gjpw-MuiResponsiveChart-container {
   width: 100% !important;
   height: 100% !important;
 }
-/* .css-66gjpw-MuiResponsiveChart-container > svg {
-  width: 62% !important;
-  height: 65% !important;
-  margin-right: 201px;
-  margin-bottom: 46px;
-} */
-/* .css-eh057r {
-  width: 100% !important;
-  height: 100% !important;
-} */
+
+.css-eh057r {
+  /* margin-top: 32px; */
+  width: 300px;
+  height: 150px;
+  margin: 20px;
+}

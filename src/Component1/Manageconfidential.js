@@ -9,7 +9,13 @@ const Manageconfidential = () => {
     navigate(`/viewConfidentialNote/${id}`);
   };
   const handleEdit = id => {
-    navigate(`/viewConfidentialNote/${id}`);
+    let payload = {
+      item: "test",
+      nomineeName: "abc",
+      nomineeEmailId: "abc@gmail.com",
+      relationWithNominee: "wife",
+    };
+    navigate(`/EditConfidentialNote/${id}`, { state: payload });
   };
   return (
     <>

@@ -1,8 +1,5 @@
-// import { useHistory } from "react-router-dom";
 import React, { useState } from "react";
-import imageuser from "../image/logouserimage.png";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import imagelogo from "../image/logo.png";
 import axiosConfig from "../axiosConfig";
 import swal from "sweetalert";
 import NavBar from "./NavBar";
@@ -12,7 +9,6 @@ const Loginwithpassword = () => {
   const [password, setPassword] = useState("");
   const [isError, setIsError] = useState(false);
   const [isInvalid, setIsInvalid] = useState(false);
-  //   let history = useHistory();
   const navigate = useNavigate();
   const location = useLocation();
   const phoneNumber = location.state;
@@ -28,8 +24,12 @@ const Loginwithpassword = () => {
       axiosConfig
         .post("/user/singin-password", payload)
         .then(response => {
-          console.log(response);
+          // console.log(response);
           if (response.status == 200) {
+            localStorage.setItem(
+              "UserZimmedari",
+              JSON.stringify(response.data.User)
+            );
             localStorage.setItem(
               "user_token",
               JSON.stringify(response.data.User.token)
@@ -120,11 +120,11 @@ const Loginwithpassword = () => {
                 <div className="mt-3">
                   <form onSubmit={handleFormSubmit}>
                     {isInvalid && (
-                      <span className="validationmobilefont"
+                      <span
+                        className="validationmobilefont"
                         style={{
                           color: "red",
                           padding: "2px",
-                         
                         }}
                       >
                         {isInvalid}

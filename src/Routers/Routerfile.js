@@ -26,6 +26,7 @@ import Assetstep3confirm from "../Component1/Assetstep3confirm";
 import Assetstep3 from "../Component1/Assetstep3";
 import Assetstep2 from "../Component1/Assetstep2";
 import Assetpolicy from "../Component1/Assetpolicy";
+import ViewAsset from "../Component1/ViewAsset";
 import Icons from "../Component1/Icons";
 import Index from "../Component1/Index";
 import SubscriptionInvoices1 from "../Component1/SubscriptionInvoices1";
@@ -46,6 +47,7 @@ import Preview from "../Component1/Preview";
 import NotFind from "../Component1/NotFind";
 import Manageconfidential from "../Component1/Manageconfidential";
 import ViewConfidentialNote from "../Component1/confidentialNote/ViewConfidentialNote";
+import EditConfidentialNote from "../Component1/confidentialNote/EditConfidentialNote";
 import Termsandcondition from "../Component1/Termsandcondition";
 import Privacypolicy from "../Component1/Privacypolicy";
 import Faqpageweb from "../Component1/Faqpageweb";
@@ -107,12 +109,16 @@ const Routerfile = () => {
             element={<Confidentialeditor />}
           />
           <Route
-            path="/manageconfidentialnoteeditor"
+            path="/manageconfidentialnote"
             element={<Manageconfidential />}
           />
           <Route
             path="/viewConfidentialNote/:id"
             element={<ViewConfidentialNote />}
+          />
+          <Route
+            path="/EditConfidentialNote/:id"
+            element={<EditConfidentialNote />}
           />
           <Route path="/Help" element={<Help />} />
           <Route path="/termsConditions" element={<TermsConditions />} />
@@ -126,12 +132,13 @@ const Routerfile = () => {
             path="/Subscriptioninvoices"
             element={<Subscriptioninvoices />}
           />
+          <Route path="/registration" element={<Register />} />
           <Route path="/confidentialnote" element={<Confidentialnote />} />
           <Route path="/nomineedetails" element={<Nomineedetails />} />
           <Route path="/nomineedetailsedit" element={<Nomineedetailsedit />} />
           <Route path="/assetdetails" element={<AssetDetails />} />
+          <Route path="/myprofile" element={<MyProfile />} />
           <Route path="/myprofile/edit" element={<Myprofileedit1 />} />
-          <Route path="/registration" element={<Register />} />
           <Route path="/mobileNumber/:id" element={<MobileNumber />} />
           <Route path="/login/password" element={<Loginwithpassword />} />
           <Route path="/forgot/password" element={<Forgotpassword />} />
@@ -140,18 +147,19 @@ const Routerfile = () => {
           <Route path="/TermsAndConditions" element={<TermsAndConditions />} />
           <Route path="/PrivacyandPolicy" element={<PrivacyandPolicy />} />
           <Route path="/Forgot/password/otp" element={<Forgototpverify />} />
-          <Route path="/myprofile" element={<MyProfile />} />
           <Route path="/lifedeclaration" element={<LifeDeclaration />} />
+
+          <Route path="/add-asset" element={<Icons />} />
+          <Route path="/assetType/view-asset" element={<ViewAsset />} />
+          <Route path="/add-asset/policy" element={<Assetpolicy />} />
+          <Route path="/add-asset/step2" element={<Assetstep2 />} />
+          <Route path="/add-asset/step3" element={<Assetstep3 />} />
           <Route
             path="/add-asset/setp3/confirm"
             element={<Assetstep3confirm />}
           />
-          <Route path="/add-asset/step3" element={<Assetstep3 />} />
-          <Route path="/add-asset/step2" element={<Assetstep2 />} />
-          <Route path="/add-asset/policy" element={<Assetpolicy />} />
 
           <Route path="/dashboard" element={<Index />} />
-          <Route path="/add-asset" element={<Icons />} />
           <Route path="/" element={<Login />} />
         </Routes>
       </Router>

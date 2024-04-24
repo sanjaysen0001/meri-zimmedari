@@ -12,7 +12,9 @@ const Mynavbar = () => {
   const handleLogOut = () => {
     let token = JSON.parse(localStorage.getItem("user_token"));
     // if (token) {
-    localStorage.removeItem("user_token");
+
+    localStorage.removeItem("ad-token");
+    localStorage.removeItem("UserZimmedari");
     window.location.replace("/#/");
     // }
   };
@@ -76,7 +78,7 @@ const Mynavbar = () => {
                   <LinkContainer to={"/confidentialnoteeditor"}>
                     <NavDropdown.Item>New Confidential Note</NavDropdown.Item>
                   </LinkContainer>
-                  <LinkContainer to={"/manageconfidentialnoteeditor"}>
+                  <LinkContainer to={"/manageconfidentialnote"}>
                     <NavDropdown.Item>
                       Manage Confidential Note
                     </NavDropdown.Item>

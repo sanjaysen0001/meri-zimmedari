@@ -38,14 +38,13 @@ export default function ViewConfidentialNote() {
                 }}
               >
                 <td style={{ borderRight: "2px solid white", color: "black" }}>
-                  <input type="text" value=" Confidential Note" />
+                  <input type="text" disabled value=" Confidential Note" />
                 </td>
                 <td style={{ borderRight: "2px solid white" }}>
-                  <input type="text" value="abc" />
+                  <input type="text" disabled value="abc" />
                 </td>
                 <td style={{ borderRight: "2px solid white" }}>
-                  {" "}
-                  <input type="text" value="wife" />
+                  <input type="text" disabled value="wife" />
                 </td>
               </tr>
             </tbody>

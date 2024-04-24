@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+// import { useNavigate, useLocation } from "react-router-dom";
 import axiosConfig from "../../axiosConfig";
 const EmailOtp = ({ setModalShowmail, setModalShow, myEmail }) => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const phoneNumber = location.state;
   const [otp, setOtp] = useState(null);
   const [IsvalidOtp, setIsValidOtp] = useState(false);
   const [bool, setBool] = useState(null);
@@ -43,16 +40,18 @@ const EmailOtp = ({ setModalShowmail, setModalShow, myEmail }) => {
 
   const handleOtpVerify = () => {
     let user = JSON.parse(localStorage.getItem("UserZimmedari"));
+    console.log(user);
     let payload = {
       otp: Number(otp),
       userId: user?._id,
+      email: myEmail,
     };
     axiosConfig
-      .post("/user/otp-verify-email", payload)
+      .post("/asset/otp-verify-email", payload)
       .then(response => {
         setModalShow(false);
         setModalShowmail(false);
-        console.log("response", response.data.message);
+        // console.log("response", response.data.message);
       })
       .catch(error => {
         console.log("response", error);

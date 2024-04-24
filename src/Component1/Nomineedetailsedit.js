@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import { LinkContainer } from "react-router-bootstrap";
 import "../css/style.css";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Mynavbar from "./Mynavbar";
@@ -60,7 +59,7 @@ const Nomineedetailsedit = () => {
     if (!formValues.relationWithNominee) errors.IsrelationWithNominee = true;
 
     if (Object.keys(errors)?.length === 0) {
-      console.log(formValues);
+      // console.log(formValues);
       axiosConfig
         .put(`/asset/update-nominee/${location.state._id}`, formValues)
         .then(response => {
@@ -112,10 +111,10 @@ const Nomineedetailsedit = () => {
         mobileNo: Number(number),
       };
       axiosConfig
-        .post("/user/otp-mobile", payload)
+        .post("/asset/otp-mobile", payload)
         .then(response => {
           console.log("response", response.data.message);
-          // sendSMS(number);
+          sendSMS(number);
           setMyNumber(number);
           setModalShow(true);
           setModalShowmail(false);
@@ -133,7 +132,7 @@ const Nomineedetailsedit = () => {
         email: currentEmail,
       };
       axiosConfig
-        .post("/user/otp-email", payload)
+        .post("/asset/otp-email", payload)
         .then(response => {
           console.log("response", response.data.message);
           setModalShowmail(true);
@@ -177,6 +176,7 @@ const Nomineedetailsedit = () => {
           <span> Nominee Details</span>
         </p>
       </div>
+
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-3 col-sm-3 col-lg-3 col-xl-3">
@@ -570,7 +570,7 @@ const Nomineedetailsedit = () => {
             </span>
           </div>
         </div>
-      </div>{" "}
+      </div>
       {modalShow ? (
         <div className="myModal">
           <PhoneOtp

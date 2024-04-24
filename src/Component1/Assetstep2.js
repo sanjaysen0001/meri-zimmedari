@@ -31,6 +31,7 @@ const Assetstep2 = () => {
     IspercentageofShar: false,
     IsNomineePhoneNumber: false,
     IsrelationWithNominee: false,
+    IsPhoneAvail: false,
   });
   let allError = {};
   const [modalShow, setModalShow] = useState(false);
@@ -49,13 +50,9 @@ const Assetstep2 = () => {
   useEffect(() => {
     let nomineeDetails = JSON.parse(localStorage.getItem("nomineeDetails"));
 
-    // localStorage.setItem("nomineeDetails", JSON.stringify(formValues));
-    console.log(nomineeDetails);
-
     if (nomineeDetails) {
       const newArray = [...nomineeDetails];
       setFormValues(newArray);
-      // setMyNominee(nomineeDetails);
     }
   }, []);
 
@@ -288,17 +285,20 @@ const Assetstep2 = () => {
         mobileNo: Number(number),
       };
       axiosConfig
-        .post("/user/otp-mobile", payload)
+        .post("/asset/otp-mobile", payload)
         .then(response => {
-          console.log("response", response.data.message);
+          // console.log("response", response.data.message);
           sendSMS(number);
           setMyNumber(number);
           setModalShow(true);
           setModalShowmail(false);
+          setFormError({ IsPhoneAvail: false });
         })
         .catch(error => {
           console.log(error);
         });
+    } else {
+      setFormError({ IsPhoneAvail: true });
     }
   };
   const handleEmailModal = currentEmail => {
@@ -309,9 +309,9 @@ const Assetstep2 = () => {
         email: currentEmail,
       };
       axiosConfig
-        .post("/user/otp-email", payload)
+        .post("/asset/otp-email", payload)
         .then(response => {
-          console.log("response", response.data.message);
+          // console.log("response", response.data.message);
           setModalShowmail(true);
           setModalShow(false);
           setMyEmail(currentEmail);
@@ -857,6 +857,7 @@ const Assetstep2 = () => {
                                         handlePhoneModal(ele.NomineePhoneNumber)
                                       }
                                       className="btn"
+                                      id="alert"
                                       style={{
                                         fontSize: "13px",
                                         width: "115%",
@@ -874,6 +875,20 @@ const Assetstep2 = () => {
                                   </span>
                                 </div>
                                 {formError.IsNomineePhoneNumber && (
+                                  <p
+                                    className="validationmobilefont"
+                                    style={{
+                                      color: "red",
+                                      padding: "5px",
+
+                                      marginTop: "13px",
+                                      marginLeft: "13px",
+                                    }}
+                                  >
+                                    Enter valid 10-digit mobile number
+                                  </p>
+                                )}
+                                {formError.IsPhoneAvail && (
                                   <p
                                     className="validationmobilefont"
                                     style={{

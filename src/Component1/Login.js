@@ -415,7 +415,6 @@ const Login = () => {
                         style={{
                           color: "red",
                           padding: "5px",
-
                           marginTop: "13px",
                         }}
                       ></span>
@@ -467,7 +466,8 @@ const Login = () => {
                         onClick={handlePicture}
                         style={{
                           width: "100%",
-                          border: "1px solid black",
+                          // border: "1px solid black",
+                          border: "1px solid rgb(114, 158, 216)",
                           color: "rgb(82, 114, 161)",
                           height: "2.8rem",
                         }}
