@@ -18,7 +18,12 @@ const StyledText = styled("text")(({ theme }) => ({
 const Index = () => {
   const [PaymentStatus, setPaymentStatus] = useState({});
   const [assetList, setAssetList] = useState("");
-  const pieParams = { width: 400, height: 200, margin: { right: 5 } };
+
+  const pieParams = {
+    width: 160,
+    height: 160,
+    margin: { right: 3 },
+  };
   // const pieParams = { margin: { right: 60 } };
 
   useEffect(() => {
@@ -36,8 +41,16 @@ const Index = () => {
       .catch(err => {
         console.log(err.response);
       });
-    let NoOfAsset = JSON.parse(localStorage.getItem("UserZimmedari"));
-    setAssetList(NoOfAsset);
+
+    axiosConfig
+      .get(`/asset/view-assets-userId/${user?._id}`)
+      .then(response => {
+        console.log(response.data);
+        setAssetList(response.data.Asset);
+      })
+      .catch(error => {
+        console.log(error.response?.data);
+      });
   }, []);
   const PieCenterLabel = ({ children }) => {
     const { width, height, left, top } = useDrawingArea();
@@ -97,7 +110,7 @@ const Index = () => {
                       <span
                         style={{ fontSize: "44px", color: "rgb(43, 77, 129)" }}
                       >
-                        {assetList?.noOfAssetsType}
+                        {assetList.length}
                       </span>
                       <span
                         style={{
@@ -286,7 +299,7 @@ const Index = () => {
                 >
                   <div className="row">
                     <div className="col-md-4 col-xl-4 col-lg-4 col-12 col-sm-4 ">
-                      <div className="m-2">
+                      <div className="m-3">
                         <div className="row">
                           <div className="col-md-6 col-sm-6 col-lg-6 col-xl-6 col-6">
                             <span
@@ -313,7 +326,7 @@ const Index = () => {
                       </div>
                     </div>
                     <div className="col-md-8 col-xl-8 col-lg-8 col-12 col-sm-8">
-                      <div style={{ overflow: "auto", height: "9rem" }}>
+                      <div style={{ overflow: "auto", height: "10.1rem" }}>
                         <div
                           style={{
                             fontSize: "16px",
@@ -355,7 +368,6 @@ const Index = () => {
                           Validate Nominee e-mail ID
                         </div>
                         <div
-                          className="cssforborderradiusmobileveiw"
                           style={{
                             fontSize: "16px",
                             fontWeight: "400",
@@ -363,10 +375,10 @@ const Index = () => {
                             height: "3rem",
                             padding: "10px",
                             backgroundImage:
-                              "linear-gradient(to right, rgb(174, 191, 207) , rgb(229, 234, 238))",
+                              "linear-gradient(to right, rgb(243, 206, 175) , rgb(250, 252, 253))",
                           }}
                         >
-                          Validate Nominee e-mail ID
+                          Validate Nominee Phone Number
                         </div>
                       </div>
                     </div>
@@ -377,7 +389,7 @@ const Index = () => {
             <div className="col-md-5 col-xl-5 col-lg-5">
               <div className="m-2">
                 <div
-                  className="row m-1"
+                  className="row "
                   style={{
                     // height: "9rem",
                     border: "1px solid rgb(43, 77, 129)",
@@ -389,7 +401,7 @@ const Index = () => {
                 >
                   <div
                     className="col-md-7 col-xl-7 col-lg-7"
-                    style={{ height: "9rem" }}
+                    style={{ height: "10rem" }}
                   >
                     <p
                       className="mt-5"
@@ -406,10 +418,16 @@ const Index = () => {
                   </div>
                   <div
                     className="col-md-5 col-xl-5 col-lg-5 pieChart"
-                    style={{ height: "9rem" }}
+                    style={{
+                      height: "10.1rem",
+                      justifyContent: "center",
+                      display: "flex",
+                    }}
                   >
                     <PieChart
-                      style={{ display: "inline" }}
+                      style={{
+                        display: "inline",
+                      }}
                       className="pieArea"
                       series={[
                         {
@@ -417,7 +435,7 @@ const Index = () => {
                             { value: 80, color: "rgb(52, 145, 233)" },
                             { value: 20, color: "rgb(235, 139, 94)" },
                           ],
-                          innerRadius: 80,
+                          innerRadius: 70,
                         },
                       ]}
                       {...pieParams}

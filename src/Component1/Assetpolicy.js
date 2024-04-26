@@ -27,28 +27,28 @@ const Assetpolicy = props => {
   const [result, setResult] = useState([]);
   useEffect(() => {
     AssetListFunc();
-    console.log(location.state.assetType);
+    let viewData = JSON.parse(localStorage.getItem("ViewOne"));
+    console.log(viewData);
     let assetAllData = JSON.parse(localStorage.getItem("assetDetails"));
 
-    if (location?.state?.Asset_Type == assetAllData?.dynamicFields.Asset_Type) {
-      setPolicyName(assetAllData?.policyName);
-      setPolicyNumber(assetAllData?.policyNumber);
-      setReEnterPolicyNumber(assetAllData?.reEnterPolicyNumber);
+    if (viewData) {
+      // console.log("@@@@", location?.state);
+      setdynamicFields(viewData);
+      setPolicyName(viewData?.policyName);
+      setPolicyNumber(viewData?.policyNumber);
+      setReEnterPolicyNumber(viewData?.reEnterPolicyNumber);
     } else if (location?.state) {
+      // debugger;
       setPolicyName(location?.state.policyIssuersName);
       setPolicyNumber(location?.state.policynumber);
       setReEnterPolicyNumber(location?.state.ReEnterPolicyNumber);
-    } else {
-      setPolicyName();
-      setPolicyNumber();
-      setReEnterPolicyNumber();
-    }
-
-    let viewData = JSON.parse(localStorage.getItem("ViewOne"));
-    if (location?.state) {
       setdynamicFields(location?.state);
-    } else {
-      setdynamicFields(viewData);
+    } else if (assetAllData) {
+      setdynamicFields(assetAllData.dynamicFields);
+      console.log(location?.state);
+      setPolicyName(assetAllData?.policyName);
+      setPolicyNumber(assetAllData?.policyNumber);
+      setReEnterPolicyNumber(assetAllData?.reEnterPolicyNumber);
     }
   }, []);
   const AssetListFunc = () => {

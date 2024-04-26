@@ -1,5 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import Modal from "react-bootstrap/Modal";
+import Spinner from "react-bootstrap/Spinner";
+import { Button } from "react-bootstrap";
 import Mynavbar from "./Mynavbar";
 import { NomineesDetails } from "./assetDetail/NomineesDetails";
 import axiosConfig from "./../axiosConfig";
@@ -20,6 +23,8 @@ const AssetDetails = () => {
   const [nominees, setNominees] = useState(null);
   const [model, setModel] = useState(null);
   const navigate = useNavigate();
+  const [show, setShow] = useState(false);
+  const [assetId, setAssetId] = useState("");
   useEffect(() => {
     AllAssetList();
   }, []);
@@ -39,18 +44,23 @@ const AssetDetails = () => {
         console.log(error.response?.data);
       });
   };
-
+  const handleClose = () => setShow(false);
   const handleDelete = id => {
+    setAssetId(id);
+    setShow(true);
+  };
+  const handlePermanentDelete = () => {
     axiosConfig
-      .delete(`/asset/delete-asset/${id}`)
+      .delete(`/asset/delete-asset/${assetId}`)
       .then(response => {
         AllAssetList();
-        // console.log(response.data.message);
+        console.log(response.data.message);
       })
       .catch(error => {
         console.log(error.response);
       });
   };
+
   const handleEdit = payload => {
     navigate("/add-asset/policy", { state: payload });
   };
@@ -113,14 +123,9 @@ const AssetDetails = () => {
                   <tr className="rowColorHead">
                     <th
                       scope="col"
+                      className="theadStyle"
                       style={{
-                        textTransform: "capitalize",
-                        fontWeight: "bold",
-                        fontSize: "18px",
-                        color: "white",
-                        width: "14%",
                         borderRight: "2px solid white",
-                        fontFamily: "Calibri",
                       }}
                     >
                       <div className="d-flex justify-content-center">
@@ -129,15 +134,10 @@ const AssetDetails = () => {
                     </th>
                     <th
                       scope="col"
+                      className="theadStyle"
                       style={{
-                        textTransform: "capitalize",
-                        fontWeight: "bold",
-                        fontSize: "18px",
-                        fontFamily: "Calibri",
-                        textAlign: "center",
-                        color: "white",
-                        width: "14%",
                         borderRight: "2px solid white",
+                        width: "15%",
                       }}
                     >
                       <div className="d-flex justify-content-center">
@@ -146,14 +146,8 @@ const AssetDetails = () => {
                     </th>
                     <th
                       scope="col"
+                      className="theadStyle"
                       style={{
-                        textTransform: "capitalize",
-                        fontWeight: "bold",
-                        fontSize: "18px",
-                        fontFamily: "Calibri",
-                        textAlign: "center",
-                        color: "white",
-                        width: "14%",
                         borderRight: "2px solid white",
                       }}
                     >
@@ -163,14 +157,8 @@ const AssetDetails = () => {
                     </th>
                     <th
                       scope="col"
+                      className="theadStyle"
                       style={{
-                        textTransform: "capitalize",
-                        fontWeight: "bold",
-                        fontSize: "18px",
-                        fontFamily: "Calibri",
-                        textAlign: "center",
-                        color: "white",
-                        width: "16%",
                         borderRight: "2px solid white",
                         lineHeight: "20px",
                       }}
@@ -179,14 +167,8 @@ const AssetDetails = () => {
                     </th>
                     <th
                       scope="col"
+                      className="theadStyle"
                       style={{
-                        textTransform: "capitalize",
-                        fontWeight: "bold",
-                        fontSize: "18px",
-                        fontFamily: "Calibri",
-                        textAlign: "center",
-                        color: "white",
-                        width: "18%",
                         borderRight: "2px solid white",
                         lineHeight: "20px",
                       }}
@@ -195,13 +177,8 @@ const AssetDetails = () => {
                     </th>
                     <th
                       scope="col"
+                      className="theadStyle"
                       style={{
-                        textTransform: "capitalize",
-                        fontWeight: "bold",
-                        fontSize: "18px",
-                        fontFamily: "Calibri",
-                        textAlign: "center",
-                        color: "white",
                         width: "15%",
                         borderRight: "2px solid white",
                         lineHeight: "20px",
@@ -211,16 +188,12 @@ const AssetDetails = () => {
                     </th>
                     <th
                       scope="col"
+                      className="theadStyle"
                       style={{
-                        textTransform: "capitalize",
-                        fontWeight: "bold",
-                        fontSize: "18px",
-                        fontFamily: "Calibri",
-                        textAlign: "center",
-                        color: "white",
                         width: "15%",
                         borderRight: "2px solid white",
                         lineHeight: "20px",
+                        textAlign: "center",
                       }}
                     >
                       Action
@@ -233,93 +206,69 @@ const AssetDetails = () => {
                       <tr className="rowColor" key={index}>
                         <th
                           scope="col"
+                          className="theadStyle tbody"
                           style={{
-                            textTransform: "capitalize",
                             fontWeight: "normal",
-                            fontSize: "18px",
-                            fontFamily: "Calibri",
-                            // color: "black",
-                            width: "14%",
                             borderRight: "2px solid white",
-                            textAlign: "center",
                             lineHeight: "15px",
+                            textAlign: "center",
                           }}
                         >
                           {item?.assetType}
                         </th>
                         <th
                           scope="col"
+                          className="theadStyle tbodyStyle"
                           style={{
-                            textTransform: "capitalize",
                             fontWeight: "normal",
-                            fontSize: "18px",
-                            fontFamily: "Calibri",
-                            // color: "black",
-                            width: "14%",
                             borderRight: "2px solid white",
-                            textAlign: "center",
                             lineHeight: "15px",
+                            textAlign: "center",
                           }}
                         >
                           {item?.policyIssuersName}
                         </th>
                         <th
                           scope="col"
+                          className="theadStyle tbodyStyle"
                           style={{
-                            textTransform: "capitalize",
                             fontWeight: "normal",
-                            fontSize: "18px",
-                            fontFamily: "Calibri",
-                            // color: "black",
-                            width: "14%",
                             borderRight: "2px solid white",
-                            textAlign: "center",
                             lineHeight: "15px",
+                            textAlign: "center",
                           }}
                         >
                           {item?.Field_3}
                         </th>
                         <th
                           scope="col"
+                          className="theadStyle tbodyStyle"
                           style={{
-                            textTransform: "capitalize",
                             fontWeight: "normal",
-                            fontSize: "18px",
-                            fontFamily: "Calibri",
-                            // color: "black",
                             width: "14%",
                             borderRight: "2px solid white",
-                            textAlign: "center",
                             lineHeight: "15px",
+                            textAlign: "center",
                           }}
                         >
                           {item?.policynumber}
                         </th>
                         <th
                           scope="col"
+                          className="theadStyle tbodyStyle"
                           style={{
-                            textTransform: "capitalize",
-                            fontWeight: "normal",
-                            fontSize: "18px",
-                            fontFamily: "Calibri",
-                            // color: "black",
-                            width: "14%",
                             borderRight: "2px solid white",
-                            textAlign: "center",
                             lineHeight: "15px",
+                            textAlign: "center",
                           }}
                         >
                           NA
                         </th>
                         <th
                           scope="col"
+                          className="theadStyle tbodyStyle"
                           style={{
-                            textTransform: "capitalize",
                             fontWeight: "normal",
-                            fontSize: "18px",
-                            fontFamily: "Calibri",
-                            // color: "black",
-                            width: "14%",
                             borderRight: "2px solid white",
                             textAlign: "center",
                             lineHeight: "15px",
@@ -329,8 +278,6 @@ const AssetDetails = () => {
                             style={{
                               cursor: "pointer",
                               borderBottom: "1px solid rgb(43, 77, 129)",
-                              // color: "rgb(43, 77, 129)",
-                              // color: "black",
                               fontWeight: "600",
                             }}
                             onClick={() => handleNomineeDetails(item.nominee)}
@@ -340,12 +287,9 @@ const AssetDetails = () => {
                         </th>
                         <th
                           scope="col"
+                          className="theadStyle tbodyStyle"
                           style={{
-                            textTransform: "capitalize",
                             fontWeight: "normal",
-                            fontSize: "18px",
-                            fontFamily: "Calibri",
-                            // color: "black",
                             width: "15%",
                             borderRight: "2px solid white",
                             textAlign: "center",
@@ -444,6 +388,40 @@ const AssetDetails = () => {
           </div>
         </>
       )}
+      <Modal show={show}>
+        <Modal.Header>
+          <Modal.Title>
+            <span>Delete Asset Details</span>
+          </Modal.Title>
+          <span
+            style={{ textAlign: "right", cursor: "pointer" }}
+            onClick={handleClose}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              color="red"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-x-lg"
+              viewBox="0 0 16 16"
+            >
+              <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
+            </svg>
+          </span>
+        </Modal.Header>
+        <Modal.Body className="text-center">
+          Are you sure to permanently delete Asset Details ?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="danger" onClick={handlePermanentDelete}>
+            Yes
+          </Button>
+          <Button variant="secondary" onClick={handleClose}>
+            No
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };

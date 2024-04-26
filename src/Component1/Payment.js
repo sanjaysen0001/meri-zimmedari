@@ -8,11 +8,16 @@ const Payment = () => {
   const [USer, setUser] = useState({});
   const [selectedPlan, setselectedPlan] = useState({});
   const [plan, setplan] = useState([]);
+  const [isChecked, setIsChecked] = useState(false);
 
-  const toggleIcon = (index) => {
+  const toggleIcon = index => {
     const updatedIcons = [false, false];
     updatedIcons[index] = true;
     setShowIcon(updatedIcons);
+  };
+  const handleCheckboxChange = () => {
+    // Toggle the isChecked state when the checkbox is clicked
+    setIsChecked(!isChecked);
   };
 
   useEffect(() => {
@@ -20,14 +25,14 @@ const Payment = () => {
     setUser(user);
     axiosConfig
       .get("/plan/view-plan")
-      .then((res) => {
+      .then(res => {
         setplan(res?.data?.Plan);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err.response);
       });
   }, []);
-  const handleSelectPlan = (data) => {
+  const handleSelectPlan = data => {
     setselectedPlan(data);
   };
 
@@ -289,8 +294,8 @@ const Payment = () => {
                           required
                           class="form-check-input cssforcheckboxstylepayment"
                           type="checkbox"
-                          defaultChecked
                           value=""
+                          onChange={handleCheckboxChange}
                         />
                         <label
                           class="form-check-label"
@@ -311,7 +316,17 @@ const Payment = () => {
                           marginTop: "15px",
                         }}
                       >
-                        <GateWay selectedPlan={selectedPlan} USer={USer} />
+                        <button
+                          disabled={!isChecked}
+                          style={{
+                            backgroundColor: "none",
+                            border: "none",
+                            outline: "none",
+                          }}
+                        >
+                          <GateWay selectedPlan={selectedPlan} USer={USer} />
+                        </button>
+
                         {/* <button
                           style={{
                             width: "90%",

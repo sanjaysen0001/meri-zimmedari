@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
-import axiosConfig from "../axiosConfig";
 import Spinner from "react-bootstrap/Spinner";
+import { Button } from "react-bootstrap";
 import {
   Savepassword,
   ErrorModal,
   Createpassword,
 } from "./ManageAccount/ErrorModal";
+import axiosConfig from "../axiosConfig";
 import Mynavbar from "./Mynavbar";
-import { Button } from "react-bootstrap";
 
 const Manageaccount = () => {
   const [show, setShow] = useState(false);

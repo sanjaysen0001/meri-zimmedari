@@ -26,7 +26,25 @@
 .rowColor:nth-child(odd) {
   background-color: rgb(43, 77, 129);
 }
-th,
+/* th,
 td {
   color: #fff;
+} */
+/* .thColor {
+  color: #fff;
+} */
+.theadStyle {
+  color: #fff;
+  text-transform: capitalize;
+  font-weight: bold;
+  font-size: 18px;
+  border-right: "2px solid white";
+  font-family: Calibri;
+  width: 14%;
+  text-align: center;
+  /* borderRight: "2px solid white", */
+  /* fontFamily: "Calibri", */
+}
+.tbodyStyle {
+  text-align: "center";
 }

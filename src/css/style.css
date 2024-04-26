@@ -1115,12 +1115,6 @@ ul.social_icon li a:hover {
   .d_none {
     display: none;
   }
-
-  .pieChart {
-    height: 9rem;
-    margin-bottom: 11px;
-    margin-left: 41px;
-  }
 }
 .icon-container:hover .icon-name {
   display: block;

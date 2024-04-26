@@ -15,6 +15,7 @@ import { AutoSaveModal } from "./assetDetail/AutoSaveModal";
 
 const Assetstep2 = () => {
   const [newOtp, setNewOtp] = useState(null);
+  const [newArray, setNewArray] = useState([]);
   const [formValues, setFormValues] = useState([
     {
       nomineeName: "",
@@ -22,7 +23,6 @@ const Assetstep2 = () => {
       percentageofShar: null,
       NomineePhoneNumber: null,
       relationWithNominee: "",
-      // nomineeId: 1,
     },
   ]);
   const [formError, setFormError] = useState({
@@ -161,15 +161,29 @@ const Assetstep2 = () => {
           nominee: 0,
         },
       ]);
+      setNewArray([
+        ...formValues,
+        {
+          nomineeName: "",
+          nomineeEmailId: "",
+          percentageofShar: null,
+          NomineePhoneNumber: "",
+          relationWithNominee: "",
+          nominee: 0,
+        },
+      ]);
     }
   };
   const handleNext = () => {
+    debugger;
     const newArr = [];
     formValues.filter(el => newArr.push(Number(el.percentageofShar)));
+
     const sum = newArr.reduce(
       (previousValue, currentValue) => previousValue + currentValue,
       0
     );
+    console.log(sum, newArr);
     formValues?.forEach((value, key) => {
       if (!value.nomineeName) {
         allError.IsnomineeName = true;
@@ -251,6 +265,7 @@ const Assetstep2 = () => {
   let removeFormFields = i => {
     let newFormValues = [...formValues];
     newFormValues.splice(i, 1);
+    localStorage.setItem("nomineeDetails", JSON.stringify(newFormValues));
     setFormValues(newFormValues);
   };
   const generateOTP = () => {
@@ -323,6 +338,11 @@ const Assetstep2 = () => {
   };
   const handleAutoSave = () => {
     setModalShowauto(true);
+  };
+  const handleBack = () => {
+    // let assetAllData = JSON.parse(localStorage.getItem("assetDetails"));
+    // navigate("/add-asset/policy", { state: assetAllData });
+    navigate("/add-asset/policy");
   };
   return (
     <>
@@ -1044,32 +1064,34 @@ const Assetstep2 = () => {
         </div>
         <div className="container mt-5" style={{ paddingBottom: "60px" }}>
           <div style={{ float: "left" }}>
-            <Link to={"/add-asset/policy"} style={{ textDecoration: "none" }}>
-              <p
-                style={{
-                  color: "rgb(82, 114, 161)",
-                  fontSize: "20px",
-                  fontWeight: "500",
-                }}
-              >
-                <span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    fill="currentColor"
-                    class="bi bi-arrow-left"
-                    viewBox="0 0 16 16"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"
-                    />
-                  </svg>
-                </span>
-                <span className="ml-3">BACK</span>
-              </p>
-            </Link>
+            {/* <Link to={"/add-asset/policy"} style={{ textDecoration: "none" }}> */}
+            <p
+              style={{
+                color: "rgb(82, 114, 161)",
+                fontSize: "20px",
+                fontWeight: "500",
+                cursor: "pointer",
+              }}
+              onClick={handleBack}
+            >
+              <span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  fill="currentColor"
+                  class="bi bi-arrow-left"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"
+                  />
+                </svg>
+              </span>
+              <span className="ml-3">BACK</span>
+            </p>
+            {/* </Link> */}
           </div>
           <div style={{ float: "right" }}>
             <button

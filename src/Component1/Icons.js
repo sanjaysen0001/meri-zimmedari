@@ -65,7 +65,16 @@ const Icons = () => {
   const handlePlus = selectedData => {
     console.log(selectedData);
     localStorage.setItem("ViewOne", JSON.stringify(selectedData));
+    localStorage.removeItem("assetDetails");
+    localStorage.removeItem("nomineeDetails");
     navigate("/add-asset/policy", { state: selectedData });
+  };
+  const handlePlus1 = selectedData => {
+    // console.log(selectedData);
+    // localStorage.setItem("ViewOne", JSON.stringify(selectedData));
+    // localStorage.removeItem("assetDetails");
+    // localStorage.removeItem("nomineeDetails");
+    navigate("/StepperForm", { state: selectedData });
   };
   const handleView = selectedData => {
     console.log(selectedData);
@@ -305,6 +314,54 @@ const Icons = () => {
                               Add
                             </span>
                           </span>
+                          {/* <span className="icon-container cssfordesktopviewforicon">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="30"
+                              height="30"
+                              viewBox="0,0,256,256"
+                              onClick={() => handlePlus1(ele)}
+                              className="hoverable-image"
+                              type="button"
+                            >
+                              <g
+                                fill="none"
+                                fill-rule="nonzero"
+                                stroke="none"
+                                stroke-width="1"
+                                stroke-linecap="butt"
+                                stroke-linejoin="miter"
+                                stroke-miterlimit="10"
+                                stroke-dasharray=""
+                                stroke-dashoffset="0"
+                                font-family="none"
+                                font-weight="none"
+                                font-size="none"
+                                text-anchor="none"
+                              >
+                                <g transform="scale(5.33333,5.33333)">
+                                  <path
+                                    d="M44,24c0,11.045 -8.955,20 -20,20c-11.045,0 -20,-8.955 -20,-20c0,-11.045 8.955,-20 20,-20c11.045,0 20,8.955 20,20z"
+                                    fill="#5578b0"
+                                  ></path>
+                                  <path
+                                    d="M21,14h6v20h-6z"
+                                    fill="#ffffff"
+                                  ></path>
+                                  <path
+                                    d="M14,21h20v6h-20z"
+                                    fill="#ffffff"
+                                  ></path>
+                                </g>
+                              </g>
+                            </svg>
+                            <span
+                              className="icon-name"
+                              style={{ marginLeft: "7%" }}
+                            >
+                              Add
+                            </span>
+                          </span> */}
                         </div>
                       </td>
                     </tr>

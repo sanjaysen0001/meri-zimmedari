@@ -26,6 +26,7 @@ import Assetstep3confirm from "../Component1/Assetstep3confirm";
 import Assetstep3 from "../Component1/Assetstep3";
 import Assetstep2 from "../Component1/Assetstep2";
 import Assetpolicy from "../Component1/Assetpolicy";
+import StepperForm from "../Component1/StepperForm";
 import ViewAsset from "../Component1/ViewAsset";
 import Icons from "../Component1/Icons";
 import Index from "../Component1/Index";
@@ -152,6 +153,7 @@ const Routerfile = () => {
           <Route path="/add-asset" element={<Icons />} />
           <Route path="/assetType/view-asset" element={<ViewAsset />} />
           <Route path="/add-asset/policy" element={<Assetpolicy />} />
+          <Route path="StepperForm" element={<StepperForm />} />
           <Route path="/add-asset/step2" element={<Assetstep2 />} />
           <Route path="/add-asset/step3" element={<Assetstep3 />} />
           <Route

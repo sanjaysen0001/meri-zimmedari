@@ -13,7 +13,7 @@ const Myprofileedit1 = () => {
   const [modalShowmail, setModalShowmail] = useState(false);
   const [phoneNo, setPhoneNo] = useState(false);
   const [myEmail, setMyEmail] = useState("");
-
+  const [selectedDate, setSelectedDate] = useState("");
   const [formDetails, setformDetails] = useState({
     firstName: "",
     mobileNo: "",
@@ -46,6 +46,15 @@ const Myprofileedit1 = () => {
     setMyEmail(email);
     setModalShowmail(true);
   };
+  //  const handleDateChange = event => {
+  //    setSelectedDate(event.target.value);
+  //  };
+  // Get today's date
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  const mm = String(today.getMonth() + 1).padStart(2, "0");
+  const dd = String(today.getDate()).padStart(2, "0");
+  const maxDate = `${yyyy}-${mm}-${dd}`;
   const handleSubmit = () => {
     const payload = {
       firstName: formDetails?.firstName,
@@ -203,7 +212,6 @@ const Myprofileedit1 = () => {
                   </div>
                   <div className="form-group col-md-1 col-sm-1 col-xl-1 col-lg-1 col-2 ">
                     <span>
-                    
                       <button
                         onClick={e =>
                           handlePhoneModal(e, formDetails?.mobileNo)
@@ -216,27 +224,12 @@ const Myprofileedit1 = () => {
                           height: "3.5rem",
                           borderRadius: "10px",
                           backgroundColor: "rgb(20, 130, 233)",
-                          outline:'none'
+                          outline: "none",
                         }}
                       >
                         SEND OTP
                       </button>
                     </span>
-                    {/* <button
-                      type="button"
-                      onClick={handlePhoneModal}
-                      style={{
-                        border: "1px solid  rgb(201, 198, 198)",
-                        marginTop: "11px",
-                        fontSize: "14px",
-                        color: "white",
-                        height: "3.3rem",
-                        borderRadius: "10px",
-                        backgroundColor: "rgb(20, 130, 233)",
-                      }}
-                    >
-                      SEND OTP
-                    </button> */}
                   </div>
 
                   <div className="form-group col-md-5 col-sm-5 col-xl-5 col-lg-5 col-10 classformargininmyprofilepage">
@@ -298,7 +291,7 @@ const Myprofileedit1 = () => {
                         height: "3.5rem",
                         borderRadius: "10px",
                         backgroundColor: "rgb(20, 130, 233)",
-                        outline:'none'
+                        outline: "none",
                       }}
                     >
                       SEND OTP
@@ -344,6 +337,7 @@ const Myprofileedit1 = () => {
                         }}
                         id="dob"
                         name="dob"
+                        max={maxDate}
                         onChange={handleChange}
                         value={formDetails?.dob}
                       />

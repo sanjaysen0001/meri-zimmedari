@@ -1,10 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import "../css/style.css";
 import React, { useState, useEffect } from "react";
-
-import { Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Table from "react-bootstrap";
 import Mynavbar from "./Mynavbar";
 import axiosConfig from "./../axiosConfig";
 const Assetstep3 = () => {
@@ -14,22 +11,23 @@ const Assetstep3 = () => {
   useEffect(() => {
     let assetDetails = JSON.parse(localStorage.getItem("assetDetails"));
     let nomineeDetails = JSON.parse(localStorage.getItem("nomineeDetails"));
+    console.log("assetDetails", assetDetails);
+
+    console.log("nomineeDetails", nomineeDetails);
+    if (assetDetails !== null || assetDetails != {}) {
+      // debugger;
+      setAssetData(assetDetails);
+    }
     if (nomineeDetails) {
       setNomineeData(nomineeDetails);
     }
-    if (assetDetails) {
-      setAssetData(assetDetails);
-    }
-    // setNomineeData([]);
-    // console.log(AssetData);
-    // console.log(nomineeDetails);
   }, []);
 
-  const handleAllFormEdit = () => {
+  const handleAllFormEdit = items => {
+    // navigate("/add-asset/policy", { state: items });
     navigate("/add-asset/policy");
   };
   const handleSubmit = () => {
-    // console.log(JSON.stringify(nomineeData));
     const formData = new FormData();
     formData.append("userId", AssetData?.userId);
     formData.append("file", AssetData?.uploadedFile);
@@ -57,6 +55,8 @@ const Assetstep3 = () => {
 
   return (
     <>
+      {/* {console.log(AssetData)}
+      {console.log(AssetData?.dynamicFields?.Asset_Type)} */}
       <Mynavbar />
       <div>
         <div style={{ backgroundColor: "rgb(182, 205, 236)" }}>
@@ -219,7 +219,7 @@ const Assetstep3 = () => {
                       fontFamily: "Times New Roman",
                       width: "15%",
                       lineHeight: "20px",
-                      borderRight: "2px solid white",
+                      borderRight: " 1px solid rgb(201, 198, 198)",
                     }}
                     className="text-center"
                   >
@@ -318,7 +318,7 @@ const Assetstep3 = () => {
                       fontFamily: "Times New Roman",
                       width: "15%",
                       lineHeight: "20px",
-                      borderRight: "2px solid white",
+                      borderRight: " 1px solid rgb(201, 198, 198)",
                     }}
                     className="text-center"
                   >
@@ -519,7 +519,7 @@ const Assetstep3 = () => {
                 fill="currentColor"
                 class="bi bi-pencil-square hoverable-image"
                 viewBox="0 0 16 16"
-                onClick={handleAllFormEdit}
+                onClick={() => handleAllFormEdit(AssetData)}
               >
                 <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                 <path
@@ -531,7 +531,6 @@ const Assetstep3 = () => {
                 Edit
               </span>
             </span>
-            {/* <Link to={"/add-asset/setp3/confirm"}> */}
             <span className="icon-container">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
