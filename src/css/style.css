@@ -1,3 +1,9 @@
+.ViewAsset {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 10px 10px;
+}
 .csssforplaceholder::placeholder {
   /* font-size: 25px; */
   padding: 10px;

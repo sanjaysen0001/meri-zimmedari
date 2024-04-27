@@ -27,18 +27,6 @@ const Nomineedetails = () => {
           console.log(response.data.Nominee);
           console.log(array);
           setNomineeList(array);
-          // const oldList = response.data.NomineeList;
-          // const newList = oldList.flatMap(item => {
-          //   return item.nominee.map(element => {
-          //     return { ...item, nominee: element };
-          //   });
-          // });
-          // console.log(newList);
-          // if (response.data.Nominee) {
-          //   setNomineeList(response.data.Nominee);
-          // } else {
-          //   setNomineeList(array);
-          // }
         })
         .catch(err => {
           setModel(true);
@@ -101,7 +89,7 @@ const Nomineedetails = () => {
                       fontWeight: "600",
                       fontSize: "18px",
                       fontFamily: "Calibri",
-                      // color: "white",
+                      color: "white",
                       width: "22%",
                       borderRight: "2px solid white",
                       textAlign: "center",
@@ -117,7 +105,7 @@ const Nomineedetails = () => {
                       fontWeight: "600",
                       fontSize: "18px",
                       fontFamily: "Calibri",
-                      // color: "white",
+                      color: "white",
                       width: "21%",
                       borderRight: "2px solid white",
                       textAlign: "center",
@@ -133,7 +121,7 @@ const Nomineedetails = () => {
                       fontWeight: "600",
                       fontSize: "18px",
                       fontFamily: "Calibri",
-                      // color: "white",
+                      color: "white",
                       width: "30%",
                       borderRight: "2px solid white",
                       textAlign: "center",
@@ -149,7 +137,7 @@ const Nomineedetails = () => {
                       fontWeight: "600",
                       fontSize: "18px",
                       fontFamily: "Calibri",
-                      // color: "white",
+                      color: "white",
                       width: "30%",
                       borderRight: "2px solid white",
                       textAlign: "center",
@@ -165,7 +153,7 @@ const Nomineedetails = () => {
                       fontWeight: "600",
                       fontSize: "18px",
                       fontFamily: "Calibri",
-                      // color: "white",
+                      color: "white",
                       width: "30%",
                       borderRight: "2px solid white",
                       textAlign: "center",
@@ -187,7 +175,7 @@ const Nomineedetails = () => {
                           fontWeight: "normal",
                           fontSize: "18px",
                           fontFamily: "Calibri",
-                          // color: "black",
+                          color: "white",
                           width: "22%",
                           borderRight: "2px solid white",
                           textAlign: "center",
@@ -203,7 +191,7 @@ const Nomineedetails = () => {
                           fontWeight: "normal",
                           fontSize: "18px",
                           fontFamily: "Calibri",
-                          // color: "black",
+                          color: "white",
                           width: "18%",
                           borderRight: "2px solid white",
                           textAlign: "center",
@@ -219,7 +207,8 @@ const Nomineedetails = () => {
                           fontWeight: "normal",
                           fontSize: "18px",
                           fontFamily: "Calibri",
-                          // color: "black",
+                          color: "white",
+
                           width: "30%",
                           borderRight: "2px solid white",
                           textAlign: "center",
@@ -236,7 +225,8 @@ const Nomineedetails = () => {
                           fontWeight: "normal",
                           fontSize: "18px",
                           fontFamily: "Calibri",
-                          // color: "black",
+                          color: "white",
+
                           width: "30%",
                           borderRight: "2px solid white",
                           textAlign: "center",

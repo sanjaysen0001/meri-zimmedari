@@ -1,6 +1,6 @@
+import React, { useState, useRef, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import "../css/style.css";
-import React, { useState, useRef, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Mynavbar from "./Mynavbar";
 import axiosConfig from "./../axiosConfig";
@@ -81,30 +81,6 @@ const Assetpolicy = props => {
         policyName,
         reEnterPolicyNumber,
       };
-
-      // console.log(dynamicFields.Asset_Type);
-      // let count = 0;
-      // AssetList.forEach(item => {
-      //   const { assetType } = item;
-      //   console.log(assetType);
-      //   if (assetType) {
-      //     const index = result.filter(
-      //       element => element.Asset_Type === assetType
-      //     );
-      //     if (index === -1) {
-      //       // If assetType not found in array, add it with count 1
-      //       result.push({ count: 1 });
-      //     } else {
-      //       // If assetType found in array, increment its count
-      //       result[index].count++;
-      //     }
-      //   }
-      // });
-      // result.filter(assetType =>
-      //  if (assetType.Asset_Type == dynamicFields.Asset_Type) {
-      //   result.push(dynamicFields.)
-      //  }
-      // );
 
       localStorage.setItem("assetDetails", JSON.stringify(assetType));
       navigate("/add-asset/step2");

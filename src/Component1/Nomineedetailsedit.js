@@ -32,6 +32,7 @@ const Nomineedetailsedit = () => {
   const navigate = useNavigate();
   useEffect(() => {
     if (location?.state) {
+      console.log(location?.state);
       setFormValues(location.state);
       setNomineedetails(location.state);
     }
@@ -49,6 +50,7 @@ const Nomineedetailsedit = () => {
   };
   const handleSubmit = e => {
     let user = JSON.parse(localStorage.getItem("UserZimmedari"));
+    console.log(user?._id);
     formValues.userId = user?._id;
     e.preventDefault();
 
@@ -290,15 +292,11 @@ const Nomineedetailsedit = () => {
                         backgroundColor: "white",
                       }}
                     >
-                      <option
+                      {/* <option
                         Nominee
                         Relation
                         style={{ float: "left", border: "none" }}
-                      ></option>
-
-                      <option disabled value="">
-                        Select
-                      </option>
+                      ></option> */}
                       <option value="Wife">Wife</option>
                       <option value="Father">Father</option>
                       <option value="Mother">Mother</option>

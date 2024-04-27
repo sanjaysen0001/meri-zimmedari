@@ -14,7 +14,7 @@ const Assetstep3 = () => {
     console.log("assetDetails", assetDetails);
 
     console.log("nomineeDetails", nomineeDetails);
-    if (assetDetails !== null || assetDetails != {}) {
+    if (assetDetails !== null) {
       // debugger;
       setAssetData(assetDetails);
     }

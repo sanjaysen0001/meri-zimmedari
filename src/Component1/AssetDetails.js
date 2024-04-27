@@ -54,7 +54,8 @@ const AssetDetails = () => {
       .delete(`/asset/delete-asset/${assetId}`)
       .then(response => {
         AllAssetList();
-        console.log(response.data.message);
+        setShow(false);
+        // console.log(response.data.message);
       })
       .catch(error => {
         console.log(error.response);

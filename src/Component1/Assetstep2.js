@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { Input } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
@@ -175,7 +174,6 @@ const Assetstep2 = () => {
     }
   };
   const handleNext = () => {
-    debugger;
     const newArr = [];
     formValues.filter(el => newArr.push(Number(el.percentageofShar)));
 
@@ -1064,7 +1062,6 @@ const Assetstep2 = () => {
         </div>
         <div className="container mt-5" style={{ paddingBottom: "60px" }}>
           <div style={{ float: "left" }}>
-            {/* <Link to={"/add-asset/policy"} style={{ textDecoration: "none" }}> */}
             <p
               style={{
                 color: "rgb(82, 114, 161)",
@@ -1091,7 +1088,6 @@ const Assetstep2 = () => {
               </span>
               <span className="ml-3">BACK</span>
             </p>
-            {/* </Link> */}
           </div>
           <div style={{ float: "right" }}>
             <button

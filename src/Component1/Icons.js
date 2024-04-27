@@ -2,8 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Mynavbar from "./Mynavbar";
 import axiosConfig from "./../axiosConfig";
-import { Input, Label } from "reactstrap";
-import { FormGroup } from "react-bootstrap";
 const Icons = () => {
   const navigate = useNavigate();
   const [result, setResult] = useState([]);
@@ -14,7 +12,7 @@ const Icons = () => {
     axiosConfig
       .get("/admin/get-list")
       .then(response => {
-        console.log(response.data.Field);
+        // console.log(response.data.Field);
         setResult(response.data.Field);
       })
       .catch(error => {
@@ -24,7 +22,7 @@ const Icons = () => {
     axiosConfig
       .get("/asset/view-asset")
       .then(res => {
-        console.log(res.data.Asset);
+        // console.log(res.data.Asset);
         setAssetList(res.data.Asset);
       })
       .catch(err => {
@@ -49,33 +47,23 @@ const Icons = () => {
       }
     });
 
-    // Output assetType values and their counts
     let arraList = [];
     assetTypeCounts?.map(assetTypeCount => {
-      console.log(assetTypeCount);
       arraList.push(assetTypeCount);
-      console.log(
-        `${assetTypeCount.assetType}: ${assetTypeCount.count} occurrences`
-      );
     });
     setNum(arraList);
-    console.log(arraList);
-    console.log(num);
   };
   const handlePlus = selectedData => {
-    console.log(selectedData);
+    // console.log(selectedData);
     localStorage.setItem("ViewOne", JSON.stringify(selectedData));
     localStorage.removeItem("assetDetails");
     localStorage.removeItem("nomineeDetails");
-    navigate("/add-asset/policy", { state: selectedData });
-  };
-  const handlePlus1 = selectedData => {
-    // console.log(selectedData);
-    // localStorage.setItem("ViewOne", JSON.stringify(selectedData));
-    // localStorage.removeItem("assetDetails");
-    // localStorage.removeItem("nomineeDetails");
+    // navigate("/add-asset/policy", { state: selectedData });
     navigate("/StepperForm", { state: selectedData });
   };
+  // const handlePlus1 = selectedData => {
+  //   navigate("/StepperForm", { state: selectedData });
+  // };
   const handleView = selectedData => {
     console.log(selectedData);
     // localStorage.setItem("ViewOne", JSON.stringify(selectedData));

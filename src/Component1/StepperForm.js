@@ -1,239 +1,112 @@
-import React, { Component } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
+import MyContext from "../context/Context.js";
+import Mynavbar from "./Mynavbar";
 import PersonalDetails from "./PersonalDetails";
 import CourseDetails from "./CourseDetails.js";
 import Summary from "./Summary.js";
 
-//Sample data
-const coursesData = [
-  {
-    id: 1,
-    courseName: "HTML",
-    category: "Front-end",
-  },
-  {
-    id: 2,
-    courseName: "CSS",
-    category: "Front-end",
-  },
-  {
-    id: 3,
-    courseName: "JavaScript",
-    category: "Front-end",
-  },
-  {
-    id: 4,
-    courseName: "React",
-    category: "Front-end",
-  },
-  {
-    id: 5,
-    courseName: "Angular",
-    category: "Front-end",
-  },
-  {
-    id: 6,
-    courseName: "Vue",
-    category: "Front-end",
-  },
-  {
-    id: 7,
-    courseName: "Java",
-    category: "Back-end",
-  },
-  {
-    id: 8,
-    courseName: "Python",
-    category: "Back-end",
-  },
-  {
-    id: 9,
-    courseName: "PHP",
-    category: "Back-end",
-  },
-  {
-    id: 10,
-    courseName: "Express",
-    category: "Back-end",
-  },
-];
+const StepperForm = () => {
+  const sharedValue = useContext(MyContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [step, setStep] = useState(1);
+  const [myForm, setMyform] = useState({
+    policyName: "",
+    policyNumber: "",
+    reEnterPolicyNumber: "",
+    uploadedFileName: null,
+  });
+  const [showAsset, setShowAsset] = useState("");
+  const [dynamicFields, setdynamicFields] = useState(""); // for fields
+  const [uploadedFileName, setUploadedFileName] = useState("");
+  const [error, setError] = useState(null);
+  const [uploadedFile, setUploadedFile] = useState(null);
+  const [policyName, setPolicyName] = useState("");
+  const [policyNumber, setPolicyNumber] = useState("");
+  const [reEnterPolicyNumber, setReEnterPolicyNumber] = useState("");
+  const [formError, setFormError] = useState({
+    // IspolicyFile: false,
+    IspolicyName: false,
+    IspolicyNumber: false,
+    IsreEnterPolicyNumber: false,
+    IsBothMatch: false,
+  });
+  const [fileUrl, setFileUrl] = useState(null);
+  const [result, setResult] = useState([]);
 
-const levelsData = ["Beginner", "Intermediate", "Advanced"];
-
-class Form extends Component {
-  state = {
-    step: 1,
-    firstname: "",
-    lastname: "",
-    email: "",
-    phone: "",
-    courses: [],
-    level: "",
-    isErrorFirstName: true,
-    isErrorLastName: true,
-    errorMessageFirstName: "",
-    errorMessageLastName: "",
+  const nextStep = () => {
+    setStep(step + 1);
+    // let payload = {
+    //   dynamicFields,
+    //   policyName,
+    //   policyNumber,
+    //   reEnterPolicyNumber,
+    // };
+    console.log("Step1", policyName);
   };
+  const prevStep = () => setStep(step - 1);
 
-  nextStep = () => {
-    const { step } = this.state;
-    this.setState({
-      step: step + 1,
-    });
-  };
-
-  prevStep = () => {
-    const { step } = this.state;
-    this.setState({
-      step: step - 1,
-    });
-  };
-
-  handleChange = input => e => {
-    this.setState({
-      [input]: e.target.value,
-    });
-
-    if (input === "firstname") {
-      if (this.state.firstname.length >= 1) {
-        this.setState({
-          isErrorFirstName: false,
-        });
-      }
-    } else if (input === "lastname") {
-      if (this.state.lastname.length >= 1) {
-        this.setState({
-          isErrorLastName: false,
-        });
-      }
+  useEffect(() => {
+    if (location.state) {
+      setdynamicFields(location?.state);
     }
-  };
-
-  addLevel = e => {
-    const levelChosen = e.target.value;
-    this.setState({
-      level: levelChosen,
+    console.log(showAsset);
+  }, []);
+  const handleChange = e => {
+    const file = e.target.files[0];
+    setMyform({
+      ...myForm,
+      uploadedFileName: file.name,
     });
   };
-
-  addCourse = data => {
-    const id = data.map(v => v.id);
-    this.setState({
-      courses: id,
-    });
-  };
-
-  validateFirstName = () => {
-    if (this.state.firstname.length < 2) {
-      this.setState({
-        isErrorFirstName: true,
-        errorMessageFirstName: "Type your first name (at least 2 characters)",
-      });
-      return false;
-    }
-    return true;
-  };
-
-  validateLastName = () => {
-    if (this.state.lastname.length < 2) {
-      this.setState({
-        isErrorLastName: true,
-        errorMessageLastName: "Type your last name (at least 2 characters)",
-      });
-      return false;
-    }
-    return true;
-  };
-
-  submitData = e => {
+  const submitData = e => {
     e.preventDefault();
+    navigate("/add-asset/setp3/confirm");
     alert("Data sent");
   };
 
-  render() {
-    const {
-      step,
-      firstname,
-      lastname,
-      email,
-      phone,
-      courses,
-      level,
-      isErrorFirstName,
-      isErrorLastName,
-      errorMessageFirstName,
-      errorMessageLastName,
-    } = this.state;
-
-    const coursesOptions = coursesData.map(el => ({
-      course: el.courseName,
-      id: el.id,
-      category: el.category,
-    }));
-
-    const coursesChosen = coursesData.filter(el => courses.includes(el.id));
-    const coursesChosenSummary = coursesChosen.map(el => (
-      <p key={el.id}>
-        {el.courseName} - {el.category}
-      </p>
-    ));
-
-    const chosenLevel = level;
-
-    const levelOptions = levelsData.map((el, index) => (
-      <option key={index} value={el}>
-        {el}
-      </option>
-    ));
-
-    switch (step) {
-      case 1:
-        return (
+  switch (step) {
+    case 1:
+      return (
+        <>
+          <Mynavbar />
           <PersonalDetails
-            nextStep={this.nextStep}
-            handleChange={this.handleChange}
-            firstname={firstname}
-            lastname={lastname}
-            email={email}
-            phone={phone}
-            validateFirstName={this.validateFirstName}
-            validateLastName={this.validateLastName}
-            isErrorFirstName={isErrorFirstName}
-            isErrorLastName={isErrorLastName}
-            errorMessageFirstName={errorMessageFirstName}
-            errorMessageLastName={errorMessageLastName}
+            nextStep={nextStep}
+            handleChange={handleChange}
+            dynamicFields={dynamicFields}
+            myForm={myForm}
+            setPolicyName={setPolicyName}
+            setShowAsset={setShowAsset}
           />
-        );
-      case 2:
-        return (
+        </>
+      );
+    case 2:
+      return (
+        <>
+          <Mynavbar />
           <CourseDetails
-            nextStep={this.nextStep}
-            prevStep={this.prevStep}
-            addCourse={this.addCourse}
-            coursesOptions={coursesOptions}
-            addLevel={this.addLevel}
-            levelOptions={levelOptions}
-            level={level}
+            nextStep={nextStep}
+            prevStep={prevStep}
+            showAsset={showAsset}
           />
-        );
-      case 3:
-        return (
+        </>
+      );
+    case 3:
+      return (
+        <>
+          <Mynavbar />
           <Summary
-            nextStep={this.nextStep}
-            prevStep={this.prevStep}
-            firstname={firstname}
-            lastname={lastname}
-            email={email}
-            phone={phone}
-            coursesChosenSummary={coursesChosenSummary}
-            chosenLevel={chosenLevel}
-            submitData={this.submitData}
+            nextStep={nextStep}
+            prevStep={prevStep}
+            submitData={submitData}
           />
-        );
-      default:
-        return null;
-    }
+        </>
+      );
+    default:
+      return null;
   }
-}
+};
 
-export default Form;
+export default StepperForm;
