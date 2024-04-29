@@ -1,15 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
+import axiosConfig from "../../axiosConfig";
 import "../loader.css";
-const list = [
-  { name: "Suman Yadav", relation: "Wife" },
-  { name: "Suresh Kumar", relation: "Brother" },
-  { name: "Suresh Kumar1", relation: "Brother22" },
-];
+
 export const AutoSaveModal = props => {
+  const [nomineeList, setNomineeList] = useState([]);
+  useEffect(() => {
+    (async () => {
+      const userData = JSON.parse(localStorage.getItem("UserZimmedari"));
+      await axiosConfig
+        .get(`/asset/nominee-list/${userData?._id}`)
+        .then(response => {
+          console.log(response.data.Nominee);
+          setNomineeList(response.data.Nominee);
+        })
+        .catch(err => {
+          console.log("err", err);
+        });
+    })();
+  }, []);
   const handleSelect = item => {
     console.log(item);
-    props.addFormFields(item);
   };
   return (
     <Modal
@@ -50,22 +61,27 @@ export const AutoSaveModal = props => {
             <table class="table">
               {/* <thead></thead> */}
               <tbody>
-                {list?.map((item, index) => (
-                  <tr className="rowColor" key={index}>
-                    <th scope="row" className="csforcolortablestep2">
-                      <input
-                        type="radio"
-                        id="option1"
-                        className="cssforcheckoutstep2 "
-                        name="options"
-                        value="option1"
-                        onChange={() => handleSelect(item)}
-                      />
-                    </th>
-                    <td className="csforcolortablestep2">{item?.name}</td>
-                    <td className="csforcolortablestep2">{item?.relation}</td>
-                  </tr>
-                ))}
+                {nomineeList &&
+                  nomineeList?.map((item, index) => (
+                    <tr className="rowColor" key={index}>
+                      <th scope="row" className="csforcolortablestep2">
+                        <input
+                          type="radio"
+                          id="option1"
+                          className="cssforcheckoutstep2 "
+                          name="options"
+                          value="option1"
+                          onChange={() => handleSelect(item)}
+                        />
+                      </th>
+                      <td className="csforcolortablestep2">
+                        {item?.nomineeName}
+                      </td>
+                      <td className="csforcolortablestep2">
+                        {item?.relationWithNominee}
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>

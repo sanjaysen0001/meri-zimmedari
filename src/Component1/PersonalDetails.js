@@ -3,19 +3,14 @@ import { useNavigate, useLocation } from "react-router-dom";
 import MyContext from "../context/Context.js";
 
 import "./StepperStyle.css";
+import axiosConfig from "../axiosConfig.js";
 const PersonalDetails = ({
+  policyName,
+  policyNumber,
+  reEnterPolicyNumber,
   setShowAsset,
-  firstname,
-  lastname,
-  email,
-  phone,
+  showAssetData,
   handleChange,
-  validateFirstName,
-  validateLastName,
-  isErrorFirstName,
-  isErrorLastName,
-  errorMessageFirstName,
-  errorMessageLastName,
   nextStep,
 }) => {
   const sharedValue = useContext(MyContext);
@@ -25,9 +20,6 @@ const PersonalDetails = ({
   const [uploadedFileName, setUploadedFileName] = useState("");
   const [error, setError] = useState(null);
   const [uploadedFile, setUploadedFile] = useState(null);
-  const [policyName, setPolicyName] = useState("");
-  const [policyNumber, setPolicyNumber] = useState("");
-  const [reEnterPolicyNumber, setReEnterPolicyNumber] = useState("");
   const [formError, setFormError] = useState({
     // IspolicyFile: false,
     IspolicyName: false,
@@ -36,11 +28,28 @@ const PersonalDetails = ({
     IsBothMatch: false,
   });
   const [fileUrl, setFileUrl] = useState(null);
-  // const [result, setResult] = useState([]);
   useEffect(() => {
+    console.log(showAssetData);
+
     let viewData = JSON.parse(localStorage.getItem("ViewOne"));
+    let AssetEditid = localStorage.getItem("AssetEditId");
+    console.log(AssetEditid);
     if (viewData) {
       setdynamicFields(viewData);
+    }
+    if (!isNaN(AssetEditid._id)) {
+      axiosConfig
+        .get(`/asset/view-asset-by-id/${AssetEditid._id}`)
+        .then(res => {
+          console.log(res.data);
+          setdynamicFields(res.data);
+          // setPolicyName;
+          // setPolicyNumber;
+          // setReEnterPolicyNumber;
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   }, []);
   const continueStep = e => {
@@ -65,6 +74,9 @@ const PersonalDetails = ({
     // console.log(assetType);
     if (Object.keys(errors)?.length === 0) {
       setShowAsset(assetType);
+      // setPolicyName(assetType);
+      localStorage.removeItem("AssetEditData");
+      localStorage.setItem("ViewOne", JSON.stringify(assetType));
       nextStep();
     } else {
       // Set form errors
@@ -334,7 +346,7 @@ const PersonalDetails = ({
                         outline: "none",
                       }}
                       id="policyName"
-                      onChange={e => setPolicyName(e.target.value)}
+                      onChange={handleChange("policyName")}
                       name="policyName"
                     />
                   </fieldset>
@@ -395,7 +407,8 @@ const PersonalDetails = ({
                     }}
                     id="policyNumber"
                     name="policyNumber"
-                    onChange={e => setPolicyNumber(e.target.value)}
+                    // onChange={e => setPolicyNumber(e.target.value)}
+                    onChange={handleChange("policyNumber")}
                   />
                 </fieldset>
                 {formError.IspolicyNumber && (
@@ -466,7 +479,8 @@ const PersonalDetails = ({
                       placeholder="1234567890101023"
                       value={reEnterPolicyNumber}
                       id="reEnterPolicyNumber"
-                      onChange={e => setReEnterPolicyNumber(e.target.value)}
+                      // onChange={e => setReEnterPolicyNumber(e.target.value)}
+                      onChange={handleChange("reEnterPolicyNumber")}
                       name="reEnterPolicyNumber"
                     />
                   </fieldset>

@@ -54,8 +54,11 @@ const Icons = () => {
     setNum(arraList);
   };
   const handlePlus = selectedData => {
-    // console.log(selectedData);
-    localStorage.setItem("ViewOne", JSON.stringify(selectedData));
+    console.log(selectedData);
+    const { Asset_Type, Field_1, Field_2, Field_3, Field_4 } = selectedData;
+    const payload = { Asset_Type, Field_1, Field_2, Field_3, Field_4 };
+
+    localStorage.setItem("ViewOne", JSON.stringify(payload));
     localStorage.removeItem("assetDetails");
     localStorage.removeItem("nomineeDetails");
     // navigate("/add-asset/policy", { state: selectedData });

@@ -7,6 +7,8 @@ import axiosConfig from "./../axiosConfig";
 import "./StepperStyle.css";
 
 const Summary = ({
+  showAsset,
+  showNominee,
   firstname,
   lastname,
   email,
@@ -26,12 +28,12 @@ const Summary = ({
     console.log("assetDetails", assetDetails);
 
     console.log("nomineeDetails", nomineeDetails);
-    if (assetDetails !== null) {
+    if (showAsset) {
       // debugger;
-      setAssetData(assetDetails);
+      setAssetData(showAsset);
     }
-    if (nomineeDetails) {
-      setNomineeData(nomineeDetails);
+    if (showNominee) {
+      setNomineeData(showNominee);
     }
   }, []);
 
@@ -41,7 +43,8 @@ const Summary = ({
   };
   const handleSubmit = () => {
     const formData = new FormData();
-    formData.append("userId", AssetData?.userId);
+    let userId = JSON.parse(localStorage.getItem("UserZimmedari"))._id;
+    formData.append("userId", userId);
     formData.append("file", AssetData?.uploadedFile);
     formData.append("assetType", AssetData?.dynamicFields?.Asset_Type);
     formData.append("policyIssuersName", AssetData?.policyName);
@@ -503,7 +506,7 @@ const Summary = ({
           <button
             className="buttons__button buttons__button--next"
             type="submit"
-            onClick={submitData}
+            onClick={handleSubmit}
           >
             Submit
           </button>

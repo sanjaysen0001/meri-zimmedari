@@ -14,6 +14,8 @@ import { AutoSaveModal } from "./assetDetail/AutoSaveModal";
 import "./StepperStyle.css";
 
 const CourseDetails = ({
+  setShowNominee,
+  setShowAsset,
   showAsset,
   coursesOptions,
   levelOptions,
@@ -29,7 +31,7 @@ const CourseDetails = ({
     {
       nomineeName: "",
       nomineeEmailId: "",
-      percentageofShar: null,
+      percentageofShar: "",
       NomineePhoneNumber: null,
       relationWithNominee: "",
     },
@@ -55,108 +57,9 @@ const CourseDetails = ({
 
   // const [myNominee, setMyNominee] = useState([]);
   const navigate = useNavigate();
-  const continueStep = e => {
-    e.preventDefault();
-    const newArr = [];
-    formValues.filter(el => newArr.push(Number(el.percentageofShar)));
-
-    const sum = newArr.reduce(
-      (previousValue, currentValue) => previousValue + currentValue,
-      0
-    );
-    console.log(sum);
-    formValues?.forEach((value, key) => {
-      if (!value.nomineeName) {
-        allError.IsnomineeName = true;
-      } else {
-        allError.IsnomineeName = false;
-      }
-
-      if (!value.relationWithNominee) {
-        allError.IsrelationWithNominee = true;
-      } else {
-        allError.IsrelationWithNominee = false;
-      }
-
-      let share = document.getElementById("percentageofShar").value;
-      // let shareMessage = "";
-      // console.log(share);
-      if (!Number(share)) {
-        allError.IspercentageofShar = true;
-        // shareMessage="Permissible value: 1 to 100 without decimal.";
-        setShareError("Permissible value: 1 to 100 without decimal.");
-      } else if (sum < 100) {
-        setShareError(
-          " Total Percentage of share must be 100%, please edit percentage of share of existing nominee(s) or click on add more nominee."
-        );
-      }
-      // else if (sum > 100) {
-      //   allError.IspercentageofShar = true;
-      //   setShareError(
-      //     "Total Percentage of share must be 100%, please edit percentage of share of existing nominee(s) or click on add more nominee."
-      //   );
-      // }
-      else {
-        setShareError("");
-        allError.IspercentageofShar = false;
-      }
-
-      let a = document.getElementById("NomineePhoneNumber").value;
-
-      if (a?.length !== 10) {
-        allError.IsNomineePhoneNumber = true;
-      } else {
-        allError.IsNomineePhoneNumber = false;
-      }
-    });
-    // Check if all keys inside the object are false
-
-    if (Object.keys(allError)?.length >= 0) {
-      if (
-        allError.IsnomineeName &&
-        allError.IsNomineePhoneNumber &&
-        allError.IspercentageofShar &&
-        allError.IsrelationWithNominee
-      ) {
-        setPhoneModalNotify(false);
-      } else if (
-        !allError.IsnomineeName &&
-        !allError.IsNomineePhoneNumber &&
-        !allError.IspercentageofShar &&
-        !allError.IsrelationWithNominee
-      ) {
-        setPhoneModalNotify(true);
-        let nomineeDetails = JSON.parse(localStorage.getItem("nomineeDetails"));
-        let newArray;
-        if (nomineeDetails?.length > 0) {
-          newArray = [...nomineeDetails];
-          setFormValues(newArray);
-        } else {
-          newArray = [...formValues];
-        }
-        if (phoneRemark) {
-          setPhoneModalNotify(false);
-          localStorage.setItem("nomineeDetails", JSON.stringify(newArray));
-          //  navigate("/add-asset/step3");
-          nextStep();
-        }
-      }
-      setFormError(allError);
-    }
-  };
-
-  const goBack = e => {
-    e.preventDefault();
-    prevStep();
-  };
 
   useEffect(() => {
-    let nomineeDetails = JSON.parse(localStorage.getItem("nomineeDetails"));
-
-    if (nomineeDetails) {
-      const newArray = [...nomineeDetails];
-      setFormValues(newArray);
-    }
+    console.log(showAsset);
   }, []);
 
   const handleChange = (i, e) => {
@@ -165,8 +68,6 @@ const CourseDetails = ({
 
     setFormValues(prevFormValues => {
       const newFormValues = [...prevFormValues];
-
-      // Update the specific field based on the field name
 
       if (fieldName === "nomineeName") {
         if (/^[A-Za-z]*$/.test(value)) {
@@ -211,7 +112,6 @@ const CourseDetails = ({
       setShareError("Permissible value: 1 to 100 without decimal.");
     }
     setFormError({ IspercentageofShar: true });
-    // formValues.filter(el => newArr.push(Number(el.percentageofShar)));
   };
   // Email validation function
   // const validateEmail = email => {
@@ -220,65 +120,87 @@ const CourseDetails = ({
   //   return pattern.test(email);
   // };
 
-  let addFormFields = item => {
+  let addFormFields = (e, item) => {
+    e.preventDefault();
+    // debugger;
     const newArr = [];
+    let share = document.getElementById("percentageofShar").value;
+    console.log("share", share);
     formValues.filter(el => newArr.push(Number(el.percentageofShar)));
     const sum = newArr.reduce(
       (previousValue, currentValue) => previousValue + currentValue,
       0
     );
-    // let share = document.getElementById("percentageofShar").value;
-    if (Number(sum) >= 100) {
+
+    if (sum == 0 || sum == "") {
       // debugger;
       setFormError({ IspercentageofShar: true });
-      setShareError(
-        "Reduce percentage of share for the nominee to add more nominee."
-      );
-    } else if (sum > 100) {
+      setShareError("Permissible value: 1 to 100 without decimal.");
+    } else if (sum == 100) {
       setFormError({ IspercentageofShar: true });
       setShareError(
-        "The cumulative percentage share of all nominees can not exceed 100%."
+        " Total Percentage of share must be 100%, please edit percentage of share of existing nominee(s) or click on add more nominee."
       );
     } else {
-      if (item) {
-        setFormValues([
-          ...formValues,
-          {
-            nomineeName: item.name,
-            nomineeEmailId: "",
-            percentageofShar: null,
-            NomineePhoneNumber: "",
-            relationWithNominee: item.relation,
-            nominee: 0,
-          },
-        ]);
-      }
+      setFormError({ IspercentageofShar: false });
       setFormValues([
         ...formValues,
         {
           nomineeName: "",
           nomineeEmailId: "",
-          percentageofShar: null,
+          percentageofShar: "",
           NomineePhoneNumber: "",
           relationWithNominee: "",
           nominee: 0,
         },
       ]);
-      setNewArray([
-        ...formValues,
-        {
-          nomineeName: "",
-          nomineeEmailId: "",
-          percentageofShar: null,
-          NomineePhoneNumber: "",
-          relationWithNominee: "",
-          nominee: 0,
-        },
-      ]);
+      // if (item) {
+      //   setFormValues([
+      //     ...formValues,
+      //     {
+      //       nomineeName: item.name,
+      //       nomineeEmailId: "",
+      //       percentageofShar: null,
+      //       NomineePhoneNumber: "",
+      //       relationWithNominee: item.relation,
+      //       nominee: 0,
+      //     },
+      //   ]);
+      // }
+      // else {
+      // setFormValues([
+      //   ...formValues,
+      //   {
+      //     nomineeName: "",
+      //     nomineeEmailId: "",
+      //     percentageofShar: null,
+      //     NomineePhoneNumber: "",
+      //     relationWithNominee: "",
+      //     nominee: 0,
+      //   },
+      // ]);
+      // setNewArray([
+      //   ...formValues,
+      //   {
+      //     nomineeName: "",
+      //     nomineeEmailId: "",
+      //     percentageofShar: null,
+      //     NomineePhoneNumber: "",
+      //     relationWithNominee: "",
+      //     nominee: 0,
+      //   },
+      // ]);
+      // }
     }
   };
-  const handleNext = () => {
-    debugger;
+  let removeFormFields = i => {
+    let newFormValues = [...formValues];
+    newFormValues.splice(i, 1);
+    localStorage.setItem("nomineeDetails", JSON.stringify(newFormValues));
+    setFormValues(newFormValues);
+  };
+  const continueStep = e => {
+    e.preventDefault();
     const newArr = [];
     formValues.filter(el => newArr.push(Number(el.percentageofShar)));
 
@@ -286,7 +208,7 @@ const CourseDetails = ({
       (previousValue, currentValue) => previousValue + currentValue,
       0
     );
-    console.log(sum, newArr);
+    console.log(sum);
     formValues?.forEach((value, key) => {
       if (!value.nomineeName) {
         allError.IsnomineeName = true;
@@ -301,13 +223,13 @@ const CourseDetails = ({
       }
 
       let share = document.getElementById("percentageofShar").value;
-      // let shareMessage = "";
-      // console.log(share);
+      // debugger;
       if (!Number(share)) {
+        // debugger;
         allError.IspercentageofShar = true;
-        // shareMessage="Permissible value: 1 to 100 without decimal.";
         setShareError("Permissible value: 1 to 100 without decimal.");
       } else if (sum < 100) {
+        allError.IspercentageofShar = true;
         setShareError(
           " Total Percentage of share must be 100%, please edit percentage of share of existing nominee(s) or click on add more nominee."
         );
@@ -352,24 +274,27 @@ const CourseDetails = ({
         let newArray;
         if (nomineeDetails?.length > 0) {
           newArray = [...nomineeDetails];
-          setFormValues(newArray);
+          // setFormValues(newArray);
+          setFormValues(formValues);
         } else {
           newArray = [...formValues];
         }
         if (phoneRemark) {
           setPhoneModalNotify(false);
-          localStorage.setItem("nomineeDetails", JSON.stringify(newArray));
-          navigate("/add-asset/step3");
+          localStorage.setItem("nomineeDetails", JSON.stringify(formValues));
+          setShowNominee(formValues);
+          nextStep();
+          //  navigate("/add-asset/step3");
         }
       }
       setFormError(allError);
     }
   };
-  let removeFormFields = i => {
-    let newFormValues = [...formValues];
-    newFormValues.splice(i, 1);
-    localStorage.setItem("nomineeDetails", JSON.stringify(newFormValues));
-    setFormValues(newFormValues);
+
+  const goBack = e => {
+    e.preventDefault();
+    setShowAsset(showAsset);
+    prevStep();
   };
   const generateOTP = () => {
     // Generate a random 6-digit number
@@ -446,7 +371,7 @@ const CourseDetails = ({
     <div className="form">
       <AutoSaveModal
         show={modalShowauto}
-        addFormFields={addFormFields}
+        // addFormFields={addFormFields}
         onHide={() => setModalShowauto(false)}
       />
       <form>
@@ -719,7 +644,6 @@ const CourseDetails = ({
                                 style={{
                                   color: "red",
                                   padding: "5px",
-
                                   marginTop: "13px",
                                 }}
                               >
@@ -778,12 +702,6 @@ const CourseDetails = ({
                                   backgroundColor: "white",
                                 }}
                               >
-                                {/* <option
-                                  Nominee
-                                  Relation
-                                  style={{ float: "left", border: "none" }}
-                                ></option> */}
-
                                 <option value="">Select</option>
                                 <option value="Wife">Wife</option>
                                 <option value="Father">Father</option>
@@ -880,7 +798,6 @@ const CourseDetails = ({
                                 style={{
                                   color: "red",
                                   padding: "5px",
-
                                   marginTop: "13px",
                                 }}
                               >
@@ -1163,12 +1080,27 @@ const CourseDetails = ({
           >
             Back
           </button>
-          <button
-            className="buttons__button buttons__button--next"
-            onClick={continueStep}
-          >
-            Next
-          </button>
+          <div>
+            <button
+              onClick={e => addFormFields(e)}
+              className="ml-2 btn"
+              style={{
+                border: "none",
+                backgroundColor: "rgb(182, 205, 236)",
+                width: "7rem",
+                borderRadius: "5px",
+                lineHeight: "15px",
+              }}
+            >
+              Add More Nominee
+            </button>
+            <button
+              className="buttons__button buttons__button--next"
+              onClick={continueStep}
+            >
+              Next
+            </button>
+          </div>
         </div>
       </form>
       {phoneModalNotify ? (

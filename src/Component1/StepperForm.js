@@ -19,6 +19,7 @@ const StepperForm = () => {
     uploadedFileName: null,
   });
   const [showAsset, setShowAsset] = useState("");
+  const [showNominee, setShowNominee] = useState([]);
   const [dynamicFields, setdynamicFields] = useState(""); // for fields
   const [uploadedFileName, setUploadedFileName] = useState("");
   const [error, setError] = useState(null);
@@ -38,15 +39,15 @@ const StepperForm = () => {
 
   const nextStep = () => {
     setStep(step + 1);
-    // let payload = {
-    //   dynamicFields,
-    //   policyName,
-    //   policyNumber,
-    //   reEnterPolicyNumber,
-    // };
-    console.log("Step1", policyName);
+
+    console.log("Step1", showAsset);
   };
-  const prevStep = () => setStep(step - 1);
+  const prevStep = () => {
+    let viewData = JSON.parse(localStorage.getItem("ViewOne"));
+    console.log(viewData.dynamicFields);
+    setdynamicFields(viewData.dynamicFields);
+    setStep(step - 1);
+  };
 
   useEffect(() => {
     if (location.state) {
@@ -54,13 +55,62 @@ const StepperForm = () => {
     }
     console.log(showAsset);
   }, []);
-  const handleChange = e => {
-    const file = e.target.files[0];
-    setMyform({
-      ...myForm,
-      uploadedFileName: file.name,
-    });
+
+  const handleChange = input => e => {
+    if (input === "policyName") {
+      setPolicyName(e.target.value);
+      //  if (e.target.value.length >= 1) {
+      //    setIsErrorFirstName(false);
+      //  }
+    } else if (input === "policyNumber") {
+      setPolicyNumber(e.target.value);
+      //  if (e.target.value.length >= 1) {
+      //    setIsErrorLastName(false);
+      //  }
+    } else if (input === "reEnterPolicyNumber") {
+      setReEnterPolicyNumber(e.target.value);
+    }
+    //  else if (input === "phone") {
+    //    setPhone(e.target.value);
+    //  }
   };
+
+  // const handleChange = e => {
+  // const file = e.target.files[0];
+  // const { name, value } = e.target;
+  // setMyform({
+  //   ...myForm,
+  //   [name]: value,
+  // });
+  // setMyform({
+  //   ...myForm,
+  //   uploadedFileName: file.name,
+  // });
+  // };
+  //   const handleFileChange = event => {
+
+  //    const file = event.target.files[0];
+  //    setUploadedFileName(file?.name || "Name Not Found");
+  //    setUploadedFile(file);
+
+  //    if (file && file.size > 500 * 1024) {
+  //      setError("File size exceeds the permissible limit of 500 KB.");
+  //      setUploadedFile(null);
+  //    } else {
+  //      setError(null);
+  //      setUploadedFile(file);
+  //      if (file) {
+  //        const fileReader = new FileReader();
+  //        fileReader.onload = () => {
+  //          setFileUrl(fileReader.result);
+  //        };
+  //        if (file.type.includes("image") || file.type === "application/pdf") {
+  //          fileReader.readAsDataURL(file);
+  //        }
+  //      }
+  //    }
+  //  };
+
   const submitData = e => {
     e.preventDefault();
     navigate("/add-asset/setp3/confirm");
@@ -78,7 +128,11 @@ const StepperForm = () => {
             dynamicFields={dynamicFields}
             myForm={myForm}
             setPolicyName={setPolicyName}
+            showAssetData={showAsset}
             setShowAsset={setShowAsset}
+            policyName={policyName}
+            policyNumber={policyNumber}
+            reEnterPolicyNumber={reEnterPolicyNumber}
           />
         </>
       );
@@ -90,6 +144,8 @@ const StepperForm = () => {
             nextStep={nextStep}
             prevStep={prevStep}
             showAsset={showAsset}
+            setShowAsset={setShowAsset}
+            setShowNominee={setShowNominee}
           />
         </>
       );
@@ -101,6 +157,8 @@ const StepperForm = () => {
             nextStep={nextStep}
             prevStep={prevStep}
             submitData={submitData}
+            showAsset={showAsset}
+            showNominee={showNominee}
           />
         </>
       );

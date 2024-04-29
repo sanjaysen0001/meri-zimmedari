@@ -8,15 +8,6 @@ import { NomineesDetails } from "./assetDetail/NomineesDetails";
 import axiosConfig from "./../axiosConfig";
 import "./loader.css";
 
-const array = [
-  {
-    assetType: "aaaa",
-    policyIssuersName: "abc",
-    Field_3: "wife",
-    policynumber: 8889407856,
-    nomineeEmailId: "abc@gmail",
-  },
-];
 const AssetDetails = () => {
   const [modalShow, setModalShow] = useState(false);
   const [assetList, setAssetList] = useState([]);
@@ -30,12 +21,11 @@ const AssetDetails = () => {
   }, []);
 
   const AllAssetList = () => {
-    setAssetList(array);
     const userData = JSON.parse(localStorage.getItem("UserZimmedari"));
     axiosConfig
       .get(`/asset/view-assets-userId/${userData?._id}`)
       .then(response => {
-        // console.log(response.data);
+        console.log(response.data);
         setModel(false);
         setAssetList(response.data.Asset);
       })
@@ -62,8 +52,10 @@ const AssetDetails = () => {
       });
   };
 
-  const handleEdit = payload => {
-    navigate("/add-asset/policy", { state: payload });
+  const handleEdit = item => {
+    console.log(item);
+    localStorage.setItem("AssetEditData", item);
+    navigate("/StepperForm", { state: item });
   };
   const handleNomineeDetails = item => {
     console.log(item);

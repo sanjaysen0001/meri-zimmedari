@@ -8,25 +8,15 @@ const Nomineedetails = () => {
   const [nomineeList, setNomineeList] = useState([]);
   const [model, setModel] = useState(null);
   const navigate = useNavigate();
-  const array = [
-    {
-      nomineeName: "abc",
-      relationWithNominee: "wife",
-      NomineePhoneNumber: 8889407856,
-      nomineeEmailId: "abc@gmail",
-    },
-  ];
+
   useEffect(() => {
-    setNomineeList(array);
     (async () => {
       const userData = JSON.parse(localStorage.getItem("UserZimmedari"));
       await axiosConfig
         .get(`/asset/nominee-list/${userData?._id}`)
         .then(response => {
           setModel(false);
-          console.log(response.data.Nominee);
-          console.log(array);
-          setNomineeList(array);
+          setNomineeList(response.data.Nominee);
         })
         .catch(err => {
           setModel(true);
